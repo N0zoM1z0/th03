@@ -24,13 +24,13 @@ void near round_pause_or_quit(void)
     snd_se_reset();
     snd_se_play(21);
     snd_se_update();
-    // This release-poll is a typed C++ for-loop; original TC4 still
-    // emits the same BIOS polling order and VSYNC delay (af850b).
-    for(; input_sp != INPUT_NONE; ) {
+    // The two release polls and the unbounded pause command loop retain
+    // their original BIOS key-sense and VSync ordering as natural while loops.
+    while(input_sp != INPUT_NONE) {
         input_reset_sense_key_held();
         frame_delay(1);
     }
-    for(;;) {
+    while(1) {
         input_reset_sense_key_held();
         if(input_sp & INPUT_Q) {
             round_quit_requested = 1;
@@ -39,7 +39,7 @@ void near round_pause_or_quit(void)
         if(input_sp & INPUT_CANCEL) break;
         frame_delay(1);
     }
-    for(; input_sp != INPUT_NONE; ) {
+    while(input_sp != INPUT_NONE) {
         input_reset_sense_key_held();
         frame_delay(1);
     }
@@ -54,7 +54,7 @@ void near round_C830(void)
     egc_on();
     asm { call near ptr hud_gauge_highlights_restore }
     egc_off();
-    if(players[0].hyper_active && ((round_or_result_frame % 2) != 0)) {
+    if(players[0].hyper_active && (round_or_result_frame % 2)) {
         color = players[0].gauge_avail >> 10;
         if(color == 1) color = 8;
         else if(color == 2) color = 12;
@@ -67,7 +67,7 @@ void near round_C830(void)
             out 07Ch, ax
         }
     }
-    if(players[1].hyper_active && ((round_or_result_frame % 2) != 0)) {
+    if(players[1].hyper_active && (round_or_result_frame % 2)) {
         color = players[1].gauge_avail >> 10;
         if(color == 1) color = 8;
         else if(color == 2) color = 12;
@@ -91,7 +91,7 @@ void near round_C8C4(void)
     register int available_p2 = players[1].gauge_avail >> 4;
     available_p1 -= static_cast<int>(charged_p1);
     if(available_p1 > 0) {
-        if(!players[0].hyper_active || ((round_or_result_frame % 2) != 0))
+        if(!players[0].hyper_active || (round_or_result_frame % 2))
             grcg_setcolor(GC_RMW, 9);
         else grcg_setcolor(GC_RMW, 15);
         // Genuine B3F6 input contract; do not name C locals inside asm.
@@ -101,7 +101,7 @@ void near round_C8C4(void)
     }
     available_p2 -= static_cast<int>(charged_p2);
     if(available_p2 > 0) {
-        if(!players[1].hyper_active || ((round_or_result_frame % 2) != 0))
+        if(!players[1].hyper_active || (round_or_result_frame % 2))
             grcg_setcolor(GC_RMW, 9);
         else grcg_setcolor(GC_RMW, 15);
         // Genuine B3F6 input contract; do not name C locals inside asm.
@@ -155,7 +155,6 @@ void far pascal round_C9FE(pid_t player)
 // frame local; unsigned parity only describes the actual low bit.
 void far round_CA3C(void)
 {
-    register int frame;
     if(warning_flag[0] != WF_FLASH_WHITE &&
        warning_flag[1] != WF_FLASH_WHITE) return;
     snd_se_reset();
@@ -183,7 +182,7 @@ void far round_CA3C(void)
         warning_flag[1] = WF_FLASH_RED;
         warning_text_put(1, TX_WHITE);
     }
-    for(frame = 0; frame < WARNING_FLASH_FRAME_COUNT; frame++) {
+    for(register int frame = 0; frame < WARNING_FLASH_FRAME_COUNT; ++frame) {
         input_reset_sense_key_held();
         if(input_sp & INPUT_CANCEL) round_pause_or_quit();
         frame_delay(1);
@@ -239,7 +238,7 @@ void far pascal round_CB81(pid_t player)
             else warning_brightness[player] -= 13;
             warning_flag_bytes[player]++;
             attribute_or_y = 1;
-            if((static_cast<unsigned int>(warning_flag_bytes[player]) % 2) != 0) {
+            if(static_cast<unsigned int>(warning_flag_bytes[player]) % 2) {
                 if(gba_flag_next[player] == GBAF_GAUGE_PELLET_INIT)
                     attribute_or_y = 0xA1;
                 else if(gba_flag_next[player] == GBAF_GAUGE_BULLET_INIT)
@@ -265,7 +264,7 @@ void far pascal round_CB81(pid_t player)
         } else {
             x = 4;
             if(attacked == 1) x += 40;
-            for(i = 0, attribute_or_y = WARNING_CLEAR_TEXT_FIRST_ROW; i < WARNING_CLEAR_TEXT_ROW_COUNT; (i++, attribute_or_y++)) {
+            for(i = 0, attribute_or_y = WARNING_CLEAR_TEXT_FIRST_ROW; i < WARNING_CLEAR_TEXT_ROW_COUNT; (++i, ++attribute_or_y)) {
                 text_putsa(x, attribute_or_y, warning_clear_line, TX_WHITE);
             }
             // Preserve the original word push; the far-Pascal callee uses its low byte.
