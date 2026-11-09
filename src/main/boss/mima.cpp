@@ -214,46 +214,47 @@ void near mima_pattern_spread(void)
 		return;
 	}
 
-	if(MIMA_SPREAD_FIRE_BEGIN <= boss_frame) {
-		if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
-			snd_se_play(MIMA_SOUND_SPREAD);
+	if(boss_frame < MIMA_SPREAD_FIRE_BEGIN) {
+		return;
+	}
+	if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
+		snd_se_play(MIMA_SOUND_SPREAD);
 
-			bullet_template.angle = mima_spread_angle;
-			bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
-			bullet_template.center.x.v = boss_center_x;
-			bullet_template.center.y.v = boss_center_y;
-			bullet_template.speed.v = mima_bullet_speed;
-			bullet_template.type = BT_BULLET16_DEFAULT;
-			bullet_template.is_animated = false;
+		bullet_template.angle = mima_spread_angle;
+		bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
+		bullet_template.center.x.v = boss_center_x;
+		bullet_template.center.y.v = boss_center_y;
+		bullet_template.speed.v = mima_bullet_speed;
+		bullet_template.type = BT_BULLET16_DEFAULT;
+		bullet_template.is_animated = false;
+		bullets_add();
+		bullet_template.is_animated = true;
+		// Unlike some other BOSS byte-angle updates, named original
+		// increment constants are TC4 byte-exact here (af855f/g).
+		mima_spread_angle += MIMA_SPREAD_ANGLE_STEP;
+
+		if(
+			(boss_frame < mima_pellet_until) &&
+			// The six-frame unsigned-word cadence compares the remainder
+			// explicitly with zero; unlike powers of two, it is not a mask.
+			(!(boss_frame % MIMA_SPREAD_PELLET_PERIOD))
+		) {
+			bullet_template.type = BT_PELLET;
+			bullet_template.group = BG_4_SPREAD_MEDIUM;
+			bullet_template.speed.v = mima_pellet_speed;
+			bullet_template.angle = mima_pellet_angle;
 			bullets_add();
-			bullet_template.is_animated = true;
-			// Unlike some other BOSS byte-angle updates, named original
-			// increment constants are TC4 byte-exact here (af855f/g).
-			mima_spread_angle += MIMA_SPREAD_ANGLE_STEP;
 
-			if(
-				(boss_frame < mima_pellet_until) &&
-				// The six-frame unsigned-word cadence compares the remainder
-				// explicitly with zero; unlike powers of two, it is not a mask.
-				(!(boss_frame % MIMA_SPREAD_PELLET_PERIOD))
-			) {
-				bullet_template.type = BT_PELLET;
-				bullet_template.group = BG_4_SPREAD_MEDIUM;
-				bullet_template.speed.v = mima_pellet_speed;
-				bullet_template.angle = mima_pellet_angle;
-				bullets_add();
-
-				bullet_template.angle = (MIMA_PELLET_OPPOSITE_ANGLE - mima_pellet_angle);
-				bullets_add();
-			}
-			mima_pellet_angle += MIMA_PELLET_ANGLE_STEP;
+			bullet_template.angle = (MIMA_PELLET_OPPOSITE_ANGLE - mima_pellet_angle);
+			bullets_add();
 		}
+		mima_pellet_angle += MIMA_PELLET_ANGLE_STEP;
+	}
 
-		if(MIMA_SPREAD_FIRE_END_AFTER < boss_frame) {
-			boss_render_mode = MIMA_RMODE_NORMAL;
-			boss_mode = MIMA_MODE_SELECT;
-			boss_frame = 0;
-		}
+	if(MIMA_SPREAD_FIRE_END_AFTER < boss_frame) {
+		boss_render_mode = MIMA_RMODE_NORMAL;
+		boss_mode = MIMA_MODE_SELECT;
+		boss_frame = 0;
 	}
 }
 
@@ -278,46 +279,47 @@ void near mima_pattern_bomb_random(void)
 		return;
 	}
 
-	if(MIMA_RANDOM_BOMB_BULLET_WAIT_END < boss_frame) {
-		// Natural unsigned 16-bit four-frame attack clock, not a byte
-		// animation division. The original hardware RNG order is unchanged.
-		if(!(boss_frame % MIMA_RANDOM_BOMB_FIRE_PERIOD)) {
-			bullet_template.angle = 0;
-			bullet_template.group = BG_RANDOM_ANGLE_AND_SPEED;
-			bullet_template.center.x.v = x;
-			bullet_template.center.y.v = y;
-			bullet_template.count = mima_random_count;
-			bullet_template.speed.v = mima_random_speed;
-			bullet_template.type = BT_BULLET16_DEFAULT;
-			bullet_template.is_animated = false;
-			bullets_add();
+	if(boss_frame <= MIMA_RANDOM_BOMB_BULLET_WAIT_END) {
+		return;
+	}
+	// Natural unsigned 16-bit four-frame attack clock, not a byte
+	// animation division. The original hardware RNG order is unchanged.
+	if(!(boss_frame % MIMA_RANDOM_BOMB_FIRE_PERIOD)) {
+		bullet_template.angle = 0;
+		bullet_template.group = BG_RANDOM_ANGLE_AND_SPEED;
+		bullet_template.center.x.v = x;
+		bullet_template.center.y.v = y;
+		bullet_template.count = mima_random_count;
+		bullet_template.speed.v = mima_random_speed;
+		bullet_template.type = BT_BULLET16_DEFAULT;
+		bullet_template.is_animated = false;
+		bullets_add();
 
-			bullet_template.type = BT_PELLET;
-			bullets_add();
-			bullet_template.is_animated = true;
-		}
+		bullet_template.type = BT_PELLET;
+		bullets_add();
+		bullet_template.is_animated = true;
+	}
 
-		if(MIMA_RANDOM_BOMB_RING_FRAME == boss_frame) {
-			bullet_template.angle = randring_far_next16();
-			bullet_template.group = BG_32_RING;
-			bullet_template.center.x.v = x;
-			bullet_template.center.y.v = y;
-			bullet_template.speed.v = TO_SP(2);
-			bullet_template.type = BT_BULLET16_DEFAULT;
-			bullet_template.is_animated = false;
-			bullets_add();
-			bullet_template.is_animated = true;
-		}
+	if(MIMA_RANDOM_BOMB_RING_FRAME == boss_frame) {
+		bullet_template.angle = randring_far_next16();
+		bullet_template.group = BG_32_RING;
+		bullet_template.center.x.v = x;
+		bullet_template.center.y.v = y;
+		bullet_template.speed.v = TO_SP(2);
+		bullet_template.type = BT_BULLET16_DEFAULT;
+		bullet_template.is_animated = false;
+		bullets_add();
+		bullet_template.is_animated = true;
+	}
 
-		if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
-			snd_se_play(MIMA_SOUND_SPREAD);
-		}
+	if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
+		snd_se_play(MIMA_SOUND_SPREAD);
+	}
 
-		if(MIMA_RANDOM_BOMB_END <= boss_frame) {
-			boss_render_mode = MIMA_RMODE_NORMAL;
-			boss_mode = MIMA_MODE_SELECT;
-			boss_frame = 0;
-		}
+	if(MIMA_RANDOM_BOMB_END <= boss_frame) {
+		boss_render_mode = MIMA_RMODE_NORMAL;
+		boss_mode = MIMA_MODE_SELECT;
+		boss_frame = 0;
 	}
 }
 
