@@ -130,7 +130,7 @@ void pascal hud_static_gauge_levels_put(pid2 pid)
 {
 	int level;
 	tram_x_t x = playfield_tram_x(0, 0);
-	if(pid != 0) {
+	if(pid) {
 		x += (PLAYFIELD_W_BORDERED / GLYPH_HALF_W);
 	}
 
@@ -157,13 +157,13 @@ void hud_static_put(void)
 {
 	// Native two-player HUD dispatcher, with all four per-player calls
 	// and their exact original order before incrementing the index.
-	int i = 0;
-	while(i < PLAYER_COUNT) {
+	// Draw both complete player HUDs in the native call order before
+	// advancing the signed player index in the for header.
+	for(int i = 0; i < PLAYER_COUNT; ++i) {
 		hud_static_halfhearts_put(i);
 		hud_static_bombs_put(i);
 		hud_static_rounds_won_put(i);
 		hud_static_gauge_levels_put(i);
-		++i;
 	}
 	if(resident->game_mode == GM_STORY) {
 		hud_static_story_lives_put();
