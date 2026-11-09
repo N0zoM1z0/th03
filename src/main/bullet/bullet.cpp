@@ -333,7 +333,6 @@ bool16 pascal near group_velocity_set(int i)
 
 void bullets_add(void)
 {
-	bullet_t near *p;
 	int trail_i;
 	int bullet_i;
 	int group_i = 0;
@@ -356,7 +355,7 @@ void bullets_add(void)
 		return;
 	}
 
-	p = bullets;
+	bullet_t near *p = bullets;
 	switch(bullet_template.type) {
 	case BT_PELLET_WITH_ACCEL:
 		accel = true;
