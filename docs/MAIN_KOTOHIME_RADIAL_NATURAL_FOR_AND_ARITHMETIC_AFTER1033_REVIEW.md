@@ -111,3 +111,35 @@ Stage `af1068g` tried assigning each `polar()` result directly into
 `bullet_template.center.x.v` and `.y.v`, removing the `x` and `y` scratch
 locals. The first complete `ba_koto` CODE comparison differed, so the
 experiment was restored. Keep the separate coordinate temporaries.
+
+
+## Alternate current-source nested while form (af1068w)
+
+A second natural loop spelling was also tested against the current complete
+`ba_koto` owner. It moves the outer and inner register indices to their
+respective scopes, initializes each at zero, and advances each index at the
+end of its loop body:
+
+```cpp
+register int center_i = 0;
+while(center_i < kotohime_orbit_count) {
+    // per-center scratch and polar coordinates
+    register int bullet_i = 0;
+    while(bullet_i < kotohime_burst_count) {
+        // angle, speed and bullets_add()
+        ++bullet_i;
+    }
+    ++center_i;
+}
+```
+
+Stage `af1068w` also reproduced all 1,840 CODE bytes, 262 ordered native
+fields and eleven PUBLIC offsets in two original TC4 4.02 rounds. Both normal
+Japanese MAIN links reproduce the original loaded image and ordered
+relocations. The maintained source retains the `for`-header form from
+af1068e because it gives each index the narrower loop lifetime; this `while`
+form is a verified alternative, not a failed experiment.
+
+Report: `.analysis/work/exatt-layout-af1068w/report.json`
+
+SHA-256: `fb0e5d33f26e95e1269447a9bf851eaafd91d2836aa07c11bc54b3906638f1b2`

@@ -44,6 +44,11 @@ The maintained `_BX` expression was re-tested against the current complete
   or the original staged divide/multiply/three-add expression.
 - `af1068l`: a register monochrome-color local replacing the explicit DX
   setup and word-sized AND; the complete CODE comparison differed.
+- `af1068u`: pass `p->cel()` directly as the final `sprite16_put()` argument
+  in both enemy and player paths, removing the shared sprite-offset local;
+  complete CODE differed.
+- `af1068v`: use a `register int cel` local with the staged age decrement,
+  divide, multiply-by-two and three-add return; complete CODE differed.
 
 Every complete CODE comparison differed, and every source experiment was
 restored. The earlier signed/unsigned local, register-order and shift trials

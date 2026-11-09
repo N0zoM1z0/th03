@@ -80,6 +80,11 @@ lifetime. See the [current Radial review](MAIN_KOTOHIME_RADIAL_NATURAL_FOR_AND_A
 
 Current Kotohime report: `.analysis/work/exatt-layout-af1068e/report.json`
 SHA-256: `a51759a9529f0da12dc9dd9cded1492aedf828405599ddafefc354876a25669c`.
+An alternate nested `while` spelling was also verified at `af1068w` against
+the same current owner; the maintained source keeps the narrower `for`-header
+index lifetimes from `af1068e`. The alternative report is
+`.analysis/work/exatt-layout-af1068w/report.json` (SHA-256
+`fb0e5d33f26e95e1269447a9bf851eaafd91d2836aa07c11bc54b3906638f1b2`).
 
 HitCircle current-source refresh: `.analysis/work/exatt-layout-af1068s/report.json`
 SHA-256: `af14a3b0d2de5b3b25d324d7725caf693c5363b12bd4b9c98be1e565af35e50b`.
