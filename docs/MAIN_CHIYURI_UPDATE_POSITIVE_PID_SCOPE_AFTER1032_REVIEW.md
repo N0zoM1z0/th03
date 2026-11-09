@@ -44,3 +44,31 @@ original division/multiply expressions.
 Protected report: `.analysis/work/exatt-layout-af1032l/report.json`
 
 SHA-256: `20019dc403da06fe0127c0aaac265814cc04ab7ecd74dffdd0c245717d6e6fbc`
+
+
+## Later current-source form (af1058a)
+
+The positive launched-player scope above is now a historical source spelling.
+The current complete `gba_boss_update_chiyuri()` controller uses the direct
+inactive-player return before target tracking, bullet-template PID setup and
+frame advancement:
+
+```cpp
+if(pid_current != gba_boss_launched_by) {
+    return;
+}
+```
+
+This was re-tested after the later natural level arithmetic, SELECT indexing,
+INTRO cross-effect coordinates, frame cadence, palette countdown and full
+Cardinal/Rings/Trail/Fans dispatch changes. The switch, animation restoration,
+palette countdown and collision/hitbox tail remain in their original order.
+
+Stage `af1058a` rebuilt the complete `ba_chiyu` owner in two independent
+original TC4 4.02 rounds: all 2,654 CODE bytes, 381 ordered native fields and
+eleven PUBLIC offsets match. Both complete normal MAIN links reproduce the
+Japanese loaded image and ordered relocations.
+
+Current-source report: `.analysis/work/exatt-layout-af1058a/report.json`
+
+SHA-256: `dde32e0ba6923503b17958abcc9524f64c30f6e3918c552fc72e30edb384d970`

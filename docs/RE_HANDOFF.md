@@ -53,11 +53,12 @@ Report SHA-256:
 44fdc9bb483c928f4e47d9c916c94a228ecbea4e19c0703c349cd912e6235ea0
 
 The report's twelve source hashes were checked against all twelve maintained
-files at that checkpoint. Two later scoped refreshes now bind the current
-source for three owners: `ba_sring` and `ba_srest` use `af1056c`, while
-`ba_koto` uses `af1057d`. The other nine owners remain bound to `af1053k`.
-The complete normal links are strong scoped native evidence; they are not
-whole-game source ownership or canonical Factory packed-file acceptance.
+files at that checkpoint. Three later scoped refreshes now bind the current
+source for four owners: `ba_sring` and `ba_srest` use `af1056c`, `ba_koto`
+uses `af1057d`, and `ba_chiyu` uses `af1058a`. The other eight owners remain
+bound to `af1053k`. The complete normal links are strong scoped native
+evidence; they are not whole-game source ownership or canonical Factory
+packed-file acceptance.
 
 Shared BOSS current-source refresh: `.analysis/work/exatt-layout-af1056c/report.json`
 SHA-256: `f23dfc1120fdf36091ccc6b890ac6a7382af9790b5b1662c06a830a13aa7dad5`.
@@ -75,13 +76,23 @@ Japanese MAIN image and ordered relocations. The current controller uses the
 direct inactive-player return, not the positive-scope spelling in the older
 af1032 review. See the [current intro-guard review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md).
 
+Chiyuri current-source refresh: `.analysis/work/exatt-layout-af1058a/report.json`
+SHA-256: `dde32e0ba6923503b17958abcc9524f64c30f6e3918c552fc72e30edb384d970`.
+It recompiled the complete 2,654-byte `ba_chiyu` owner with 381 ordered native
+fields and eleven PUBLICs in two original TC4 rounds, preserving the Japanese
+MAIN image and ordered relocations. The 613-byte `gba_boss_update_chiyuri()`
+controller now uses the direct inactive-player return before the complete mode
+switch and collision/hitbox tail. See the
+[current Chiyuri PID-scope review](MAIN_CHIYURI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+
 ### Evidence interpretation
 
 `af1053k` remains the latest twelve-owner integration checkpoint. Current
-source bindings are split by the subsequent scoped refresh: `ba_sring` and
-`ba_srest` use `af1056c`, while the other ten physical owners remain bound to
-`af1053k`. The earlier `af1053i`, `af1052g`, `af1051k` and `af1047l` full-set
-checkpoints are historical snapshots, not additional current proof. Older standalone
+source bindings are split by the subsequent scoped refreshes: the shared pair
+uses `af1056c`, Kotohime uses `af1057d`, Chiyuri uses `af1058a`, and the other
+eight owners remain bound to `af1053k`. The earlier `af1053i`, `af1052g`,
+`af1051k` and `af1047l` full-set checkpoints are historical snapshots, not
+additional current proof. Older standalone
 `af1024*` and `af1021*` reports are also historical for owners changed since
 those stages; do not call them current source proofs. The focused reviews and
 detailed compiler chronology are preserved in
@@ -140,6 +151,13 @@ tail. Stage `af1057d` rebuilt `ba_koto` in two original TC4 rounds: 1,840 CODE
 bytes, 262 ordered native fields and eleven PUBLICs, with the full Japanese
 MAIN image and ordered relocations exact. See the
 [af1057d current-source review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md).
+
+Chiyuri's complete 613-byte `gba_boss_update_chiyuri()` controller now uses
+the same direct inactive-player return before target tracking and frame
+advancement. The current 2,654-byte `ba_chiyu` owner was rebuilt in two original
+TC4 rounds: 381 ordered native fields and eleven PUBLICs match, as do both
+normal MAIN images and ordered relocations. See the
+[af1058a current-source review](MAIN_CHIYURI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
 Recommended next work:
 

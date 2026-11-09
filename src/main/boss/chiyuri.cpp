@@ -495,140 +495,143 @@ void far gba_boss_update_chiyuri(void)
 		chiyuri_fan_count = (0x0C + (gba_boss_level / 2));
 	}
 
-	if(pid_current == gba_boss_launched_by) {
-		pid_other = (1 - pid_current);
-		boss_target_update();
-		bullet_template.is_animated = false;
-		bullet_template.pid = pid_other;
-		// The original unsigned-word BOSS frame admits natural prefix;
-		// byte-valued movement state below does not (af922j/k).
-		boss_frame++;
+	if(pid_current != gba_boss_launched_by) {
+		return;
+	}
 
-		switch(boss_mode) {
-		case CHIYURI_MODE_INTRO:
-			if(CHIYURI_INTRO_DONE_FRAME == boss_frame) {
-				boss_frame = 0;
-				boss_mode = CHIYURI_MODE_SELECT;
-				bomb_palette_step(0xFF, pid_other);
-				boss_move_phase = CHIYURI_PALETTE_CYCLE_START;
-				boss_render_mode = CHIYURI_PALETTE_CYCLE_START;
-				break;
-			} else if(CHIYURI_INTRO_CROSS_EFFECT_FRAME == boss_frame) {
-				bomb_center_add(
-					((-TO_SP(56)) + boss_center_x), boss_center_y, pid_other
-				);
-				bomb_center_add(
-					(TO_SP(56) + boss_center_x), boss_center_y, pid_other
-				);
-				bomb_center_add(
-					boss_center_x, ((-TO_SP(56)) + boss_center_y), pid_other
-				);
-				bomb_center_add(
-					boss_center_x, (TO_SP(56) + boss_center_y), pid_other
-				);
-				break;
-			} else {
-				bullet_template.is_animated = true;
-				return;
-			}
+	pid_other = (1 - pid_current);
+	boss_target_update();
+	bullet_template.is_animated = false;
+	bullet_template.pid = pid_other;
+	// The original unsigned-word BOSS frame admits natural prefix;
+	// byte-valued movement state below does not (af922j/k).
+	boss_frame++;
 
-		case CHIYURI_MODE_SELECT:
-			if(CHIYURI_PALETTE_CYCLE_START == boss_render_mode) {
-				random_i = (2 * randring_far_next16_mod(5));
-				boss_center_x = *(chiyuri_boss_x_words + random_i);
-				boss_center_y = *(chiyuri_boss_y_words + random_i);
-				boss_move_phase = CHIYURI_PALETTE_CYCLE_START;
-			}
-			if(CHIYURI_SELECT_TIME_AT <= boss_frame) {
-				boss_frame = 0;
-				boss_mode = (CHIYURI_MODE_CARDINAL_0 + randring_far_next16_and(0x0F));
-				boss_pattern_i++;
-				if(boss_pattern_i > boss_pattern_count) {
-					boss_mode = CHIYURI_MODE_DESCEND;
-				}
-			}
+	switch(boss_mode) {
+	case CHIYURI_MODE_INTRO:
+		if(CHIYURI_INTRO_DONE_FRAME == boss_frame) {
+			boss_frame = 0;
+			boss_mode = CHIYURI_MODE_SELECT;
+			bomb_palette_step(0xFF, pid_other);
+			boss_move_phase = CHIYURI_PALETTE_CYCLE_START;
+			boss_render_mode = CHIYURI_PALETTE_CYCLE_START;
 			break;
-
-		case CHIYURI_MODE_CARDINAL_0:
-		case CHIYURI_MODE_CARDINAL_1:
-		case CHIYURI_MODE_CARDINAL_2:
-		case CHIYURI_MODE_CARDINAL_3:
-			chiyuri_pattern_cardinal();
+		} else if(CHIYURI_INTRO_CROSS_EFFECT_FRAME == boss_frame) {
+			bomb_center_add(
+				((-TO_SP(56)) + boss_center_x), boss_center_y, pid_other
+			);
+			bomb_center_add(
+				(TO_SP(56) + boss_center_x), boss_center_y, pid_other
+			);
+			bomb_center_add(
+				boss_center_x, ((-TO_SP(56)) + boss_center_y), pid_other
+			);
+			bomb_center_add(
+				boss_center_x, (TO_SP(56) + boss_center_y), pid_other
+			);
 			break;
-
-		case CHIYURI_MODE_RINGS_0:
-		case CHIYURI_MODE_RINGS_1:
-		case CHIYURI_MODE_RINGS_2:
-		case CHIYURI_MODE_RINGS_3:
-			chiyuri_pattern_rings();
-			break;
-
-		case CHIYURI_MODE_TRAIL_0:
-		case CHIYURI_MODE_TRAIL_1:
-		case CHIYURI_MODE_TRAIL_2:
-		case CHIYURI_MODE_TRAIL_3:
-			chiyuri_pattern_trail_ring();
-			break;
-
-		case CHIYURI_MODE_FANS_0:
-		case CHIYURI_MODE_FANS_1:
-		case CHIYURI_MODE_FANS_2:
-		case CHIYURI_MODE_FANS_3:
-			chiyuri_pattern_fans();
-			break;
-
-		case CHIYURI_MODE_DESCEND:
-			boss_fall();
-			palette_restore_for_pid(pid_other);
-			break;
-
-		case CHIYURI_MODE_EXPLODE:
+		} else {
 			bullet_template.is_animated = true;
 			return;
 		}
 
-		bullet_template.is_animated = true;
-
-		boss_render_frame += (
-	        0 == (round_or_result_frame & (CHIYURI_RENDER_ANIM_PERIOD - 1))
-	    );
-		// This mutable byte field needs the original bitmask instruction:
-		// boss_render_frame %= 4 emitted different TC4 CODE (af702a).
-		// Preserve the original byte-memory mask, NOT %=4 (af922i).
-		boss_render_frame &= (CHIYURI_RENDER_ANIM_PERIOD - 1);
-
-		if(boss_move_phase) {
-			// The original postfix byte decrement is CODE-visible; prefix
-			// --boss_move_phase was native-unequal (af702d).
-			// Preserve the byte postfix: prefix changed TC4 CODE (af922k).
-			boss_move_phase--;
-			if(boss_move_phase) {
-				bomb_palette_step((16 * boss_move_phase), pid_other);
+	case CHIYURI_MODE_SELECT:
+		if(CHIYURI_PALETTE_CYCLE_START == boss_render_mode) {
+			random_i = (2 * randring_far_next16_mod(5));
+			boss_center_x = *(chiyuri_boss_x_words + random_i);
+			boss_center_y = *(chiyuri_boss_y_words + random_i);
+			boss_move_phase = CHIYURI_PALETTE_CYCLE_START;
+		}
+		if(CHIYURI_SELECT_TIME_AT <= boss_frame) {
+			boss_frame = 0;
+			boss_mode = (CHIYURI_MODE_CARDINAL_0 + randring_far_next16_and(0x0F));
+			boss_pattern_i++;
+			if(boss_pattern_i > boss_pattern_count) {
+				boss_mode = CHIYURI_MODE_DESCEND;
 			}
 		}
+		break;
 
-		if(boss_render_mode) {
-			boss_render_mode--;
-		}
+	case CHIYURI_MODE_CARDINAL_0:
+	case CHIYURI_MODE_CARDINAL_1:
+	case CHIYURI_MODE_CARDINAL_2:
+	case CHIYURI_MODE_CARDINAL_3:
+		chiyuri_pattern_cardinal();
+		break;
 
-		collmap_center.x.v = boss_center_x;
-		collmap_center.y.v = boss_center_y;
-		collmap_stripe_tile_w.set(CHIYURI_COLLISION_STRIPE_WIDTH);
-		collmap_tile_h.set(CHIYURI_COLLISION_TILE_HEIGHT);
-		collmap_pid = pid_other;
-		collmap_set_rect_striped();
+	case CHIYURI_MODE_RINGS_0:
+	case CHIYURI_MODE_RINGS_1:
+	case CHIYURI_MODE_RINGS_2:
+	case CHIYURI_MODE_RINGS_3:
+		chiyuri_pattern_rings();
+		break;
 
-		hitbox_hittest_skip_explosions = true;
-		hitbox.radius.x.v = CHIYURI_COLLISION_HALF_RADIUS;
-		hitbox.radius.y.v = CHIYURI_COLLISION_HALF_RADIUS;
-		hitbox.pid = pid_other;
-		hitbox.origin.center.x.v = boss_center_x;
-		hitbox.origin.center.y.v = boss_center_y;
-		boss_hit = hitbox_hittest();
-		boss_hp -= boss_hit;
-		hitbox_hittest_skip_explosions = false;
-		boss_hittest_end();
+	case CHIYURI_MODE_TRAIL_0:
+	case CHIYURI_MODE_TRAIL_1:
+	case CHIYURI_MODE_TRAIL_2:
+	case CHIYURI_MODE_TRAIL_3:
+		chiyuri_pattern_trail_ring();
+		break;
+
+	case CHIYURI_MODE_FANS_0:
+	case CHIYURI_MODE_FANS_1:
+	case CHIYURI_MODE_FANS_2:
+	case CHIYURI_MODE_FANS_3:
+		chiyuri_pattern_fans();
+		break;
+
+	case CHIYURI_MODE_DESCEND:
+		boss_fall();
+		palette_restore_for_pid(pid_other);
+		break;
+
+	case CHIYURI_MODE_EXPLODE:
+		bullet_template.is_animated = true;
+		return;
 	}
+
+	bullet_template.is_animated = true;
+
+	boss_render_frame += (
+        0 == (round_or_result_frame & (CHIYURI_RENDER_ANIM_PERIOD - 1))
+    );
+	// This mutable byte field needs the original bitmask instruction:
+	// boss_render_frame %= 4 emitted different TC4 CODE (af702a).
+	// Preserve the original byte-memory mask, NOT %=4 (af922i).
+	boss_render_frame &= (CHIYURI_RENDER_ANIM_PERIOD - 1);
+
+	if(boss_move_phase) {
+		// The original postfix byte decrement is CODE-visible; prefix
+		// --boss_move_phase was native-unequal (af702d).
+		// Preserve the byte postfix: prefix changed TC4 CODE (af922k).
+		boss_move_phase--;
+		if(boss_move_phase) {
+			bomb_palette_step((16 * boss_move_phase), pid_other);
+		}
+	}
+
+	if(boss_render_mode) {
+		boss_render_mode--;
+	}
+
+	collmap_center.x.v = boss_center_x;
+	collmap_center.y.v = boss_center_y;
+	collmap_stripe_tile_w.set(CHIYURI_COLLISION_STRIPE_WIDTH);
+	collmap_tile_h.set(CHIYURI_COLLISION_TILE_HEIGHT);
+	collmap_pid = pid_other;
+	collmap_set_rect_striped();
+
+	hitbox_hittest_skip_explosions = true;
+	hitbox.radius.x.v = CHIYURI_COLLISION_HALF_RADIUS;
+	hitbox.radius.y.v = CHIYURI_COLLISION_HALF_RADIUS;
+	hitbox.pid = pid_other;
+	hitbox.origin.center.x.v = boss_center_x;
+	hitbox.origin.center.y.v = boss_center_y;
+	boss_hit = hitbox_hittest();
+	boss_hp -= boss_hit;
+	hitbox_hittest_skip_explosions = false;
+	boss_hittest_end();
+
 }
 
 // Natural signed 16-bit radius and sprite-frame shifts remain exact.
