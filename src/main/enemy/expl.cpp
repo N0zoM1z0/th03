@@ -67,25 +67,34 @@ uint8_t far __cdecl explosions_hittest(void)
         // State, player and byte-frame filters remain ordered short-circuit
         // guards. The byte phase stays a low-bit test: natural %4 changed
         // original TC4 CODE (af902c).
-        if(
-            (expl_p->flag < EFF_EXPLOSION_IGNORING_ENEMIES) ||
-            ((explosion_hittest_against == EHA_ENEMY) && (
+        if(expl_p->flag < EFF_EXPLOSION_IGNORING_ENEMIES) {
+            continue;
+        }
+        if(explosion_hittest_against == EHA_ENEMY) {
+            if(
                 (expl_p->flag == EFF_EXPLOSION_IGNORING_ENEMIES) ||
                 (expl_p->flag >= (
                     EFF_EXPLOSION_HITTING_ENEMIES +
                     (expl_p->explosion_max_enemy_hits_half * 2)
                 ))
-            )) ||
-            (expl_p->pid != hitbox.pid) ||
-            (expl_p->frame & (EXPLOSION_HIT_PERIOD - 1))
-        ) {
+            ) {
+                continue;
+            }
+        }
+        if(expl_p->pid != hitbox.pid) {
+            continue;
+        }
+        if(expl_p->frame & (EXPLOSION_HIT_PERIOD - 1)) {
             continue;
         }
 
         extent.v = (expl_p->size_pixels * EXPLOSION_SUBPIXEL_RADIUS_SCALE);
         x.v = (expl_p->center.x.v - extent.v);
         y.v = (expl_p->center.y.v - extent.v);
-        if((hitbox.right.v < x.v) || (hitbox.bottom.v < y.v)) {
+        if(hitbox.right.v < x.v) {
+            continue;
+        }
+        if(hitbox.bottom.v < y.v) {
             continue;
         }
 
@@ -93,10 +102,10 @@ uint8_t far __cdecl explosions_hittest(void)
 
         x.v += extent.v;
         y.v += extent.v;
-        if(
-            (hitbox.origin.topleft.x.v > x.v) ||
-            (hitbox.origin.topleft.y.v > y.v)
-        ) {
+        if(hitbox.origin.topleft.x.v > x.v) {
+            continue;
+        }
+        if(hitbox.origin.topleft.y.v > y.v) {
             continue;
         }
 
