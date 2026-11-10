@@ -130,7 +130,7 @@ void far pascal boss_reimu_template_init(int player_id)
 	p->pattern_i = 0;
 	p->render_mode = REIMU_RENDER_MODE_NONE;
 	p->sprite_offset = REIMU_TEMPLATE_SPRITE_OFFSET;
-	if(player_id != 0) {
+	if(player_id) {
 		p->sprite_offset += REIMU_SECOND_PLAYER_SPRITE_OFFSET;
 	}
 }
@@ -210,10 +210,13 @@ void near reimu_pattern_orbit_cloud(void)
 		);
 	}
 
-	if(boss_frame >= REIMU_CLOUD_FINISH_FRAME) {
-		boss_mode = REIMU_MODE_SELECT;
-		boss_frame = 0;
+	// Keep orbit movement, byte-angle steering and the on-frame speed
+	// increment before deciding whether this cloud pattern has finished.
+	if(boss_frame < REIMU_CLOUD_FINISH_FRAME) {
+		return;
 	}
+	boss_mode = REIMU_MODE_SELECT;
+	boss_frame = 0;
 }
 
 // Two timed spreads: narrow paired arcs, then the five-way medium
