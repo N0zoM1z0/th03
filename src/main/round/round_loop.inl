@@ -3,6 +3,12 @@
 // Speed code generation preserves the separate match and game-over exits.
 #pragma option -G
 #include "src/main/round/round_loop.hpp"
+#include <dos.h>
+
+enum round_vram_port_t {
+    ROUND_VRAM_DISPLAY_PAGE_PORT = 0xA6,
+    ROUND_VRAM_ACCESS_PAGE_PORT = 0xA4,
+};
 
 unsigned char near round_loop(void)
 {
@@ -166,16 +172,10 @@ unsigned char near round_loop(void)
             palette_show();
             palette_changed = 0;
         }
-        // Genuine PC-98 page-register writes. Page state remains natural C++.
-        // Inline assembly is restricted to hardware I/O, not C++ control flow.
-        asm {
-            mov dx, 0xA6;
-            mov al, page_front;
-            out dx, al;
-            mov dx, 0xA4;
-            mov al, page_back;
-            out dx, al;
-        }
+        // The Borland intrinsic emits the original DX/AL/OUT sequence for
+        // each PC-98 page register without hiding the current AL value.
+        outportb(ROUND_VRAM_DISPLAY_PAGE_PORT, page_front);
+        outportb(ROUND_VRAM_ACCESS_PAGE_PORT, page_back);
         // Preserve AL from the hardware OUT (the byte for the old back page).
         // Direct C++ page_back reload emits an additional MOV AL,memory
         // and shifts the original scheduler by two bytes (af785b).
