@@ -108,7 +108,7 @@ def native_source_reviews(root, artifact):
             ('Resident CFG loader', 'af1182a'),
             ('PC-98 shutdown', 'af1184d'),
             ('Input modes and keyboard wait', 'af1174e'),
-            ('PMD/MIDI audio services', 'af1176e'),
+            ('PMD/MIDI audio services', 'af1311c'),
             ('Signed Q8 polar geometry', 'af1178a'),
             ('Volatile VSYNC frame delay', 'af1179a'),
             ('DOS MAIN initializer', 'af1180b'),

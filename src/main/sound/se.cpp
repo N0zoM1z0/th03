@@ -30,7 +30,10 @@ void far snd_se_update(void)
 {
     // The second service only emits an interrupt while FM is active
     // and a real effect is selected; the driver-active check comes first.
-    if((!snd_se_active()) || (snd_se_playing == SE_NONE)) {
+    if(!snd_se_active()) {
+        return;
+    }
+    if(snd_se_playing == SE_NONE) {
         return;
     }
     // This direct register-service source compiles the exact original
