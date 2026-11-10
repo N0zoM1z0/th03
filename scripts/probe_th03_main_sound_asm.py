@@ -28,6 +28,9 @@ SOURCES = {
 ORDER = tuple(SOURCES)
 SOURCE_FILES = {owner: f'src/main/sound/{leaf}.asm'
                 for owner,leaf in SOURCES.items()}
+ORIGINAL_OBJECT_FILES = {owner: f'obj/th03/{owner}.obj' for owner in SOURCES}
+ORIGINAL_LINK_SLOTS = {owner: 'obj\\th03\\'+owner+'.obj' for owner in SOURCES}
+SOURCE_INCLUDES = ()
 MAP_ORIGINAL = {owner: 'th03\\'+owner+'.asm' for owner in SOURCES}
 MAP_ROWS = {owner: 3 for owner in SOURCES}
 REPORT_SCHEMA = 'th03-main-three-sound-asm-v1'
@@ -36,13 +39,23 @@ REPORT_FOLDER = 'main-sound-asm-'
 
 
 def original_paths():
-    return {owner: WORK/'obj/th03'/(owner+'.obj') for owner in ORDER}
+    return {owner: WORK/ORIGINAL_OBJECT_FILES[owner] for owner in ORDER}
+
+
+def checked_includes():
+    pinned = {}
+    for name in SOURCE_INCLUDES:
+        current = (ROOT/name).read_bytes()
+        need(current==(WORK/name).read_bytes(),
+             'native assembler actually consumed matching maintained include '+name)
+        pinned[name] = sha(current)
+    return pinned
 
 
 def response(stage, n):
     data = parent.response(n)
     for owner, leaf in SOURCES.items():
-        old = ('obj\\th03\\'+owner+'.obj').encode()
+        old = ORIGINAL_LINK_SLOTS[owner].format(n=n).encode()
         new = (f'probe\\{stage}\\r{n}\\{leaf}.obj').encode()
         need(data.count(old)==1, 'one original physical sound slot: '+owner)
         data = data.replace(old, new)
@@ -86,7 +99,7 @@ def check_round(stage, n, originals, sources, expected_target):
     map_bytes=(stage_dir/f'r{n}.map').read_bytes()
     for owner,leaf in SOURCES.items():
         current=(f'M=probe\\{stage}\\r{n}\\{leaf}.asm').encode()
-        original=('M='+MAP_ORIGINAL[owner]).encode()
+        original=('M='+MAP_ORIGINAL[owner].format(n=n)).encode()
         need(map_bytes.count(current)==MAP_ROWS[owner],
              'complete original CODE/DATA/BSS MAP rows '+owner)
         map_bytes=map_bytes.replace(current,original)
@@ -115,11 +128,13 @@ def check(stage):
     need(path.is_file() and not path.is_symlink(), 'retained sound source proof')
     report=json.loads(path.read_text())
     sources=expected_sources()
+    includes=checked_includes()
     originals={k:v.read_bytes() for k,v in original_paths().items()}
     target=read_verified_artifact(ROOT,find_artifact(
         load_target_manifest(ROOT/'config/targets.toml'),'th03-main'))
     need(report['schema']==REPORT_SCHEMA and report['stage']==stage and
          report['source_sha256']=={k:sha(v) for k,v in sources.items()} and
+         report.get('include_sha256',{})==includes and
          report['target_sha256']==sha(target) and
          report['original_objects_sha256']=={k:sha(v) for k,v in originals.items()} and
          len(report['rounds'])==2,'current sound source and target identities')
@@ -134,6 +149,7 @@ def build(stage):
     logs=ROOT/'.analysis/work'/(REPORT_FOLDER+stage)
     need(not stage_dir.exists() and not logs.exists(), 'fresh native sound stage')
     sources=expected_sources()
+    includes=checked_includes()
     originals={k:v.read_bytes() for k,v in original_paths().items()}
     need(all(b'\r' not in v for v in sources.values()),'maintained LF ASM sources')
     target=read_verified_artifact(ROOT,find_artifact(
@@ -177,6 +193,7 @@ def build(stage):
         need(expected_sources()==sources,'source did not change during native rounds')
     report={'schema':REPORT_SCHEMA,'stage':stage,
             'source_sha256':{k:sha(v) for k,v in sources.items()},
+            'include_sha256':includes,
             'original_objects_sha256':{k:sha(v) for k,v in originals.items()},
             'target_sha256':sha(target),'rounds':rows}
     (logs/'report.json').write_text(json.dumps(report,indent=2)+'\n')

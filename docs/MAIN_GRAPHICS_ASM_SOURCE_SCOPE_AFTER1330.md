@@ -21,14 +21,14 @@ aliases. `_score_hud_render` now labels the same near entry as
 same far entry as `score_bonus_digits_put`. Neither adds instructions,
 DATA nor a second function body. The full original PUBLIC map now matches.
 
-The final source-bound `af1330e` assembled all six physical objects twice.
+The final source-bound `af1330f` assembled all six physical objects twice.
 Every CODE byte, literal ordered fixup, PUBLIC, native segment and OMF
 module/source identity matched. Both complete normal MAIN executables
 were **byte-identical** to the unchanged historical link; the full
 normalized MAP and ordered MZ relocation vector matched as well. An
 earlier `af1330c` link also independently combined all six candidates.
-The retained graphics-fill includes were checked against the maintained
-source tree before the final build. The other 93 project objects and CRT
+The two graphics-fill includes are now also source-hash-bound and
+confirmed byte-identical to the maintained tree during proof review. The other 93 project objects and CRT
 were reused unchanged, not cold-replayed.
 
 Earlier physical comparison `af1330a` identified the two missing HUD
@@ -39,5 +39,5 @@ semantics or canonical packed-file acceptance.
 Read-only current-source verification:
 
 ```
-PYTHONPATH=scripts .venv/bin/python scripts/probe_th03_main_graphics_asm.py --stage af1330e --check
+PYTHONPATH=scripts .venv/bin/python scripts/probe_th03_main_graphics_asm.py --stage af1330f --check
 ```

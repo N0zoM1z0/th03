@@ -20,6 +20,14 @@ native.SOURCE_FILES = {
     'score_hud':'src/main/hud/score.asm',
     'gf_ctx':'src/main/graphics/round_fill_context.asm',
 }
+native.ORIGINAL_OBJECT_FILES = {owner:f'obj/th03/{owner}.obj'
+                                for owner in native.SOURCES}
+native.ORIGINAL_LINK_SLOTS = {owner:'obj' + chr(92) + 'th03' + chr(92) + owner + '.obj'
+                              for owner in native.SOURCES}
+# The fill carrier resolves these actual TASM includes from the retained
+# compilation worktree. Bind both to the corresponding maintained files.
+native.SOURCE_INCLUDES = ('compat/rec98/ReC98.inc',
+                          'compat/rec98/th03/main/playfld.inc')
 native.MAP_ORIGINAL = {owner:'th03\\'+owner+'.asm' for owner in native.SOURCES}
 native.MAP_ORIGINAL['score_hud'] = 'src\\main\\hud\\score.asm'
 native.MAP_ROWS = dict(hfliplut=1,sprite16=3,stg_pal=6,mrs=3,
