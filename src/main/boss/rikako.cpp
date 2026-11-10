@@ -216,16 +216,15 @@ void near rikako_pattern_orbit_spread(void)
 		}
 	}
 
+	// These phases are mutually exclusive. The warning has no RNG draw;
+	// only the exact release frame samples the signed orbit direction.
 	if(boss_frame == RIKAKO_ORBIT_WARNING_FRAME) {
 		bomb_center_add(
 			boss_center_x,
 			boss_center_y,
 			(1 - pid_current)
 		);
-		return;
-	}
-
-	if(boss_frame == RIKAKO_ORBIT_FIRE_FRAME) {
+	} else if(boss_frame == RIKAKO_ORBIT_FIRE_FRAME) {
 		bomb_explosion_add(
 			boss_center_x,
 			boss_center_y,
@@ -260,14 +259,10 @@ void near rikako_pattern_orbit_spread(void)
 			bullets_add();
 		}
 		snd_se_play(RIKAKO_SOUND_BOMB);
-		return;
+	} else if(boss_frame > RIKAKO_ORBIT_FINISH_AFTER) {
+		boss_frame = 0;
+		boss_mode = RIKAKO_MODE_SELECT;
 	}
-
-	if(boss_frame <= RIKAKO_ORBIT_FINISH_AFTER) {
-		return;
-	}
-	boss_frame = 0;
-	boss_mode = RIKAKO_MODE_SELECT;
 }
 
 enum rikako_entities_phase_t {
@@ -288,16 +283,16 @@ void near rikako_pattern_entities_and_pellets(void)
 		}
 	}
 
+	// The warning, entity ring, and four-angle pellet volley are three
+	// independent frame events; preserve the otherwise discarded RNG draw
+	// in the entity phase even when no extra entity is launched.
 	if(boss_frame == RIKAKO_ENTITIES_WARNING_FRAME) {
 		bomb_axis_add(
 			boss_center_x,
 			boss_center_y,
 			(1 - pid_current)
 		);
-		return;
-	}
-
-	if(boss_frame == RIKAKO_ENTITIES_RELEASE_FRAME) {
+	} else if(boss_frame == RIKAKO_ENTITIES_RELEASE_FRAME) {
 		bomb_explosion_add(
 			boss_center_x,
 			boss_center_y,
@@ -317,10 +312,7 @@ void near rikako_pattern_entities_and_pellets(void)
 			);
 		}
 		snd_se_play(RIKAKO_SOUND_BOMB);
-		return;
-	}
-
-	if(boss_frame == RIKAKO_ENTITIES_PELLET_FRAME) {
+	} else if(boss_frame == RIKAKO_ENTITIES_PELLET_FRAME) {
 		bullet_template.type = BT_PELLET;
 		bullet_template.group = BG_RING;
 		bullet_template.count = rikako_pellet_count;
@@ -336,14 +328,10 @@ void near rikako_pattern_entities_and_pellets(void)
 			bullets_add();
 		}
 		snd_se_play(RIKAKO_SOUND_BULLET);
-		return;
+	} else if(boss_frame > RIKAKO_ENTITIES_FINISH_AFTER) {
+		boss_frame = 0;
+		boss_mode = RIKAKO_MODE_SELECT;
 	}
-
-	if(boss_frame <= RIKAKO_ENTITIES_FINISH_AFTER) {
-		return;
-	}
-	boss_frame = 0;
-	boss_mode = RIKAKO_MODE_SELECT;
 }
 
 // Alternating bursts draw RNG at remainder 1, then fire paired volleys
@@ -394,11 +382,12 @@ void near rikako_pattern_alternating_burst(void)
 		bullets_add();
 	}
 
-	if(boss_frame < RIKAKO_BURST_FINISH_FRAME) {
-		return;
+	// The last release at remainder 0x0D still occurs before the
+	// original 0x80 terminal mode change; preserve both RNG calls above.
+	if(boss_frame >= RIKAKO_BURST_FINISH_FRAME) {
+		boss_mode = RIKAKO_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_mode = RIKAKO_MODE_SELECT;
-	boss_frame = 0;
 }
 
 void far gba_boss_update_rikako(void)
