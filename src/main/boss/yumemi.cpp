@@ -20,9 +20,10 @@
 
 #pragma option -a2
 
-// The original target reads two center words from a 128-byte player slot.
-// A direct full-player-header include changes the original OMF EXTDEF order;
-// retain this bounded view until that declaration dependency is resolved.
+// The target reads two center words from 128-byte player slots.
+// Native trials af1334a/b reconstructed identical CODE with the complete
+// player_stuff_t, but shifted OMF EXTDEF numbering and literal fixups;
+// preserve this exact bounded view until declaration order can be repaired.
 struct yumemi_player_view_t {
 	PlayfieldPoint center;
 	unsigned char rest[124];
@@ -197,7 +198,7 @@ enum yumemi_ring_phase_t {
 
 void near yumemi_pattern_ring(void)
 {
-	if(YUMEMI_RING_INIT_FRAME == boss_frame) {
+	if(boss_frame == YUMEMI_RING_INIT_FRAME) {
 		boss_render_mode = YUMEMI_RENDER_MODE_PRIMARY;
 		yumemi_angle = randring_far_next16();
 		yumemi_speed_add = 0;
@@ -219,7 +220,7 @@ void near yumemi_pattern_ring(void)
 		return;
 	}
 
-	if(YUMEMI_RING_BULLET_START == boss_frame) {
+	if(boss_frame == YUMEMI_RING_BULLET_START) {
 		bomb_explosion_add(
 			yumemi_origin_x,
 			yumemi_origin_y,
@@ -247,12 +248,11 @@ void near yumemi_pattern_ring(void)
 		yumemi_speed_add += YUMEMI_RING_SPEED_ADD_STEP;
 	}
 
-	if(boss_frame <= YUMEMI_RING_FINISH_AFTER) {
-		return;
+	if(boss_frame > YUMEMI_RING_FINISH_AFTER) {
+		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
+		boss_mode = YUMEMI_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_render_mode = YUMEMI_RENDER_MODE_NONE;
-	boss_mode = YUMEMI_MODE_SELECT;
-	boss_frame = 0;
 }
 
 // Timing gates for the long aimed, cross, chase and rain BOSS attacks.
@@ -298,7 +298,7 @@ enum yumemi_attack_timing_t {
 
 void near yumemi_pattern_aimed_random(void)
 {
-	if(YUMEMI_AIMED_INIT_FRAME == boss_frame) {
+	if(boss_frame == YUMEMI_AIMED_INIT_FRAME) {
 		boss_render_mode = YUMEMI_RENDER_MODE_PRIMARY;
 		boss_aux_point.x = players[bullet_template.pid].center.x;
 		boss_aux_point.y = players[bullet_template.pid].center.y;
@@ -311,7 +311,7 @@ void near yumemi_pattern_aimed_random(void)
 	}
 
 	if(boss_frame < YUMEMI_AIMED_WARNING_END) {
-		if(YUMEMI_AIMED_WARNING_PHASE == (boss_frame % YUMEMI_AIMED_WARNING_PERIOD)) {
+		if((boss_frame % YUMEMI_AIMED_WARNING_PERIOD) == YUMEMI_AIMED_WARNING_PHASE) {
 			bomb_axis_add(
 				boss_aux_point.x.v,
 				boss_aux_point.y.v,
@@ -324,7 +324,7 @@ void near yumemi_pattern_aimed_random(void)
 		return;
 	}
 
-	if(YUMEMI_AIMED_FIRE_START == boss_frame) {
+	if(boss_frame == YUMEMI_AIMED_FIRE_START) {
 		bomb_explosion_add(
 			yumemi_origin_x,
 			yumemi_origin_y,
@@ -346,12 +346,13 @@ void near yumemi_pattern_aimed_random(void)
 		bullets_add();
 	}
 
-	if(boss_frame <= YUMEMI_AIMED_FINISH_AFTER) {
-		return;
+	// The aimed pattern releases its visual state only after the
+	// original inclusive terminal frame, not on that frame itself.
+	if(boss_frame > YUMEMI_AIMED_FINISH_AFTER) {
+		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
+		boss_mode = YUMEMI_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_render_mode = YUMEMI_RENDER_MODE_NONE;
-	boss_mode = YUMEMI_MODE_SELECT;
-	boss_frame = 0;
 }
 
 void near yumemi_pattern_cross_rings(void)
@@ -382,11 +383,10 @@ void near yumemi_pattern_cross_rings(void)
 		bullets_add();
 	}
 
-	if(boss_frame < YUMEMI_CROSS_FINISH_AT) {
-		return;
+	if(boss_frame >= YUMEMI_CROSS_FINISH_AT) {
+		boss_mode = YUMEMI_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_mode = YUMEMI_MODE_SELECT;
-	boss_frame = 0;
 }
 
 void near yumemi_pattern_chase(void)
@@ -427,13 +427,14 @@ void near yumemi_pattern_chase(void)
 		return;
 	}
 
-	if(boss_frame <= yumemi_chase_until) {
-		return;
+	// The final clock gate only commits the mode transition after the
+	// tracked beam path and both sine movements have completed.
+	if(boss_frame > yumemi_chase_until) {
+		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
+		boss_mode = YUMEMI_MODE_SELECT;
+		boss_frame = 0;
+		boss_move_phase = YUMEMI_MOVE_PHASE_SEEK;
 	}
-	boss_render_mode = YUMEMI_RENDER_MODE_NONE;
-	boss_mode = YUMEMI_MODE_SELECT;
-	boss_frame = 0;
-	boss_move_phase = YUMEMI_MOVE_PHASE_SEEK;
 }
 
 void near yumemi_pattern_rain(void)
@@ -475,11 +476,12 @@ void near yumemi_pattern_rain(void)
 		}
 	}
 
-	if(boss_frame < YUMEMI_RAIN_FINISH_AT) {
-		return;
+	// Stop the rain only after its complete frame window; all RNG drops
+	// and the two spreads above retain their original call order.
+	if(boss_frame >= YUMEMI_RAIN_FINISH_AT) {
+		boss_mode = YUMEMI_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_mode = YUMEMI_MODE_SELECT;
-	boss_frame = 0;
 }
 
 void far gba_boss_update_yumemi(void)
