@@ -124,7 +124,7 @@ def native_source_reviews(root, artifact):
             ('Rikako BOSS', 'af1188c'),
             ('Kana BOSS', 'af1189d'),
             ('Chiyuri BOSS', 'af1190d'),
-            ('Kotohime BOSS', 'af1195d'),
+            ('Kotohime BOSS', 'af1319e'),
             ('Reimu BOSS', 'af1312g'),
             ('Mima BOSS', 'af1317k'),
             ('Marisa BOSS', 'af1183f'),

@@ -178,7 +178,7 @@ void near pascal kotohime_ring_emit(int randomize_angle)
 
 		// Original signed-word nonzero RNG selector is exact with an
 		// explicit `!=0` (genuine TC4 native test af910d).
-		if(randomize_angle) {
+		if(randomize_angle != 0) {
 			bullet_template.angle = randring_far_next16();
 		}
 		unsigned char angle = (
@@ -217,7 +217,7 @@ enum kotohime_ring_phase_t {
 // Do not replace these register-visible expressions by C++ assumptions.
 void near kotohime_pattern_random_ring(void)
 {
-	if(KOTOHIME_RING_START_FRAME == boss_frame) {
+	if(boss_frame == KOTOHIME_RING_START_FRAME) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_EXPANDING;
 		boss_effect_radius = 0;
 		boss_render_frame = 0;
@@ -225,7 +225,7 @@ void near kotohime_pattern_random_ring(void)
 
 	boss_move_phase += 4;
 
-	if(KOTOHIME_RING_EXPAND_LIMIT < boss_effect_radius) {
+	if(boss_effect_radius > KOTOHIME_RING_EXPAND_LIMIT) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_WARNING;
 		// Force the original phase-byte reload after the preceding +4.
 		// Without volatile, TC4 reuses AL and omits this load (af967c).
@@ -253,7 +253,7 @@ void near kotohime_pattern_random_ring(void)
 
 void near kotohime_pattern_aimed_ring(void)
 {
-	if(KOTOHIME_RING_START_FRAME == boss_frame) {
+	if(boss_frame == KOTOHIME_RING_START_FRAME) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_EXPANDING;
 		boss_effect_radius = 0;
 		boss_render_frame = 0;
@@ -262,7 +262,7 @@ void near kotohime_pattern_aimed_ring(void)
 
 	boss_move_phase -= 2;
 
-	if(KOTOHIME_RING_EXPAND_LIMIT < boss_effect_radius) {
+	if(boss_effect_radius > KOTOHIME_RING_EXPAND_LIMIT) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_WARNING;
 		boss_effect_radius += KOTOHIME_RING_WARNING_EXPAND_STEP;
 		_AL = boss_move_phase;
@@ -303,9 +303,9 @@ void near kotohime_pattern_pellet_arc(void)
 {
 	boss_move_sine();
 
-	// The unsigned 16-bit BOSS clock fires exactly at remainder 1.
-	// Its natural reversed comparison is TC4 native-exact (af910a).
-	if(KOTOHIME_PELLET_FIRE_REMAINDER == (boss_frame % kotohime_pellet_interval)) {
+	// The unsigned 16-bit BOSS clock fires at remainder 1.
+	// Comparing the computed remainder first is TC4 native-exact (af1319d).
+	if((boss_frame % kotohime_pellet_interval) == KOTOHIME_PELLET_FIRE_REMAINDER) {
 		snd_se_play(KOTOHIME_SOUND_ATTACK);
 		bullet_template.type = BT_PELLET;
 		bullet_template.angle = (unsigned char)boss_frame;
@@ -345,7 +345,7 @@ void near kotohime_pattern_pellet_arc(void)
 // 128-step local spread with original signed 16-bit operations.
 void near kotohime_pattern_radial_burst(void)
 {
-	if(KOTOHIME_RING_START_FRAME == boss_frame) {
+	if(boss_frame == KOTOHIME_RING_START_FRAME) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_EXPANDING;
 		boss_effect_radius = 0;
 		boss_render_frame = 0;
@@ -355,7 +355,7 @@ void near kotohime_pattern_radial_burst(void)
 	_AL += (unsigned char)0xFC;
 	boss_move_phase = _AL;
 
-	if(KOTOHIME_RING_EXPAND_LIMIT < boss_effect_radius) {
+	if(boss_effect_radius > KOTOHIME_RING_EXPAND_LIMIT) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_WARNING;
 		boss_effect_radius += KOTOHIME_RING_WARNING_EXPAND_STEP;
 		boss_move_phase -= 2;
@@ -371,13 +371,15 @@ void near kotohime_pattern_radial_burst(void)
 		// The nested O(center_count * burst_count) traversal declares
 		// DI/SI indices in outer-to-inner for headers. x/y/angle scratch
 		// lives for one center, and the inner SI index resets each time.
-		// Both loops are pre-tested; signed division precedes byte truncation.
+		// Both loops are pre-tested. Index times the full/half-turn
+		// or speed step is signed 16-bit before the native division, and the
+		// final angle is then truncated to a byte (af1319b).
 		for(register int center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
 			register int x;
 			register int y;
 			register unsigned char center_angle = (
 				boss_move_phase +
-				((KOTOHIME_FULL_TURN_STEPS * center_i) / kotohime_orbit_count)
+				((center_i * KOTOHIME_FULL_TURN_STEPS) / kotohime_orbit_count)
 			);
 			x = polar(
 				boss_center_x,
@@ -396,11 +398,11 @@ void near kotohime_pattern_radial_burst(void)
 				bullet_template.angle = (
 					KOTOHIME_BURST_CENTER_ANGLE_OFFSET +
 					center_angle +
-					((KOTOHIME_BURST_HALF_TURN_STEPS * bullet_i) / kotohime_burst_count)
+					((bullet_i * KOTOHIME_BURST_HALF_TURN_STEPS) / kotohime_burst_count)
 				);
 				bullet_template.speed.v = (
 					KOTOHIME_BURST_SPEED_BASE +
-					((KOTOHIME_BURST_SPEED_SCALE * bullet_i) / kotohime_burst_count)
+					((bullet_i * KOTOHIME_BURST_SPEED_SCALE) / kotohime_burst_count)
 				);
 				bullets_add();
 			}
@@ -441,7 +443,7 @@ void far gba_boss_update_kotohime(void)
 
 	switch(boss_mode) {
 	case KOTOHIME_MODE_INTRO:
-		if(KOTOHIME_INTRO_FINISH_FRAME != boss_frame) {
+		if(boss_frame != KOTOHIME_INTRO_FINISH_FRAME) {
 			return;
 		}
 		boss_frame = 0;
