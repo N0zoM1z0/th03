@@ -190,6 +190,9 @@ def native_source_reviews(root, artifact):
         selected.append(('Original master library CODE carriers', 'af1338c',
                          '.analysis/work/main-master-library-asm-af1338c/report.json',
                          'probe_th03_main_master_library_asm.py', ['--check']))
+        selected.append(('MAIN master DATA and BSS carrier', 'af1340d',
+                         '.analysis/work/main-master-tail-data-af1340d/report.json',
+                         'probe_th03_main_master_tail_storage.py', ['--check']))
     elif artifact == 'th03-mainl':
         selected = [
             ('Staff Roll', 'af942s', '.analysis/work/mainl-staff-af942s-native-build.json',
