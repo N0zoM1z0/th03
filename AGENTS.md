@@ -46,14 +46,10 @@ actual exactness, target identity, natural-source and state-isolation rules.
   comparison; knowledge and successful commands alone confer no exact credit.
 
 
-Prioritize natural source recovery and exact native output. Read the **active
-short** `docs/RE_HANDOFF.md` (the older 2,713-line handoff is now
-`docs/RE_HANDOFF_ARCHIVE_AFTER927.md`; the detailed post-af927 continuation
-is in `docs/RE_HANDOFF_ARCHIVE_AFTER1053.md`). Archived "latest" statements
-and next-target lists are historical snapshots, not current instructions.
-Read relevant parts of `docs/RE_WORKFLOW.md`, `docs/ARCHITECTURE.md` and the
-local `th03-re` skill. Inspect Git; run preflight when starting a session or
-when the environment/targets change.
+Prioritize natural source recovery and exact native output. Read the short
+`docs/RE_HANDOFF.md`, relevant parts of `docs/RE_WORKFLOW.md` and
+`docs/ARCHITECTURE.md`, and the local `th03-re` skill. Inspect Git; run
+preflight when starting a session or when the environment/targets change.
 
 - Use the Japanese targets pinned in `config/targets.toml`, with
   `candidate-local-attested` provenance. Never substitute translated, patched
@@ -77,20 +73,18 @@ when the environment/targets change.
   the local prefix. Keep private tools/targets/assets out of Git.
 - Keep useful findings in source, ledgers and the concise handoff. Do not turn
   diagnostic test counts or reference builds into source-exact progress.
-  Preserve the *entire active source-bound receipt DAG*, including both raw
-  OBJ/LIB/EXE/MAP rounds and writer logs. Delete only audited superseded
-  branches and disposable experiments, not files inferred "unused" from age.
-  The user's 2026-11-10 storage clarification supersedes blanket historical
-  retention: documentation references and a successful old trial alone do
-  not make its outputs current dependencies. Keep current selected proofs,
-  their actual source/native parents and link inputs. Audited superseded
-  trials may retire their raw outputs while useful source/log context is
-  retained compactly. Factory owns shared executable code; keep this game's
-  mutable Wine state isolated, and share byte-identical system modules
-  rather than copying them. See docs/STORAGE_HANDOFF_CURRENT.md for the
-  applied audit and exact protection boundary. Earlier cleanup manifests
-  describe only their original actions; never use retired generic pruning
-  tools as a shortcut. Preserve pinned tools and targets.
+  Keep necessary original inputs, installed tools, Ghidra projects, maintained
+  source and exact ledgers, reproducible build/complete-compare scripts, and
+  concise useful findings. Build outputs are regenerable; keep only the
+  working inputs current scripts still require. Historical archives,
+  duplicate evidence, old trials and cleanup reports need no permanent
+  retention, and documentation references are not a reason to keep them.
+  Retain a special compiler context only when an unresolved problem actually
+  needs it and it is difficult to rebuild; explain that need briefly.
+  Do not create new audits, manifests, archives or reports merely to delete
+  old ones. Remove obsolete references with the files. Factory supplies
+  shared executable code; this game's mutable runtime state stays isolated.
+  See docs/STORAGE_HANDOFF_CURRENT.md for the short retention guidance.
 
 Finish with affected checks and `git diff --check`. Full `python3 scripts/ci.py`
 is available for broad infrastructure changes; it is not a per-turn gate or a

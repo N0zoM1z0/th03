@@ -4,11 +4,8 @@ Start with [AGENTS.md](../AGENTS.md), then this page. Use
 [generated progress](PROGRESS.md) for the **complete current** per-owner
 stage list and product counts, [the workflow](RE_WORKFLOW.md) for native
 verification, and [storage policy](STORAGE_HANDOFF_CURRENT.md) before any
-cleanup. Detailed older attempts remain in the
-[after1096 archive](RE_HANDOFF_ARCHIVE_AFTER1096.md),
-[after1053 archive](RE_HANDOFF_ARCHIVE_AFTER1053.md),
-[after927 archive](RE_HANDOFF_ARCHIVE_AFTER927.md), Git history and focused
-`MAIN_*_AFTER*` reviews. Archived claims of a "latest" stage are historical.
+cleanup. Focused `MAIN_*` reviews and source comments retain useful compiler
+findings; Git history holds older chronology.
 
 ## State to inherit
 
@@ -114,14 +111,9 @@ Use an actual fresh stage ID matching the probe's validation pattern; the
 placeholder is not executable verbatim. **Never routinely replay the cold
 build or run all 65 source reviewers for a small source change.**
 
-Preserve Japanese targets, installed game-specific Wine/TC4 tools and
-Ghidra projects; preserve the active source-bound proof DAG, original objects,
-both compile/link rounds, reports, writer logs, EXE/MAP, relocations and
-relevant historical negative evidence. Check
-[storage policy](STORAGE_HANDOFF_CURRENT.md) before removing ignored work.
-An official cache-only preview is safe; it does not license `.analysis`
-pruning. Do not use retired generic receipt-pruning scripts.
-
-The latest storage audit retired superseded probe outputs and shared duplicate
-Wine system modules. Historical references can now name retired trial paths;
-the current progress table identifies the runnable source-bound stages.
+Keep original targets, tools, analyzer projects and current build/compare
+inputs. Record useful conclusions briefly. Historical archives, duplicate
+trial output and cleanup reports need no retention; documentation references
+alone do not make a file necessary. The `input_s` context above remains useful
+until its linker discrepancy is resolved. See the short
+[storage guidance](STORAGE_HANDOFF_CURRENT.md).

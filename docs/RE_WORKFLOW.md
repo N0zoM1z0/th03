@@ -30,17 +30,10 @@
 
 ## Scoped current-source native check (MAIN)
 
-The preferred bounded MAIN source verification uses the original
-Turbo C++ 4.02 plus the complete normal TLINK response. The latest
-engine/BOSS integration is `af1092k`, with current shared BOSS, Ellen Extra
-Attack, Rikako and Kana owners separately bound by `af1056c`, `af1094e`,
-`af1095w` and `af1096g`. All five reports pass current-source read-only review;
-they are separate scoped links. See [generated progress](PROGRESS.md) for their
-native scope and the [active handoff](RE_HANDOFF.md) for current work. The old
-`af1024e`, `af1024d`, `af1024c`, `af1024b` and `af1021*` checkpoints are
-historical for owners changed since those stages; do not cite them as current
-source bindings. The active handoff links the current reports, latest
-owner-level work and next targets.
+Use the original Turbo C++ 4.02 and complete normal TLINK response. The
+current source-bound stages are listed in [generated progress](PROGRESS.md);
+`status.py` checks them with the read-only native reviewer. Select the affected
+owners from that current list rather than copying historical stage numbers.
 
 Select **only the original physical TUs whose maintained C++ or actually
 consumed implementation .inl files changed**. Use a new unused DOS-safe
@@ -55,18 +48,9 @@ Compare complete CODE, literal ordered FIXUPPs, PUBLICs, source/header/.inl
 bindings, segment geometry, full normal MAIN and ordered MZ relocations.
 Do not infer canonical Factory acceptance from a target-equal normal link.
 
-**Historical composite-stage correction:** af927a is no longer a current
-whole-stage review because its ba_chiyu source hash differs from the
-maintained Chiyuri source. Its entry, effects, cs_chiyu and b_chiyu source
-hashes still match, but the stage-wide reviewer correctly rejects the
-stale ba_chiyu member. Likewise af935a is historical for ba_maris.
-Do not list either composite stage as a current all-owner source proof.
-`af1053k` is likewise a historical twelve-owner checkpoint after later source
-changes. Use the five current stages above; the active handoff and archives
-distinguish source-bound evidence from earlier snapshots.
-
-The historical after596 MAIN and after587 MAINL pairs are separate
-retained ancestors, **not** reasons to run full cold replay per edit.
+A composite report is current only while every input it compiled still
+matches. Reuse unchanged native inputs; do not repeat a full cold chain for
+an ordinary source edit.
 
 ## Scoped current-source native check (MAINL)
 
@@ -85,25 +69,12 @@ publisher checks the specified stage against current source before adoption.
 Changes outside these two producers need their affected native scope handled
 explicitly; do not run the old cold builder in place over protected evidence.
 
-## Current protected-storage policy
+## Storage
 
-The latest applied action is the
-[after1307 bounded failure cleanup](STORAGE_HANDOFF_AFTER1307.md): it deleted
-only duplicate source/reference
-copies of one **unsuccessful, receipt-less** compiler attempt, retaining its
-unique files, error log and 1,772-file SHA-256 inventory. The net allocation
-reclaimed was 26,382,336 bytes. **No current/historical successful native
-proof, its source-linked dependency or the Wine/analyzer runtime was pruned.**
-
-The previous [after1024 audit](STORAGE_HANDOFF_AFTER1024.md) removed only
-regenerable Python caches and repacked Git without object pruning. Earlier
-[after928](STORAGE_HANDOFF_AFTER928.md),
-[after710](STORAGE_HANDOFF_AFTER710.md) and
-[after597](STORAGE_HANDOFF_AFTER597.md) audits authorized only their own
-strictly enumerated paths. A current cache-only dry-run found 0.0 MiB to
-remove. See [the storage policy](STORAGE_HANDOFF_CURRENT.md) before touching
-any ignored artifact. Do not run generic/retired receipt pruning or treat
-an old proof stage as disposable merely because it is no longer selected.
+Keep necessary inputs and current build/compare working context. Remove
+obsolete trial output, archives and cleanup reports; a documentation reference
+does not make them necessary. Record useful findings briefly and use the
+[short storage guidance](STORAGE_HANDOFF_CURRENT.md).
 
 ## Keep verification proportional
 
@@ -125,7 +96,7 @@ original receipts honest; do not refresh their hashes to imply a new replay.
 `scripts/ci.py` checks changed machine-input syntax and Git whitespace.
 `scripts/ci.py --full` explicitly selects the broad suite for infrastructure
 work. Historical private tests can require their recorded source snapshots;
-the [script index](../scripts/README.md) records the current audit limits.
+the [script index](../scripts/README.md) lists current entry points.
 A bounded source change needs its native comparison and directly relevant
 checks rather than every product's runtime suite and database check.
 
@@ -162,34 +133,3 @@ inputs. Source presence and accepted ownership are separate; complete executable
 equality can still contain unowned vendor context.
 OP/MAINL/ZUN also compare canonical DIET storage. MAIN retains its documented
 CODE alignment/header differences.
-
-## Working files and retention
-
-The [historical after520 deletion audit](STORAGE_HANDOFF_CURRENT.md)
-protects its historical prefix of **258 stages / 5,760 uniquely referenced receipt,
-writer-log and native output files**, with both full raw
-OBJ/LIB/EXE/MAP rounds retained. The older after439 audit
-(177 stages / 4,464 files) is
-[historical](STORAGE_HANDOFF_AFTER439.md), not the latest.
-Never discard an old after-stage file based solely on age,
-and preserve original Japanese targets, Wine/Borland and
-Ghidra/JDK tool identities, source/acceptance ledgers,
-runtime/cold evidence and the original reference.tar.
-
-The general scripts/clean_generated.py preview is NOT a
-complete native proof dependency graph; do not blanket-apply
-it or use unreferenced-receipt pruning. The pinned
-scripts/cleanup_mainl_after520_handoff.py used the then-current source DAG
-and deleted15 completed superseded alternative-mode artifacts. It now rejects
-this after554 checkout; the historical zero-candidate result is not a current
-cleanup authorization. The after439/after388 cleanup scripts are
-frozen historical controls. New after521+ source stages require
-another independently audited active DAG and guard. Cache-only
-cleanup is separately available for fully regenerable Python
-bytecode, without touching .analysis state.
-Always rerun the scoped review after any actual cleanup.
-
-The older [319-source cleanup report](STORAGE_HANDOFF_2026-11-05.md) and
-[November 3 report](STORAGE_HANDOFF_2026-11-03.md) remain historical
-snapshots; their paths and numerical totals must not be copied into a
-current handoff.

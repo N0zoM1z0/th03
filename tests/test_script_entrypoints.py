@@ -9,7 +9,6 @@ from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import ci
 import clean_generated
-import closeout_cleanup
 
 
 class ScriptEntrypoints(unittest.TestCase):
@@ -34,9 +33,7 @@ class ScriptEntrypoints(unittest.TestCase):
 
     def test_retired_cleanup_options_stop_before_planning_or_deleting(self):
         cases = [(clean_generated, ['--apply']),
-                 (clean_generated, ['--prune-unreferenced-receipts']),
-                 (closeout_cleanup, ['--output', '.analysis/unused.json', '--apply']),
-                 (closeout_cleanup, ['--output', '.analysis/unused.json', '--retire-proof', 'old.json'])]
+                 (clean_generated, ['--prune-unreferenced-receipts'])]
         for module, args in cases:
             with self.subTest(command=module.__name__, args=args), \
                     patch.object(sys, 'argv', [module.__name__, *args]), \
@@ -50,10 +47,8 @@ class ScriptEntrypoints(unittest.TestCase):
         for args in (['--caches-only'], ['--caches-only', '--apply']):
             with self.subTest(args=args), patch.object(sys, 'argv', ['clean_generated', *args]), \
                     patch.object(clean_generated, 'clean_caches', return_value=0) as caches, \
-                    patch.object(clean_generated, 'clean_analysis') as analysis, \
                     contextlib.redirect_stdout(io.StringIO()):
                 self.assertEqual(clean_generated.main(), 0)
-            analysis.assert_not_called()
             self.assertEqual(caches.call_args.args[0], '--apply' not in args)
 
 

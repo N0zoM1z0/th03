@@ -74,32 +74,13 @@ publications; presentation code is not a MAINL/ZUN verifier input.
 Changing an actual verifier requires revalidating the affected graph before a
 new publication; do not edit historical evidence hashes.
 
-## Audit and historical limits
+## Historical helpers
 
-The 2026-11-10 storage audit retired superseded Wine probe directories and
-saved MAIN outputs using current proof inputs and linker dependencies.
-Historical reviews can reference retired raw outputs; documentation references
-alone do not keep them live. Their source/log/report context is archived under
-`.analysis/handoff/20261110-active-storage-audit/`. Use the current stage list
-in [progress](../docs/PROGRESS.md) and the
-[storage policy](../docs/STORAGE_HANDOFF_CURRENT.md).
-
-The 2026-11-09 script audit parsed all 1,358 Python scripts and found no syntax
-errors or missing literal `scripts/*.py` dependencies. Current reporting, CI
-dispatch, cleanup guards and affected publication checks have focused tests.
-Passing current checks are retained in
-`.analysis/work/script-audit-affected-tests.log` and
-`.analysis/work/script-audit-final-preflight.log`.
-The broad unittest investigation is retained at
-`.analysis/work/script-audit-baseline.log.gz` (losslessly archived; read with
-`gzip -cd`). It is not a passing current-source
-acceptance receipt: 574 errors stopped at the same historical Staff backend pin,
-and older storage tests expect cleanup commands that now correctly refuse this
-checkout. Some early private native runs are also absent. These historical
-chains require their recorded source snapshots. The later `af1055m` refresh
-repairs the current build/publication route; it does not reclassify the old
-all-tests run as passing. Do not bypass source pins or rerun the
-entire ancestry to update a progress chart.
+Some older helpers still supply code to current builders; keep those actual
+dependencies. Historical reviews can name retired private outputs. Do not
+restore an obsolete trial just to satisfy its old hash or documentation link.
+Current build/publication entry points above and the maintained source define
+continuing reconstruction work.
 
 ## Diagnostics and local maintenance
 
@@ -108,11 +89,7 @@ entire ancestry to update a progress chart.
 | `probe_th03_main_producers.py` | Unresolved state/shot grouping and alignment controls; no new source credit. |
 | `probe_th03_sound_nop_layout.py` | OP/MAINL natural trailing-byte investigation; annotated assembly controls are not acceptance. |
 | `build_th03_mainl_after520_work.py`, `review_th03_mainl_after520_work.py` | **Historical after520 source stage**, retained as a native dependency, not a current entrypoint. The historical after554 selected source link and later after587 full-MAINL link are distinct evidence; current publication additionally requires its selected native refresh. |
-| `cleanup_mainl_after520_handoff.py` | **Historical applied deletion audit:** protects its258-stage/5,760-file prefix; now rejects after521+ source. The old zero-candidate preview does not authorize cleanup here. |
-| `cleanup_mainl_after439_handoff.py`, `cleanup_mainl_after388_handoff.py` | **Historical frozen cleanup guards**, not current deletion commands; deliberately reject this checkout. |
-| `clean_generated.py` | Analysis preview only. `--apply` requires `--caches-only`; generic receipt pruning is rejected. Cache-only apply leaves `.analysis` untouched. |
-| `cleanup_after710_disposable_native_stages.py --verify` | Read-only verification of the one-time after710 retired six unreferenced native tool-config failures and preserved audit SHA manifest. **Not** a general stage-pruning tool. |
-| `closeout_cleanup.py` | Historical generic planner, now preview-only. `--apply` and `--retire-proof` are rejected; native evidence deletion requires a separate audited allowlist. |
+| `clean_generated.py` | Preview Python/test caches; `--caches-only --apply` removes them. Native output and `.analysis` stay outside its scope. |
 | `import_targets.py`, `bootstrap_toolchain.sh`, `bootstrap_analysis_toolchain.sh` | Initial private input/tool installation. |
 
 Historical replay/probe helpers can refer to deliberately deleted private runs.
@@ -122,6 +99,6 @@ Do not move frozen scripts merely to reorganize navigation; current recipes pin
 paths and hashes. Product manifests and scoped observations are authoritative.
 
 Keep heavy work headless, on one CPU at nice10, with one Borland/Wine writer.
-Preserve the prefix, fixed inputs, installed tool trees and the entire active
-source-bound receipt DAG, including both complete raw rounds and writer logs
-at every retained stage. Source/proof code lives in `scripts/lib/`; behavior tests are in `tests/`.
+Keep the prefix, fixed inputs and the working context current build/compare
+scripts require. Source/proof code lives in `scripts/lib/`; behavior tests are
+in `tests/`. Useful knowledge belongs in concise notes, not cleanup reports.

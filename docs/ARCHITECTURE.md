@@ -129,9 +129,9 @@ master.lib VS DATA8/BSS8 between real root head/tail source contributions; its
 physical90 closes1DB05 without source padding. This explicit prebuilt vendor
 context adds no authored/source-exact credit. EC2D and the header remain open.
 
-The old-named `reference.tar` remains a pinned OP/MAINL cold-graph source input.
-Output age or proximity to this archive does not establish that a native proof
-tree is disposable; follow the [current storage policy](STORAGE_HANDOFF_CURRENT.md).
+The pinned `reference.tar` is an actual OP/MAINL staging input. Keep that
+source archive while those builders consume it; historical trial archives and
+cleanup reports are unnecessary. See the [storage guidance](STORAGE_HANDOFF_CURRENT.md).
 
 ## Evidence and behavior
 

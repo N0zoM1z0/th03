@@ -70,29 +70,14 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 
 ## Maintenance and handing off
 
-Use the [active handoff](docs/RE_HANDOFF.md) for current source-bound
-proofs, exactness limits, blockers and next work. Follow [AGENTS.md](AGENTS.md)
-for the workflow and [RE_WORKFLOW.md](docs/RE_WORKFLOW.md) for scoped native
-verification. The active handoff is intentionally shorter than the historical
-chronology; detailed earlier experiments remain in
-[the after927 archive](docs/RE_HANDOFF_ARCHIVE_AFTER927.md) and the
-experiment-specific review notes.
+Use [the current handoff](docs/RE_HANDOFF.md) for blockers and next work,
+[generated progress](docs/PROGRESS.md) for tracked scopes, and
+[the workflow](docs/RE_WORKFLOW.md) for affected native rebuilds and complete
+comparisons. Whole-game source reconstruction remains unfinished.
 
-The latest source-bound MAIN integration is recorded in the active handoff.
-It covers selected complete BOSS/collision owners and reuses unchanged
-original game objects; it is not whole-game source acceptance or canonical
-Factory packed-file acceptance. Use the generated
-[progress report](docs/PROGRESS.md) and current preflight for product status.
-
-For storage, follow the [current retention policy](docs/STORAGE_HANDOFF_CURRENT.md).
-The [2026-11-10 bounded audit](docs/STORAGE_HANDOFF_AFTER1307.md) retired
-only redundant copies of one receipt-less, failed compiler snapshot,
-preserving the distinctive source and its error log. Earlier
-[after1024 cache/Git maintenance](docs/STORAGE_HANDOFF_AFTER1024.md) is
-historical. Preserve source-bound proof DAGs, both original compiler rounds,
-OBJ/LIB/EXE/MAP, writer logs, Japanese targets and the installed toolchain.
-Never prune proof trees by age; no full cold replay is needed for an ordinary
-scoped source change.
+Keep necessary inputs, current source/ledgers/build tools and concise useful
+knowledge. Historical trial output, archives and cleanup reports need no
+permanent retention. See the [short storage guidance](docs/STORAGE_HANDOFF_CURRENT.md).
 
 ## Credits
 
