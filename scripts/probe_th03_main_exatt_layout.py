@@ -34,6 +34,7 @@ ROOT = parent.ROOT
 WORK = parent.WORK
 SOURCES = {
     'vplanset': 'src/main/hardware/vram_planes.cpp',
+    'tr_ctx': 'src/main/round/demo_transition.cpp',
     'frmdely1': 'src/main/hardware/frame_delay.cpp',
     'execl': 'src/main/core/execl.cpp',
     'ex_yume': 'src/main/player/exatt_yumemi.cpp',

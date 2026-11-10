@@ -22,6 +22,7 @@ These read-only checks validate maintained source bindings, both original compil
 | Product / scope | Stage | Current check | Physical owners | CODE bytes | Initialized DATA bytes |
 | --- | --- | --- | ---: | ---: | ---: |
 | th03-main / VRAM plane initializer | af1326e | Verified | 1 | 41 | — |
+| th03-main / Stage demo transition | af1333a | Verified | 1 | 663 | — |
 | th03-main / Shared BOSS | af1326i | Verified | 2 | 949 | — |
 | th03-main / PI image loader | af1322i | Verified | 1 | 70 | — |
 | th03-main / DOS executable handoff | af1322j | Verified | 1 | 79 | — |
@@ -90,10 +91,13 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Shared sound assembler leaves | af1328b | Verified | 3 | 100 | — |
 | th03-main / Graphics and asset assembler leaves | af1330f | Verified | 6 | 1,622 | — |
 | th03-main / Vector, playfield and collision ASM | af1332c | Verified | 3 | 710 | — |
+| th03-main / Round RNG and collision reset ASM | af1333c | Verified | 1 | 82 | — |
 | th03-mainl / Staff Roll | af942s | Verified | 1 | 3,695 | 224 |
 | th03-mainl / Root controller | af944r | Verified | 1 | 2,458 | 112 |
 
 th03-main VRAM plane initializer: `.analysis/work/exatt-layout-af1326e/report.json`.
+
+th03-main Stage demo transition: `.analysis/work/exatt-layout-af1333a/report.json`.
 
 th03-main Shared BOSS: `.analysis/work/exatt-layout-af1326i/report.json`.
 
@@ -230,6 +234,8 @@ th03-main Shared sound assembler leaves: `.analysis/work/main-sound-asm-af1328b/
 th03-main Graphics and asset assembler leaves: `.analysis/work/main-graphics-asm-af1330f/report.json`.
 
 th03-main Vector, playfield and collision ASM: `.analysis/work/main-geometry-asm-af1332c/report.json`.
+
+th03-main Round RNG and collision reset ASM: `.analysis/work/main-roundpr-asm-af1333c/report.json`.
 
 th03-mainl Staff Roll / 19 procedures: `.analysis/work/mainl-staff-af942s-native-build.json`.
 

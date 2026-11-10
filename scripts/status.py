@@ -103,6 +103,7 @@ def native_source_reviews(root, artifact):
         selected = [(label, stage, f'.analysis/work/exatt-layout-{stage}/report.json',
                      'review_th03_main_source_overlay.py', []) for label, stage in (
             ('VRAM plane initializer', 'af1326e'),
+            ('Stage demo transition', 'af1333a'),
             ('Shared BOSS', 'af1326i'),
             ('PI image loader', 'af1322i'),
             ('DOS executable handoff', 'af1322j'),
@@ -180,6 +181,9 @@ def native_source_reviews(root, artifact):
         selected.append(('Vector, playfield and collision ASM', 'af1332c',
                          '.analysis/work/main-geometry-asm-af1332c/report.json',
                          'probe_th03_main_geometry_asm.py', ['--check']))
+        selected.append(('Round RNG and collision reset ASM', 'af1333c',
+                         '.analysis/work/main-roundpr-asm-af1333c/report.json',
+                         'probe_th03_main_roundpr_asm.py', ['--check']))
     elif artifact == 'th03-mainl':
         selected = [
             ('Staff Roll', 'af942s', '.analysis/work/mainl-staff-af942s-native-build.json',

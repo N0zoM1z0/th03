@@ -17,9 +17,9 @@ findings; Git history holds older chronology.
   MAIN's separate ledger records 106 extents / 78,737 bytes and 459 exact
   function entries. Neither a ledger entry nor source presence certifies
   the current build, and the game's completion percentage is unknown.
-- As of this handoff, `scripts/status.py` selects **69** separately verified
-  native MAIN stages covering **88 distinct physical OBJ owners** and
-  **77,058 CODE bytes**. This is a total for selected, non-overlapping owners,
+- As of this handoff, `scripts/status.py` selects **71** separately verified
+  native MAIN stages covering **90 distinct physical OBJ owners** and
+  **77,803 CODE bytes**. This is a total for selected, non-overlapping owners,
   **not new work completed in a session**, and the stages are independently
   linked against retained unchanged inputs, **not** one all-source build.
   For the current exact stage IDs and scopes, consult `scripts/status.py`
@@ -58,6 +58,8 @@ list. The full selection lives in the generated progress table.
 | Shared sound ASM leaves | `af1328b` | Three newly source-bound original TASM owners: PMD mode detection, resident probe and SE reset; 100 CODE bytes, native link/relocs exact |
 | Graphics/resource ASM leaves | `af1330f` | Six source-bound TASM owners, 1,622 CODE bytes; HUD score aliases, sprite16, MRS, palette, flip LUT and fill carrier; includes now bound |
 | Vector/playfield/collision ASM | `af1332c` | Three newly source-bound TASM objects: 160-byte vectors, 118-byte playfield geometry, 432-byte collision-map generator |
+| Demo transition control | `af1333a` | 663-byte source-bound TC4 stage wipe, triangle mask, two phase callbacks and frame transitions |
+| Round RNG / collision reset | `af1333c` | 82-byte TASM carrier, source-bound RNG macros, fill loop, collision reset, three maintained includes |
 | PMD/MIDI audio services | `af1320b` | Two complete owners; native active-only Kaja interrupt and source-exact sound-effect service |
 | Input modes / wait | `af1313c` | All nine interface, joystick and wait functions; natural positive joystick branches and exact release/press loops |
 | Hitbox + HitCircle | `af1317l` | Two complete physical owners; independent shot ownership/bomb cadence checks and active-age animation updates |
@@ -75,8 +77,8 @@ rather than adding defensive product fixes or manufactured byte padding.
 
 ## Open blocker: BIOS keyboard scanner `input_s`
 
-`input_s` is the **only** owner in the 89-unit scoped MAIN source inventory
-excluded from the 88-owner current normal-link selection. Both the original
+`input_s` is the **only** owner in the 91-unit scoped MAIN source inventory
+excluded from the 90-owner current normal-link selection. Both the original
 OBJ and freshly compiled maintained C++ have 417 bytes of initialized CODE,
 42 ordered native fixup fields and the same PUBLIC/segments. But the frozen
 normal MAIN parent used an older **418-byte** experimental object with a
