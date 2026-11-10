@@ -40,7 +40,7 @@ list. The full selection lives in the generated progress table.
 | --- | --- | --- |
 | MAIN entry + frame scheduler | `af1314c` | Full 3,050-byte scheduler; explicit render/VSYNC phase gates and independent victory checks, with original PC-98 page OUT order |
 | Reimu BOSS | `af1312g` | Complete 2,020-byte owner; signed 256-unit radial distribution, byte-angle compound steering and cloud pattern guards |
-| Kotohime / Yumemi / Mima BOSS | `af1195d` / `af1315h` / `af1197d` | Full controllers; Yumemi seek boundaries, ring/aimed warnings, and render exit state now use exact positive/nested guards |
+| Kotohime / Yumemi / Mima BOSS | `af1195d` / `af1315h` / `af1317k` | Full controllers; Mima nested pellet clock and positive mode-5 renderer path, Yumemi seek and render gates |
 | Ellen BOSS | `af1310g` | 1,675-byte owner; natural post-volley short-circuit exit, original first-phase branch polarity |
 | Enemy formations / ENEDAT VM | `af1310h` | Four original objects, 3,325 CODE bytes; segmented formation-script block-first indexing and original unchecked interpreter behavior |
 | Explosion collision / Fireball | `af1198g` / `af1177g` | Original hit-chain rules, 24-slot movement/collision; retain original uninitialized state |
@@ -48,7 +48,7 @@ list. The full selection lives in the generated progress table.
 | Rikako / Kana / Mima Extra Attack | `af1301f` / `af1302f` / `af1306e` | Full allocators, updates and rendering; first-use locals tested independently |
 | Native frame delay / DOS initializer | `af1316e` / `af1316f` | Volatile VSYNC polling and nonzero allocation failure; joint native proof `af1316d` |
 | Input modes / wait | `af1313c` | All nine interface, joystick and wait functions; natural positive joystick branches and exact release/press loops |
-| Hitbox + HitCircle | `af1194c` | Two complete physical owners; collision and skip-state guards |
+| Hitbox + HitCircle | `af1317l` | Two complete physical owners; independent shot ownership/bomb cadence checks and active-age animation updates |
 | MAINL Staff + root | `af942s` / `af944r` | Retained source scopes; decoded MAINL publication refreshed at `af1055m` |
 
 Other complete BOSS, Bullet, Chargeshot, Bomb, HUD and player owners are listed

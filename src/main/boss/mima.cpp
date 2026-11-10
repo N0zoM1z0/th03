@@ -206,7 +206,7 @@ enum mima_native_phase_t {
 
 void near mima_pattern_spread(void)
 {
-	if(MIMA_SPREAD_INITIAL_SETUP_END > boss_frame) {
+	if(boss_frame < MIMA_SPREAD_INITIAL_SETUP_END) {
 		boss_render_mode = MIMA_RMODE_PARTICLE;
 		boss_render_frame = 0;
 		mima_spread_angle = 0;
@@ -233,20 +233,19 @@ void near mima_pattern_spread(void)
 		// increment constants are TC4 byte-exact here (af855f/g).
 		mima_spread_angle += MIMA_SPREAD_ANGLE_STEP;
 
-		if(
-			(boss_frame < mima_pellet_until) &&
-			// The six-frame unsigned-word cadence compares the remainder
-			// explicitly with zero; unlike powers of two, it is not a mask.
-			(!(boss_frame % MIMA_SPREAD_PELLET_PERIOD))
-		) {
-			bullet_template.type = BT_PELLET;
-			bullet_template.group = BG_4_SPREAD_MEDIUM;
-			bullet_template.speed.v = mima_pellet_speed;
-			bullet_template.angle = mima_pellet_angle;
-			bullets_add();
+		// The pellet subpattern has its own deadline and six-frame clock.
+		// The modulo remains a genuine unsigned-word division by six.
+		if(boss_frame < mima_pellet_until) {
+			if(!(boss_frame % MIMA_SPREAD_PELLET_PERIOD)) {
+				bullet_template.type = BT_PELLET;
+				bullet_template.group = BG_4_SPREAD_MEDIUM;
+				bullet_template.speed.v = mima_pellet_speed;
+				bullet_template.angle = mima_pellet_angle;
+				bullets_add();
 
-			bullet_template.angle = (MIMA_PELLET_OPPOSITE_ANGLE - mima_pellet_angle);
-			bullets_add();
+				bullet_template.angle = (MIMA_PELLET_OPPOSITE_ANGLE - mima_pellet_angle);
+				bullets_add();
+			}
 		}
 		mima_pellet_angle += MIMA_PELLET_ANGLE_STEP;
 	}
@@ -264,7 +263,7 @@ void near mima_pattern_bomb_random(void)
 	pid_t pid_other = (1 - pid_current);
 	if(MIMA_RANDOM_BOMB_WARN == boss_frame) {
 		boss_render_mode = MIMA_RMODE_TRAIL;
-	} else if(MIMA_RANDOM_BOMB_FIRE_BEGIN > boss_frame) {
+	} else if(boss_frame < MIMA_RANDOM_BOMB_FIRE_BEGIN) {
 		return;
 	}
 
@@ -436,7 +435,7 @@ void far gba_boss_update_mima(void)
 
 	switch(boss_mode) {
 	case MIMA_MODE_INTRO:
-		if(MIMA_BOSS_INTRO_END != boss_frame) {
+		if(boss_frame != MIMA_BOSS_INTRO_END) {
 			return;
 		}
 		boss_frame = 0;
@@ -564,11 +563,12 @@ render_mode_2:
 		return;
 	}
 
-	if(MIMA_RMODE_TRAIL != boss_render_mode) {
-		return;
+	// Trail mode re-enters the original particle renderer with frame zero.
+	// The existing shared label retains its compiler-visible branch layout.
+	if(boss_render_mode == MIMA_RMODE_TRAIL) {
+		boss_render_frame = 0;
+		goto render_mode_2;
 	}
-	boss_render_frame = 0;
-	goto render_mode_2;
 
 }
 

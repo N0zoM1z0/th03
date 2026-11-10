@@ -45,7 +45,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Chiyuri BOSS | af1190d | Unavailable: ValueError: native compiler inputs remain bound to maintained live source | — | — | — |
 | th03-main / Kotohime BOSS | af1195d | Verified | 1 | 1,840 | — |
 | th03-main / Reimu BOSS | af1312g | Verified | 1 | 2,020 | — |
-| th03-main / Mima BOSS | af1197d | Verified | 1 | 1,922 | — |
+| th03-main / Mima BOSS | af1317k | Verified | 1 | 1,922 | — |
 | th03-main / Marisa BOSS | af1183f | Verified | 1 | 1,431 | — |
 | th03-main / Ellen BOSS | af1310g | Verified | 1 | 1,675 | — |
 | th03-main / Yumemi BOSS | af1315h | Verified | 1 | 2,358 | — |
@@ -53,7 +53,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Fireball engine | af1177g | Verified | 1 | 1,555 | — |
 | th03-main / Enemy engine | af1310h | Verified | 4 | 3,325 | — |
 | th03-main / Explosion collision | af1198g | Verified | 1 | 630 | — |
-| th03-main / Hitbox and HitCircle | af1194c | Verified | 2 | 711 | — |
+| th03-main / Hitbox and HitCircle | af1317l | Verified | 2 | 711 | — |
 | th03-main / Background chains | af1115b | Verified | 2 | 1,245 | — |
 | th03-main / MAIN entry and round | af1314c | Verified | 1 | 3,050 | — |
 | th03-main / Round results and reset | af1164e | Verified | 1 | 1,060 | — |
@@ -135,7 +135,7 @@ th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1195d/report.json`.
 
 th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1312g/report.json`.
 
-th03-main Mima BOSS: `.analysis/work/exatt-layout-af1197d/report.json`.
+th03-main Mima BOSS: `.analysis/work/exatt-layout-af1317k/report.json`.
 
 th03-main Marisa BOSS: `.analysis/work/exatt-layout-af1183f/report.json`.
 
@@ -151,7 +151,7 @@ th03-main Enemy engine: `.analysis/work/exatt-layout-af1310h/report.json`.
 
 th03-main Explosion collision: `.analysis/work/exatt-layout-af1198g/report.json`.
 
-th03-main Hitbox and HitCircle: `.analysis/work/exatt-layout-af1194c/report.json`.
+th03-main Hitbox and HitCircle: `.analysis/work/exatt-layout-af1317l/report.json`.
 
 th03-main Background chains: `.analysis/work/exatt-layout-af1115b/report.json`.
 

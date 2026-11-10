@@ -50,7 +50,12 @@ uint8_t hitbox_hittest(void)
 	for(i = 0; i < SHOTPAIR_COUNT; (++i, ++p)) {
 		// The original `alive != true` must stay explicit: `!alive`
 		// and `alive == false` changed original CODE (af901d/e).
-		if((p->alive != true) || (p->pid != hitbox.pid)) {
+		// Alive and owner checks are independently short-circuited:
+		// a dead shot must not contribute to either player's hitbox.
+		if(p->alive != true) {
+			continue;
+		}
+		if(p->pid != hitbox.pid) {
 			continue;
 		}
 		center_x = (p->topleft.x.v + to_sp(HITBOX_SHOTPAIR_HALF_W));
@@ -92,15 +97,14 @@ uint8_t hitbox_hittest(void)
 
 	// This code never runs for fireballs, because they're always removed in
 	// fireballs_update().
-	if(
-		(bomb_flag[hitbox.pid] != BF_INACTIVE) &&
-		// This is the original 16-bit frame, not a byte animation clock;
-		// Keep the natural two-frame remainder before the original postfix damage.
-		((round_or_result_frame % HITBOX_BOMB_DAMAGE_PERIOD) == 0)
-	) {
-		// Original damage byte uses postfix, not prefix; changing it
-		// generated 271 instead of 266 CODE bytes (af901h).
-		damage++;
+	// Bomb contact only contributes damage while its player's bomb is active.
+	// The separate unsigned-word frame gate selects every second frame.
+	if(bomb_flag[hitbox.pid] != BF_INACTIVE) {
+		if((round_or_result_frame % HITBOX_BOMB_DAMAGE_PERIOD) == 0) {
+			// Original damage byte uses postfix, not prefix; changing it
+			// generated 271 instead of 266 CODE bytes (af901h).
+			damage++;
+		}
 	}
 	return damage;
 }

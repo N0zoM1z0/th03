@@ -103,13 +103,14 @@ void near hitcircles_update(void)
 	register HitCircle near* p = hitcircles;
 	// The thirteen-record age walk keeps its signed index and near-pointer
 	// increments together after each byte-state update.
+	// Zero-age slots remain dormant. A live age advances once per frame
+	// and expires only after the sixteenth animation frame.
 	for(register int i = 0; i < HITCIRCLE_COUNT; (++i, ++p)) {
-		if(!p->age) {
-			continue;
-		}
-		p->age++;
-		if(HITCIRCLE_FRAMES < p->age) {
-			p->age = 0;
+		if(p->age) {
+			p->age++;
+			if(p->age > HITCIRCLE_FRAMES) {
+				p->age = 0;
+			}
 		}
 	}
 }
