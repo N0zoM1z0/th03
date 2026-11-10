@@ -174,6 +174,9 @@ def native_source_reviews(root, artifact):
         selected.append(('Shared sound assembler leaves', 'af1328b',
                          '.analysis/work/main-sound-asm-af1328b/report.json',
                          'probe_th03_main_sound_asm.py', ['--check']))
+        selected.append(('Graphics and asset assembler leaves', 'af1330e',
+                         '.analysis/work/main-graphics-asm-af1330e/report.json',
+                         'probe_th03_main_graphics_asm.py', ['--check']))
     elif artifact == 'th03-mainl':
         selected = [
             ('Staff Roll', 'af942s', '.analysis/work/mainl-staff-af942s-native-build.json',

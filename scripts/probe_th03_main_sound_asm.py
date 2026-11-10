@@ -26,7 +26,13 @@ SOURCES = {
     'snd_se_r_main': 'reset',
 }
 ORDER = tuple(SOURCES)
+SOURCE_FILES = {owner: f'src/main/sound/{leaf}.asm'
+                for owner,leaf in SOURCES.items()}
+MAP_ORIGINAL = {owner: 'th03\\'+owner+'.asm' for owner in SOURCES}
+MAP_ROWS = {owner: 3 for owner in SOURCES}
 REPORT_SCHEMA = 'th03-main-three-sound-asm-v1'
+REPORT_FOLDER = 'main-sound-asm-'
+
 
 
 def original_paths():
@@ -49,8 +55,8 @@ def response(stage, n):
 
 
 def expected_sources():
-    return {owner: (ROOT/'src/main/sound'/(leaf+'.asm')).read_bytes()
-            for owner,leaf in SOURCES.items()}
+    return {owner: (ROOT/SOURCE_FILES[owner]).read_bytes()
+            for owner in SOURCES}
 
 
 def check_round(stage, n, originals, sources, expected_target):
@@ -80,9 +86,9 @@ def check_round(stage, n, originals, sources, expected_target):
     map_bytes=(stage_dir/f'r{n}.map').read_bytes()
     for owner,leaf in SOURCES.items():
         current=(f'M=probe\\{stage}\\r{n}\\{leaf}.asm').encode()
-        original=(f'M=th03\\{owner}.asm').encode()
-        need(map_bytes.count(current)==3,
-             'three physical CODE/DATA/BSS MAP rows '+owner)
+        original=('M='+MAP_ORIGINAL[owner]).encode()
+        need(map_bytes.count(current)==MAP_ROWS[owner],
+             'complete original CODE/DATA/BSS MAP rows '+owner)
         map_bytes=map_bytes.replace(current,original)
     parent_map=parent.read_pin(prior['rounds'][n-1]['outputs']['map'])
     need(map_bytes==parent_map,'complete normalized native MAIN MAP geometry')
@@ -105,7 +111,7 @@ def summary(stage, rows):
 
 
 def check(stage):
-    path=ROOT/'.analysis/work'/('main-sound-asm-'+stage)/'report.json'
+    path=ROOT/'.analysis/work'/(REPORT_FOLDER+stage)/'report.json'
     need(path.is_file() and not path.is_symlink(), 'retained sound source proof')
     report=json.loads(path.read_text())
     sources=expected_sources()
@@ -125,7 +131,7 @@ def check(stage):
 def build(stage):
     parent.inputs()
     stage_dir=WORK/'probe'/stage
-    logs=ROOT/'.analysis/work'/('main-sound-asm-'+stage)
+    logs=ROOT/'.analysis/work'/(REPORT_FOLDER+stage)
     need(not stage_dir.exists() and not logs.exists(), 'fresh native sound stage')
     sources=expected_sources()
     originals={k:v.read_bytes() for k,v in original_paths().items()}
@@ -165,7 +171,7 @@ def build(stage):
             need(completed.returncode==0,'native original TLINK failure')
             row=check_round(stage,n,originals,sources,target)
             rows.append(row)
-            print('round',n,'native TASM shared sound CODE',
+            print('round',n,'native TASM source-owner CODE',
                   sum(x['CODE_bytes'] for x in row['original_scopes'].values()),
                   'whole Japanese MAIN link exact',flush=True)
         need(expected_sources()==sources,'source did not change during native rounds')

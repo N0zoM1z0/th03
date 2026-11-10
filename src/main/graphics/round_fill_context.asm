@@ -2,7 +2,9 @@
 ; Derived from the pinned target and ReC98's initial disassembly, not surviving
 ; original source. Game-specific geometry is established by callers; unchanged
 ; master.lib module identity is excluded, but original language/authorship is open.
-; No new source-exact/behavior ownership is claimed. See docs/MAIN_GRAPHICS_FILL_REVIEW.md.
+; Current source has strict original physical OBJ/MAIN native proof in the
+; graphics ASM scope; historical authorship and hardware semantics remain open.
+; See docs/MAIN_GRAPHICS_FILL_REVIEW.md for earlier exploratory evidence.
 ;
 ; All entries require DF=0. GRCG color/mode and EGC enable/disable belong to
 ; callers. Coordinates below are physical VRAM rows (the game uses 200-line

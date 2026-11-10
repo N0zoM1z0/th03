@@ -88,6 +88,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Character callback setup | af1161f | Verified | 1 | 3,888 | — |
 | th03-main / CPU controller | af1327h | Verified | 1 | 1,077 | — |
 | th03-main / Shared sound assembler leaves | af1328b | Verified | 3 | 100 | — |
+| th03-main / Graphics and asset assembler leaves | af1330e | Verified | 6 | 1,622 | — |
 | th03-mainl / Staff Roll | af942s | Verified | 1 | 3,695 | 224 |
 | th03-mainl / Root controller | af944r | Verified | 1 | 2,458 | 112 |
 
@@ -224,6 +225,8 @@ th03-main Character callback setup: `.analysis/work/exatt-layout-af1161f/report.
 th03-main CPU controller: `.analysis/work/exatt-layout-af1327h/report.json`.
 
 th03-main Shared sound assembler leaves: `.analysis/work/main-sound-asm-af1328b/report.json`.
+
+th03-main Graphics and asset assembler leaves: `.analysis/work/main-graphics-asm-af1330e/report.json`.
 
 th03-mainl Staff Roll / 19 procedures: `.analysis/work/mainl-staff-af942s-native-build.json`.
 

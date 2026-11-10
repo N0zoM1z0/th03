@@ -66,6 +66,10 @@ score_glyph_put endp
 ; Draw both eight-byte little-endian BCD scores, suppress leading zeroes,
 ; append implicit tens zero to P2 and mutable credit digit to P1.
 ; Extend when P1 digit6 exceeds extends_gained, disabling after two awards.
+; Original MAIN links both the plain and decorated HUD-render entry
+; at the same near address. This is a PUBLIC alias, not another body.
+public _score_hud_render
+_score_hud_render label near
 score_hud_render proc near
  push (GC_RMW shl 16)+V_WHITE
  call GRCG_SETCOLOR
@@ -185,6 +189,10 @@ points_skip_leading_zero:
 
 ; Same real far Pascal ABI. Zero remains blank; no implicit trailing zero.
 ; Deliberately leaves GRCG active: callers must own the subsequent cleanup.
+; The round result and bonus digits share the identical far-Pascal body.
+; Restore the second native PUBLIC name at this exact entry offset.
+public @ROUND_RESULT_HIGH_DIGITS_PUT$QIIUIUC
+@ROUND_RESULT_HIGH_DIGITS_PUT$QIIUIUC label far
 score_bonus_digits_put proc far
  push bp
  mov bp, sp
