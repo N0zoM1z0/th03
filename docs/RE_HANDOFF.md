@@ -40,7 +40,7 @@ list. The full selection lives in the generated progress table.
 | --- | --- | --- |
 | MAIN entry + frame scheduler | `af1314c` | Full 3,050-byte scheduler; explicit render/VSYNC phase gates and independent victory checks, with original PC-98 page OUT order |
 | Reimu BOSS | `af1312g` | Complete 2,020-byte owner; signed 256-unit radial distribution, byte-angle compound steering and cloud pattern guards |
-| Kotohime / Yumemi / Mima BOSS | `af1195d` / `af1185e` / `af1197d` | Whole attack state controllers and codegen-sensitive timing |
+| Kotohime / Yumemi / Mima BOSS | `af1195d` / `af1315h` / `af1197d` | Full controllers; Yumemi seek boundaries, ring/aimed warnings, and render exit state now use exact positive/nested guards |
 | Ellen BOSS | `af1310g` | 1,675-byte owner; natural post-volley short-circuit exit, original first-phase branch polarity |
 | Enemy formations / ENEDAT VM | `af1310h` | Four original objects, 3,325 CODE bytes; segmented formation-script block-first indexing and original unchecked interpreter behavior |
 | Explosion collision / Fireball | `af1198g` / `af1177g` | Original hit-chain rules, 24-slot movement/collision; retain original uninitialized state |

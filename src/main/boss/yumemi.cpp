@@ -20,6 +20,9 @@
 
 #pragma option -a2
 
+// The original target reads two center words from a 128-byte player slot.
+// A direct full-player-header include changes the original OMF EXTDEF order;
+// retain this bounded view until that declaration dependency is resolved.
 struct yumemi_player_view_t {
 	PlayfieldPoint center;
 	unsigned char rest[124];
@@ -212,7 +215,7 @@ void near yumemi_pattern_ring(void)
 		);
 		return;
 	}
-	if(YUMEMI_RING_BULLET_START > boss_frame) {
+	if(boss_frame < YUMEMI_RING_BULLET_START) {
 		return;
 	}
 
@@ -307,7 +310,7 @@ void near yumemi_pattern_aimed_random(void)
 		boss_render_frame = YUMEMI_AIMED_RENDER_FRAME_START;
 	}
 
-	if(YUMEMI_AIMED_WARNING_END > boss_frame) {
+	if(boss_frame < YUMEMI_AIMED_WARNING_END) {
 		if(YUMEMI_AIMED_WARNING_PHASE == (boss_frame % YUMEMI_AIMED_WARNING_PERIOD)) {
 			bomb_axis_add(
 				boss_aux_point.x.v,
@@ -388,15 +391,14 @@ void near yumemi_pattern_cross_rings(void)
 
 void near yumemi_pattern_chase(void)
 {
-	if(!boss_move_phase) {
-		// Keep the original positive, short-circuit range test. Reversing
-		// this into an early exit changes original TC4 branching (af848d).
-		if(
-			(boss_center_x > YUMEMI_CHASE_LEFT_BOUNDARY) &&
-			(boss_center_x < YUMEMI_CHASE_RIGHT_BOUNDARY)
-		) {
-			boss_move_sine();
-			return;
+	if(boss_move_phase == YUMEMI_MOVE_PHASE_SEEK) {
+		// Keep the two positive bounds in order before the sine move.
+		// Reversing to an early exit changes native branching (af848d).
+		if(boss_center_x > YUMEMI_CHASE_LEFT_BOUNDARY) {
+			if(boss_center_x < YUMEMI_CHASE_RIGHT_BOUNDARY) {
+				boss_move_sine();
+				return;
+			}
 		}
 		boss_move_phase = YUMEMI_MOVE_PHASE_TRACK;
 		boss_frame = 0;
@@ -616,8 +618,10 @@ void near yumemi_render_main(void)
 
 	// These are two independent original visual effect state values.
 	// Both animation clocks must be empty before exiting this renderer.
-	if(!boss_effect_radius && !boss_render_frame) {
-		return;
+	if(!boss_effect_radius) {
+		if(!boss_render_frame) {
+			return;
+		}
 	}
 
 	if(pid_current) {
