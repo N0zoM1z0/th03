@@ -4,7 +4,7 @@ All counts describe repository-local tracked scopes. The whole-game completion p
 
 | Product | Source-present / tracked extents | Current accepted scope | Stored target bytes |
 | --- | ---: | --- | ---: |
-| th03-op | 61/62 | Decoded: 60 extents / 14,985 bytes | 36,041 |
+| th03-op | 62/62 | Decoded: 60 extents / 14,985 bytes | 36,041 |
 | th03-main | 106/106 | Ledger: 106 extents / 78,737 bytes | 130,882 |
 | th03-mainl | 259/259 | Decoded: 220 extents / 37,968 bytes | 37,975 |
 | th03-zun | 77/78 | Decoded: 77 extents / 8,635 bytes | 16,242 |
@@ -42,7 +42,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Kana Extra Attack | af1302f | Verified | 1 | 663 | — |
 | th03-main / Rikako BOSS | af1188c | Verified | 1 | 1,677 | — |
 | th03-main / Kana BOSS | af1189d | Verified | 1 | 1,874 | — |
-| th03-main / Chiyuri BOSS | af1190d | Verified | 1 | 2,654 | — |
+| th03-main / Chiyuri BOSS | af1190d | Unavailable: ValueError: native compiler inputs remain bound to maintained live source | — | — | — |
 | th03-main / Kotohime BOSS | af1195d | Verified | 1 | 1,840 | — |
 | th03-main / Reimu BOSS | af1304d | Verified | 1 | 2,020 | — |
 | th03-main / Mima BOSS | af1197d | Verified | 1 | 1,922 | — |
@@ -130,8 +130,6 @@ th03-main Kana Extra Attack: `.analysis/work/exatt-layout-af1302f/report.json`.
 th03-main Rikako BOSS: `.analysis/work/exatt-layout-af1188c/report.json`.
 
 th03-main Kana BOSS: `.analysis/work/exatt-layout-af1189d/report.json`.
-
-th03-main Chiyuri BOSS: `.analysis/work/exatt-layout-af1190d/report.json`.
 
 th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1195d/report.json`.
 
