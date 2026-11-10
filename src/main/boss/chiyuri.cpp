@@ -299,24 +299,24 @@ void near chiyuri_pattern_rings(void)
 	bullet_template.speed.v = chiyuri_ring_speed;
 	bullets_add();
 
-	if(gba_boss_level < 8) {
-		return;
+	// High difficulty adds four eight-pellet rings after the common
+	// 32-bullet emission; its level gate remains an independent branch.
+	if(gba_boss_level >= 8) {
+		bullet_template.type = BT_PELLET;
+		bullet_template.group = BG_8_RING;
+		bullet_template.speed.v = (chiyuri_ring_speed / 4);
+
+		bullet_template.center.x.v = (boss_center_x + TO_SP(56));
+		bullets_add();
+		bullet_template.center.x.v = (boss_center_x - TO_SP(56));
+		bullets_add();
+
+		bullet_template.center.x.v = boss_center_x;
+		bullet_template.center.y.v = (boss_center_y + TO_SP(56));
+		bullets_add();
+		bullet_template.center.y.v = (boss_center_y - TO_SP(56));
+		bullets_add();
 	}
-
-	bullet_template.type = BT_PELLET;
-	bullet_template.group = BG_8_RING;
-	bullet_template.speed.v = (chiyuri_ring_speed / 4);
-
-	bullet_template.center.x.v = (boss_center_x + TO_SP(56));
-	bullets_add();
-	bullet_template.center.x.v = (boss_center_x - TO_SP(56));
-	bullets_add();
-
-	bullet_template.center.x.v = boss_center_x;
-	bullet_template.center.y.v = (boss_center_y + TO_SP(56));
-	bullets_add();
-	bullet_template.center.y.v = (boss_center_y - TO_SP(56));
-	bullets_add();
 }
 
 // Bomb warnings repeat every eight ticks before the single 48-shot
@@ -375,7 +375,9 @@ enum chiyuri_fan_phase_t {
 // progression in the for header, after the body emits its projectiles.
 // Keep the byte speed assignment before the signed ++i, the signed division
 // before TO_SP, and the original angle reflection and emission order.
-// Compound speed assignment remains non-exact (af922h/af1033q).
+// Current original TC4 source context accepts compound speed +=/-= in
+// all four headers (af1329j); older failures af922h/af1033q applied to
+// different surrounding source and are not a global prohibition.
 void near chiyuri_pattern_fans(void)
 {
 	register pid_t pid_other = (1 - pid_current);
@@ -397,14 +399,14 @@ void near chiyuri_pattern_fans(void)
 		for(
 			i = 0;
 			i < chiyuri_fan_count;
-			bullet_template.speed.v = CHIYURI_FAN_SPEED_STEP + bullet_template.speed.v, ++i
+			bullet_template.speed.v += CHIYURI_FAN_SPEED_STEP, ++i
 		) {
 			bullet_template.center.x.v = (
 				(boss_center_x - CHIYURI_FAN_EDGE_OFFSET) +
-				TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
+				TO_SP((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count)
 			);
 			bullet_template.angle = (
-				CHIYURI_FAN_HORIZ_ANGLE_BASE - ((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count)
+				CHIYURI_FAN_HORIZ_ANGLE_BASE - ((i * CHIYURI_FAN_ANGLE_UNITS) / chiyuri_fan_count)
 			);
 			bullets_add();
 
@@ -416,14 +418,14 @@ void near chiyuri_pattern_fans(void)
 		for(
 			i = 0;
 			i < chiyuri_fan_count;
-			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP, ++i
+			bullet_template.speed.v -= CHIYURI_FAN_SPEED_STEP, ++i
 		) {
 			bullet_template.center.x.v = (
 				(boss_center_x - CHIYURI_FAN_EDGE_OFFSET) +
-				TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
+				TO_SP((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count)
 			);
 			bullet_template.angle = (
-				CHIYURI_FAN_HORIZ_ANGLE_BASE - ((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count)
+				CHIYURI_FAN_HORIZ_ANGLE_BASE - ((i * CHIYURI_FAN_ANGLE_UNITS) / chiyuri_fan_count)
 			);
 			bullets_add();
 
@@ -434,58 +436,55 @@ void near chiyuri_pattern_fans(void)
 		return;
 	}
 
-	if(boss_frame != CHIYURI_FAN_VERTICAL_FRAME) {
-		return;
+	// Only the exact vertical-release frame runs the two signed-index
+	// velocity passes; all other frames leave the original state alone.
+	if(boss_frame == CHIYURI_FAN_VERTICAL_FRAME) {
+		bomb_axis_add(
+			boss_center_x, (boss_center_y - CHIYURI_FAN_EDGE_OFFSET), pid_other
+		);
+		bomb_axis_add(
+			boss_center_x, (boss_center_y + CHIYURI_FAN_EDGE_OFFSET), pid_other
+		);
+
+		bullet_template.center.x.v = boss_center_x;
+		bullet_template.type = BT_PELLET;
+		bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
+		bullet_template.speed.v = chiyuri_fan_speed;
+
+		for(
+			i = 0;
+			i < chiyuri_fan_count;
+			bullet_template.speed.v += CHIYURI_FAN_SPEED_STEP, ++i
+		) {
+			bullet_template.center.y.v = (
+				(boss_center_y - CHIYURI_FAN_EDGE_OFFSET) +
+				TO_SP((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count)
+			);
+			bullet_template.angle = (
+				((i * CHIYURI_FAN_ANGLE_UNITS) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
+			);
+			bullets_add();
+		}
+
+		for(
+			i = 0;
+			i < chiyuri_fan_count;
+			bullet_template.speed.v -= CHIYURI_FAN_SPEED_STEP, ++i
+		) {
+			bullet_template.center.y.v = (
+				(boss_center_y - CHIYURI_FAN_EDGE_OFFSET) +
+				TO_SP((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count)
+			);
+			bullet_template.angle = (
+				((i * CHIYURI_FAN_ANGLE_UNITS) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
+			);
+			bullets_add();
+		}
+
+		boss_mode = CHIYURI_MODE_SELECT;
+		boss_frame = 0;
+		boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
 	}
-	bomb_axis_add(
-		boss_center_x, (boss_center_y - CHIYURI_FAN_EDGE_OFFSET), pid_other
-	);
-	bomb_axis_add(
-		boss_center_x, (boss_center_y + CHIYURI_FAN_EDGE_OFFSET), pid_other
-	);
-
-	bullet_template.center.x.v = boss_center_x;
-	bullet_template.type = BT_PELLET;
-	bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
-	bullet_template.speed.v = chiyuri_fan_speed;
-
-	for(
-		i = 0;
-		i < chiyuri_fan_count;
-		bullet_template.speed.v = CHIYURI_FAN_SPEED_STEP + bullet_template.speed.v, ++i
-	) {
-		bullet_template.center.y.v = (
-			(boss_center_y - CHIYURI_FAN_EDGE_OFFSET) +
-			TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
-		);
-		bullet_template.angle = (
-			((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
-		);
-		bullets_add();
-
-
-	}
-
-	for(
-		i = 0;
-		i < chiyuri_fan_count;
-		bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP, ++i
-	) {
-		bullet_template.center.y.v = (
-			(boss_center_y - CHIYURI_FAN_EDGE_OFFSET) +
-			TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
-		);
-		bullet_template.angle = (
-			((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
-		);
-		bullets_add();
-
-
-	}
-
-	boss_mode = CHIYURI_MODE_SELECT;
-	boss_frame = 0;
-	boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
 }
 
 void far gba_boss_update_chiyuri(void)
@@ -608,17 +607,17 @@ void far gba_boss_update_chiyuri(void)
 	// Preserve the original byte-memory mask, NOT %=4 (af922i).
 	boss_render_frame &= (CHIYURI_RENDER_ANIM_PERIOD - 1);
 
-	if(boss_move_phase) {
+	if(boss_move_phase != 0) {
 		// The original postfix byte decrement is CODE-visible; prefix
 		// --boss_move_phase was native-unequal (af702d).
 		// Preserve the byte postfix: prefix changed TC4 CODE (af922k).
 		boss_move_phase--;
-		if(boss_move_phase) {
+		if(boss_move_phase != 0) {
 			bomb_palette_step((16 * boss_move_phase), pid_other);
 		}
 	}
 
-	if(boss_render_mode) {
+	if(boss_render_mode != 0) {
 		boss_render_mode--;
 	}
 
@@ -645,7 +644,7 @@ void far gba_boss_update_chiyuri(void)
 // Natural signed 16-bit radius and sprite-frame shifts remain exact.
 // The original two-carrier 16-sprite ring now uses a natural for-header.
 // Its update advances the signed index before the byte-angle assignment;
-// enum-valued compound += still shortens the original byte-reg update.
+// the compound angle += is native-exact in this current context (af1329k).
 void near chiyuri_render_ring(void)
 {
 	screen_y_t top;
@@ -668,7 +667,7 @@ void near chiyuri_render_ring(void)
 	for(
 		i = 0, angle = boss_move_phase;
 		i < CHIYURI_RING_SPRITES;
-		++i, angle = CHIYURI_RING_SPRITE_ANGLE_STEP + angle
+		++i, angle += CHIYURI_RING_SPRITE_ANGLE_STEP
 	) {
 		left = polar(
 			boss_center_x, radius, CosTable8[angle]
@@ -693,7 +692,7 @@ void near chiyuri_render_main(void)
 	register sprite16_offset_t sprite_offset;
 	register screen_x_t left;
 
-	if(!boss_render_mode) {
+	if(boss_render_mode == CHIYURI_RENDER_MODE_NORMAL) {
 		sprite16_put_size.w = CHIYURI_RENDER_MAIN_WIDTH;
 		sprite16_put_size.h = CHIYURI_RENDER_MAIN_HEIGHT;
 
@@ -718,7 +717,7 @@ void near chiyuri_render_main(void)
 			return;
 		}
 
-		if(!boss_render_frame) {
+		if(boss_render_frame == 0) {
 			return;
 		}
 
@@ -748,8 +747,10 @@ void near chiyuri_render_intro(void)
 {
 	register int frame;
 
-	if(round_frame_mod2 && (CHIYURI_INTRO_RENDER_LAST_END > boss_frame)) {
-		return;
+	if(round_frame_mod2) {
+		if(boss_frame < CHIYURI_INTRO_RENDER_LAST_END) {
+			return;
+		}
 	}
 
 	// TC4 compiles the signed frame << 3 to the original shift. The
@@ -759,7 +760,7 @@ void near chiyuri_render_intro(void)
 
 	// The three raster phases are separate signed 16-bit origin radii;
 	// keep each original byte phase update in the original AL carrier.
-	if(CHIYURI_INTRO_RENDER_FIRST_END > frame) {
+	if(frame < CHIYURI_INTRO_RENDER_FIRST_END) {
 		boss_effect_radius = (
             CHIYURI_INTRO_RADIUS_FIRST -
             (frame << CHIYURI_INTRO_RADIUS_SHIFT)
@@ -767,7 +768,7 @@ void near chiyuri_render_intro(void)
 		_AL = boss_move_phase;
 		_AL += 4;
 		boss_move_phase = _AL;
-	} else if(CHIYURI_INTRO_RENDER_SECOND_END > frame) {
+	} else if(frame < CHIYURI_INTRO_RENDER_SECOND_END) {
 		boss_effect_radius = (
             CHIYURI_INTRO_RADIUS_SECOND -
             (frame << CHIYURI_INTRO_RADIUS_SHIFT)

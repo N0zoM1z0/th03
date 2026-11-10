@@ -44,6 +44,7 @@ list. The full selection lives in the generated progress table.
 | Reimu BOSS | `af1312g` | Complete 2,020-byte owner; signed 256-unit radial distribution, byte-angle compound steering and cloud pattern guards |
 | Rikako BOSS | `af1321h` | Complete 1,677-byte owner; independent signed spin limits and 8-frame clocks, positive intro flicker, exact render byte-angle steps |
 | Kana BOSS | `af1323f` | Complete 1,874-byte owner; staged and rotating emission windows, two cadence gates, byte-angle/speed increments, and intro flicker |
+| Chiyuri BOSS | `af1329l` | Full 2,654-byte owner; higher-level rings, four signed-index fans with exact speed steps, positive vertical phase and natural intro/ring guards |
 | Marisa BOSS | `af1325h` | Complete 1,431-byte owner; positive active-attack renderer, narrow-column completion, original high-level ring branch |
 | Kotohime / Yumemi / Mima BOSS | `af1319e` / `af1315h` / `af1317k` | Complete controllers; Kotohime's ring thresholds, signed radial step products and RNG gate are source-exact |
 | Ellen BOSS | `af1310g` | 1,675-byte owner; natural post-volley short-circuit exit, original first-phase branch polarity |
