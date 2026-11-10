@@ -32,30 +32,30 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Volatile VSYNC frame delay | af1179a | Verified | 1 | 21 | — |
 | th03-main / DOS MAIN initializer | af1180b | Verified | 1 | 62 | — |
 | th03-main / Ellen Extra Attack | af1129e | Verified | 1 | 1,129 | — |
-| th03-main / Yumemi Extra Attack | af1127g | Verified | 1 | 1,696 | — |
-| th03-main / Mima Extra Attack | af1128c | Verified | 1 | 727 | — |
+| th03-main / Yumemi Extra Attack | af1200c | Verified | 1 | 1,696 | — |
+| th03-main / Mima Extra Attack | af1306e | Verified | 1 | 727 | — |
 | th03-main / Reimu Extra Attack | af1112h | Verified | 2 | 1,156 | — |
-| th03-main / Marisa Extra Attack | af1113c | Verified | 1 | 676 | — |
-| th03-main / Kotohime Extra Attack | af1121d | Verified | 1 | 1,054 | — |
+| th03-main / Marisa Extra Attack | af1196d | Verified | 1 | 676 | — |
+| th03-main / Kotohime Extra Attack | af1199e | Verified | 1 | 1,054 | — |
 | th03-main / Chiyuri Extra Attack | af1122c | Verified | 1 | 978 | — |
-| th03-main / Rikako Extra Attack | af1124d | Verified | 1 | 702 | — |
-| th03-main / Kana Extra Attack | af1125e | Verified | 1 | 663 | — |
+| th03-main / Rikako Extra Attack | af1301f | Verified | 1 | 702 | — |
+| th03-main / Kana Extra Attack | af1302f | Verified | 1 | 663 | — |
 | th03-main / Rikako BOSS | af1188c | Verified | 1 | 1,677 | — |
 | th03-main / Kana BOSS | af1189d | Verified | 1 | 1,874 | — |
 | th03-main / Chiyuri BOSS | af1190d | Verified | 1 | 2,654 | — |
-| th03-main / Kotohime BOSS | af1158e | Verified | 1 | 1,840 | — |
-| th03-main / Reimu BOSS | af1175f | Verified | 1 | 2,020 | — |
-| th03-main / Mima BOSS | af1168b | Verified | 1 | 1,922 | — |
+| th03-main / Kotohime BOSS | af1195d | Verified | 1 | 1,840 | — |
+| th03-main / Reimu BOSS | af1304d | Verified | 1 | 2,020 | — |
+| th03-main / Mima BOSS | af1197d | Verified | 1 | 1,922 | — |
 | th03-main / Marisa BOSS | af1183f | Verified | 1 | 1,431 | — |
 | th03-main / Ellen BOSS | af1187e | Verified | 1 | 1,675 | — |
 | th03-main / Yumemi BOSS | af1185e | Verified | 1 | 2,358 | — |
 | th03-main / Bullet engine | af1107c | Verified | 1 | 2,685 | — |
 | th03-main / Fireball engine | af1177g | Verified | 1 | 1,555 | — |
 | th03-main / Enemy engine | af1192d | Verified | 4 | 3,325 | — |
-| th03-main / Explosion collision | af1120c | Verified | 1 | 630 | — |
+| th03-main / Explosion collision | af1198g | Verified | 1 | 630 | — |
 | th03-main / Hitbox and HitCircle | af1194c | Verified | 2 | 711 | — |
 | th03-main / Background chains | af1115b | Verified | 2 | 1,245 | — |
-| th03-main / MAIN entry and round | af1171d | Verified | 1 | 3,050 | — |
+| th03-main / MAIN entry and round | af1303b | Verified | 1 | 3,050 | — |
 | th03-main / Round results and reset | af1164e | Verified | 1 | 1,060 | — |
 | th03-main / Round intro HUD | af1166i | Verified | 1 | 1,478 | — |
 | th03-main / Static HUD | af1165h | Verified | 1 | 539 | — |
@@ -111,21 +111,21 @@ th03-main DOS MAIN initializer: `.analysis/work/exatt-layout-af1180b/report.json
 
 th03-main Ellen Extra Attack: `.analysis/work/exatt-layout-af1129e/report.json`.
 
-th03-main Yumemi Extra Attack: `.analysis/work/exatt-layout-af1127g/report.json`.
+th03-main Yumemi Extra Attack: `.analysis/work/exatt-layout-af1200c/report.json`.
 
-th03-main Mima Extra Attack: `.analysis/work/exatt-layout-af1128c/report.json`.
+th03-main Mima Extra Attack: `.analysis/work/exatt-layout-af1306e/report.json`.
 
 th03-main Reimu Extra Attack: `.analysis/work/exatt-layout-af1112h/report.json`.
 
-th03-main Marisa Extra Attack: `.analysis/work/exatt-layout-af1113c/report.json`.
+th03-main Marisa Extra Attack: `.analysis/work/exatt-layout-af1196d/report.json`.
 
-th03-main Kotohime Extra Attack: `.analysis/work/exatt-layout-af1121d/report.json`.
+th03-main Kotohime Extra Attack: `.analysis/work/exatt-layout-af1199e/report.json`.
 
 th03-main Chiyuri Extra Attack: `.analysis/work/exatt-layout-af1122c/report.json`.
 
-th03-main Rikako Extra Attack: `.analysis/work/exatt-layout-af1124d/report.json`.
+th03-main Rikako Extra Attack: `.analysis/work/exatt-layout-af1301f/report.json`.
 
-th03-main Kana Extra Attack: `.analysis/work/exatt-layout-af1125e/report.json`.
+th03-main Kana Extra Attack: `.analysis/work/exatt-layout-af1302f/report.json`.
 
 th03-main Rikako BOSS: `.analysis/work/exatt-layout-af1188c/report.json`.
 
@@ -133,11 +133,11 @@ th03-main Kana BOSS: `.analysis/work/exatt-layout-af1189d/report.json`.
 
 th03-main Chiyuri BOSS: `.analysis/work/exatt-layout-af1190d/report.json`.
 
-th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1158e/report.json`.
+th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1195d/report.json`.
 
-th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1175f/report.json`.
+th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1304d/report.json`.
 
-th03-main Mima BOSS: `.analysis/work/exatt-layout-af1168b/report.json`.
+th03-main Mima BOSS: `.analysis/work/exatt-layout-af1197d/report.json`.
 
 th03-main Marisa BOSS: `.analysis/work/exatt-layout-af1183f/report.json`.
 
@@ -151,13 +151,13 @@ th03-main Fireball engine: `.analysis/work/exatt-layout-af1177g/report.json`.
 
 th03-main Enemy engine: `.analysis/work/exatt-layout-af1192d/report.json`.
 
-th03-main Explosion collision: `.analysis/work/exatt-layout-af1120c/report.json`.
+th03-main Explosion collision: `.analysis/work/exatt-layout-af1198g/report.json`.
 
 th03-main Hitbox and HitCircle: `.analysis/work/exatt-layout-af1194c/report.json`.
 
 th03-main Background chains: `.analysis/work/exatt-layout-af1115b/report.json`.
 
-th03-main MAIN entry and round: `.analysis/work/exatt-layout-af1171d/report.json`.
+th03-main MAIN entry and round: `.analysis/work/exatt-layout-af1303b/report.json`.
 
 th03-main Round results and reset: `.analysis/work/exatt-layout-af1164e/report.json`.
 

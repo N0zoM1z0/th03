@@ -65,3 +65,22 @@ MAIN link, overwrite the original after567c parent, replace the target,
 or increase canonical Factory acceptance. Further investigation requires
 source- and linker-justified resolution of the one-byte historical
 postfunction NOP without manufacturing an exact match.
+
+## 2026-11-10: actual original OBJ normal-link control
+
+The direct `af1305a` experiment replaced the old `af567c` source slot in
+one frozen normal MAIN TLINK response with **`obj/th03/input_s.obj` itself**.
+The actual original OBJ and native `af1193a` TC4 OBJ have the same `SHARED`
+CODE SEGDEF length **417** and one LEDATA record covering all **417** bytes.
+The old `af567c` parent is different: both its SEGDEF and LEDATA are **418**
+bytes, ending in a literal `90` after the original `CB` return. The native
+source did not generate that extra byte. `af1305a` successfully linked the
+original OBJ without recompiling anything, and the result again differed
+from the frozen parent at *only* EXE file offset 68141 (`90` versus `00`),
+with the same MZ relocation order and full file length. The source is still
+blocked from an exact **normal full link**, but this test narrows the cause
+to historical one-byte linker padding/object provenance, not a missing C++
+body or incorrect source fixups. No manufactured filler was introduced.
+
+Evidence: retained ignored work directory
+`.analysis/toolchain/wineprefix/drive_c/TH03WORK/probe/af1305a/`.

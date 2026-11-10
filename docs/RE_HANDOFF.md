@@ -39,30 +39,30 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | `af1179a` | VSYNC frame delay `frmdely1` |
 | `af1180b` | DOS MAIN initializer `initmain` |
 | `af1129e` | Ellen Extra Attack `ex_ellen` |
-| `af1127g` | Yumemi Extra Attack `ex_yume` |
-| `af1128c` | Mima Extra Attack `ex_mima` |
+| `af1200c` | Yumemi Extra Attack `ex_yume` |
+| `af1306e` | Mima Extra Attack `ex_mima` |
 | `af1112h` | Reimu Extra Attack flight/prefix and update `ex_rfly`, `ex_reup` |
-| `af1113c` | Marisa Extra Attack `ex_maris` |
-| `af1121d` | Kotohime Extra Attack `ex_koto` |
+| `af1196d` | Marisa Extra Attack `ex_maris` |
+| `af1199e` | Kotohime Extra Attack `ex_koto` |
 | `af1122c` | Chiyuri Extra Attack `ex_chyu` |
-| `af1124d` | Rikako Extra Attack `ex_rika` |
-| `af1125e` | Kana Extra Attack `ex_kana` |
+| `af1301f` | Rikako Extra Attack `ex_rika` |
+| `af1302f` | Kana Extra Attack `ex_kana` |
 | `af1188c` | Rikako BOSS `ba_rikak` |
 | `af1189d` | Kana BOSS `ba_kana` |
 | `af1190d` | Chiyuri BOSS `ba_chiyu` |
-| `af1158e` | Kotohime BOSS `ba_koto` |
-| `af1175f` | Reimu BOSS `ba_reimu` |
-| `af1168b` | Mima BOSS `ba_mima` |
+| `af1195d` | Kotohime BOSS `ba_koto` |
+| `af1304d` | Reimu BOSS `ba_reimu` |
+| `af1197d` | Mima BOSS `ba_mima` |
 | `af1183f` | Marisa BOSS `ba_maris` |
 | `af1187e` | Ellen BOSS `ba_ellen` |
 | `af1185e` | Yumemi BOSS `ba_yumem` |
 | `af1107c` | Bullet engine `bullet` |
 | `af1177g` | Fireball engine `e_fireb` |
 | `af1192d` | Enemy formation/VM/update engine `eforna`, `efornb`, `eupda`, `eupdb` |
-| `af1120c` | Explosion collision `e_expl` |
+| `af1198g` | Explosion collision `e_expl` |
 | `af1194c` | Hitbox `hitbox` and HitCircle `hitcirc` |
 | `af1115b` | Both background chain controllers `chain1`, `chain2` |
-| `af1171d` | Large MAIN entry/round controller `entry` |
+| `af1303b` | Large MAIN entry/round controller `entry` |
 | `af1164e` | Round result/reset `results` |
 | `af1166i` | Round intro HUD `intro` |
 | `af1165h` | Static HUD `hud_stat` |
@@ -104,6 +104,28 @@ source-native replay. Do not overwrite the old report or invent one.
 Local native proof is separate from Factory acceptance.
 
 ## Latest natural-source recovery
+
+- **Current complete controllers:** the latest original-TC4 stages include
+  `af1303b` for the main frame scheduler's natural Borland `outportb()`
+  page writes, `af1304d` for the complete Reimu moving-cloud BOSS, and
+  `af1301f`, `af1302f`, `af1306e` for Rikako, Kana and Mima Extra Attack.
+  Their original linked MAIN images and relocation order remain exact.
+- **Input scan gap rechecked with the actual original object:** the original
+  and newly compiled `input_s` each contain SEGDEF/LEDATA CODE length 417.
+  The superseded `af567c` parent instead contains 418 CODE bytes with a
+  trailing `90`. Direct TLINK with `obj/th03/input_s.obj` at `af1305a`
+  reproduced the same single EXE byte difference (file offset 68141,
+  `90` versus `00`) and identical ordered relocations. No filler was added.
+
+- **New current BOSS and Extra Attack proofs:** Kotohime BOSS `af1195d`
+  and Mima BOSS `af1197d` recover whole attack-release/finish guards.
+  Marisa `af1196d`, Kotohime `af1199e`, Yumemi `af1200c`, Rikako
+  `af1201c`, and Kana `af1202f` Extra Attack owners restore natural
+  slot/renderer state flow and compiler-verified first-use locals.
+- **Explosion collision:** `af1198g` keeps the full native chain/bonus
+  calculation and makes each player, frame, state and bounding-box
+  rejection an independent `continue`. Its signed loop index must retain
+  its wider original declaration.
 
 - **Rikako/Kana/Chiyuri BOSS:** exact new full-owner stages `af1188c`,
   `af1189d` and `af1190d` retain original RNG and signed projectile cadence
@@ -373,7 +395,7 @@ keep Factory receipt acceptance separate.
 
     git status -sb
     .venv/bin/python scripts/preflight.py
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1172f af1173c af1181b af1182a af1184d af1174e af1176e af1178a af1179a af1180b af1129e af1127g af1128c af1112h af1113c af1121d af1122c af1124d af1125e af1188c af1189d af1190d af1158e af1175f af1168b af1183f af1187e af1185e af1107c af1177g af1192d af1120c af1194c af1115b af1171d af1164e af1166i af1165h af1191e af1163i af1169a af1134f af1135h af1136f af1138f af1140e af1141f af1142d af1143h af1146d af1147c af1148f af1149e af1152f af1153d af1154d af1155b af1156b af1159d af1131a af1132b af1133a af1160e af1161f af1170d
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1172f af1173c af1181b af1182a af1184d af1174e af1176e af1178a af1179a af1180b af1129e af1200c af1306e af1112h af1196d af1199e af1122c af1301f af1302f af1188c af1189d af1190d af1195d af1304d af1197d af1183f af1187e af1185e af1107c af1177g af1192d af1198g af1194c af1115b af1303b af1164e af1166i af1165h af1191e af1163i af1169a af1134f af1135h af1136f af1138f af1140e af1141f af1142d af1143h af1146d af1147c af1148f af1149e af1152f af1153d af1154d af1155b af1156b af1159d af1131a af1132b af1133a af1160e af1161f af1170d
 
 For source changes use a fresh DOS-safe stage, compile only the affected
 original physical TUs with `probe_th03_main_exatt_layout.py`, compare both
