@@ -80,33 +80,17 @@ when the environment/targets change.
   Preserve the *entire active source-bound receipt DAG*, including both raw
   OBJ/LIB/EXE/MAP rounds and writer logs. Delete only audited superseded
   branches and disposable experiments, not files inferred "unused" from age.
-  The last source-linked CRT-native-output deletion audit is the historical
-  after520 guard (258 stages / 5,760 protected files); it is NOT a current
-  after596/after587 DAG prune authorization. The after597 maintenance retired
-  only three externally unreferenced, exploratory BOSS compiler trees
-  (5,331 files / 78,938,112 allocated bytes), preserving their original
-  receipts, logs and per-file SHA-256 manifest. See
-  docs/STORAGE_HANDOFF_CURRENT.md and
-  scripts/cleanup_after597_handoff_storage.py --verify for the present
-  restricted policy. The later after710 handoff retired only six
-  unreferenced failed source-verifier tool-config stages (12 small
-  trial trees / 93 files / 1,847,296 allocated bytes) and regenerable
-  Python caches; it did NOT prune any completed native source proof.
-  Use docs/STORAGE_HANDOFF_AFTER710.md and its strict, one-time
-  script/manifest to audit that bounded action. The after1024 handoff is
-  the latest applied storage maintenance: official cache-only removal of
-  448 regenerable bytecode files plus a **no-prune Git repack** preserving
-  all 21,319 object IDs, refs, reflog files and fsck output. It deleted
-  **no native proof files or receipt trees**. A 2026-11-09 cache-only preview
-  found 0.0 MiB eligible; no deletion was performed. The 5.6 GiB `.analysis`
-  tree is dominated by the protected 2.7 GiB Wine/toolchain area and 2.0 GiB
-  work/proof area. See docs/STORAGE_HANDOFF_AFTER1024.md and
-  docs/STORAGE_HANDOFF_CURRENT.md.
-  The after928 audit is historical.
-  Never apply old after439/388/319/511-source cleanup
-  tools to this checkout. A generic generated-file preview does not prove
-  that native source-review dependency trees can be discarded.
-  Preserve tools/targets.
+  The current retention rules and applied cleanup evidence are in
+  docs/STORAGE_HANDOFF_CURRENT.md. The 2026-11-10 after1307 audit retired
+  only the redundant baseline copy and reference tar of ONE failed,
+  receipt-less Ellen compiler experiment. Its unique source files, original
+  compiler log and a full per-file hash inventory survive. It did **not**
+  delete native proof outputs, successful historical receipts or any
+  source-linked parent stage. The official cache-only cleaner found no
+  eligible files on that date. Earlier after1024/928/710/597/520
+  actions are historical bounded audits, not authorizations for bulk
+  cleanup of the active source-bound DAG. Never run retired generic
+  receipt-pruning tools. Preserve tools and targets.
 
 Finish with affected checks and `git diff --check`. Full `python3 scripts/ci.py`
 is available for broad infrastructure changes; it is not a per-turn gate or a

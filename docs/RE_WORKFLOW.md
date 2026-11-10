@@ -85,30 +85,25 @@ publisher checks the specified stage against current source before adoption.
 Changes outside these two producers need their affected native scope handled
 explicitly; do not run the old cold builder in place over protected evidence.
 
-## Latest protected-storage policy
+## Current protected-storage policy
 
-The latest applied cleanup is the [after1024 safe storage audit]
-(STORAGE_HANDOFF_AFTER1024.md): it removed only 448 regenerable Python
-bytecode files and repacked Git with no pruning. All 21,319 Git object
-IDs/types/sizes, refs, reflog files and fsck output remained identical.
-No .analysis proof file, native receipt tree, target or toolchain file
-was deleted. A 2026-11-09 cache-only preview found 0.0 MiB eligible and no
-cleanup was applied. The earlier [after928 audit](STORAGE_HANDOFF_AFTER928.md)
-is historical.
+The latest applied action is the
+[after1307 bounded failure cleanup](STORAGE_HANDOFF_AFTER1307.md): it deleted
+only duplicate source/reference
+copies of one **unsuccessful, receipt-less** compiler attempt, retaining its
+unique files, error log and 1,772-file SHA-256 inventory. The net allocation
+reclaimed was 26,382,336 bytes. **No current/historical successful native
+proof, its source-linked dependency or the Wine/analyzer runtime was pruned.**
 
-The after710 cleanup removed only six externally unreferenced incomplete
-verifier-configuration stage pairs; after597 retired three explicitly
-audited exploratory BOSS trees. The after520 source-linked CRT proof-output
-audit covers only its historical prefix. These bounded historical actions
-do not authorize further source-proof deletion.
-
-Use [the current storage policy](STORAGE_HANDOFF_CURRENT.md). The old
-cleanup_mainl_after520_handoff.py explicitly rejects newer source stages.
-Older after439/after388 cleanup tools are historical; never bypass their
-guards or infer disposability from an unrelated cleanup preview. Only the
-official cache-only cleaner is a routine deletion route. Do not use
-unreferenced-receipt pruning or bulk-delete .analysis.
-
+The previous [after1024 audit](STORAGE_HANDOFF_AFTER1024.md) removed only
+regenerable Python caches and repacked Git without object pruning. Earlier
+[after928](STORAGE_HANDOFF_AFTER928.md),
+[after710](STORAGE_HANDOFF_AFTER710.md) and
+[after597](STORAGE_HANDOFF_AFTER597.md) audits authorized only their own
+strictly enumerated paths. A current cache-only dry-run found 0.0 MiB to
+remove. See [the storage policy](STORAGE_HANDOFF_CURRENT.md) before touching
+any ignored artifact. Do not run generic/retired receipt pruning or treat
+an old proof stage as disposable merely because it is no longer selected.
 
 ## Keep verification proportional
 

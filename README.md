@@ -84,14 +84,15 @@ original game objects; it is not whole-game source acceptance or canonical
 Factory packed-file acceptance. Use the generated
 [progress report](docs/PROGRESS.md) and current preflight for product status.
 
-For storage, use the [current retention policy](docs/STORAGE_HANDOFF_CURRENT.md)
-and [after1024 applied cleanup audit](docs/STORAGE_HANDOFF_AFTER1024.md).
-That cleanup removed only regenerable Python bytecode and repacked Git
-without pruning any objects. It did not delete native proof stages. Preserve
-the source-bound receipt DAG, both original compiler rounds, OBJ/LIB/EXE/MAP,
-writer logs, Japanese targets and installed toolchain. Never prune proof
-trees by age or by a generic generated-file preview; no full cold replay is
-needed for an ordinary scoped source change.
+For storage, follow the [current retention policy](docs/STORAGE_HANDOFF_CURRENT.md).
+The [2026-11-10 bounded audit](docs/STORAGE_HANDOFF_AFTER1307.md) retired
+only redundant copies of one receipt-less, failed compiler snapshot,
+preserving the distinctive source and its error log. Earlier
+[after1024 cache/Git maintenance](docs/STORAGE_HANDOFF_AFTER1024.md) is
+historical. Preserve source-bound proof DAGs, both original compiler rounds,
+OBJ/LIB/EXE/MAP, writer logs, Japanese targets and the installed toolchain.
+Never prune proof trees by age; no full cold replay is needed for an ordinary
+scoped source change.
 
 ## Credits
 
