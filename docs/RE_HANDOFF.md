@@ -41,7 +41,7 @@ list. The full selection lives in the generated progress table.
 | VRAM plane initializer | `af1326e` | Newly source-bound original TH01 shared 41-byte hardware owner; four far plane pointers, complete normal MAIN link |
 | Shared BOSS controller and ring | `af1326i` | Two physical owners, 949 bytes; exact HP, edge turns, descent, pattern-count transitions, retained native RNG rejection loop |
 | MAIN entry + frame scheduler | `af1314c` | Full 3,050-byte scheduler; explicit render/VSYNC phase gates and independent victory checks, with original PC-98 page OUT order |
-| Reimu BOSS | `af1312g` | Complete 2,020-byte owner; signed 256-unit radial distribution, byte-angle compound steering and cloud pattern guards |
+| Reimu BOSS | `af1336i` | 2,020-byte owner; three true orbit phases, cadence-gated spreads and mirrored attack ending; original signed radial arithmetic retained |
 | Rikako BOSS | `af1321h` | Complete 1,677-byte owner; independent signed spin limits and 8-frame clocks, positive intro flicker, exact render byte-angle steps |
 | Kana BOSS | `af1323f` | Complete 1,874-byte owner; staged and rotating emission windows, two cadence gates, byte-angle/speed increments, and intro flicker |
 | Chiyuri BOSS | `af1329l` | Full 2,654-byte owner; higher-level rings, four signed-index fans with exact speed steps, positive vertical phase and natural intro/ring guards |

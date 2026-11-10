@@ -211,13 +211,12 @@ void near reimu_pattern_orbit_cloud(void)
 		);
 	}
 
-	// Keep orbit movement, byte-angle steering and the on-frame speed
-	// increment before deciding whether this cloud pattern has finished.
-	if(boss_frame < REIMU_CLOUD_FINISH_FRAME) {
-		return;
+	// Keep orbit movement, byte-angle steering and on-frame speed
+	// increments ahead of the original terminal condition.
+	if(boss_frame >= REIMU_CLOUD_FINISH_FRAME) {
+		boss_mode = REIMU_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_mode = REIMU_MODE_SELECT;
-	boss_frame = 0;
 }
 
 // Two timed spreads: narrow paired arcs, then the five-way medium
@@ -237,30 +236,29 @@ void near reimu_pattern_spreads(void)
 	bullet_template.center.x.v = boss_center_x;
 	bullet_template.center.y.v = boss_center_y;
 
+	// Each window has its own emission group but shares the real
+	// 16-frame global cadence. All off-cadence ticks still move the BOSS.
 	if(boss_frame < REIMU_SPREAD_NARROW_END) {
-		if(round_frame_mod16) {
-			return;
+		if(round_frame_mod16 == 0) {
+			bullet_template.angle = 0x20;
+			bullet_template.group = BG_3_SPREAD_NARROW;
+			bullets_add();
+			bullet_template.angle = 0x60;
+			bullets_add();
 		}
-		bullet_template.angle = 0x20;
-		bullet_template.group = BG_3_SPREAD_NARROW;
-		bullets_add();
-		bullet_template.angle = 0x60;
-		bullets_add();
 		return;
 	}
 
 	if(boss_frame < REIMU_SPREAD_MEDIUM_END) {
-		if(round_frame_mod16) {
-			return;
+		if(round_frame_mod16 == 0) {
+			bullet_template.group = BG_5_SPREAD_MEDIUM;
+			bullet_template.angle = 0x40;
+			bullets_add();
 		}
-		bullet_template.group = BG_5_SPREAD_MEDIUM;
-		bullet_template.angle = 0x40;
-		bullets_add();
-		return;
+	} else {
+		boss_mode = REIMU_MODE_SELECT;
+		boss_frame = 0;
 	}
-
-	boss_mode = REIMU_MODE_SELECT;
-	boss_frame = 0;
 }
 
 // This controller first expands the ring, then holds the exact
@@ -287,6 +285,9 @@ void near reimu_pattern_orbit_burst(void)
 		reimu_orbit_angle = randring_far_next16();
 	}
 
+	// The three radial phases are mutually exclusive: expand, maintain
+	// and release. Do not sample RNG during expansion or replay the final
+	// Extra Attack release on a later frame.
 	if(boss_frame < REIMU_ORBIT_EXPAND_END) {
 		// Keep the subpixel conversion before doubling: TO_SP(frame) * 2
 		// is exact, while a single frame * 32 expression changes TC4 CODE.
@@ -312,10 +313,7 @@ void near reimu_pattern_orbit_burst(void)
 		// Original TC4 preserves the unsigned-byte wrap with compound +=
 		// in this owner; unlike other BOSS byte-angle variants (af1312b).
 		reimu_orbit_angle += REIMU_ORBIT_ANGLE_STEP;
-		return;
-	}
-
-	if(boss_frame < REIMU_ORBIT_RELEASE_FRAME) {
+	} else if(boss_frame < REIMU_ORBIT_RELEASE_FRAME) {
 		for(int i = 0; i < reimu_orbit_count; ++i) {
 			unsigned char angle = static_cast<unsigned char>(
 				((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle
@@ -342,10 +340,7 @@ void near reimu_pattern_orbit_burst(void)
 		bullet_template.group = BG_RING;
 		bullet_template.count = reimu_ring_count;
 		bullets_add();
-		return;
-	}
-
-	if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
+	} else if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
 		for(int i = 0; i < reimu_orbit_count; ++i) {
 			unsigned char angle = static_cast<unsigned char>(
 				((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle
@@ -372,6 +367,8 @@ void near reimu_pattern_mirrored_spread(void)
 	boss_move_sine();
 
 	// The sixteen-frame mirrored spread uses the unsigned-word low bits.
+	// End only at the terminal frame; before it, emission is gated
+	// by the existing unsigned-word sixteen-frame remainder.
 	if(boss_frame < REIMU_MIRROR_FINISH_FRAME) {
 		if(boss_frame % REIMU_MIRROR_FIRE_PERIOD) {
 			return;
@@ -387,11 +384,10 @@ void near reimu_pattern_mirrored_spread(void)
 
 		bullet_template.angle = (REIMU_MIRROR_OPPOSITE_ANGLE - static_cast<unsigned char>(boss_frame));
 		bullets_add();
-		return;
+	} else {
+		boss_mode = REIMU_MODE_SELECT;
+		boss_frame = 0;
 	}
-
-	boss_mode = REIMU_MODE_SELECT;
-	boss_frame = 0;
 }
 
 void far gba_boss_update_reimu(void)
