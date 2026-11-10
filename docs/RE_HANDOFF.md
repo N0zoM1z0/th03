@@ -53,7 +53,7 @@ list. The full selection lives in the generated progress table.
 | Kana BOSS | `af1323f` | Complete 1,874-byte owner; staged and rotating emission windows, two cadence gates, byte-angle/speed increments, and intro flicker |
 | Chiyuri BOSS | `af1329l` | Full 2,654-byte owner; higher-level rings, four signed-index fans with exact speed steps, positive vertical phase and natural intro/ring guards |
 | Marisa BOSS | `af1325h` | Complete 1,431-byte owner; positive active-attack renderer, narrow-column completion, original high-level ring branch |
-| Kotohime / Yumemi / Mima BOSS | `af1319e` / `af1334f` / `af1339d` | Complete controllers; Mima's four attack endings now use exact positive transitions and nested render states; Yumemi EXTDEF ordering still open |
+| Kotohime / Yumemi / Mima BOSS | `af1343i` / `af1334f` / `af1339d` | Kotohime's random, aimed and nested radial releases now use original exact positive phase gates; Mima and Yumemi remain source-bound |
 | Ellen BOSS | `af1331h` | Complete 1,675-byte owner; original extra-attack/paired-pellet byte-angle advances, intro flicker, spread phase and renderer codegen constraints |
 | Enemy formations / ENEDAT VM | `af1310h` | Four original objects, 3,325 CODE bytes; segmented formation-script block-first indexing and original unchecked interpreter behavior |
 | Bullet engine | `af1318f` | Complete 2,685-byte owner; independent spawn bounds, slot-state/clip guards, and collision-map eligibility; jointly linked with Mima at `af1318g` |
