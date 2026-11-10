@@ -116,3 +116,39 @@ Current focused read-only check:
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
 .venv/bin/python -m unittest tests.test_main_input_s_link_gap -v
 ```
+
+## 2026-11-10: original TASM EVEN explains the frozen 418-byte linker carrier
+
+`src/main/hardware/input_scan.asm` is a complete symbolic keyboard scanner,
+not an opcode array. The original TASM 5.0 produces the same first 417
+initialized instruction bytes as the original TC4 `input_s.obj`, followed by
+one natural `0x90` emitted by the *source's CODE `EVEN` directive* after the
+far return. This yields a 418-byte SHARED contribution. Its complete 418
+CODE bytes, 42 literal ordered OMF fields, one PUBLIC and segment definitions
+match the historical `probe/af567c/r1-input_s.obj` used by the frozen
+normal MAIN link. The genuine original TC4 object remains 417 bytes and
+**does not** match the 418-byte assembled object at the full physical
+object boundary.
+
+New source-bound diagnostic `af1335b` assembled the maintained ASM source
+in two independent original TASM rounds and replaced the historical
+418-byte parent linker slot. Both TLINK outputs reproduce the *entire*
+parent Japanese MAIN EXE byte-for-byte, full normalized MAP and ordered
+MZ relocation vector. This establishes a plausible, fully reproducible
+native provenance for the historical padding: the `EVEN` is assembler
+layout rather than a new keyboard-scanning instruction, and not an
+assumed general TLINK fill rule.
+
+**Scope limit:** this is an *alternative historical linker carrier proof*,
+not native acceptance of the **original 417-byte TC4 physical OBJ**. It is
+intentionally excluded from `scripts/status.py` selected original-source
+owner counts and confers no Factory canonical credit. The original C++
+normal link still differs at file offset 68141 (`90` vs `00`). No target
+mutation, manual filler, or compiler-output patch has been made.
+
+Current read-only checks for both sides:
+
+```
+PYTHONPATH=scripts .venv/bin/python scripts/probe_th03_main_input_alternative_asm.py --stage af1335b --check
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
+```

@@ -89,14 +89,21 @@ match. Fresh independent native negative stages `af1320c` and `af1320d`
 confirm the same object and gap. Other one-byte SHARED alignment holes are
 zero in both links, so this is not a general TLINK NOP-fill rule. File-scope
 `asm { even }` did not compile under TC4 (`af1193b`).
-This is an unresolved **historical parent-link padding/provenance issue**,
-not permission to append NOP bytes or claim complete native link acceptance.
-See [the input gap analysis](MAIN_INPUT_S_LINK_GAP_AFTER744_REVIEW.md).
 
-Investigate the old linker response, segment alignment, original compiler
-behavior and frozen parent provenance. Keep the original target and both
-link/object outputs untouched. New source and link experiments need fresh,
-unique stage names and isolated outputs.
+**New historical-link provenance:** `af1335b` independently assembles the
+maintained symbolic `src/main/hardware/input_scan.asm` twice with original
+TASM; its natural CODE `EVEN` emits the 418th-byte `90`, and the 418-byte
+object/42 fields match the frozen historical parent. Both complete TLINK
+images, MAP and ordered MZ relocations match. This explains the inherited
+NOP without injecting any bytes, **but is not source-exact acceptance of the
+original 417-byte TC4 physical object**. The original C++ normal-link
+blocker remains open, and this alternative ASM proof is not added to the
+selected native physical-owner counts. See [the input gap analysis](MAIN_INPUT_S_LINK_GAP_AFTER744_REVIEW.md).
+
+Future work should distinguish the actual 417-byte original TC4 object
+from the 418-byte TASM linker carrier and resolve the source/normal-link
+provenance requirement without changing the original target. Preserve both
+outputs and use isolated scoped experiments.
 
 ## Good next work
 
