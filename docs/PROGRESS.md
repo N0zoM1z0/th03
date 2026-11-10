@@ -41,7 +41,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Rikako Extra Attack | af1301f | Verified | 1 | 702 | — |
 | th03-main / Kana Extra Attack | af1302f | Verified | 1 | 663 | — |
 | th03-main / Rikako BOSS | af1321h | Verified | 1 | 1,677 | — |
-| th03-main / Kana BOSS | af1189d | Verified | 1 | 1,874 | — |
+| th03-main / Kana BOSS | af1323f | Verified | 1 | 1,874 | — |
 | th03-main / Chiyuri BOSS | af1190d | Unavailable: ValueError: native compiler inputs remain bound to maintained live source | — | — | — |
 | th03-main / Kotohime BOSS | af1319e | Verified | 1 | 1,840 | — |
 | th03-main / Reimu BOSS | af1312g | Verified | 1 | 2,020 | — |
@@ -129,7 +129,7 @@ th03-main Kana Extra Attack: `.analysis/work/exatt-layout-af1302f/report.json`.
 
 th03-main Rikako BOSS: `.analysis/work/exatt-layout-af1321h/report.json`.
 
-th03-main Kana BOSS: `.analysis/work/exatt-layout-af1189d/report.json`.
+th03-main Kana BOSS: `.analysis/work/exatt-layout-af1323f/report.json`.
 
 th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1319e/report.json`.
 

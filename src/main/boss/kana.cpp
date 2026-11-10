@@ -257,67 +257,68 @@ void near kana_pattern_staged_ring(void)
 		return;
 	}
 
-	if(
-		(boss_frame >= KANA_STAGED_SLOW) &&
-		(boss_frame < KANA_STAGED_EMISSION_END)
-	) {
-		bullet_template.type = BT_BULLET16_DEFAULT;
-		bullet_template.group = BG_RING;
-		bullet_template.center.x.v = boss_center_x;
-		bullet_template.center.y.v = boss_center_y;
+	// The ring template is only active between the initial slow release
+	// and the end of its staggered volley window.
+	if(boss_frame >= KANA_STAGED_SLOW) {
+		if(boss_frame < KANA_STAGED_EMISSION_END) {
+			bullet_template.type = BT_BULLET16_DEFAULT;
+			bullet_template.group = BG_RING;
+			bullet_template.center.x.v = boss_center_x;
+			bullet_template.center.y.v = boss_center_y;
 
-		if(boss_frame == KANA_STAGED_SLOW) {
-			bomb_explosion_add(
-				boss_center_x,
-				boss_center_y,
-				pid_other
-			);
-			bullet_template.speed.v = TO_SP(1);
-			bullet_template.count = kana_ring_count_slow;
-			bullets_add();
-			snd_se_play(KANA_SOUND_ATTACK);
-			return;
-		}
-
-		if(boss_frame == KANA_STAGED_MIDDLE) {
-			bomb_explosion_add(
-				boss_center_x,
-				boss_center_y,
-				pid_other
-			);
-			bullet_template.speed.v = (TO_SP(2) + 8);
-			bullet_template.count = kana_ring_count_mid;
-			bullets_add();
-			snd_se_play(KANA_SOUND_ATTACK);
-
-			bullet_template.type = BT_PELLET;
-			bullet_template.angle = 0x20;
-			bullet_template.speed.v = TO_SP(1);
-			bullet_template.group =
-				BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
-			// Native 16-projectile staged volley preserves bullets_add,
-			// byte angle +6, and speed +3 ordering before index advance.
-			for(register int i = 0; i < KANA_MIDDLE_PELLET_COUNT; ++i) {
+			if(boss_frame == KANA_STAGED_SLOW) {
+				bomb_explosion_add(
+					boss_center_x,
+					boss_center_y,
+					pid_other
+				);
+				bullet_template.speed.v = TO_SP(1);
+				bullet_template.count = kana_ring_count_slow;
 				bullets_add();
-				bullet_template.angle = bullet_template.angle + KANA_STAGED_PELLET_ANGLE_STEP;
-				bullet_template.speed.v = bullet_template.speed.v + KANA_STAGED_PELLET_SPEED_STEP;
+				snd_se_play(KANA_SOUND_ATTACK);
+				return;
+			}
+
+			if(boss_frame == KANA_STAGED_MIDDLE) {
+				bomb_explosion_add(
+					boss_center_x,
+					boss_center_y,
+					pid_other
+				);
+				bullet_template.speed.v = (TO_SP(2) + 8);
+				bullet_template.count = kana_ring_count_mid;
+				bullets_add();
+				snd_se_play(KANA_SOUND_ATTACK);
+
+				bullet_template.type = BT_PELLET;
+				bullet_template.angle = 0x20;
+				bullet_template.speed.v = TO_SP(1);
+				bullet_template.group =
+					BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
+				// Native 16-projectile staged volley preserves bullets_add,
+				// byte angle +6, and speed +3 ordering before index advance.
+				for(register int i = 0; i < KANA_MIDDLE_PELLET_COUNT; ++i) {
+					bullets_add();
+					bullet_template.angle += KANA_STAGED_PELLET_ANGLE_STEP;
+					bullet_template.speed.v += KANA_STAGED_PELLET_SPEED_STEP;
+				}
+				return;
+			}
+
+			if(boss_frame == KANA_STAGED_FAST) {
+				bomb_explosion_add(
+					boss_center_x,
+					boss_center_y,
+					pid_other
+				);
+				bullet_template.speed.v = (TO_SP(3) + 8);
+				bullet_template.count = kana_ring_count_fast;
+				bullets_add();
+				snd_se_play(KANA_SOUND_ATTACK);
+				return;
 			}
 			return;
 		}
-
-		if(boss_frame == KANA_STAGED_FAST) {
-			bomb_explosion_add(
-				boss_center_x,
-				boss_center_y,
-				pid_other
-			);
-			bullet_template.speed.v = (TO_SP(3) + 8);
-			bullet_template.count = kana_ring_count_fast;
-			bullets_add();
-			snd_se_play(KANA_SOUND_ATTACK);
-			return;
-		}
-		return;
 	}
 
 	if(boss_frame <= KANA_STAGED_FINISH_AFTER) {
@@ -418,28 +419,29 @@ void near kana_pattern_rotating_ring(void)
 		return;
 	}
 
-	if(
-		(boss_frame >= KANA_ROTATING_VOLLEY_START) &&
-		(boss_frame < KANA_ROTATING_VOLLEY_END)
-	) {
-		// Distinct four-frame unsigned-word remainder clock, not byte angle.
-		if(!(boss_frame % KANA_ROTATING_RING_PERIOD)) {
-			bullet_template.type = BT_BULLET16_DEFAULT;
-			bullet_template.group = BG_RING;
-			bullet_template.count = KANA_ROTATING_RING_BULLETS;
-			bullet_template.center.x.v = boss_center_x;
-			bullet_template.center.y.v = boss_center_y;
-			bullet_template.speed.v = kana_rotating_speed;
-			bullet_template.angle = kana_rotating_angle;
-			bullets_add();
-			snd_se_play(KANA_SOUND_ATTACK);
+	// The rotating-ring fire window has its own four-frame shot cadence;
+	// angle steering continues independently after the turn frame.
+	if(boss_frame >= KANA_ROTATING_VOLLEY_START) {
+		if(boss_frame < KANA_ROTATING_VOLLEY_END) {
+			// Distinct four-frame unsigned-word remainder clock, not byte angle.
+			if(!(boss_frame % KANA_ROTATING_RING_PERIOD)) {
+				bullet_template.type = BT_BULLET16_DEFAULT;
+				bullet_template.group = BG_RING;
+				bullet_template.count = KANA_ROTATING_RING_BULLETS;
+				bullet_template.center.x.v = boss_center_x;
+				bullet_template.center.y.v = boss_center_y;
+				bullet_template.speed.v = kana_rotating_speed;
+				bullet_template.angle = kana_rotating_angle;
+				bullets_add();
+				snd_se_play(KANA_SOUND_ATTACK);
+			}
+			if(boss_frame > KANA_ROTATING_TURN_AFTER) {
+				// The explicit byte assignment angle=angle+signed_delta
+				// changed original CODE (af884i). Keep compound update.
+				kana_rotating_angle += kana_rotating_delta;
+			}
+			return;
 		}
-		if(boss_frame > KANA_ROTATING_TURN_AFTER) {
-			// The explicit byte assignment angle=angle+signed_delta
-			// changed original CODE (af884i). Keep compound update.
-			kana_rotating_angle += kana_rotating_delta;
-		}
-		return;
 	}
 
 	if(boss_frame <= KANA_ROTATING_FINISH_AFTER) {
@@ -607,8 +609,10 @@ void near kana_render_intro(void)
 	sprite16_put_size.w = KANA_RENDER_INTRO_WIDTH;
 	sprite16_put_size.h = KANA_RENDER_INTRO_HEIGHT;
 
-	if((boss_frame < KANA_INTRO_BLINK_END) && round_frame_mod2) {
-		return;
+	if(boss_frame < KANA_INTRO_BLINK_END) {
+		if(round_frame_mod2) {
+			return;
+		}
 	}
 
 	sprite_offset = (pid.so_attack + KANA_RENDER_INTRO_SPRITE);
