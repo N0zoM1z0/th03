@@ -27,10 +27,9 @@ uint8_t hitbox_hittest(void)
 	playfield_subpixel_t center_y;
 	uint8_t damage = 0;
 
-	if(hitbox.origin.center.y.v < 0) {
-		return 0;
-	}
-	if(defeat_flag == DF_BANNER) {
+	// The screen-negative and defeat-banner terminal guards share the
+	// same early return; neither condition may enter any hit-test list.
+	if((hitbox.origin.center.y.v < 0) || (defeat_flag == DF_BANNER)) {
 		return 0;
 	}
 
@@ -77,7 +76,8 @@ uint8_t hitbox_hittest(void)
 	hitcircles_enemy_add_do_not_randomly_center_within_hitbox = false;
 	// ----------
 
-	if(!hitbox_hittest_skip_explosions) {
+	// This flag bypasses only the original segmented explosion call.
+	if(hitbox_hittest_skip_explosions == false) {
 		/* TODO: Replace with the decompiled call
 		 * 	damage += explosions_hittest();
 		 * once the segmentation allows us to, if ever */
@@ -97,14 +97,14 @@ uint8_t hitbox_hittest(void)
 
 	// This code never runs for fireballs, because they're always removed in
 	// fireballs_update().
-	// Bomb contact only contributes damage while its player's bomb is active.
-	// The separate unsigned-word frame gate selects every second frame.
-	if(bomb_flag[hitbox.pid] != BF_INACTIVE) {
-		if((round_or_result_frame % HITBOX_BOMB_DAMAGE_PERIOD) == 0) {
-			// Original damage byte uses postfix, not prefix; changing it
-			// generated 271 instead of 266 CODE bytes (af901h).
-			damage++;
-		}
+	// Bomb contact damages only when the selected player's bomb is
+	// active AND the unsigned-word frame clock is on the even phase.
+	// Keep both tests short-circuited before the byte-memory increment.
+	if((bomb_flag[hitbox.pid] != BF_INACTIVE) &&
+	   ((round_or_result_frame % HITBOX_BOMB_DAMAGE_PERIOD) == 0)) {
+		// Original damage byte uses postfix, not prefix; changing it
+		// generated 271 instead of 266 CODE bytes (af901h).
+		damage++;
 	}
 	return damage;
 }

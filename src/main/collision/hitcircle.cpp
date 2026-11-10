@@ -57,15 +57,17 @@ void pascal hitcircles_enemy_add(
 	// This byte ring index must stay postfix: prefix changed actual
 	// original TC4 CODE in the independent af919c negative trial.
 	last_id++;
-	if(HITCIRCLE_ENEMY_COUNT <= last_id) {
+	if(last_id >= HITCIRCLE_ENEMY_COUNT) {
 		last_id = 0;
 	}
 
-	HitCircle near& p = hitcircles[last_id];
-	p.age = 1;
-	p.pid = pid;
+	// An actual DGROUP near pointer preserves the original record
+	// stores and ABI without a C++ reference-carrier temporary.
+	HitCircle near *p = &hitcircles[last_id];
+	p->age = 1;
+	p->pid = pid;
 
-	if(!hitcircles_enemy_add_do_not_randomly_center_within_hitbox) {
+	if(hitcircles_enemy_add_do_not_randomly_center_within_hitbox == false) {
 		center_x = (
 			randring_far_next16_mod(2 * hitbox.radius.x) +
 			hitbox.origin.topleft.x.v
@@ -76,10 +78,10 @@ void pascal hitcircles_enemy_add(
 		);
 	}
 	// Keep the original near-record stores directly at each spawn site.
-	p.topleft.x = (
+	p->topleft.x = (
 		(-(HITCIRCLE_W / 2)) + playfield_fg_x_to_screen(center_x, pid)
 	);
-	p.topleft.y = ((PLAYFIELD_TOP - (HITCIRCLE_H / 2)) + TO_PIXEL(center_y));
+	p->topleft.y = ((PLAYFIELD_TOP - (HITCIRCLE_H / 2)) + TO_PIXEL(center_y));
 
 	#undef last_id
 }
@@ -88,14 +90,16 @@ void pascal hitcircles_player_add(
 	subpixel_t center_x, subpixel_t center_y, pid2 pid
 )
 {
-	HitCircle near& p = hitcircles[HITCIRCLE_ENEMY_COUNT];
-	p.age = 1;
-	p.pid = pid;
+	// Player hits still use the original single reserved thirteenth
+	// slot; this explicit near pointer adds no new storage.
+	HitCircle near *p = &hitcircles[HITCIRCLE_ENEMY_COUNT];
+	p->age = 1;
+	p->pid = pid;
 	// Keep the original near-record stores directly at each spawn site.
-	p.topleft.x = (
+	p->topleft.x = (
 		(-(HITCIRCLE_W / 2)) + playfield_fg_x_to_screen(center_x, pid)
 	);
-	p.topleft.y = ((PLAYFIELD_TOP - (HITCIRCLE_H / 2)) + TO_PIXEL(center_y));
+	p->topleft.y = ((PLAYFIELD_TOP - (HITCIRCLE_H / 2)) + TO_PIXEL(center_y));
 }
 
 void near hitcircles_update(void)
@@ -106,7 +110,7 @@ void near hitcircles_update(void)
 	// Zero-age slots remain dormant. A live age advances once per frame
 	// and expires only after the sixteenth animation frame.
 	for(register int i = 0; i < HITCIRCLE_COUNT; (++i, ++p)) {
-		if(p->age) {
+		if(p->age != 0) {
 			p->age++;
 			if(p->age > HITCIRCLE_FRAMES) {
 				p->age = 0;
@@ -136,19 +140,20 @@ void near hitcircles_render(void)
 	// hit circle uses its own monochrome palette after the signed-index
 	// and near-pointer for loop.
 	for(register int i = 0; i < HITCIRCLE_ENEMY_COUNT; (++i, ++p)) {
-		if(!p->age) {
-			continue;
+		// Dormant slots skip sprite clipping, cel calculation and drawing;
+		// the cursor still advances through all twelve physical slots.
+		if(p->age != 0) {
+			sprite16_clip_set_for_pid(p->pid);
+			sprite16_offset_t so = p->cel();
+			sprite16_put(p->topleft.x, p->topleft.y, so);
 		}
-		sprite16_clip_set_for_pid(p->pid);
-		sprite16_offset_t so = p->cel();
-		sprite16_put(p->topleft.x, p->topleft.y, so);
 	}
 
 	// Player circle
 	static_assert(HITCIRCLE_PLAYER_COUNT == 1);
 	_DX = V_WHITE;
 	sprite16_mono_color(_DX);
-	if(p->age) {
+	if(p->age != 0) {
 		sprite16_clip_set_for_pid(p->pid);
 		sprite16_offset_t so = p->cel();
 		sprite16_put(p->topleft.x, p->topleft.y, so);

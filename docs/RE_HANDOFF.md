@@ -74,7 +74,7 @@ list. The full selection lives in the generated progress table.
 | Round RNG / collision reset | `af1333c` | 82-byte TASM carrier, source-bound RNG macros, fill loop, collision reset, three maintained includes |
 | PMD/MIDI audio services | `af1346g` | Two complete audio owners: active-only Kaja interrupt, positive SE priority/first-selection and frame-zero PMD dispatch; Rikako joint proof `af1346h` |
 | Input modes / wait | `af1344d` | Nine native interfaces; explicit joystick availability, signed bounded wait and release/press empty-input gates; CPU/VSYNC joint stage `af1344e` |
-| Hitbox + HitCircle | `af1317l` | Two complete physical owners; independent shot ownership/bomb cadence checks and active-age animation updates |
+| Hitbox + HitCircle | `af1348j` | Whole 711-byte collision pair; short-circuited spawn/bomb gates, explicit DGROUP near-pointers, live-age sprite rendering; Chiyuri/Bullet join `af1348k` |
 | CPU movement/dodge controller | `af1327h` | Full 1,077-byte controller; floor escape, nine-direction retries, separate hit/safety gates; current joint source `af1327i` |
 | Gauge / shared Extra Attack | `af1324e` | Near DGROUP player pointer, Hyper/full-gauge short circuit and native saturation, two full owners |
 | MAINL Staff + root | `af942s` / `af944r` | Retained source scopes; decoded MAINL publication refreshed at `af1055m` |
