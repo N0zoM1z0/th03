@@ -17,16 +17,16 @@ findings; Git history holds older chronology.
   MAIN's separate ledger records 106 extents / 78,737 bytes and 459 exact
   function entries. Neither a ledger entry nor source presence certifies
   the current build, and the game's completion percentage is unknown.
-- As of this handoff, `scripts/status.py` selects **66** separately verified
-  native MAIN stages covering **76 distinct physical OBJ owners** and
-  **74,626 CODE bytes**. This is a total for selected, non-overlapping owners,
+- As of this handoff, `scripts/status.py` selects **67** separately verified
+  native MAIN stages covering **79 distinct physical OBJ owners** and
+  **74,726 CODE bytes**. This is a total for selected, non-overlapping owners,
   **not new work completed in a session**, and the stages are independently
   linked against retained unchanged inputs, **not** one all-source build.
   For the current exact stage IDs and scopes, consult `scripts/status.py`
   (`native_source_reviews`) or the generated [progress table](PROGRESS.md)
   instead of copying old stage IDs from historical reviews.
 - Native receipts reproduce complete owned CODE/initialized DATA, ordered
-  OMF fields/PUBLICs/segment layout, and two original TC4/TLINK MAIN links
+  OMF fields/PUBLICs/segment layout, and two original TC4/TASM + TLINK MAIN links
   with target-equal Japanese program image and ordered MZ relocations.
   Local evidence is separate from canonical Factory Oracle acceptance;
   do not claim whole-product or packed-file acceptance from these scopes.
@@ -54,6 +54,7 @@ list. The full selection lives in the generated progress table.
 | Rikako / Kana / Mima Extra Attack | `af1301f` / `af1302f` / `af1306e` | Full allocators, updates and rendering; first-use locals tested independently |
 | Q8 polar / PI reload / DOS handoff | `af1322h` / `af1322i` / `af1322j` | Explicit signed Q8 center addition, far PI slot pointers and far DOS executable arguments; joint scope `af1322g` |
 | Native frame delay / DOS initializer | `af1316e` / `af1316f` | Volatile VSYNC polling and nonzero allocation failure; joint native proof `af1316d` |
+| Shared sound ASM leaves | `af1328b` | Three newly source-bound original TASM owners: PMD mode detection, resident probe and SE reset; 100 CODE bytes, native link/relocs exact |
 | PMD/MIDI audio services | `af1320b` | Two complete owners; native active-only Kaja interrupt and source-exact sound-effect service |
 | Input modes / wait | `af1313c` | All nine interface, joystick and wait functions; natural positive joystick branches and exact release/press loops |
 | Hitbox + HitCircle | `af1317l` | Two complete physical owners; independent shot ownership/bomb cadence checks and active-age animation updates |
@@ -71,8 +72,8 @@ rather than adding defensive product fixes or manufactured byte padding.
 
 ## Open blocker: BIOS keyboard scanner `input_s`
 
-`input_s` is the **only** owner in the 77-unit scoped MAIN source inventory
-excluded from the 76-owner current normal-link selection. Both the original
+`input_s` is the **only** owner in the 80-unit scoped MAIN source inventory
+excluded from the 79-owner current normal-link selection. Both the original
 OBJ and freshly compiled maintained C++ have 417 bytes of initialized CODE,
 42 ordered native fixup fields and the same PUBLIC/segments. But the frozen
 normal MAIN parent used an older **418-byte** experimental object with a

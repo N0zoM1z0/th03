@@ -169,6 +169,11 @@ def native_source_reviews(root, artifact):
             ('Character callback setup', 'af1161f'),
             ('CPU controller', 'af1327h'),
         )]
+        # Original TASM sound leaves are physically distinct from the TC4
+        # sources above, and reuse the same unchanged MAIN linker parent.
+        selected.append(('Shared sound assembler leaves', 'af1328b',
+                         '.analysis/work/main-sound-asm-af1328b/report.json',
+                         'probe_th03_main_sound_asm.py', ['--check']))
     elif artifact == 'th03-mainl':
         selected = [
             ('Staff Roll', 'af942s', '.analysis/work/mainl-staff-af942s-native-build.json',
