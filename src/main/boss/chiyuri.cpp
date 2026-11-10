@@ -57,9 +57,11 @@ extern unsigned char chiyuri_fan_count;
 extern unsigned char chiyuri_cardinal_angle;
 extern unsigned char chiyuri_cardinal_reverse;
 
-// Two overlapping word views of five historical x/y pairs at DATA
-// 1D56:08D6 and 1D56:08D8. The original code doubles the 0..4 random index
-// before using it as a word-array index, yielding a four-byte pair stride.
+// Five (x, y) pairs in DATA, with overlapping word-array labels at
+// 1D56:08D6 and 1D56:08D8. The byte index intentionally counts *words*:
+// twice the random pair index, then one word-array access per coordinate.
+// TC4 does not emit the original instructions if these two views become a
+// four-byte-stride struct array (native negative trial af1307a).
 extern int chiyuri_boss_x_words[];
 extern int chiyuri_boss_y_words[];
 
@@ -489,7 +491,7 @@ void near chiyuri_pattern_fans(void)
 void far gba_boss_update_chiyuri(void)
 {
 	register pid_t pid_other;
-	register unsigned char random_i;
+	register unsigned char position_word_i;
 
 	if(boss_update_start()) {
 		chiyuri_cardinal_speed = (0x30 + gba_boss_level);
@@ -543,9 +545,9 @@ void far gba_boss_update_chiyuri(void)
 
 	case CHIYURI_MODE_SELECT:
 		if(CHIYURI_PALETTE_CYCLE_START == boss_render_mode) {
-			random_i = (2 * randring_far_next16_mod(5));
-			boss_center_x = *(chiyuri_boss_x_words + random_i);
-			boss_center_y = *(chiyuri_boss_y_words + random_i);
+			position_word_i = (2 * randring_far_next16_mod(5));
+			boss_center_x = chiyuri_boss_x_words[position_word_i];
+			boss_center_y = chiyuri_boss_y_words[position_word_i];
 			boss_move_phase = CHIYURI_PALETTE_CYCLE_START;
 		}
 		if(CHIYURI_SELECT_TIME_AT <= boss_frame) {
