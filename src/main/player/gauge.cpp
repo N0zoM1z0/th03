@@ -10,20 +10,19 @@ typedef char gauge_native_byte_width[(sizeof(gauge_perbyte_t) == 1) ? 1 : -1];
 typedef char gauge_native_max_value[(GAUGE_MAX == 0xFF0) ? 1 : -1];
 void pascal near gauge_avail_add(pid_t pid, uint8_t charge)
 {
-	player_stuff_t near& p = players[pid];
+	// The state stays in DGROUP: explicitly retaining its near pointer
+	// preserves the original index and memory accesses under TC4.
+	player_stuff_t near *p = &players[pid];
 	// Refuse a charge while Hyper or an already-full gauge is active.
-	if(p.hyper_active) {
-		return;
-	}
-	if(p.gauge_avail >= GAUGE_MAX) {
+	if(p->hyper_active || (p->gauge_avail >= GAUGE_MAX)) {
 		return;
 	}
 	// TC4's original compound memory addition is bytecode-sensitive:
-	// explicit p.gauge_avail = p.gauge_avail + charge failed again in
+	// explicit p->gauge_avail = p->gauge_avail + charge failed in
 	// af851b. The post-add > GAUGE_MAX check (not >= MAX+1) is also
 	// codegen-visible, even though mathematically equivalent (af851c).
-	p.gauge_avail += charge;
-	if(p.gauge_avail > GAUGE_MAX) {
-		p.gauge_avail = GAUGE_MAX;
+	p->gauge_avail += charge;
+	if(p->gauge_avail > GAUGE_MAX) {
+		p->gauge_avail = GAUGE_MAX;
 	}
 }
