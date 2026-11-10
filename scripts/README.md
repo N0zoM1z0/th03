@@ -83,7 +83,8 @@ Passing current checks are retained in
 `.analysis/work/script-audit-affected-tests.log` and
 `.analysis/work/script-audit-final-preflight.log`.
 The broad unittest investigation is retained at
-`.analysis/work/script-audit-baseline.log`. It is not a passing current-source
+`.analysis/work/script-audit-baseline.log.gz` (losslessly archived; read with
+`gzip -cd`). It is not a passing current-source
 acceptance receipt: 574 errors stopped at the same historical Staff backend pin,
 and older storage tests expect cleanup commands that now correctly refuse this
 checkout. Some early private native runs are also absent. These historical

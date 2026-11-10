@@ -33,6 +33,32 @@ approximately **7.1 GiB in `.analysis/`**, dominated by the game-specific
 historical BOSS/Extra Attack trial snapshots occupy much of the remaining
 space and were **not** classified as disposable.
 
+### Additional lossless maintenance on 2026-11-10
+
+The historical broad unittest diagnostic `script-audit-baseline.log` is now
+`.analysis/work/script-audit-baseline.log.gz`. Decompression reproduces all
+17,414,688 original bytes and SHA-256
+`1217ec969eea6269ba64f4e161663398cefc243763798ba3d7bfa07a3b2a1a7a`.
+A reference search found only its documentation link, which was updated;
+no executable or private receipt consumes the log or its hash. This archived
+test output is distinct from native compiler/linker writer logs.
+Replacing the plain diagnostic with its verified gzip recovered
+**16,879,616 allocated bytes** while retaining the complete failure details.
+
+A non-pruning `git -c pack.threads=1 repack -a -d --keep-unreachable`
+also recovered **24,412,160 allocated bytes**. All **23,907 object IDs**,
+refs and reflog contents were identical before and after, and both full
+Git fsck checks passed. No Git history was expired or discarded.
+
+The private audit at
+`.analysis/handoff/20261110-storage-maintenance/` retains the diagnostic
+hashes, Git object inventory, ref/reflog inventory and fsck logs. After
+allowing for this audit, these two actions recovered approximately
+**38.4 MiB net**, in addition to the earlier failed-Ellen cleanup.
+The startup preflight verified all 65 current MAIN scopes; a bounded
+post-maintenance Mima Extra Attack review (`af1306e`) also passed.
+No native proof output or source snapshot was removed by these actions.
+
 ## Protection boundary
 
 - Keep original Japanese targets and pinned ReC98 resources, compiler,
@@ -71,5 +97,7 @@ space and were **not** classified as disposable.
   [after554 archive](STORAGE_HANDOFF_ARCHIVE_AFTER554.md): older bounded
   provenance; their retention/deletion limits do **not** cover current stages.
 
-The 2026-11-10 change is limited to `af1093a` and is recorded in its own
-private manifest. **Nothing else under `.analysis/` was pruned**.
+The failed-experiment deletion is limited to `af1093a` and is recorded in
+its own private manifest. The additional maintenance archives only the
+named unittest diagnostic and repacks Git without pruning. No other
+`.analysis/` files were deleted.
