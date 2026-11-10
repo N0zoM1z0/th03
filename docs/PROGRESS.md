@@ -55,7 +55,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Explosion collision | af1198g | Verified | 1 | 630 | — |
 | th03-main / Hitbox and HitCircle | af1194c | Verified | 2 | 711 | — |
 | th03-main / Background chains | af1115b | Verified | 2 | 1,245 | — |
-| th03-main / MAIN entry and round | af1303b | Verified | 1 | 3,050 | — |
+| th03-main / MAIN entry and round | af1314c | Verified | 1 | 3,050 | — |
 | th03-main / Round results and reset | af1164e | Verified | 1 | 1,060 | — |
 | th03-main / Round intro HUD | af1166i | Verified | 1 | 1,478 | — |
 | th03-main / Static HUD | af1165h | Verified | 1 | 539 | — |
@@ -155,7 +155,7 @@ th03-main Hitbox and HitCircle: `.analysis/work/exatt-layout-af1194c/report.json
 
 th03-main Background chains: `.analysis/work/exatt-layout-af1115b/report.json`.
 
-th03-main MAIN entry and round: `.analysis/work/exatt-layout-af1303b/report.json`.
+th03-main MAIN entry and round: `.analysis/work/exatt-layout-af1314c/report.json`.
 
 th03-main Round results and reset: `.analysis/work/exatt-layout-af1164e/report.json`.
 

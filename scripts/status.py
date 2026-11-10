@@ -136,7 +136,7 @@ def native_source_reviews(root, artifact):
             ('Explosion collision', 'af1198g'),
             ('Hitbox and HitCircle', 'af1194c'),
             ('Background chains', 'af1115b'),
-            ('MAIN entry and round', 'af1303b'),
+            ('MAIN entry and round', 'af1314c'),
             ('Round results and reset', 'af1164e'),
             ('Round intro HUD', 'af1166i'),
             ('Static HUD', 'af1165h'),

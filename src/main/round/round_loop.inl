@@ -62,8 +62,10 @@ unsigned char near round_loop(void)
         round_render_hook();
         // The unsigned-word even/odd cadence CAN use natural `%2`.
         // Keep this original goto frame_advance and all page flip calls.
-        if(stage_render_timing_flag && !(round_or_result_frame % ROUND_RENDER_SKIP_PERIOD)) {
-            goto frame_advance;
+        if(stage_render_timing_flag) {
+            if(!(round_or_result_frame % ROUND_RENDER_SKIP_PERIOD)) {
+                goto frame_advance;
+            }
         }
         egc_on();
         pid_current = ROUND_PLAYER_LEFT;
@@ -107,7 +109,10 @@ unsigned char near round_loop(void)
             if(resident->game_mode == GM_STORY) {
                 goto story_result;
             }
-            if(players[0].rounds_won >= ROUND_VICTORY_ROUNDS || players[1].rounds_won >= ROUND_VICTORY_ROUNDS) {
+            if(players[0].rounds_won >= ROUND_VICTORY_ROUNDS) {
+                goto match_result;
+            }
+            if(players[1].rounds_won >= ROUND_VICTORY_ROUNDS) {
                 goto match_result;
             }
             if(round_or_result_frame == ROUND_RESULT_FINISH_BACKGROUND_AT) {
@@ -162,11 +167,13 @@ unsigned char near round_loop(void)
             }
             vsync_Count1 = 0;
             round_reset_flag = 1;
-        } else if(!(round_or_result_frame % ROUND_RENDER_SKIP_PERIOD)) {
-            vsync_Count1 = 0;
-            while(vsync_Count1 < round_reset_flag) {
+        } else {
+            if(!(round_or_result_frame % ROUND_RENDER_SKIP_PERIOD)) {
+                vsync_Count1 = 0;
+                while(vsync_Count1 < round_reset_flag) {
+                }
+                round_reset_flag = 2;
             }
-            round_reset_flag = 2;
         }
         if(palette_changed) {
             palette_show();
