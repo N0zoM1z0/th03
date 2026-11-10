@@ -5,8 +5,9 @@
 // The original source must expand these reads in each caller. A natural
 // input_t& inline function changes the TC4 register/layout and adds 8 CODE
 // bytes (native negative af839c); keep the source-level expansion here.
+// The explicit nonzero joystick-presence test remains native exact.
 #define merge_joystick(destination) \
-    if(js_bexist) { \
+    if(js_bexist != 0) { \
         js_sense(); \
         destination |= js_stat[0]; \
     }
@@ -26,7 +27,7 @@ void far pascal input_mode_key_vs_key(void)
 void far pascal input_mode_joy_vs_key(void)
 {
     input_reset_sense_key_held();
-    if(js_bexist) {
+    if(js_bexist != 0) {
         js_sense();
         input_mp_p1 = js_stat[0];
         input_mp_p2 = input_sp;
@@ -36,7 +37,7 @@ void far pascal input_mode_joy_vs_key(void)
 void far pascal input_mode_key_vs_joy(void)
 {
     input_reset_sense_key_held();
-    if(js_bexist) {
+    if(js_bexist != 0) {
         js_sense();
         input_mp_p2 = js_stat[0];
         input_mp_p1 = input_sp;
@@ -97,9 +98,9 @@ void far pascal input_wait_for_change(int frames_to_wait)
     // for-loop retains the original scan/delay control flow.
     for(;;) {
         input_mode_interface();
-        // The source-level idle sentinel can naturally be compared
-        // explicitly without changing original TEST/Jcc instructions.
-        if(!input_sp) {
+        // Compare the actual shared input word to its named zero sentinel.
+        // No timeout applies to this original key-release phase.
+        if(input_sp == INPUT_NONE) {
             break;
         }
         frame_delay(1);
@@ -111,11 +112,11 @@ void far pascal input_wait_for_change(int frames_to_wait)
 
     // Zero selects the original 9999-frame unlimited sentinel; negative
     // values skip only this second press phase, never the release wait.
-    // A for header expresses the original signed 16-bit limit; the
-    // counter reset stays after the real input read and frame delay.
-    for(; frames_waited < frames_to_wait;) {
+    // The bounded while-loop retains the original signed 16-bit limit;
+    // the counter reset stays after the real input read and frame delay.
+    while(frames_waited < frames_to_wait) {
         input_mode_interface();
-        if(input_sp) {
+        if(input_sp != INPUT_NONE) {
             break;
         }
         ++frames_waited;
