@@ -250,12 +250,13 @@ void near mima_pattern_spread(void)
 		mima_pellet_angle += MIMA_PELLET_ANGLE_STEP;
 	}
 
-	if(boss_frame <= MIMA_SPREAD_FIRE_END_AFTER) {
-		return;
+	// The paired bullet/pellet volley owns its final frame inclusively;
+	// only a later frame resets the shared selector and render mode.
+	if(boss_frame > MIMA_SPREAD_FIRE_END_AFTER) {
+		boss_render_mode = MIMA_RMODE_NORMAL;
+		boss_mode = MIMA_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_render_mode = MIMA_RMODE_NORMAL;
-	boss_mode = MIMA_MODE_SELECT;
-	boss_frame = 0;
 }
 
 void near mima_pattern_bomb_random(void)
@@ -300,7 +301,7 @@ void near mima_pattern_bomb_random(void)
 		bullet_template.is_animated = true;
 	}
 
-	if(MIMA_RANDOM_BOMB_RING_FRAME == boss_frame) {
+	if(boss_frame == MIMA_RANDOM_BOMB_RING_FRAME) {
 		bullet_template.angle = randring_far_next16();
 		bullet_template.group = BG_32_RING;
 		bullet_template.center.x.v = x;
@@ -316,12 +317,13 @@ void near mima_pattern_bomb_random(void)
 		snd_se_play(MIMA_SOUND_SPREAD);
 	}
 
-	if(boss_frame < MIMA_RANDOM_BOMB_END) {
-		return;
+	// The three warning bursts, random barrage, and single ring draw
+	// above retain their original call order up to the terminal 0x80.
+	if(boss_frame >= MIMA_RANDOM_BOMB_END) {
+		boss_render_mode = MIMA_RMODE_NORMAL;
+		boss_mode = MIMA_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_render_mode = MIMA_RMODE_NORMAL;
-	boss_mode = MIMA_MODE_SELECT;
-	boss_frame = 0;
 }
 
 void near mima_pattern_trail(void)
@@ -359,12 +361,13 @@ void near mima_pattern_trail(void)
 		bullet_template.is_animated = true;
 	}
 
-	if(boss_frame < MIMA_TRAIL_END) {
-		return;
+	// Reset only after the original trail pattern's byte-phase choice
+	// and both mutable template flags have been restored.
+	if(boss_frame >= MIMA_TRAIL_END) {
+		boss_render_mode = MIMA_RMODE_NORMAL;
+		boss_mode = MIMA_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_render_mode = MIMA_RMODE_NORMAL;
-	boss_mode = MIMA_MODE_SELECT;
-	boss_frame = 0;
 }
 
 // The orbit fires only on even timer ticks after its signed direction
@@ -378,7 +381,7 @@ void near mima_pattern_orbit(void)
 {
 	boss_move_sine();
 
-	if(MIMA_ORBIT_DIRECTION_FRAME == boss_frame) {
+	if(boss_frame == MIMA_ORBIT_DIRECTION_FRAME) {
 		mima_orbit_delta = (randring_far_next16_and(1) ? MIMA_ORBIT_ANGLE_STEP : -MIMA_ORBIT_ANGLE_STEP);
 		mima_orbit_angle = randring_far_next16();
 	}
@@ -403,11 +406,12 @@ void near mima_pattern_orbit(void)
 		mima_orbit_angle += mima_orbit_delta;
 	}
 
-	if(boss_frame < MIMA_ORBIT_FINISH_FRAME) {
-		return;
+	// Signed byte rotation and each even-frame polar pair must finish
+	// before the 0x48-frame terminal mode transition.
+	if(boss_frame >= MIMA_ORBIT_FINISH_FRAME) {
+		boss_mode = MIMA_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_mode = MIMA_MODE_SELECT;
-	boss_frame = 0;
 }
 
 void far gba_boss_update_mima(void)
@@ -533,9 +537,11 @@ render_mode_2:
 		sprite16_put_size.set(MIMA_PART_CARRIER_SIZE, MIMA_PART_CARRIER_SIZE);
 		left += MIMA_PART_CARRIER_LEFT;
 		sprite_offset = (MIMA_PART_CARRIER_OFF + boss_sprite_offset);
-		if(MIMA_RENDER_PARTICLE_CEL_FIRST <= boss_render_frame) {
+		// Keep the first and second sprite stages independently ordered;
+		// entering mode EXPAND must not skip this frame's carrier sprite.
+		if(boss_render_frame >= MIMA_RENDER_PARTICLE_CEL_FIRST) {
 			sprite_offset += 4;
-			if(MIMA_RENDER_PARTICLE_CEL_SECOND <= boss_render_frame) {
+			if(boss_render_frame >= MIMA_RENDER_PARTICLE_CEL_SECOND) {
 				boss_render_mode = MIMA_RMODE_EXPAND;
 			}
 		}
