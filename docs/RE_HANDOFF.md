@@ -48,6 +48,7 @@ list. The full selection lives in the generated progress table.
 | Kotohime / Yumemi Extra Attack | `af1199e` / `af1200c` | Complete entity/render states |
 | Rikako / Kana / Mima Extra Attack | `af1301f` / `af1302f` / `af1306e` | Full allocators, updates and rendering; first-use locals tested independently |
 | Native frame delay / DOS initializer | `af1316e` / `af1316f` | Volatile VSYNC polling and nonzero allocation failure; joint native proof `af1316d` |
+| PMD/MIDI audio services | `af1320b` | Two complete owners; native active-only Kaja interrupt and source-exact sound-effect service |
 | Input modes / wait | `af1313c` | All nine interface, joystick and wait functions; natural positive joystick branches and exact release/press loops |
 | Hitbox + HitCircle | `af1317l` | Two complete physical owners; independent shot ownership/bomb cadence checks and active-age animation updates |
 | MAINL Staff + root | `af942s` / `af944r` | Retained source scopes; decoded MAINL publication refreshed at `af1055m` |
@@ -70,7 +71,10 @@ normal MAIN parent used an older **418-byte** experimental object with a
 trailing `90` after the final `RET`. A fresh normal TLINK using the **actual
 original 417-byte OBJ** (`af1305a`) still differs from the frozen parent
 at only **file offset 68,141** (`90` versus `00`); all ordered MZ relocations
-match. File-scope `asm { even }` did not compile under TC4 (`af1193b`).
+match. Fresh independent native negative stages `af1320c` and `af1320d`
+confirm the same object and gap. Other one-byte SHARED alignment holes are
+zero in both links, so this is not a general TLINK NOP-fill rule. File-scope
+`asm { even }` did not compile under TC4 (`af1193b`).
 This is an unresolved **historical parent-link padding/provenance issue**,
 not permission to append NOP bytes or claim complete native link acceptance.
 See [the input gap analysis](MAIN_INPUT_S_LINK_GAP_AFTER744_REVIEW.md).

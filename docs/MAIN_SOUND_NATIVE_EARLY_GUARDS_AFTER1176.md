@@ -26,3 +26,16 @@ recompiled **both** `snd_se` and unchanged `snd_kaja` in two original
 TC4/TLINK rounds: 150 initialized CODE bytes, 20 ordered fixup fields,
 three PUBLICs, complete normal Japanese MAIN image and ordered MZ relocation
 vector are unchanged. This is scoped source proof, not whole-game ownership.
+
+## Kaja active-only hardware dispatch (`af1320b`)
+
+The Kaja selector now makes its original positive driver-active condition
+explicit: only an active driver loads the far-Pascal `ax` argument into `_AX`
+and selects the fixed `INT 60h` (PMD) or `INT 61h` (MIDI) vector. The
+inactive path never modifies the caller-visible AX register, and returns it
+through the same original 16-bit ABI. The selection still uses `midi == 1`
+only; it is not a generic Boolean driver choice. Original TC4/TLINK stage
+`af1320a` reproduced the full 30-byte leaf, two literal ordered native
+fields, and one PUBLIC in both compiler rounds. Joint `af1320b` recompiled
+Kaja plus `snd_se` (150 CODE bytes, 20 ordered fields, three PUBLICs), with
+both complete Japanese MAIN links and ordered MZ relocations exact.

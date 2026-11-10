@@ -27,7 +27,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Resident CFG loader | af1182a | Verified | 1 | 49 | — |
 | th03-main / PC-98 shutdown | af1184d | Verified | 1 | 67 | — |
 | th03-main / Input modes and keyboard wait | af1313c | Verified | 1 | 367 | — |
-| th03-main / PMD/MIDI audio services | af1311c | Verified | 2 | 150 | — |
+| th03-main / PMD/MIDI audio services | af1320b | Verified | 2 | 150 | — |
 | th03-main / Signed Q8 polar geometry | af1178a | Verified | 1 | 26 | — |
 | th03-main / Volatile VSYNC frame delay | af1316e | Verified | 1 | 21 | — |
 | th03-main / DOS MAIN initializer | af1316f | Verified | 1 | 62 | — |
@@ -101,7 +101,7 @@ th03-main PC-98 shutdown: `.analysis/work/exatt-layout-af1184d/report.json`.
 
 th03-main Input modes and keyboard wait: `.analysis/work/exatt-layout-af1313c/report.json`.
 
-th03-main PMD/MIDI audio services: `.analysis/work/exatt-layout-af1311c/report.json`.
+th03-main PMD/MIDI audio services: `.analysis/work/exatt-layout-af1320b/report.json`.
 
 th03-main Signed Q8 polar geometry: `.analysis/work/exatt-layout-af1178a/report.json`.
 

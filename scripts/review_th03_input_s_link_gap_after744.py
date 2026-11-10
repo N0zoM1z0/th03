@@ -16,7 +16,7 @@ from probe_th03_main_exatt_layout import (
 )
 
 
-def review(stage='af744d'):
+def review(stage='af1320d'):
     original = (WORK/'obj/th03/input_s.obj').read_bytes()
     previous = (WORK/'probe/af567c/r1-input_s.obj').read_bytes()
     actual = (WORK/f'probe/{stage}/r1/input_s.obj').read_bytes()

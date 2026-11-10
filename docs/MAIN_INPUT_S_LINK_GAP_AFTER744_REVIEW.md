@@ -57,10 +57,11 @@ Its explicit structured result is
 `status=blocked-by-historical-single-NOP-parent-link-gap`,
 `native_current_source_object_CODE_exact=true`,
 `normal_MAIN_exact=false` and `canonical_Factory_credit=false`.
-The real compiler source and object/link writer logs remain in
-`TH03WORK/probe/af744c` and `TH03WORK/probe/af744d` with their original
-`.analysis/work/exatt-layout-af744*` logs; **no successful `report.json`
-was published** for these trials. Do not cite this as a two-round passing
+The original diagnostic writer outputs were recorded at
+`TH03WORK/probe/af744c` and `TH03WORK/probe/af744d`; these historical private
+outputs were subsequently retired. **No successful `report.json` was
+published** for those failed full-link trials. See the newer fresh native
+controls below. Do not cite this as a two-round passing
 MAIN link, overwrite the original after567c parent, replace the target,
 or increase canonical Factory acceptance. Further investigation requires
 source- and linker-justified resolution of the one-byte historical
@@ -84,3 +85,34 @@ body or incorrect source fixups. No manufactured filler was introduced.
 
 Evidence: retained ignored work directory
 `.analysis/toolchain/wineprefix/drive_c/TH03WORK/probe/af1305a/`.
+
+## 2026-11-10: two fresh native negative link rounds and alignment controls
+
+The earlier `af744d` private outputs were no longer retained in this
+worktree, which caused the dedicated read-only negative test to skip.
+Fresh independent stages `af1320c` and `af1320d` each compiled the **current**
+source with original TC4 into 417 initialized CODE bytes, 42 ordered fixup
+fields and one PUBLIC, matching the unchanged reference object. TLINK ran
+normally; each stage then failed the intended complete-image equality at
+**exactly file offset 68141**, parent `90` versus actual `00`, with identical
+ordered MZ relocations. The read-only reviewer and two-stage test now consume
+these current private results instead of a missing historical directory.
+
+The actual MAP shows `SHARED:019C` through `SHARED:033C` belongs to the
+417-byte `input_s` code, and the following word-aligned module starts at
+`SHARED:033E`. The intervening `SHARED:033D` is an alignment hole.
+There are only three one-byte CODE-to-CODE alignment gaps in the native
+SHARED map: `0031`, `033D`, and `05D3`. The other two contain `00` in both
+the source-linked and frozen MAIN images, while `033D` alone changes
+`90 → 00`. This rules out assuming a general TLINK policy of filling
+odd-byte SHARED gaps with NOP. The old parent specifically used the 418-byte
+assembled experimental object, whereas the genuine 417-byte current source
+ends with the original RET. No filler instruction, link patch or unearned
+normal-link acceptance was introduced.
+
+Current focused read-only check:
+
+```
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
+.venv/bin/python -m unittest tests.test_main_input_s_link_gap -v
+```
