@@ -142,6 +142,7 @@ enum reimu_cloud_phase_t {
     REIMU_CLOUD_FINISH_FRAME = 0x80,
     REIMU_CLOUD_ACCEL_PERIOD = 2,
     REIMU_CLOUD_ANGLE_FRAME_STEP = 2,
+    REIMU_CLOUD_BULLET_ANGLE_SCALE = 2,
     REIMU_CLOUD_ORBIT_RADIUS = TO_SP(32),
     REIMU_CLOUD_CENTER_ORBIT_RADIUS = TO_SP(48),
     REIMU_CLOUD_INITIAL_SPEED = 0x10,
@@ -172,7 +173,7 @@ void near reimu_pattern_orbit_cloud(void)
 			bullet_template.type = BT_PELLET_CLOUD;
 			bullet_template.group = BG_1;
 			bullet_template.pid = (1 - pid_current);
-			bullet_template.angle = (angle << 1);
+			bullet_template.angle = (angle * REIMU_CLOUD_BULLET_ANGLE_SCALE);
 			bullet_template.speed.v = reimu_cloud_speed;
 			bullet_template.center.x.v = polar(
 				boss_center_x, REIMU_CLOUD_ORBIT_RADIUS, CosTable8[angle]
@@ -182,8 +183,8 @@ void near reimu_pattern_orbit_cloud(void)
 			);
 			bullets_add();
 
-			bullet_template.angle = ((angle << 1) + REIMU_CLOUD_OPPOSITE_ANGLE);
-			angle = angle + REIMU_CLOUD_OPPOSITE_ANGLE;
+			bullet_template.angle = ((angle * REIMU_CLOUD_BULLET_ANGLE_SCALE) + REIMU_CLOUD_OPPOSITE_ANGLE);
+			angle += REIMU_CLOUD_OPPOSITE_ANGLE;
 			bullet_template.center.x.v = polar(
 				boss_center_x, REIMU_CLOUD_ORBIT_RADIUS, CosTable8[angle]
 			);
@@ -204,7 +205,7 @@ void near reimu_pattern_orbit_cloud(void)
 		unsigned char angle = (
 			static_cast<unsigned char>(boss_frame) * REIMU_CLOUD_ANGLE_FRAME_STEP
 		);
-		angle = angle + REIMU_CLOUD_ANGLE_ROTATION;
+		angle += REIMU_CLOUD_ANGLE_ROTATION;
 		boss_center_y = polar(
 			boss_aux_point.y.v, REIMU_CLOUD_CENTER_ORBIT_RADIUS, SinTable8[angle]
 		);
@@ -291,10 +292,11 @@ void near reimu_pattern_orbit_burst(void)
 		// is exact, while a single frame * 32 expression changes TC4 CODE.
 		// Each phase owns a signed index and a byte angle scratch. Shift
 		// before signed division; prefix advancement follows each phase's
-		// original polar and Extra Attack call order.
+		// original polar and Extra Attack call order. A named signed
+		// multiply-by-256 preserves all three original arithmetic sequences.
 		for(int i = 0; i < reimu_orbit_count; ++i) {
 			unsigned char angle = static_cast<unsigned char>(
-				((i << 8) / reimu_orbit_count) + reimu_orbit_angle
+				((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle
 			);
 			reimu_orbit_x[i] = polar(
 				boss_center_x,
@@ -307,16 +309,16 @@ void near reimu_pattern_orbit_burst(void)
 				SinTable8[angle]
 			);
 		}
-		// Explicit self-addition preserves the unsigned-byte orbit wrap;
-		// signed-byte fields in other BOSS owners can differ.
-		reimu_orbit_angle = reimu_orbit_angle + REIMU_ORBIT_ANGLE_STEP;
+		// Original TC4 preserves the unsigned-byte wrap with compound +=
+		// in this owner; unlike other BOSS byte-angle variants (af1312b).
+		reimu_orbit_angle += REIMU_ORBIT_ANGLE_STEP;
 		return;
 	}
 
 	if(boss_frame < REIMU_ORBIT_RELEASE_FRAME) {
 		for(int i = 0; i < reimu_orbit_count; ++i) {
 			unsigned char angle = static_cast<unsigned char>(
-				((i << 8) / reimu_orbit_count) + reimu_orbit_angle
+				((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle
 			);
 			reimu_orbit_x[i] = polar(
 				boss_center_x, TO_SP(48), CosTable8[angle]
@@ -326,7 +328,7 @@ void near reimu_pattern_orbit_burst(void)
 			);
 
 		}
-		reimu_orbit_angle = reimu_orbit_angle + REIMU_ORBIT_ANGLE_STEP;
+		reimu_orbit_angle += REIMU_ORBIT_ANGLE_STEP;
 
 		if(round_frame_mod16) {
 			return;
@@ -346,7 +348,7 @@ void near reimu_pattern_orbit_burst(void)
 	if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
 		for(int i = 0; i < reimu_orbit_count; ++i) {
 			unsigned char angle = static_cast<unsigned char>(
-				((i << 8) / reimu_orbit_count) + reimu_orbit_angle
+				((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle
 			);
 			reimu_extra_add(reimu_orbit_x[i], reimu_orbit_y[i], angle);
 

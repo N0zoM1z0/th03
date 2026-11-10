@@ -39,7 +39,7 @@ list. The full selection lives in the generated progress table.
 | Owner / area | Stage | Focus |
 | --- | --- | --- |
 | MAIN entry + frame scheduler | `af1303b` | Full 3,050-byte scheduler, natural Borland `outportb()` page writes; following `page_front = _AL` retains the second OUT's AL |
-| Reimu BOSS | `af1304d` | Complete 2,020-byte owner; cloud attack terminal guard and opponent sprite selection |
+| Reimu BOSS | `af1312g` | Complete 2,020-byte owner; signed 256-unit radial distribution, byte-angle compound steering and cloud pattern guards |
 | Kotohime / Yumemi / Mima BOSS | `af1195d` / `af1185e` / `af1197d` | Whole attack state controllers and codegen-sensitive timing |
 | Ellen BOSS | `af1310g` | 1,675-byte owner; natural post-volley short-circuit exit, original first-phase branch polarity |
 | Enemy formations / ENEDAT VM | `af1310h` | Four original objects, 3,325 CODE bytes; segmented formation-script block-first indexing and original unchecked interpreter behavior |
