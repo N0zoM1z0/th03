@@ -131,7 +131,7 @@ signed char near pascal boss_explosion_ring(
 		sprite16_put(left, top, BOSS_RING_SPRITE_OFFSET);
 	}
 
-	if(BOSS_RING_FINISH_RADIUS <= length) {
+	if(length >= BOSS_RING_FINISH_RADIUS) {
 		score_add(BOSS_RING_REWARD, (1 - pid_current));
 		return 0;
 	}
@@ -151,9 +151,10 @@ extern "C" void near boss_move_sine(void)
 	boss_angle++;
 	boss_velocity_y = polar(0, 16, SinTable8[boss_angle]);
 
-	if(BOSS_TURN_LEFT_X >= boss_center_x) {
+	// Horizontal turns are clamped at the two original inclusive edges.
+	if(boss_center_x <= BOSS_TURN_LEFT_X) {
 		boss_velocity_x = BOSS_HORIZONTAL_STEP;
-	} else if(BOSS_TURN_RIGHT_X <= boss_center_x) {
+	} else if(boss_center_x >= BOSS_TURN_RIGHT_X) {
 		boss_velocity_x = -BOSS_HORIZONTAL_STEP;
 	}
 }
@@ -163,14 +164,15 @@ extern "C" void near boss_fall(void)
 	boss_center_x += boss_velocity_x;
 	boss_center_y += BOSS_DESCEND_STEP;
 
-	if(BOSS_TURN_LEFT_X >= boss_center_x) {
+	// Horizontal turns are clamped at the two original inclusive edges.
+	if(boss_center_x <= BOSS_TURN_LEFT_X) {
 		boss_velocity_x = BOSS_HORIZONTAL_STEP;
-	} else if(BOSS_TURN_RIGHT_X <= boss_center_x) {
+	} else if(boss_center_x >= BOSS_TURN_RIGHT_X) {
 		boss_velocity_x = -BOSS_HORIZONTAL_STEP;
 	}
 
 	boss_active[1 - pid_current] = 0;
-	if(BOSS_DESPAWN_Y > boss_center_y) {
+	if(boss_center_y < BOSS_DESPAWN_Y) {
 		return;
 	}
 	boss_mode = 0;
@@ -220,7 +222,12 @@ extern "C" void far boss_hittest_end(void)
 {
 	register pid_t pid_other = (1 - pid_current);
 
-	if((boss_hp > 0) || (boss_mode == BOSS_EXPLODE_MODE)) {
+	// A living BOSS and one already exploding both skip the HP terminal
+	// transition. Keep the checks ordered before changing shared state.
+	if(boss_hp > 0) {
+		return;
+	}
+	if(boss_mode == BOSS_EXPLODE_MODE) {
 		return;
 	}
 	boss_mode = -1;
@@ -237,7 +244,7 @@ extern "C" void far boss_hittest_end(void)
 
 extern "C" void near boss_target_update(void)
 {
-	if(BOSS_DESCEND_MODE == boss_mode) {
+	if(boss_mode == BOSS_DESCEND_MODE) {
 		return;
 	}
 	boss_target_x = boss_center_x;
@@ -265,10 +272,11 @@ extern "C" void near boss_pattern_next(void)
 	// The BOSS pattern-index postfix is also codegen-visible;
 	// prefix ++boss_pattern_i changed original TC4 bytes (af916f).
 	boss_pattern_i++;
-	if(boss_pattern_i <= boss_pattern_count) {
-		return;
+	// After the chosen pattern was committed, the original count gate
+	// changes only the mode to DESCEND. Never repeat the RNG draw here.
+	if(boss_pattern_i > boss_pattern_count) {
+		boss_mode = BOSS_DESCEND_MODE;
 	}
-	boss_mode = BOSS_DESCEND_MODE;
 }
 
 extern "C" void near boss_explosion_render(void)
