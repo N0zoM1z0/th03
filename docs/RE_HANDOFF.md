@@ -121,3 +121,7 @@ relevant historical negative evidence. Check
 [storage policy](STORAGE_HANDOFF_CURRENT.md) before removing ignored work.
 An official cache-only preview is safe; it does not license `.analysis`
 pruning. Do not use retired generic receipt-pruning scripts.
+
+The latest storage audit retired superseded probe outputs and shared duplicate
+Wine system modules. Historical references can now name retired trial paths;
+the current progress table identifies the runnable source-bound stages.

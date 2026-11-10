@@ -24,6 +24,13 @@ refreshes them if its checkout moves. Do not copy a complete installation into
 this repository or borrow another game's prefix/project. Consult Factory
 `docs/shared-runtimes.md` for provisioning and sandbox mounts.
 
+The Wine prefix also contains compiler working directories; their size is not
+the size of the shared Wine installation. Superseded trial outputs can be
+retired under the [current storage policy](STORAGE_HANDOFF_CURRENT.md).
+Byte-identical built-in Windows modules can link to the installed shared Wine
+package after hash verification. Registry files, custom DLLs, compiler profiles
+and game state stay local; sharing system code does not share mutable prefixes.
+
 Java home, temporary files, settings and caches stay below this repository's
 `.analysis/factory-runtime/ghidra`. The existing analyzer project, compiler
 profile, target and exactness evidence stay here too. Wine's normal prefix is

@@ -80,17 +80,17 @@ when the environment/targets change.
   Preserve the *entire active source-bound receipt DAG*, including both raw
   OBJ/LIB/EXE/MAP rounds and writer logs. Delete only audited superseded
   branches and disposable experiments, not files inferred "unused" from age.
-  The current retention rules and applied cleanup evidence are in
-  docs/STORAGE_HANDOFF_CURRENT.md. The 2026-11-10 after1307 audit retired
-  only the redundant baseline copy and reference tar of ONE failed,
-  receipt-less Ellen compiler experiment. Its unique source files, original
-  compiler log and a full per-file hash inventory survive. It did **not**
-  delete native proof outputs, successful historical receipts or any
-  source-linked parent stage. The official cache-only cleaner found no
-  eligible files on that date. Earlier after1024/928/710/597/520
-  actions are historical bounded audits, not authorizations for bulk
-  cleanup of the active source-bound DAG. Never run retired generic
-  receipt-pruning tools. Preserve tools and targets.
+  The user's 2026-11-10 storage clarification supersedes blanket historical
+  retention: documentation references and a successful old trial alone do
+  not make its outputs current dependencies. Keep current selected proofs,
+  their actual source/native parents and link inputs. Audited superseded
+  trials may retire their raw outputs while useful source/log context is
+  retained compactly. Factory owns shared executable code; keep this game's
+  mutable Wine state isolated, and share byte-identical system modules
+  rather than copying them. See docs/STORAGE_HANDOFF_CURRENT.md for the
+  applied audit and exact protection boundary. Earlier cleanup manifests
+  describe only their original actions; never use retired generic pruning
+  tools as a shortcut. Preserve pinned tools and targets.
 
 Finish with affected checks and `git diff --check`. Full `python3 scripts/ci.py`
 is available for broad infrastructure changes; it is not a per-turn gate or a

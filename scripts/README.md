@@ -76,6 +76,14 @@ new publication; do not edit historical evidence hashes.
 
 ## Audit and historical limits
 
+The 2026-11-10 storage audit retired superseded Wine probe directories and
+saved MAIN outputs using current proof inputs and linker dependencies.
+Historical reviews can reference retired raw outputs; documentation references
+alone do not keep them live. Their source/log/report context is archived under
+`.analysis/handoff/20261110-active-storage-audit/`. Use the current stage list
+in [progress](../docs/PROGRESS.md) and the
+[storage policy](../docs/STORAGE_HANDOFF_CURRENT.md).
+
 The 2026-11-09 script audit parsed all 1,358 Python scripts and found no syntax
 errors or missing literal `scripts/*.py` dependencies. Current reporting, CI
 dispatch, cleanup guards and affected publication checks have focused tests.
