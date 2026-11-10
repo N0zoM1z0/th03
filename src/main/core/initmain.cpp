@@ -12,7 +12,8 @@ enum {
 
 int far pascal game_init_main(const unsigned char far *pf_fn)
 {
-    if(mem_assign_dos(MAIN_DOS_MEMORY_PARAGRAPHS) != 0) {
+    // Any nonzero DOS allocation result exits before hardware startup.
+    if(mem_assign_dos(MAIN_DOS_MEMORY_PARAGRAPHS)) {
         return 1;
     }
     vram_planes_set();

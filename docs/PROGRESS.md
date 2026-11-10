@@ -29,8 +29,8 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Input modes and keyboard wait | af1313c | Verified | 1 | 367 | — |
 | th03-main / PMD/MIDI audio services | af1311c | Verified | 2 | 150 | — |
 | th03-main / Signed Q8 polar geometry | af1178a | Verified | 1 | 26 | — |
-| th03-main / Volatile VSYNC frame delay | af1179a | Verified | 1 | 21 | — |
-| th03-main / DOS MAIN initializer | af1180b | Verified | 1 | 62 | — |
+| th03-main / Volatile VSYNC frame delay | af1316e | Verified | 1 | 21 | — |
+| th03-main / DOS MAIN initializer | af1316f | Verified | 1 | 62 | — |
 | th03-main / Ellen Extra Attack | af1129e | Verified | 1 | 1,129 | — |
 | th03-main / Yumemi Extra Attack | af1200c | Verified | 1 | 1,696 | — |
 | th03-main / Mima Extra Attack | af1306e | Verified | 1 | 727 | — |
@@ -105,9 +105,9 @@ th03-main PMD/MIDI audio services: `.analysis/work/exatt-layout-af1311c/report.j
 
 th03-main Signed Q8 polar geometry: `.analysis/work/exatt-layout-af1178a/report.json`.
 
-th03-main Volatile VSYNC frame delay: `.analysis/work/exatt-layout-af1179a/report.json`.
+th03-main Volatile VSYNC frame delay: `.analysis/work/exatt-layout-af1316e/report.json`.
 
-th03-main DOS MAIN initializer: `.analysis/work/exatt-layout-af1180b/report.json`.
+th03-main DOS MAIN initializer: `.analysis/work/exatt-layout-af1316f/report.json`.
 
 th03-main Ellen Extra Attack: `.analysis/work/exatt-layout-af1129e/report.json`.
 
