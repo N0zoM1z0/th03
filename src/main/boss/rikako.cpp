@@ -208,9 +208,12 @@ void near rikako_pattern_orbit_spread(void)
 
 	// The unsigned-word eight-frame spin clock uses natural remainder,
 	// distinct from the signed byte spin delta.
-	if(boss_spin_delta <= RIKAKO_SPIN_POSITIVE_LIMIT &&
-	   !(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
-		boss_spin_delta++;
+	// A signed-byte spin limit and unsigned 16-bit eight-frame cadence are
+	// independent gates; only the second condition may advance the byte.
+	if(boss_spin_delta <= RIKAKO_SPIN_POSITIVE_LIMIT) {
+		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
+			boss_spin_delta++;
+		}
 	}
 
 	if(boss_frame == RIKAKO_ORBIT_WARNING_FRAME) {
@@ -278,9 +281,11 @@ void near rikako_pattern_entities_and_pellets(void)
 {
 	unsigned char angle;
 
-	if(boss_spin_delta >= RIKAKO_SPIN_NEGATIVE_LIMIT &&
-	   !(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
-		boss_spin_delta--;
+	// Keep the negative signed-byte limit before checking the same clock.
+	if(boss_spin_delta >= RIKAKO_SPIN_NEGATIVE_LIMIT) {
+		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
+			boss_spin_delta--;
+		}
 	}
 
 	if(boss_frame == RIKAKO_ENTITIES_WARNING_FRAME) {
@@ -355,9 +360,12 @@ void near rikako_pattern_alternating_burst(void)
 {
 	boss_move_sine();
 
-	if(boss_spin_delta != RIKAKO_SPIN_NEUTRAL &&
-	   !(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
-		boss_spin_delta += ((boss_spin_delta > RIKAKO_SPIN_NEUTRAL) ? -1 : 1);
+	// The conditional signed delta expression matters: splitting it into
+	// prefix/postfix byte increments changes original TC4 CODE (af1321e).
+	if(boss_spin_delta != RIKAKO_SPIN_NEUTRAL) {
+		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
+			boss_spin_delta += ((boss_spin_delta > RIKAKO_SPIN_NEUTRAL) ? -1 : 1);
+		}
 	}
 
 	unsigned char remainder = (boss_frame % rikako_burst_interval);
@@ -516,7 +524,8 @@ void near rikako_render_main(void)
 	// Native original sprite loop accepts signed-index C++ for,
 	// but its %4 MUST explicitly promote that signed `i` to unsigned:
 	// ordinary signed `i %4` differs in original TC4 (af862f).
-	for(register int i = 0; i < RIKAKO_MAIN_SPRITE_COUNT; ++i, angle = angle + RIKAKO_RENDER_MAIN_ANGLE_STEP) {
+	// A compound byte-angle step preserves unsigned wrap in this renderer.
+	for(register int i = 0; i < RIKAKO_MAIN_SPRITE_COUNT; ++i, angle += RIKAKO_RENDER_MAIN_ANGLE_STEP) {
 		x = polar(left, RIKAKO_ORBIT_RING_RADIUS, CosTable8[angle]);
 		y = polar(top, RIKAKO_ORBIT_RING_RADIUS, SinTable8[angle]);
 
@@ -553,8 +562,12 @@ void near rikako_render_intro(void)
 	sprite16_put_size.w = RIKAKO_RENDER_INTRO_W;
 	sprite16_put_size.h = RIKAKO_RENDER_INTRO_H;
 
-	if((boss_frame < RIKAKO_INTRO_FLICKER_END) && (round_or_result_frame & (RIKAKO_INTRO_BLINK_PERIOD - 1))) {
-		return;
+	// Flicker suppresses the arrival sprites only in the first 0x40
+	// frames and on the original odd global-frame phase.
+	if(boss_frame < RIKAKO_INTRO_FLICKER_END) {
+		if(round_or_result_frame & (RIKAKO_INTRO_BLINK_PERIOD - 1)) {
+			return;
+		}
 	}
 
 	sprite_offset = (pid.so_attack + RIKAKO_RENDER_INTRO_SPRITE_BASE);
@@ -569,7 +582,7 @@ void near rikako_render_intro(void)
 
 	// The second 16-sprite signed-step for loop and named +0x10
 	// angle mutation preserve all original original TC4 instructions.
-	for(register int i = 0; i < RIKAKO_INTRO_SPRITE_COUNT; ++i, angle = angle + RIKAKO_RENDER_INTRO_ANGLE_STEP) {
+	for(register int i = 0; i < RIKAKO_INTRO_SPRITE_COUNT; ++i, angle += RIKAKO_RENDER_INTRO_ANGLE_STEP) {
 		register screen_x_t left = polar(
 			boss_center_x,
 			radius,
