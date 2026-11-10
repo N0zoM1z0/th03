@@ -17,9 +17,9 @@ findings; Git history holds older chronology.
   MAIN's separate ledger records 106 extents / 78,737 bytes and 459 exact
   function entries. Neither a ledger entry nor source presence certifies
   the current build, and the game's completion percentage is unknown.
-- As of this handoff, `scripts/status.py` selects **65** separately verified
-  native MAIN stages covering **75 distinct physical OBJ owners** and
-  **74,585 CODE bytes**. This is a total for selected, non-overlapping owners,
+- As of this handoff, `scripts/status.py` selects **66** separately verified
+  native MAIN stages covering **76 distinct physical OBJ owners** and
+  **74,626 CODE bytes**. This is a total for selected, non-overlapping owners,
   **not new work completed in a session**, and the stages are independently
   linked against retained unchanged inputs, **not** one all-source build.
   For the current exact stage IDs and scopes, consult `scripts/status.py`
@@ -38,6 +38,7 @@ list. The full selection lives in the generated progress table.
 
 | Owner / area | Stage | Focus |
 | --- | --- | --- |
+| VRAM plane initializer | `af1326e` | Newly source-bound original TH01 shared 41-byte hardware owner; four far plane pointers, complete normal MAIN link |
 | MAIN entry + frame scheduler | `af1314c` | Full 3,050-byte scheduler; explicit render/VSYNC phase gates and independent victory checks, with original PC-98 page OUT order |
 | Reimu BOSS | `af1312g` | Complete 2,020-byte owner; signed 256-unit radial distribution, byte-angle compound steering and cloud pattern guards |
 | Rikako BOSS | `af1321h` | Complete 1,677-byte owner; independent signed spin limits and 8-frame clocks, positive intro flicker, exact render byte-angle steps |
@@ -68,8 +69,8 @@ rather than adding defensive product fixes or manufactured byte padding.
 
 ## Open blocker: BIOS keyboard scanner `input_s`
 
-`input_s` is the **only** owner in the 76-unit mapped MAIN source inventory
-excluded from the 75-owner current normal-link selection. Both the original
+`input_s` is the **only** owner in the 77-unit scoped MAIN source inventory
+excluded from the 76-owner current normal-link selection. Both the original
 OBJ and freshly compiled maintained C++ have 417 bytes of initialized CODE,
 42 ordered native fixup fields and the same PUBLIC/segments. But the frozen
 normal MAIN parent used an older **418-byte** experimental object with a

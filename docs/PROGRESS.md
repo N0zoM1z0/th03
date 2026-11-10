@@ -21,7 +21,8 @@ These read-only checks validate maintained source bindings, both original compil
 
 | Product / scope | Stage | Current check | Physical owners | CODE bytes | Initialized DATA bytes |
 | --- | --- | --- | ---: | ---: | ---: |
-| th03-main / Shared BOSS | af1172f | Verified | 2 | 949 | — |
+| th03-main / VRAM plane initializer | af1326e | Verified | 1 | 41 | — |
+| th03-main / Shared BOSS | af1172f | Unavailable: ValueError: native compiler inputs remain bound to maintained live source | — | — | — |
 | th03-main / PI image loader | af1322i | Verified | 1 | 70 | — |
 | th03-main / DOS executable handoff | af1322j | Verified | 1 | 79 | — |
 | th03-main / Resident CFG loader | af1182a | Verified | 1 | 49 | — |
@@ -89,7 +90,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-mainl / Staff Roll | af942s | Verified | 1 | 3,695 | 224 |
 | th03-mainl / Root controller | af944r | Verified | 1 | 2,458 | 112 |
 
-th03-main Shared BOSS: `.analysis/work/exatt-layout-af1172f/report.json`.
+th03-main VRAM plane initializer: `.analysis/work/exatt-layout-af1326e/report.json`.
 
 th03-main PI image loader: `.analysis/work/exatt-layout-af1322i/report.json`.
 

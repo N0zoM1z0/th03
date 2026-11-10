@@ -33,6 +33,7 @@ from lib.omf import parse_omf
 ROOT = parent.ROOT
 WORK = parent.WORK
 SOURCES = {
+    'vplanset': 'src/main/hardware/vram_planes.cpp',
     'frmdely1': 'src/main/hardware/frame_delay.cpp',
     'execl': 'src/main/core/execl.cpp',
     'ex_yume': 'src/main/player/exatt_yumemi.cpp',
@@ -220,6 +221,7 @@ def rooted_inline_source(path, stage, n, raw):
 
 ORIGINAL_OBJECT_PATHS = {u: f'obj/{u}.obj' for u in CHAIN_UNITS}
 ORIGINAL_OBJECT_PATHS['bomb~cxk'] = 'obj/th03/bomb_yumemi.obj'
+ORIGINAL_OBJECT_PATHS['vplanset'] = 'obj/th01/vplanset.obj'
 ORIGINAL_OBJECT_PATHS['frmdely1'] = 'obj/th02/frmdely1.obj'
 BOSS_TEMPLATE_NEEDLE = f'#include "{BOSS_TEMPLATE}"'.encode()
 PRODUCER_WRAPPERS = {
@@ -256,6 +258,7 @@ ORIGINAL_STAGES = {
 # The original native MAP has CODE/DATA/BSS/empty segment rows, and
 # the enemy's compiler flags also instantiate additional empty sections.
 MAP_ORIGINAL = {
+    'vplanset': 'th01/vplanset.cpp',
     'frmdely1': 'th02/frmdely1.cpp',
     'effects': 'src/main/player/effects.cpp',
     'warning': 'src/main/player/warning.cpp',
@@ -269,6 +272,7 @@ MAP_ROWS = {
     'p_exatt': 3,
     'p_gauge': 3,
     'ba_sring':5, 'ba_srest':5,
+    'vplanset':3,
     'frmdely1':3, 'execl':4,
     'hud_stat':3, 'initmain':3, 'snd_se':3, 'polar':3, 'cfg_lres':3,
     'input_s':3, 'inp_m_w':3, 'snd_kaja':3, 'pi_load':3, 'exit':3,
