@@ -172,7 +172,8 @@ void near marisa_pattern_spread(void)
 		marisa_bullet_angle = 0;
 	}
 	if(boss_frame < MARISA_SPREAD_FINISH) {
-		// The four-frame spread gate uses the original unsigned-word remainder.
+		// After the warm-up, the original four-frame unsigned-word clock
+		// is the only gate before firing both speed layers.
 		if(boss_frame % MARISA_SPREAD_PERIOD) {
 			return;
 		}
@@ -252,7 +253,7 @@ void near marisa_pattern_columns_wide(void)
 		marisa_exatt_add(MARISA_COLUMN_PAIR_2_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(MARISA_COLUMN_FOURTH == boss_frame) {
+	if(boss_frame == MARISA_COLUMN_FOURTH) {
 		marisa_exatt_add(MARISA_COLUMN_PAIR_3_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_COLUMN_PAIR_3_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
@@ -284,6 +285,8 @@ void near marisa_pattern_ring(void)
 		bullet_template.center.y.v = boss_center_y;
 		bullet_template.pid = (1 - pid_current);
 
+		// Low levels emit only the cloud ring. High levels first emit the
+	// dense 16-pixel ring, then the cloud with a separate angle and count.
 		if(gba_boss_level < MARISA_RING_DENSE_LEVEL) {
 			bullet_template.count = marisa_cloud_count_low;
 		} else {
@@ -332,12 +335,12 @@ void near marisa_pattern_columns_narrow(void)
 		marisa_exatt_add(MARISA_NARROW_PAIR_2_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(boss_frame != MARISA_COLUMN_FOURTH) {
-		return;
+	// Narrow columns complete at the final release frame.
+	if(boss_frame == MARISA_COLUMN_FOURTH) {
+		boss_render_mode = MARISA_RENDER_MODE_NORMAL;
+		boss_mode = MARISA_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_render_mode = MARISA_RENDER_MODE_NORMAL;
-	boss_mode = MARISA_MODE_SELECT;
-	boss_frame = 0;
 }
 
 void far gba_boss_update_marisa(void)
@@ -448,27 +451,28 @@ void near marisa_render_main(void)
 		sprite16_put(left, top, (boss_sprite_offset + MARISA_RENDER_HIT_SPRITE_OFFSET));
 		return;
 	}
-	if(boss_render_mode != MARISA_RENDER_MODE_ATTACK) {
-		return;
+	// Only an active spread/column attack enters this alternate strip
+	// renderer; a hit sprite above returns immediately.
+	if(boss_render_mode == MARISA_RENDER_MODE_ATTACK) {
+		if(
+			(round_or_result_frame % MARISA_MAIN_FLICKER_PERIOD) <
+			MARISA_MAIN_FLICKER_FIRST_HALF
+		) {
+			sprite16_put_size.set(MARISA_RENDER_DAMAGE_WIDTH, MARISA_RENDER_DAMAGE_HEIGHT);
+			left += 64;
+			top += 16;
+			sprite16_put(left, top, (boss_sprite_offset + MARISA_RENDER_FLICKER_SPRITE_OFFSET));
+			left -= 32;
+			top += 32;
+			sprite_offset = (boss_sprite_offset + MARISA_RENDER_FLICKER_STRIP_OFFSET);
+		} else {
+			left += 32;
+			top += 48;
+			sprite_offset = (boss_sprite_offset + MARISA_RENDER_ALTERNATE_STRIP_OFFSET);
+		}
+		sprite16_put_size.set(MARISA_RENDER_STRIP_WIDTH, MARISA_RENDER_STRIP_HEIGHT);
+		sprite16_put(left, top, sprite_offset);
 	}
-	if(
-		(round_or_result_frame % MARISA_MAIN_FLICKER_PERIOD) <
-		MARISA_MAIN_FLICKER_FIRST_HALF
-	) {
-		sprite16_put_size.set(MARISA_RENDER_DAMAGE_WIDTH, MARISA_RENDER_DAMAGE_HEIGHT);
-		left += 64;
-		top += 16;
-		sprite16_put(left, top, (boss_sprite_offset + MARISA_RENDER_FLICKER_SPRITE_OFFSET));
-		left -= 32;
-		top += 32;
-		sprite_offset = (boss_sprite_offset + MARISA_RENDER_FLICKER_STRIP_OFFSET);
-	} else {
-		left += 32;
-		top += 48;
-		sprite_offset = (boss_sprite_offset + MARISA_RENDER_ALTERNATE_STRIP_OFFSET);
-	}
-	sprite16_put_size.set(MARISA_RENDER_STRIP_WIDTH, MARISA_RENDER_STRIP_HEIGHT);
-	sprite16_put(left, top, sprite_offset);
 }
 
 void near pascal marisa_render_split(int offset)
@@ -510,7 +514,7 @@ void far gba_boss_render_marisa(void)
 	sprite16_clip_set_for_pid(pid_other);
 
 	if(boss_mode == MARISA_MODE_INTRO) {
-		marisa_render_split(MARISA_SPLIT_START_RADIUS - (boss_frame * 2));
+		marisa_render_split(MARISA_SPLIT_START_RADIUS - (boss_frame * MARISA_LEVEL_DOUBLE));
 		return;
 	}
 	if(boss_mode != MARISA_MODE_EXPLODE) {

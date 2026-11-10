@@ -42,11 +42,12 @@ list. The full selection lives in the generated progress table.
 | Reimu BOSS | `af1312g` | Complete 2,020-byte owner; signed 256-unit radial distribution, byte-angle compound steering and cloud pattern guards |
 | Rikako BOSS | `af1321h` | Complete 1,677-byte owner; independent signed spin limits and 8-frame clocks, positive intro flicker, exact render byte-angle steps |
 | Kana BOSS | `af1323f` | Complete 1,874-byte owner; staged and rotating emission windows, two cadence gates, byte-angle/speed increments, and intro flicker |
+| Marisa BOSS | `af1325h` | Complete 1,431-byte owner; positive active-attack renderer, narrow-column completion, original high-level ring branch |
 | Kotohime / Yumemi / Mima BOSS | `af1319e` / `af1315h` / `af1317k` | Complete controllers; Kotohime's ring thresholds, signed radial step products and RNG gate are source-exact |
 | Ellen BOSS | `af1310g` | 1,675-byte owner; natural post-volley short-circuit exit, original first-phase branch polarity |
 | Enemy formations / ENEDAT VM | `af1310h` | Four original objects, 3,325 CODE bytes; segmented formation-script block-first indexing and original unchecked interpreter behavior |
 | Bullet engine | `af1318f` | Complete 2,685-byte owner; independent spawn bounds, slot-state/clip guards, and collision-map eligibility; jointly linked with Mima at `af1318g` |
-| Explosion collision / Fireball | `af1198g` / `af1177g` | Original hit-chain rules, 24-slot movement/collision; retain original uninitialized state |
+| Explosion collision / Fireball | `af1198g` / `af1325i` | Original hit-chain rules; Fireball free-slot filtering, three falling-removal gates and original transfer labels; retain uninitialized state |
 | Kotohime / Yumemi Extra Attack | `af1199e` / `af1200c` | Complete entity/render states |
 | Rikako / Kana / Mima Extra Attack | `af1301f` / `af1302f` / `af1306e` | Full allocators, updates and rendering; first-use locals tested independently |
 | Q8 polar / PI reload / DOS handoff | `af1322h` / `af1322i` / `af1322j` | Explicit signed Q8 center addition, far PI slot pointers and far DOS executable arguments; joint scope `af1322g` |

@@ -335,7 +335,7 @@ void fireballs_update(void)
 	// header after their free, falling and cross-field transfer paths.
 	// Both original goto destinations remain byte-exact.
 	for(int i = 0; i < FIREBALL_COUNT; (++i, ++p)) {
-		if(!p->flag) {
+		if(p->flag == EFF_FREE) {
 			continue;
 		}
 		// Byte frame prefix changed TC4 CODE (af891d); postfix stays.
@@ -346,11 +346,13 @@ void fireballs_update(void)
 		} else if(p->flag == FF_FALL) {
 			next = p->center.x.v;
 			next += p->velocity.x.v;
-			if(
-				(bomb_flag[p->pid] != BF_INACTIVE) ||
-				(next <= to_sp(          0 - (FALL_W / 2))) ||
-				(next >= to_sp(PLAYFIELD_W + (FALL_W / 2)))
-			) {
+			if(bomb_flag[p->pid] != BF_INACTIVE) {
+				goto free_and_continue;
+			}
+			if(next <= to_sp(0 - (FALL_W / 2))) {
+				goto free_and_continue;
+			}
+			if(next >= to_sp(PLAYFIELD_W + (FALL_W / 2))) {
 free_and_continue:
 				p->flag = EFF_FREE;
 				continue;
@@ -385,7 +387,7 @@ free_and_continue:
 			// hardcoding the assumption of the physical layout together with
 			// the expected horizontal velocity.
 			static_assert(PLAYER_COUNT == 2);
-			if(!p->pid) {
+			if(p->pid == 0) {
 				if(p->target_center_x_for_origin_pid.v <= next) {
 switch_to_fall:
 					p->center.x = p->target_center_x_for_target_pid;
@@ -608,7 +610,7 @@ void fireballs_hittest_and_render(void)
 	// Whole 24-projectile render pass: free slots skip drawing, but
 	// still advance near pointer and signed index in their original order.
 	for(int i = 0; i < FIREBALL_COUNT; (++i, ++p)) {
-		if(!p->flag) {
+		if(p->flag == EFF_FREE) {
 			continue;
 		}
 		if(p->flag < EFF_EXPLOSION_IGNORING_ENEMIES) {
