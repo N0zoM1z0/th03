@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="788" height="2410" viewBox="0 0 788 2410" role="img" aria-label="TH03 reviewed subset reconstruction progress">
+<svg xmlns="http://www.w3.org/2000/svg" width="788" height="2434" viewBox="0 0 788 2434" role="img" aria-label="TH03 reviewed subset reconstruction progress">
   <title>TH03 reconstruction progress by artifact</title>
   <desc>All bars count tracked unit extents. MAIN ledger exactness and decoded source publications are labeled separately. Pending publication is not zero reconstruction. Whole-game totals remain unknown.</desc>
-  <rect x="0.5" y="0.5" width="787" height="2409" rx="16" fill="#1f2335" stroke="#353b52"/>
+  <rect x="0.5" y="0.5" width="787" height="2433" rx="16" fill="#1f2335" stroke="#353b52"/>
   <text x="24" y="39" fill="#f4f4f5" font-family="sans-serif" font-size="22" font-weight="600">TH03 reconstruction progress</text>
   <text x="24" y="64" fill="#c8cad2" font-family="sans-serif" font-size="13">Tracked unit extents · whole-game completion unknown</text>
   <text x="200" y="103" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary review / source</text>
@@ -134,8 +134,9 @@
 <text x="24" y="2242" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Original master library CODE carriers (af1338c): 2 physical owners / 10,570 CODE B</text>
 <text x="24" y="2266" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main MAIN master DATA and BSS carrier (af1340d): 1 physical owners / 0 CODE B</text>
 <text x="24" y="2290" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main MAIN aggregate root CODE and DATA (af1341b): 1 physical owners / 896 CODE B</text>
-<text x="24" y="2314" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-mainl Staff Roll (af942s): 1 physical owners / 3,695 CODE B</text>
-<text x="24" y="2338" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-mainl Root controller (af944r): 1 physical owners / 2,458 CODE B</text>
-  <text x="24" y="2382" fill="#c8cad2" font-family="sans-serif" font-size="12">Pending = publication needs revalidation. Details: docs/PROGRESS.md</text>
+<text x="24" y="2314" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Original zero-byte segment-order carriers (af1342c): 2 physical owners / 0 CODE B</text>
+<text x="24" y="2338" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-mainl Staff Roll (af942s): 1 physical owners / 3,695 CODE B</text>
+<text x="24" y="2362" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-mainl Root controller (af944r): 1 physical owners / 2,458 CODE B</text>
+  <text x="24" y="2406" fill="#c8cad2" font-family="sans-serif" font-size="12">Pending = publication needs revalidation. Details: docs/PROGRESS.md</text>
   <desc>Whole-game source/link/product graph: OPEN · no whole-game completion percentage</desc>
 </svg>

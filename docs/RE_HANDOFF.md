@@ -17,9 +17,11 @@ findings; Git history holds older chronology.
   MAIN's separate ledger records 106 extents / 78,737 bytes and 459 exact
   function entries. Neither a ledger entry nor source presence certifies
   the current build, and the game's completion percentage is unknown.
-- As of this handoff, `scripts/status.py` selects **75** separately verified
-  native MAIN stages covering **95 distinct physical OBJ owners** and
-  **89,269 CODE bytes**. The new VSYNC storage owner has zero executable
+- As of this handoff, `scripts/status.py` selects **76** separately verified
+  native MAIN stages covering **97 distinct physical OBJ owners** and
+  **89,269 CODE bytes**. The two newly selected original zero-byte
+  segment-order scaffold objects contribute no initialized CODE/DATA;
+  their exact raw OMF segment alignment and order are now source-bound. The new VSYNC storage owner has zero executable
   CODE but separately proves eight initialized DATA bytes and eight BSS bytes.
   Two newly selected `master.lib` CODE owners contribute **10,570 vendor-library
   CODE bytes** to this *physical* total; they are not newly recovered authored
@@ -63,6 +65,7 @@ list. The full selection lives in the generated progress table.
 | Original master.lib CODE | `af1338c` | Original external library carriers, 10,570 CODE bytes / 464 ordered fields / 103 PUBLICs; two exact native links and pinned vendor includes, not game-authored code |
 | Master DATA/BSS tail | `af1340d` | Original `mst_tail` source carrier: 1,566 initialized DATA bytes, 1,606-byte DATA segment, 22,250-byte BSS segment, 414 PUBLICs and 0 CODE; generated sprite and vendor dependencies pinned |
 | MAIN aggregate root | `af1341b` | Original 32-segment `main.obj` bound: 896 executable CODE, 1,289 initialized DATA, 64 fixups and 127 PUBLICs; three repaired bounded includes pinned |
+| Native segment-order scaffolds | `af1342c` | Original `bo_shim` / `ex_ord` (19 + 11 zero-length SEGDEFs), exact raw OMF alignments and complete normal links; zero CODE/DATA/PUBLIC |
 | Native frame delay / DOS initializer | `af1316e` / `af1316f` | Volatile VSYNC polling and nonzero allocation failure; joint native proof `af1316d` |
 | Shared sound ASM leaves | `af1328b` | Three newly source-bound original TASM owners: PMD mode detection, resident probe and SE reset; 100 CODE bytes, native link/relocs exact |
 | Graphics/resource ASM leaves | `af1330f` | Six source-bound TASM owners, 1,622 CODE bytes; HUD score aliases, sprite16, MRS, palette, flip LUT and fill carrier; includes now bound |
@@ -90,9 +93,9 @@ rather than adding defensive product fixes or manufactured byte padding.
 historic 418-byte TASM linker-carrier gap. The expanded current selection
 also counts two original vendor library code owners and the now source-bound
 master DATA/BSS tail and MAIN aggregate root, whose exact
-object/carrier source relationships are now both selected. The two zero-byte
-segment-order scaffolds and `c0l` CRT startup remain separate provenance
-questions; the historical TC4 scanner gap is still open. Do not infer an all-source game build from these
+object/carrier source relationships are now both selected. The two zero-byte segment-order scaffolds are now source-bound with
+strict raw OMF alignment checks. The `c0l` CRT startup and historical
+TC4 scanner link gap remain separate provenance questions. Do not infer an all-source game build from these
 scoped native owner checks. Both the original
 OBJ and freshly compiled maintained C++ have 417 bytes of initialized CODE,
 42 ordered native fixup fields and the same PUBLIC/segments. But the frozen

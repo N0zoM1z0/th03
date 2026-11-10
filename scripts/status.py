@@ -196,6 +196,9 @@ def native_source_reviews(root, artifact):
         selected.append(('MAIN aggregate root CODE and DATA', 'af1341b',
                          '.analysis/work/main-root-carrier-af1341b/report.json',
                          'probe_th03_main_root_carrier.py', ['--check']))
+        selected.append(('Original zero-byte segment-order carriers', 'af1342c',
+                         '.analysis/work/main-zero-order-af1342c/report.json',
+                         'probe_th03_main_zero_order_carriers.py', ['--check']))
     elif artifact == 'th03-mainl':
         selected = [
             ('Staff Roll', 'af942s', '.analysis/work/mainl-staff-af942s-native-build.json',

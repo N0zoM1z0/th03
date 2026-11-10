@@ -14,7 +14,7 @@ import subprocess
 
 from build_th03_main_yumemi_cpu_after596_work import ROOT, WORK
 import build_th03_main_yumemi_cpu_after596_work as parent
-from lib.omf import describe_omf
+from lib.omf import describe_omf, parse_omf
 from lib.pc98 import parse_mz
 from lib.main_mz_compact import compact_mz
 from lib.targets import find_artifact, load_target_manifest, read_verified_artifact
@@ -37,6 +37,22 @@ MAP_ROWS = {owner: 3 for owner in SOURCES}
 # reordered for a different native TASM version. No relocation, symbol
 # value, CODE, DATA, BSS, segment or MAP module row is relaxed.
 MAP_TIED_PUBLIC_ORDER_PAIRS = ()
+# Zero-byte segment carriers need byte-level ACBP/LNAMES/SEGDEF/GRPDEF
+# equality. Other proven owners retain their existing strict physical scope.
+STRICT_OMF_SEGMENT_LAYOUT = False
+
+
+def strict_segment_encoding(actual, original, owner):
+    """Compare ordered raw OMF segment metadata, including ACBP alignment."""
+    types = (0x96, 0x98, 0x99, 0x9A)
+    def entries(raw):
+        return tuple((r.record_type, r.data) for r in parse_omf(raw)
+                     if r.record_type in types)
+    candidate, reference = entries(actual), entries(original)
+    need(candidate == reference,
+         owner + ' raw ordered OMF LNAMES/SEGDEF/GRPDEF differs')
+    return sha(b''.join(bytes([kind]) + len(data).to_bytes(2, 'little') + data
+                        for kind, data in candidate))
 REPORT_SCHEMA = 'th03-main-three-sound-asm-v1'
 REPORT_FOLDER = 'main-sound-asm-'
 
@@ -82,6 +98,7 @@ def check_round(stage, n, originals, sources, expected_target):
     need((stage_dir/f'r{n}.@l').read_bytes()==response(stage,n),
          'original 99-object MAIN link response')
     native = {}
+    strict_layout = {}
     for owner,leaf in SOURCES.items():
         source_file = rd/(leaf+'.asm')
         need(source_file.read_bytes()==sources[owner].replace(b'\n', b'\r\n'),
@@ -92,6 +109,9 @@ def check_round(stage, n, originals, sources, expected_target):
         need(desc['valid'] and module==f'probe/{stage}/r{n}/{leaf}.asm',
              'native object THEADR binds staged maintained source '+owner)
         native[owner] = scope(obj, originals[owner], owner)
+        if STRICT_OMF_SEGMENT_LAYOUT:
+            strict_layout[owner] = strict_segment_encoding(
+                obj, originals[owner], owner)
     exe=(stage_dir/f'r{n}.exe').read_bytes()
     prior=json.loads((ROOT/parent.REPORT).read_text())
     parent_exe=parent.read_pin(prior['rounds'][n-1]['outputs']['exe'])
@@ -114,13 +134,16 @@ def check_round(stage, n, originals, sources, expected_target):
              'unique tied same-address PUBLIC alias order in MAP')
         map_bytes=map_bytes.replace(candidate_pair,original_pair)
     need(map_bytes==parent_map,'complete normalized native MAIN MAP geometry')
-    return {'number':n,'original_scopes':native,
+    result = {'number':n,'original_scopes':native,
             'original_objects_sha256':{k:sha(originals[k]) for k in ORDER},
             'objects_sha256':{owner:sha((rd/(leaf+'.obj')).read_bytes())
                               for owner,leaf in SOURCES.items()},
             'normal_exe_sha256':sha(exe),
             'normal_map_sha256':sha((stage_dir/f'r{n}.map').read_bytes()),
             'response_sha256':sha(response(stage,n))}
+    if STRICT_OMF_SEGMENT_LAYOUT:
+        result['raw_OMF_segment_layout_sha256'] = strict_layout
+    return result
 
 
 def summary(stage, rows):
