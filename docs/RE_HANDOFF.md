@@ -41,7 +41,8 @@ list. The full selection lives in the generated progress table.
 | MAIN entry + frame scheduler | `af1303b` | Full 3,050-byte scheduler, natural Borland `outportb()` page writes; following `page_front = _AL` retains the second OUT's AL |
 | Reimu BOSS | `af1304d` | Complete 2,020-byte owner; cloud attack terminal guard and opponent sprite selection |
 | Kotohime / Yumemi / Mima BOSS | `af1195d` / `af1185e` / `af1197d` | Whole attack state controllers and codegen-sensitive timing |
-| Enemy formations / ENEDAT VM | `af1192d` | Four original objects, 3,325 CODE bytes; preserve original unchecked script behavior |
+| Ellen BOSS | `af1310g` | 1,675-byte owner; natural post-volley short-circuit exit, original first-phase branch polarity |
+| Enemy formations / ENEDAT VM | `af1310h` | Four original objects, 3,325 CODE bytes; segmented formation-script block-first indexing and original unchecked interpreter behavior |
 | Explosion collision / Fireball | `af1198g` / `af1177g` | Original hit-chain rules, 24-slot movement/collision; retain original uninitialized state |
 | Kotohime / Yumemi Extra Attack | `af1199e` / `af1200c` | Complete entity/render states |
 | Rikako / Kana / Mima Extra Attack | `af1301f` / `af1302f` / `af1306e` | Full allocators, updates and rendering; first-use locals tested independently |

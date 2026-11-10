@@ -216,10 +216,10 @@ void near ellen_pattern_spread(void)
 		}
 		goto done;
 	}
-	if(boss_frame > ELLEN_SPREAD_FINISH) {
-		goto done;
-	}
-	if(boss_frame % ELLEN_SPREAD_PERIOD) {
+	// The post-volley window ends above 0x2C; odd frames do not fire.
+	// Keep the test order: it also preserves the two original exit branches.
+	if((boss_frame > ELLEN_SPREAD_FINISH) ||
+	   (boss_frame % ELLEN_SPREAD_PERIOD)) {
 		goto done;
 	}
 

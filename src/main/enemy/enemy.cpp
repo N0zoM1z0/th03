@@ -363,10 +363,11 @@ void enemy_formations_load(void)
 		for(enemy_i = 0; enemy_i < enemy_count; enemy_i++) {
 			script_size = enedat[enedat_p];
 			enedat_p++;
-			*(
-				formation_scripts + (formation_i * FORMATION_ENEMIES_MAX) +
-				enemy_i
-			) = reinterpret_cast<uint8_t near *>(enedat_p);
+			// Script pointers form a segmented table of 16-entry blocks.
+			// Index the block first, then the enemy: combining both indices
+			// before scaling changes the original TC4 instruction order.
+			(formation_scripts + (formation_i * FORMATION_ENEMIES_MAX))[enemy_i] =
+				reinterpret_cast<uint8_t near *>(enedat_p);
 
 			enedat_p += script_size;
 		}
