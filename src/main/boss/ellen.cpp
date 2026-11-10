@@ -253,6 +253,8 @@ enum ellen_extra_phase_t {
 void near ellen_pattern_extra(void)
 {
 	pid_t pid_other = (1 - pid_current);
+	// Keep explicit byte reload/add/store: compound += emitted a
+	// different memory ADD and shortened CODE (af1331f).
 	boss_render_frame = boss_render_frame + ELLEN_EXTRA_RENDER_STEP;
 
 	if(boss_frame < ELLEN_EXTRA_WARN_START) {
@@ -268,12 +270,13 @@ void near ellen_pattern_extra(void)
 	}
 
 	if(boss_frame == ELLEN_EXTRA_FIRST_BURST) {
-		// Each independent original radial burst draws its own RNG angle,
-		// divides 256 by the byte count at each native iteration, then
-		// updates the byte angle AFTER the far Extra Attack spawn.
+		// Each burst independently draws its RNG angle and divides the
+		// 256-unit circle by the byte count at each iteration. In the
+		// current TC4 context, compound += preserves the original code.
+		// The byte-angle advance remains AFTER the Extra Attack call.
 		register int i = 0;
 		unsigned char angle = randring_far_next16();
-		for(; i < ellen_extra_count; ++i, angle = angle + (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count)) {
+		for(; i < ellen_extra_count; ++i, angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count)) {
 			ellen_extra_add(
 				boss_center_x,
 				boss_center_y,
@@ -292,7 +295,7 @@ void near ellen_pattern_extra(void)
 	{
 		register int i = 0;
 		unsigned char angle = randring_far_next16();
-		for(; i < ellen_extra_count; ++i, angle = angle + (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count)) {
+		for(; i < ellen_extra_count; ++i, angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count)) {
 			ellen_extra_add(
 				boss_center_x,
 				boss_center_y,
@@ -356,9 +359,9 @@ void near ellen_pattern_pellets(void)
 		bullet_template.angle = ellen_pellet_angle;
 		bullets_add();
 
-		// Natural assignment with named +0x10 keeps the original
-		// mutable byte-angle codegen (af893l).
-		ellen_pellet_angle = ellen_pellet_angle + ELLEN_PELLET_ANGLE_STEP;
+		// A named compound byte-angle advance is native exact here
+		// (af1331e); the separate spread-angle += is not (af1331d).
+		ellen_pellet_angle += ELLEN_PELLET_ANGLE_STEP;
 	}
 
 	if(boss_frame < ELLEN_PELLET_FINISH_FRAME) {
@@ -532,8 +535,13 @@ void near pascal ellen_render_intro(
 	}
 	ellen_render_strip(i);
 
-	if(round_frame_mod2 && (boss_frame < ELLEN_INTRO_FLICKER_END)) {
-		return;
+	// Only odd global frames before the intro flicker cutoff skip
+	// the four families of eight intro sprites. Existing strip calls
+	// above this point still happen on every frame.
+	if(round_frame_mod2) {
+		if(boss_frame < ELLEN_INTRO_FLICKER_END) {
+			return;
+		}
 	}
 
 	register screen_x_t left;

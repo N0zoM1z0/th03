@@ -129,7 +129,7 @@ def native_source_reviews(root, artifact):
             ('Reimu BOSS', 'af1312g'),
             ('Mima BOSS', 'af1317k'),
             ('Marisa BOSS', 'af1325h'),
-            ('Ellen BOSS', 'af1310g'),
+            ('Ellen BOSS', 'af1331h'),
             ('Yumemi BOSS', 'af1315h'),
             ('Bullet engine', 'af1318f'),
             ('Fireball engine', 'af1325i'),
