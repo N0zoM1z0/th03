@@ -87,7 +87,6 @@ void near mima_exatt_render_one(void)
 {
     screen_x_t left;
     screen_x_t top;
-    unsigned char phase;
     register exatt_entity_t near *p = exatt_entity_p;
     register sprite16_offset_t sprite_offset;
 
@@ -100,7 +99,7 @@ void near mima_exatt_render_one(void)
     } else {
         sprite16_clip.set_for_pid_1();
     }
-    phase = (unsigned char)p->duration;
+    unsigned char phase = (unsigned char)p->duration;
 
     if(p->state == MIMA_EXATT_ACTIVE) {
         sprite_offset = (pid.so_attack + 0x280);
@@ -116,9 +115,9 @@ void near mima_exatt_render_one(void)
     }
     if(p->state == MIMA_EXATT_FLYING_STATE) {
         exatt_render_state2(left, top, phase);
-    } else {
-        exatt_render_state_other(left, top, *(unsigned int near *)p);
+        return;
     }
+    exatt_render_state_other(left, top, *(unsigned int near *)p);
 }
 
 void far pascal exatt_update_mima(void)
@@ -126,11 +125,10 @@ void far pascal exatt_update_mima(void)
     int i;
     int center_y;
     int duration;
-    unsigned char pid_other;
     register int center_x;
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
 
-    pid_other = (1 - pid_current);
+    unsigned char pid_other = (1 - pid_current);
     collmap_stripe_tile_w.set(MIMA_EXATT_COLLISION_TILE_SPAN);
     collmap_tile_h.set(MIMA_EXATT_COLLISION_TILE_SPAN);
     collmap_pid = pid_other;
@@ -227,10 +225,13 @@ void far pascal exatt_render_mima(void)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
 
+    // Inactive slots advance through the same signed-index/near-pointer
+    // path as rendered projectiles, without changing the global pointer.
     for(register int i = 0; i < MIMA_EXATT_SLOTS; ++i, ++p) {
-        if(p->state) {
-            exatt_entity_p = p;
-            mima_exatt_render_one();
+        if(!p->state) {
+            continue;
         }
+        exatt_entity_p = p;
+        mima_exatt_render_one();
     }
 }
