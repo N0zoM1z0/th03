@@ -51,7 +51,7 @@ list. The full selection lives in the generated progress table.
 | Reimu BOSS | `af1336i` | 2,020-byte owner; three true orbit phases, cadence-gated spreads and mirrored attack ending; original signed radial arithmetic retained |
 | Rikako BOSS | `af1345e` | Complete 1,677-byte owner; three orbit phases, four entity/pellet phases and terminating alternating volley use exact mutually exclusive branch gates |
 | Kana BOSS | `af1323f` | Complete 1,874-byte owner; staged and rotating emission windows, two cadence gates, byte-angle/speed increments, and intro flicker |
-| Chiyuri BOSS | `af1329l` | Full 2,654-byte owner; higher-level rings, four signed-index fans with exact speed steps, positive vertical phase and natural intro/ring guards |
+| Chiyuri BOSS | `af1347g` | Full 2,654-byte owner; positive four-way/ring cadence gates, 48-shot release, mutually exclusive horizontal/vertical fans; native joint `af1347h` |
 | Marisa BOSS | `af1325h` | Complete 1,431-byte owner; positive active-attack renderer, narrow-column completion, original high-level ring branch |
 | Kotohime / Yumemi / Mima BOSS | `af1343i` / `af1334f` / `af1339d` | Kotohime's random, aimed and nested radial releases now use original exact positive phase gates; Mima and Yumemi remain source-bound |
 | Ellen BOSS | `af1331h` | Complete 1,675-byte owner; original extra-attack/paired-pellet byte-angle advances, intro flicker, spread phase and renderer codegen constraints |
