@@ -10,47 +10,38 @@ enum { TH03_SE_PMD_VECTOR = 0x60 };
 void far pascal snd_se_play(int new_se)
 {
     register int se = new_se;
-    // A disabled sound driver returns before any priority lookup.
-    if(!snd_se_active()) {
-        return;
-    }
-    // Selecting the first effect returns before the priority comparison.
-    // Keep the original priority operands for the replacement case.
-    if(snd_se_playing == SE_NONE) {
-        snd_se_playing = se;
-        return;
-    }
-    if(snd_se_priorities[snd_se_playing] <= snd_se_priorities[se]) {
-        snd_se_playing = se;
-        snd_se_frame = 0;
+    // The driver-active gate is positive: a disabled PMD driver never
+    // reads the priority table or alters the selected effect.
+    if(snd_se_active()) {
+        // No predecessor is selected immediately; otherwise compare
+        // the original two priority slots in their native read order.
+        if(snd_se_playing == SE_NONE) {
+            snd_se_playing = se;
+        } else if(snd_se_priorities[snd_se_playing] <= snd_se_priorities[se]) {
+            snd_se_playing = se;
+            snd_se_frame = 0;
+        }
     }
 }
 
 void far snd_se_update(void)
 {
-    // The second service only emits an interrupt while FM is active
-    // and a real effect is selected; the driver-active check comes first.
-    if(!snd_se_active()) {
-        return;
-    }
-    if(snd_se_playing == SE_NONE) {
-        return;
-    }
-    // This direct register-service source compiles the exact original
-    // PMD INT vector; the previous tiny reference helper is unnecessary.
-    // Only the zero frame emits AH=0x0C/AL=effect at INT 60h;
-    // the original two byte registers are not ordinary C++ args.
-    if(!snd_se_frame) {
-        _AH = PMD_SE_PLAY;
-        _AL = snd_se_playing;
-        geninterrupt(TH03_SE_PMD_VECTOR);
-    }
-    // Byte-memory postfix is codegen-visible: prefix changed TC4
-    // output (af908c). The ordinary reversed duration comparison
-    // below IS native-exact (af908d), unlike priority lookup above.
-    snd_se_frame++;
-    if(snd_se_frame > snd_se_priority_frames[snd_se_playing]) {
-        snd_se_frame = 0;
-        snd_se_playing = SE_NONE;
+    // Driver availability is tested before the selected-effect slot.
+    // Neither the PMD interrupt nor the frame counter changes otherwise.
+    if(snd_se_active() && snd_se_playing != SE_NONE) {
+        // Exactly frame zero issues the fixed 16-bit PMD register service:
+        // AH is the operation, AL the effect, and INT 60h is not a C++ call.
+        if(snd_se_frame == 0) {
+            _AH = PMD_SE_PLAY;
+            _AL = snd_se_playing;
+            geninterrupt(TH03_SE_PMD_VECTOR);
+        }
+        // This is the original byte-memory postfix update, not prefix.
+        // Priority-indexed expiration resets the frame *after* its update.
+        snd_se_frame++;
+        if(snd_se_frame > snd_se_priority_frames[snd_se_playing]) {
+            snd_se_frame = 0;
+            snd_se_playing = SE_NONE;
+        }
     }
 }
