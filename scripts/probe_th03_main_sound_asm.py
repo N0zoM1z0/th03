@@ -33,6 +33,10 @@ ORIGINAL_LINK_SLOTS = {owner: 'obj\\th03\\'+owner+'.obj' for owner in SOURCES}
 SOURCE_INCLUDES = ()
 MAP_ORIGINAL = {owner: 'th03\\'+owner+'.asm' for owner in SOURCES}
 MAP_ROWS = {owner: 3 for owner in SOURCES}
+# Only exact-value aliases of identical original public data may be
+# reordered for a different native TASM version. No relocation, symbol
+# value, CODE, DATA, BSS, segment or MAP module row is relaxed.
+MAP_TIED_PUBLIC_ORDER_PAIRS = ()
 REPORT_SCHEMA = 'th03-main-three-sound-asm-v1'
 REPORT_FOLDER = 'main-sound-asm-'
 
@@ -104,6 +108,11 @@ def check_round(stage, n, originals, sources, expected_target):
              'complete original CODE/DATA/BSS MAP rows '+owner)
         map_bytes=map_bytes.replace(current,original)
     parent_map=parent.read_pin(prior['rounds'][n-1]['outputs']['map'])
+    for candidate_pair, original_pair in MAP_TIED_PUBLIC_ORDER_PAIRS:
+        need(map_bytes.count(candidate_pair)==1 and
+             parent_map.count(original_pair)==1,
+             'unique tied same-address PUBLIC alias order in MAP')
+        map_bytes=map_bytes.replace(candidate_pair,original_pair)
     need(map_bytes==parent_map,'complete normalized native MAIN MAP geometry')
     return {'number':n,'original_scopes':native,
             'original_objects_sha256':{k:sha(originals[k]) for k in ORDER},

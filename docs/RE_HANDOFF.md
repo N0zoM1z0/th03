@@ -17,9 +17,10 @@ findings; Git history holds older chronology.
   MAIN's separate ledger records 106 extents / 78,737 bytes and 459 exact
   function entries. Neither a ledger entry nor source presence certifies
   the current build, and the game's completion percentage is unknown.
-- As of this handoff, `scripts/status.py` selects **71** separately verified
-  native MAIN stages covering **90 distinct physical OBJ owners** and
-  **77,803 CODE bytes**. This is a total for selected, non-overlapping owners,
+- As of this handoff, `scripts/status.py` selects **72** separately verified
+  native MAIN stages covering **91 distinct physical OBJ owners** and
+  **77,803 CODE bytes**. The new VSYNC storage owner has zero executable
+  CODE but separately proves eight initialized DATA bytes and eight BSS bytes. This is a total for selected, non-overlapping owners,
   **not new work completed in a session**, and the stages are independently
   linked against retained unchanged inputs, **not** one all-source build.
   For the current exact stage IDs and scopes, consult `scripts/status.py`
@@ -54,6 +55,7 @@ list. The full selection lives in the generated progress table.
 | Kotohime / Yumemi Extra Attack | `af1199e` / `af1200c` | Complete entity/render states |
 | Rikako / Kana / Mima Extra Attack | `af1301f` / `af1302f` / `af1306e` | Full allocators, updates and rendering; first-use locals tested independently |
 | Q8 polar / PI reload / DOS handoff | `af1322h` / `af1322i` / `af1322j` | Explicit signed Q8 center addition, far PI slot pointers and far DOS executable arguments; joint scope `af1322g` |
+| VSYNC storage-only ASM | `af1337i` | Original `VS.ASM`: 0 CODE, 8 initialized DATA, 8 BSS and 12 aliases; only one tied PUBLIC pair needs MAP-order normalization |
 | Native frame delay / DOS initializer | `af1316e` / `af1316f` | Volatile VSYNC polling and nonzero allocation failure; joint native proof `af1316d` |
 | Shared sound ASM leaves | `af1328b` | Three newly source-bound original TASM owners: PMD mode detection, resident probe and SE reset; 100 CODE bytes, native link/relocs exact |
 | Graphics/resource ASM leaves | `af1330f` | Six source-bound TASM owners, 1,622 CODE bytes; HUD score aliases, sprite16, MRS, palette, flip LUT and fill carrier; includes now bound |
@@ -77,8 +79,8 @@ rather than adding defensive product fixes or manufactured byte padding.
 
 ## Open blocker: BIOS keyboard scanner `input_s`
 
-`input_s` is the **only** owner in the 91-unit scoped MAIN source inventory
-excluded from the 90-owner current normal-link selection. Both the original
+`input_s` is the **only** owner in the 92-unit scoped MAIN source inventory
+excluded from the 91-owner current normal-link selection. Both the original
 OBJ and freshly compiled maintained C++ have 417 bytes of initialized CODE,
 42 ordered native fixup fields and the same PUBLIC/segments. But the frozen
 normal MAIN parent used an older **418-byte** experimental object with a

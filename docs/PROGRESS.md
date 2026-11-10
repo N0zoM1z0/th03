@@ -92,6 +92,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Graphics and asset assembler leaves | af1330f | Verified | 6 | 1,622 | — |
 | th03-main / Vector, playfield and collision ASM | af1332c | Verified | 3 | 710 | — |
 | th03-main / Round RNG and collision reset ASM | af1333c | Verified | 1 | 82 | — |
+| th03-main / VSYNC initialized storage ASM | af1337i | Verified | 1 | 0 | — |
 | th03-mainl / Staff Roll | af942s | Verified | 1 | 3,695 | 224 |
 | th03-mainl / Root controller | af944r | Verified | 1 | 2,458 | 112 |
 
@@ -236,6 +237,8 @@ th03-main Graphics and asset assembler leaves: `.analysis/work/main-graphics-asm
 th03-main Vector, playfield and collision ASM: `.analysis/work/main-geometry-asm-af1332c/report.json`.
 
 th03-main Round RNG and collision reset ASM: `.analysis/work/main-roundpr-asm-af1333c/report.json`.
+
+th03-main VSYNC initialized storage ASM: `.analysis/work/main-vsync-storage-asm-af1337i/report.json`.
 
 th03-mainl Staff Roll / 19 procedures: `.analysis/work/mainl-staff-af942s-native-build.json`.
 

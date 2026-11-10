@@ -184,6 +184,9 @@ def native_source_reviews(root, artifact):
         selected.append(('Round RNG and collision reset ASM', 'af1333c',
                          '.analysis/work/main-roundpr-asm-af1333c/report.json',
                          'probe_th03_main_roundpr_asm.py', ['--check']))
+        selected.append(('VSYNC initialized storage ASM', 'af1337i',
+                         '.analysis/work/main-vsync-storage-asm-af1337i/report.json',
+                         'probe_th03_main_vsync_storage_asm.py', ['--check']))
     elif artifact == 'th03-mainl':
         selected = [
             ('Staff Roll', 'af942s', '.analysis/work/mainl-staff-af942s-native-build.json',
