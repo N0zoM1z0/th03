@@ -344,12 +344,18 @@ void bullets_add(void)
 	bool accel = false;
 	uint8_t flag; // ACTUAL TYPE: bullet_flag_t
 
-	if(
-		(bullet_template.center.y.v <= CENTER_MIN) ||
-		(bullet_template.center.y.v >= CENTER_Y_MAX) ||
-		(bullet_template.center.x.v <= CENTER_MIN) ||
-		(bullet_template.center.x.v >= CENTER_X_MAX)
-	) {
+	// Preserve the original top/bottom, then left/right rejection order.
+	// Spawn positions must remain in the same subpixel playfield bounds.
+	if(bullet_template.center.y.v <= CENTER_MIN) {
+		return;
+	}
+	if(bullet_template.center.y.v >= CENTER_Y_MAX) {
+		return;
+	}
+	if(bullet_template.center.x.v <= CENTER_MIN) {
+		return;
+	}
+	if(bullet_template.center.x.v >= CENTER_X_MAX) {
 		return;
 	}
 
@@ -658,7 +664,12 @@ void bullets_update(void)
 		// can't rule out as of November 2025.
 		// TODO: Revisit this once we've completely RE'd the game and then
 		// classify the existence of [BF_INVALID] as bloat or a quirk.
-		if((p->flag == BF_FREE) || (p->flag >= BF_INVALID)) {
+		// Free slots and invalid type tags are separate reasons to skip
+		// all age, collision and trail updates. Keep both tests ordered.
+		if(p->flag == BF_FREE) {
+			continue;
+		}
+		if(p->flag >= BF_INVALID) {
 			continue;
 		}
 		alive++;
@@ -780,7 +791,12 @@ void bullets_update(void)
 				optimization_barrier();
 				goto passed_x_checks;
 			} else {
-				if((coord_next <= CENTER_MIN) || (coord_next >= CENTER_X_MAX)) {
+				// An ordinary non-trail bullet is removed outside either
+				// original horizontal border, before it reaches Y motion.
+				if(coord_next <= CENTER_MIN) {
+					goto remove_x;
+				}
+				if(coord_next >= CENTER_X_MAX) {
 					goto remove_x;
 				}
 			}
@@ -917,16 +933,19 @@ void bullets_update(void)
 			}
 		}
 
-		// Non-transfer bullet collision with players
-		if((p->flag != BF_PELLET_TRANSFER) && p->is_collidable) {
-			collmap_topleft.x = p->center.x;
-			collmap_topleft.y = p->center.y;
-			collmap_pid = p->pid;
+		// Only collidable, non-transfer bullets contribute collision-map
+		// stripes. Either exclusion must avoid the near call below.
+		if(p->flag != BF_PELLET_TRANSFER) {
+			if(p->is_collidable) {
+				collmap_topleft.x = p->center.x;
+				collmap_topleft.y = p->center.y;
+				collmap_pid = p->pid;
 
-			/* TODO: Replace with the decompiled call
-			 * 	collmap_set_vline();
-			 * once the segmentation allows us to, if ever */
-			_asm { push cs; call near ptr collmap_set_vline; }
+				/* TODO: Replace with the decompiled call
+				 * 	collmap_set_vline();
+				 * once the segmentation allows us to, if ever */
+				_asm { push cs; call near ptr collmap_set_vline; }
+			}
 		}
 	next:
 		_AX = _AX;
