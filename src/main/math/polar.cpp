@@ -13,5 +13,7 @@ enum { POLAR_FRACTION_BITS = 8 };
 // original calling convention, with no separate source-level cast required.
 int far __cdecl polar(int center, int radius, int ratio)
 {
-    return ((static_cast<long>(radius) * ratio) >> POLAR_FRACTION_BITS) + center;
+    // The center is added after the signed 32-bit product's arithmetic
+    // Q8 shift, before truncation to the far-cdecl 16-bit result.
+    return center + ((static_cast<long>(radius) * ratio) >> POLAR_FRACTION_BITS);
 }

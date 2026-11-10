@@ -48,6 +48,7 @@ list. The full selection lives in the generated progress table.
 | Explosion collision / Fireball | `af1198g` / `af1177g` | Original hit-chain rules, 24-slot movement/collision; retain original uninitialized state |
 | Kotohime / Yumemi Extra Attack | `af1199e` / `af1200c` | Complete entity/render states |
 | Rikako / Kana / Mima Extra Attack | `af1301f` / `af1302f` / `af1306e` | Full allocators, updates and rendering; first-use locals tested independently |
+| Q8 polar / PI reload / DOS handoff | `af1322h` / `af1322i` / `af1322j` | Explicit signed Q8 center addition, far PI slot pointers and far DOS executable arguments; joint scope `af1322g` |
 | Native frame delay / DOS initializer | `af1316e` / `af1316f` | Volatile VSYNC polling and nonzero allocation failure; joint native proof `af1316d` |
 | PMD/MIDI audio services | `af1320b` | Two complete owners; native active-only Kaja interrupt and source-exact sound-effect service |
 | Input modes / wait | `af1313c` | All nine interface, joystick and wait functions; natural positive joystick branches and exact release/press loops |

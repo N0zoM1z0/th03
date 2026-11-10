@@ -60,13 +60,13 @@
   <text x="24" y="454" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN ledger: 78,737 bytes · 106 extents · 459/459 functions</text>
   <text x="24" y="486" fill="#f4f4f5" font-family="sans-serif" font-size="13">Current source-native reviews (separate from broad acceptance)</text>
 <text x="24" y="514" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Shared BOSS (af1172f): 2 physical owners / 949 CODE B</text>
-<text x="24" y="538" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main PI image loader (af1173c): 1 physical owners / 70 CODE B</text>
-<text x="24" y="562" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main DOS executable handoff (af1181b): 1 physical owners / 79 CODE B</text>
+<text x="24" y="538" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main PI image loader (af1322i): 1 physical owners / 70 CODE B</text>
+<text x="24" y="562" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main DOS executable handoff (af1322j): 1 physical owners / 79 CODE B</text>
 <text x="24" y="586" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Resident CFG loader (af1182a): 1 physical owners / 49 CODE B</text>
 <text x="24" y="610" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main PC-98 shutdown (af1184d): 1 physical owners / 67 CODE B</text>
 <text x="24" y="634" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Input modes and keyboard wait (af1313c): 1 physical owners / 367 CODE B</text>
 <text x="24" y="658" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main PMD/MIDI audio services (af1320b): 2 physical owners / 150 CODE B</text>
-<text x="24" y="682" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Signed Q8 polar geometry (af1178a): 1 physical owners / 26 CODE B</text>
+<text x="24" y="682" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Signed Q8 polar geometry (af1322h): 1 physical owners / 26 CODE B</text>
 <text x="24" y="706" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Volatile VSYNC frame delay (af1316e): 1 physical owners / 21 CODE B</text>
 <text x="24" y="730" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main DOS MAIN initializer (af1316f): 1 physical owners / 62 CODE B</text>
 <text x="24" y="754" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Ellen Extra Attack (af1129e): 1 physical owners / 1,129 CODE B</text>

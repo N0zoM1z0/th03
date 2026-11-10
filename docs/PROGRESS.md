@@ -22,13 +22,13 @@ These read-only checks validate maintained source bindings, both original compil
 | Product / scope | Stage | Current check | Physical owners | CODE bytes | Initialized DATA bytes |
 | --- | --- | --- | ---: | ---: | ---: |
 | th03-main / Shared BOSS | af1172f | Verified | 2 | 949 | — |
-| th03-main / PI image loader | af1173c | Verified | 1 | 70 | — |
-| th03-main / DOS executable handoff | af1181b | Verified | 1 | 79 | — |
+| th03-main / PI image loader | af1322i | Verified | 1 | 70 | — |
+| th03-main / DOS executable handoff | af1322j | Verified | 1 | 79 | — |
 | th03-main / Resident CFG loader | af1182a | Verified | 1 | 49 | — |
 | th03-main / PC-98 shutdown | af1184d | Verified | 1 | 67 | — |
 | th03-main / Input modes and keyboard wait | af1313c | Verified | 1 | 367 | — |
 | th03-main / PMD/MIDI audio services | af1320b | Verified | 2 | 150 | — |
-| th03-main / Signed Q8 polar geometry | af1178a | Verified | 1 | 26 | — |
+| th03-main / Signed Q8 polar geometry | af1322h | Verified | 1 | 26 | — |
 | th03-main / Volatile VSYNC frame delay | af1316e | Verified | 1 | 21 | — |
 | th03-main / DOS MAIN initializer | af1316f | Verified | 1 | 62 | — |
 | th03-main / Ellen Extra Attack | af1129e | Verified | 1 | 1,129 | — |
@@ -91,9 +91,9 @@ These read-only checks validate maintained source bindings, both original compil
 
 th03-main Shared BOSS: `.analysis/work/exatt-layout-af1172f/report.json`.
 
-th03-main PI image loader: `.analysis/work/exatt-layout-af1173c/report.json`.
+th03-main PI image loader: `.analysis/work/exatt-layout-af1322i/report.json`.
 
-th03-main DOS executable handoff: `.analysis/work/exatt-layout-af1181b/report.json`.
+th03-main DOS executable handoff: `.analysis/work/exatt-layout-af1322j/report.json`.
 
 th03-main Resident CFG loader: `.analysis/work/exatt-layout-af1182a/report.json`.
 
@@ -103,7 +103,7 @@ th03-main Input modes and keyboard wait: `.analysis/work/exatt-layout-af1313c/re
 
 th03-main PMD/MIDI audio services: `.analysis/work/exatt-layout-af1320b/report.json`.
 
-th03-main Signed Q8 polar geometry: `.analysis/work/exatt-layout-af1178a/report.json`.
+th03-main Signed Q8 polar geometry: `.analysis/work/exatt-layout-af1322h/report.json`.
 
 th03-main Volatile VSYNC frame delay: `.analysis/work/exatt-layout-af1316e/report.json`.
 

@@ -33,6 +33,7 @@ extern "C" int far pascal main_exec(const char far *binary_fn)
  game_exit();
  // The DOS vararg terminator must be a four-byte FAR null pointer in
  // the game's 16-bit large memory model, rather than a near integer zero.
- // Both executable-name arguments preserve the original pointer ABI.
- return execl((char *)binary_fn, (char *)binary_fn, (void far *)0);
+ // The 16-bit SDK requires mutable char* arguments; keep both explicit
+ // far-pointer casts to discard const without narrowing their segment.
+ return execl((char far *)binary_fn, (char far *)binary_fn, (void far *)0);
 }
