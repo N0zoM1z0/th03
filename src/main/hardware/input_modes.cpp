@@ -26,23 +26,21 @@ void far pascal input_mode_key_vs_key(void)
 void far pascal input_mode_joy_vs_key(void)
 {
     input_reset_sense_key_held();
-    if(!js_bexist) {
-        return;
-    }
-    js_sense();
+    if(js_bexist) {
+        js_sense();
         input_mp_p1 = js_stat[0];
         input_mp_p2 = input_sp;
+    }
 }
 
 void far pascal input_mode_key_vs_joy(void)
 {
     input_reset_sense_key_held();
-    if(!js_bexist) {
-        return;
-    }
-    js_sense();
+    if(js_bexist) {
+        js_sense();
         input_mp_p2 = js_stat[0];
         input_mp_p1 = input_sp;
+    }
 }
 
 void far pascal input_mode_1p_vs_cpu(void)
@@ -95,9 +93,9 @@ void far pascal input_wait_for_change(int frames_to_wait)
 
     // Release phase has no timeout, even for negative limits. This
     // original old-TC4 compile lacks a defined `true` at this source
-    // point (`while(true)` failed to compile in af907a), but `while(1)`
-    // is a natural original-exact spelling (af907b).
-    while(1) {
+    // point (`while(true)` failed to compile in af907a). An unbounded
+    // for-loop retains the original scan/delay control flow.
+    for(;;) {
         input_mode_interface();
         // The source-level idle sentinel can naturally be compared
         // explicitly without changing original TEST/Jcc instructions.
@@ -107,15 +105,15 @@ void far pascal input_wait_for_change(int frames_to_wait)
         frame_delay(1);
     }
 
-    if(!frames_to_wait) {
+    if(frames_to_wait == 0) {
         frames_to_wait = INPUT_WAIT_UNLIMITED_FRAMES;
     }
 
     // Zero selects the original 9999-frame unlimited sentinel; negative
     // values skip only this second press phase, never the release wait.
-    // Natural while retains the signed 16-bit limit/late-reset and all
-    // original interrupt reads, exact under genuine TC4 (af907b/c/e).
-    while(frames_waited < frames_to_wait) {
+    // A for header expresses the original signed 16-bit limit; the
+    // counter reset stays after the real input read and frame delay.
+    for(; frames_waited < frames_to_wait;) {
         input_mode_interface();
         if(input_sp) {
             break;
