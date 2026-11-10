@@ -167,7 +167,7 @@ def native_source_reviews(root, artifact):
             ('Player effects', 'af1133a'),
             ('Warning and Gauge HUD', 'af1160e'),
             ('Character callback setup', 'af1161f'),
-            ('CPU controller', 'af1170d'),
+            ('CPU controller', 'af1327h'),
         )]
     elif artifact == 'th03-mainl':
         selected = [

@@ -94,11 +94,15 @@ input_t near pascal player_cpu_direction_for_collision(
             direction = cpu_dodge_pattern[CPU_DODGE_BELOW_LEFT];
         }
     }
-    if(player_y >= CPU_DODGE_FLOOR && direction == INPUT_DOWN) {
-        if(player_x >= CPU_BOTTOM_ESCAPE_X) {
-            direction = INPUT_LEFT;
-        } else {
-            direction = INPUT_RIGHT;
+    // Near the playfield floor, only a straight-down choice needs
+    // replacing; diagonal/upward moves retain the collision lookup.
+    if(player_y >= CPU_DODGE_FLOOR) {
+        if(direction == INPUT_DOWN) {
+            if(player_x >= CPU_BOTTOM_ESCAPE_X) {
+                direction = INPUT_LEFT;
+            } else {
+                direction = INPUT_RIGHT;
+            }
         }
     }
     return direction;
@@ -141,7 +145,7 @@ void near pascal player_cpu_approach_target(player_stuff_t near *player)
         player_pos_update_and_clamp(player->center);
     }
     player_hittest(CPU_HITTEST_CLOSE_RADIUS);
-    if(!player->is_hit) {
+    if(player->is_hit == false) {
         return;
     }
     player->is_hit = false;
@@ -158,6 +162,8 @@ void near pascal player_cpu_update(player_stuff_t near *player)
 {
     // Equality still takes the careful/defensive branch. Preserve
     // this comparison order and the two original near calls.
+    // Keep defensive-first branch polarity and the two distinct calls.
+    // Reversing the comparison swaps the original near-call layout.
     if(player->cpu_frame <= player->cpu_safety_frames) {
         player_cpu_dodge_and_aim(player);
     } else {
@@ -195,7 +201,7 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
             }
         }
     }
-    if(!player->is_hit) {
+    if(player->is_hit == false) {
         direction = INPUT_NONE;
         ellen_target_set(pid.current);
         attempt = ((ellen_target_x + CPU_TARGET_X_MARGIN) < x);
@@ -227,33 +233,33 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
         } else {
             attempt = 2;
         }
-        if(player->cpu_dodge_strategy) {
+        if(player->cpu_dodge_strategy != 0) {
             attempt += (player->cpu_dodge_strategy * CPU_COLLISION_SIDE_COUNT);
         }
         cpu_dodge_pattern = cpu_dodge_patterns[attempt];
         direction = player_cpu_direction_for_collision(collision_y_relative, x, y);
     }
 
-    // The retry strategy is an original, unbounded control loop with
-    // a nine-direction fallback lattice. Native TC4 also accepts
-    // natural `while(1)` in the entire CPU physical object (af917a),
-    // without moving any RNG calls or player movement/near hit tests.
+    // The retry strategy is unbounded: each attempted direction still
+    // performs its original move and hit test before either breaking
+    // or selecting the next of nine fallback directions. TC4 accepts a
+    // `for(;;)` here without moving any RNG draws or near calls.
     attempt = 0;
     radius_or_retry = 0;
-    while(1) {
+    for(;;) {
         if(player_move(direction) == MOVE_VALID) {
             player_pos_update_and_clamp(player->center);
         }
         // Keep the distinct original hit-test call paths. Collapsing
         // these into a ternary argument changed native CODE (af838b).
-        if(!radius_or_retry) {
+        if(radius_or_retry == 0) {
             player_hittest(CPU_HITTEST_RETRY_RADIUS);
         } else {
             player_hittest(CPU_HITTEST_CLOSE_RADIUS);
         }
         // The clear hit flag naturally leaves the retry loop before
         // any additional movement, radius probe or random draw.
-        if(!player->is_hit) {
+        if(player->is_hit == false) {
             break;
         }
         player->is_hit = false;
@@ -269,25 +275,27 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
                     : CPU_RETRY_RIGHT_COLUMN)
             );
             direction = cpu_retry_directions[retry_region][attempt];
-        } else if(radius_or_retry < CPU_DIRECTIONS) {
-            // Retained target branch, although attempt cannot wrap to zero
-            // before this bounded retry loop finishes with ordinary state.
-            if(!attempt) {
-                player->cpu_dodge_strategy++;
-                if(player->cpu_dodge_strategy >= CPU_DODGE_ALTERNATIVES) {
-                    player->cpu_dodge_strategy = 0;
-                }
-                retry_region = (randring1_next16() % CPU_RETRY_REGIONS);
-            }
-            direction = cpu_retry_directions[retry_region][radius_or_retry];
-            radius_or_retry++;
         } else {
-            if(player->gauge_charged <= CPU_STUCK_BOMB_CHARGE_LIMIT) {
-                player_bomb(player);
+            if(radius_or_retry < CPU_DIRECTIONS) {
+                // Retained target branch, although attempt cannot wrap to zero
+                // before this bounded retry loop finishes with ordinary state.
+                if(!attempt) {
+                    player->cpu_dodge_strategy++;
+                    if(player->cpu_dodge_strategy >= CPU_DODGE_ALTERNATIVES) {
+                        player->cpu_dodge_strategy = 0;
+                    }
+                    retry_region = (randring1_next16() % CPU_RETRY_REGIONS);
+                }
+                direction = cpu_retry_directions[retry_region][radius_or_retry];
+                radius_or_retry++;
             } else {
-                player->is_hit = true;
+                if(player->gauge_charged <= CPU_STUCK_BOMB_CHARGE_LIMIT) {
+                    player_bomb(player);
+                } else {
+                    player->is_hit = true;
+                }
+                break;
             }
-            break;
         }
     }
 }

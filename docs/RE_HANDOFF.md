@@ -57,6 +57,7 @@ list. The full selection lives in the generated progress table.
 | PMD/MIDI audio services | `af1320b` | Two complete owners; native active-only Kaja interrupt and source-exact sound-effect service |
 | Input modes / wait | `af1313c` | All nine interface, joystick and wait functions; natural positive joystick branches and exact release/press loops |
 | Hitbox + HitCircle | `af1317l` | Two complete physical owners; independent shot ownership/bomb cadence checks and active-age animation updates |
+| CPU movement/dodge controller | `af1327h` | Full 1,077-byte controller; floor escape, nine-direction retries, separate hit/safety gates; current joint source `af1327i` |
 | Gauge / shared Extra Attack | `af1324e` | Near DGROUP player pointer, Hyper/full-gauge short circuit and native saturation, two full owners |
 | MAINL Staff + root | `af942s` / `af944r` | Retained source scopes; decoded MAINL publication refreshed at `af1055m` |
 
