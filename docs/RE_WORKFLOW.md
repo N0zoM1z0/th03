@@ -93,9 +93,10 @@ Existing historical runtime receipts are records of earlier observations. They
 do not require preserving or rerunning their diagnostic harnesses. Keep the
 original receipts honest; do not refresh their hashes to imply a new replay.
 
-`scripts/ci.py` checks changed machine-input syntax and Git whitespace.
-`scripts/ci.py --full` explicitly selects the broad suite for infrastructure
-work. Historical private tests can require their recorded source snapshots;
+`python3 scripts/ci.py` checks changed Python/JSON/TOML/shell syntax and Git
+whitespace using the standard library. A clean checkout checks the last commit;
+`--base REV` checks a PR or push range. CI installs no analysis dependencies
+and runs no test suite or private tools. Select relevant tests explicitly;
 the [script index](../scripts/README.md) lists current entry points.
 A bounded source change needs its native comparison and directly relevant
 checks rather than every product's runtime suite and database check.

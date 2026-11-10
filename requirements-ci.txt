@@ -1,4 +1,4 @@
-# Public decoder/emulator controls; private assets/tools are not CI inputs.
+# Optional decoder/emulator test dependencies; basic CI uses only the standard library.
 capstone==5.0.6
 # 2.1.4 fails repeat-run instruction-budget negative controls; keep the tested engine.
 unicorn==1.0.3

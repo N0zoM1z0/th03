@@ -1,4 +1,4 @@
-"""Current CLI checks must not select old broad/deletion behavior accidentally."""
+"""Cache CLI requires an explicit apply and stays outside native output."""
 import contextlib
 import io
 from pathlib import Path
@@ -7,30 +7,10 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-import ci
 import clean_generated
 
 
 class ScriptEntrypoints(unittest.TestCase):
-    def test_full_dispatch_uses_the_running_interpreter(self):
-        with patch.object(ci.subprocess, 'call', return_value=7) as run:
-            self.assertEqual(ci.main(['--full']), 7)
-        self.assertEqual(run.call_args.args[0], [sys.executable, str(ci.ROOT / 'scripts/ci-full.py')])
-
-    def test_unknown_full_option_does_not_run_a_suite(self):
-        with patch.object(ci.subprocess, 'call') as run, contextlib.redirect_stderr(io.StringIO()):
-            with self.assertRaises(SystemExit) as error:
-                ci.main(['--full', '--typo'])
-        self.assertEqual(error.exception.code, 2)
-        run.assert_not_called()
-
-    def test_scoped_ci_does_not_dispatch_the_broad_suite(self):
-        with patch.object(ci.subprocess, 'call') as broad, \
-                patch.object(ci.subprocess, 'check_output', return_value=b''), \
-                patch.object(ci.subprocess, 'run'), contextlib.redirect_stdout(io.StringIO()):
-            self.assertEqual(ci.main([]), 0)
-        broad.assert_not_called()
-
     def test_retired_cleanup_options_stop_before_planning_or_deleting(self):
         cases = [(clean_generated, ['--apply']),
                  (clean_generated, ['--prune-unreferenced-receipts'])]

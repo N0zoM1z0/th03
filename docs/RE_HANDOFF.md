@@ -97,7 +97,7 @@ only the original physical `--units` actually affected:
 
 ```sh
 git status -sb
-.venv/bin/python scripts/preflight.py   # startup or tool/target change
+.venv/bin/python scripts/preflight.py   # before native work or tool/target change
 DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python \
   scripts/probe_th03_main_exatt_layout.py --stage afNNNNx --units ba_mima
 DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python \

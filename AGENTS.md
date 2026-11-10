@@ -49,7 +49,8 @@ actual exactness, target identity, natural-source and state-isolation rules.
 Prioritize natural source recovery and exact native output. Read the short
 `docs/RE_HANDOFF.md`, relevant parts of `docs/RE_WORKFLOW.md` and
 `docs/ARCHITECTURE.md`, and the local `th03-re` skill. Inspect Git; run
-preflight when starting a session or when the environment/targets change.
+preflight before target-dependent reconstruction or after target/runtime
+changes. Documentation and CI edits do not need private-tool preflight.
 
 - Use the Japanese targets pinned in `config/targets.toml`, with
   `candidate-local-attested` provenance. Never substitute translated, patched
@@ -86,10 +87,12 @@ preflight when starting a session or when the environment/targets change.
   shared executable code; this game's mutable runtime state stays isolated.
   See docs/STORAGE_HANDOFF_CURRENT.md for the short retention guidance.
 
-Finish with affected checks and `git diff --check`. Full `python3 scripts/ci.py`
-is available for broad infrastructure changes; it is not a per-turn gate or a
-requirement for ordinary source/ledger updates. Commit substantial progress
-using `gpt-web: xxx` (current user-required format).
+Finish with affected checks and `git diff --check`. `python3 scripts/ci.py`
+is a fast, standard-library-only syntax/whitespace check, not a full test or
+native-verification gate. It need not be repeated after every commit.
+Documentation-only changes need only diff inspection and whitespace checking.
+Run relevant tests or native comparisons explicitly when the change needs them.
+Commit substantial progress using `gpt-web: xxx` (current user-required format).
 
 ## Shared Factory runtime
 

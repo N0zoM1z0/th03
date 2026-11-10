@@ -1,12 +1,24 @@
-name: Control plane
-on: [push, pull_request]
+name: Basic checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   check:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: python3 -m pip install --no-cache-dir -r requirements-ci.txt
-      - run: python3 scripts/ci.py
+      - run: python3 scripts/ci.py --base "$BASE_REF"
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.sha || github.event.before }}

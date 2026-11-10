@@ -32,11 +32,15 @@ there is no whole-game completion percentage.
 ## Validate an existing checkout
 
 Use the current [handoff](docs/RE_HANDOFF.md) for source-bound proof stages,
-blockers and the next reconstruction targets. Start with:
+blockers and the next reconstruction targets. Basic checks need only Python
+3.11+ and Git:
 
     git status -sb
-    .venv/bin/python scripts/preflight.py
-    git diff --check
+    python3 scripts/ci.py
+
+Run `.venv/bin/python scripts/preflight.py` before target-dependent native
+work or after changing targets/tools. Ordinary documentation and CI edits do
+not need that private-tool check.
 
 For source edits, rebuild only the affected original physical translation
 units and compare the complete native scope in two original TC4 rounds and

@@ -9,11 +9,11 @@ gives current acceptance and open work. Detailed historical witnesses belong in
 
 | Entry point | Purpose |
 | --- | --- |
-| `preflight.py` | Check targets, environment and tracking before work. |
+| `preflight.py` | Check targets, environment and tracking before native work or after changing targets/tools. |
 | `status.py`, `status.py --json` | Display active inventory, canonical ledger, decoded publication and independent current source-native reviews. Pending publications include the failing input and native audit reason. |
 | `progress.py`, `progress.py --check` | Generate or check the Markdown/SVG from the same verified statuses. All bars count tracked extents; MAIN's function ledger is separate. Private evidence is required to reproduce verified native rows. |
-| `ci.py` | Default lightweight check: syntax of changed machine inputs and Git whitespace. It does not run tests, native tools or publication audits. |
-| `ci.py --full` | Explicit broad unittest suite, tracking/progress, target/tool identities and available headless database checks. Historical private tests can require their original source checkout; see the limits below. |
+| `ci.py` | Python 3.11+ standard-library syntax/whitespace checks. Checks local changes, or the last commit in a clean checkout. No dependencies, test suite or private tools. |
+| `ci.py --base REV` | Check every changed machine input and whitespace across a PR/push range. |
 | `verify_targets.py`, `attest_toolchain.py` | Check private target and installed native-tool identities. |
 | `attest_analysis_toolchain.py`, `ghidra.py ARTIFACT check` | Check the complete Ghidra/JDK installation and re-attest a database. |
 | `bootstrap_jwasm.py --check` | Check the bounded compatible ZUN emitter and pinned source identity. |
