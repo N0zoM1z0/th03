@@ -95,6 +95,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / VSYNC initialized storage ASM | af1337i | Verified | 1 | 0 | — |
 | th03-main / Original master library CODE carriers | af1338c | Verified | 2 | 10,570 | — |
 | th03-main / MAIN master DATA and BSS carrier | af1340d | Verified | 1 | 0 | — |
+| th03-main / MAIN aggregate root CODE and DATA | af1341b | Verified | 1 | 896 | — |
 | th03-mainl / Staff Roll | af942s | Verified | 1 | 3,695 | 224 |
 | th03-mainl / Root controller | af944r | Verified | 1 | 2,458 | 112 |
 
@@ -245,6 +246,8 @@ th03-main VSYNC initialized storage ASM: `.analysis/work/main-vsync-storage-asm-
 th03-main Original master library CODE carriers: `.analysis/work/main-master-library-asm-af1338c/report.json`.
 
 th03-main MAIN master DATA and BSS carrier: `.analysis/work/main-master-tail-data-af1340d/report.json`.
+
+th03-main MAIN aggregate root CODE and DATA: `.analysis/work/main-root-carrier-af1341b/report.json`.
 
 th03-mainl Staff Roll / 19 procedures: `.analysis/work/mainl-staff-af942s-native-build.json`.
 
