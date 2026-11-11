@@ -1,7 +1,7 @@
 # TH03 semantic and 64-bit port
 
 `port/modern-64` contains native C++17 HDI/PF assets, PI/CDG/BFNT graphics,
-title/menu/Option state and story/versus character selection. Linux
+title/menu/Option state, story/versus character selection and MAINL stage introductions. Linux
 uses SDL2; Windows x64 uses Win32/GDI. No DOS executable is executed by this
 program. Game data remains external.
 
@@ -44,8 +44,9 @@ Z/Enter confirms and Escape returns/quits. Option changes rank, sound-mode
 state and key-mode state in memory. There is no sound synthesis or save writer
 yet. Start enters story selection; VS opens the three original match modes and
 then selection. Completion prepares the resident characters, opponent order
-and CPU flags, stopping at the MAINL handoff. Stage introduction, gameplay,
-Music Room, HiScore and attract playback remain to be joined. The goal is a
+and CPU flags, then displays the original MAINL stage introduction before
+stopping at the MAIN handoff. Gameplay, Music Room, HiScore and attract
+playback remain to be joined. The goal is a
 complete playable port; this intermediate build is not a full game preview.
 
 Headless examples:
@@ -159,9 +160,28 @@ worktree's `.analysis/work/port64-selection-*` files. Two-player controls follow
 the DOS mappings: P1 uses T/F/H/B with Z/X; P2 uses keypad movement with Left/Right
 for Shot/Bomb. Ordinary single-player menus/movement also accept arrows.
 
-Next, join MAINL's stage introduction and then MAIN's resident/round setup
+Next, join MAIN's resident/round setup
 through explicit C++ state. Preserve 16-bit arithmetic, two-player ownership
 and random draw order. Add a save directory separate from
 both DOS media and the user's DOSBox package before implementing persistence.
 Use the original DOS behavior as the comparison baseline, and clarify another
 semantic owner when it blocks that integration.
+
+MAINL introductions require `--font-bmp /path/to/FREECG98.BMP`, the external
+2048x2048 monochrome Anex86-format PC-98 font also accepted by DOSBox-X. Font
+rendering follows TH03's C++ `graph_putsa_fx`, including alternate JIS-row ANK
+glyphs and WORD-truncated bold weight. TH04's ASM renderer is different.
+`STNX0.PI`, the selected stage background, portraits and optional `ST.CD2`
+stage number compose directly from original assets. Fade steps are six tone
+units; input cannot dismiss the first 33 introduction VBlanks.
+
+The full Marisa/Rikako Stage 1 frame agrees pixel-for-pixel with the retained
+DOS frame, including text and palette. Repeat with:
+
+```sh
+python3 port64/check_intro.py --native build/linux-x64/th03-port64 --dos-root /path/to/dos
+```
+
+Use `--scene stage-intro --characters 5,13 --frames 20` with the HDI and font
+for the same frame. The two IDs are paletted character IDs 1..18; `--stage`
+accepts the original zero-based stage. No original disk or font is written.

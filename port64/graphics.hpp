@@ -31,5 +31,6 @@ private:
     Bytes bytes_;
     unsigned data_offset{};
 };
+void picture(Canvas& dest,const PiImage& image,int left=0,int top=0);
 void gaiji(Canvas& dest,const Bytes& font,unsigned code,int left,int top,std::uint8_t color);
 }

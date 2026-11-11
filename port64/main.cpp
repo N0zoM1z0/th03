@@ -8,7 +8,8 @@
 int main(int argc, char** argv) {
     try {
         std::string hdi, archive, screenshot, extract, output, packed, inputs;
-        std::string scene="title", picture="TL02.PI";
+        std::string scene="title", picture="TL02.PI",font_bitmap,characters="1,3";
+        unsigned stage=0;
         bool headless=false, list=false;
         unsigned frames=0;
         for (int i=1;i<argc;++i) {
@@ -16,7 +17,8 @@ int main(int argc, char** argv) {
             if (arg=="--headless") { headless=true; continue; }
             if (arg=="--list") { list=true; continue; }
             if (arg=="--help") {
-                std::cout<<"th03-port64 (--hdi FILE | --archive FILE) [--headless] [--scene title|menu|options|story-select|versus-select|two-select]\n"
+                std::cout<<"th03-port64 (--hdi FILE | --archive FILE) [--headless] [--scene title|menu|options|story-select|versus-select|two-select|stage-intro]\n"
+                         <<"  [--font-bmp FILE] [--characters P1,P2] [--stage N]\n"
                          <<"  [--screenshot FILE.ppm] [--frames N] [--inputs SP[:P1:P2],...]\n"
                          <<"  [--list] [--extract NAME --output FILE] [--pi NAME --packed FILE]\n";
                 return 0;
@@ -25,6 +27,9 @@ int main(int argc, char** argv) {
             const std::string value=argv[i];
             if (arg=="--hdi") hdi=value;
             else if (arg=="--archive") archive=value;
+            else if (arg=="--font-bmp") font_bitmap=value;
+            else if (arg=="--characters") characters=value;
+            else if (arg=="--stage") stage=unsigned(std::stoul(value));
             else if (arg=="--scene") scene=value;
             else if (arg=="--screenshot") screenshot=value;
             else if (arg=="--extract") extract=value;
@@ -62,7 +67,7 @@ int main(int argc, char** argv) {
             options={cfg[0],cfg[1],cfg[2]};
             nem=hdi_file(disk,"YUME    NEM");
         }
-        th03::Application app(assets,options,nem,picture);
+        th03::Application app(assets,options,nem,picture,font_bitmap.empty() ? Bytes{} : read_file(font_bitmap));
         auto& menu=app.menu;
         if (scene=="menu" || scene=="options") { menu.tick(th03::left); menu.tick(0); }
         if (scene=="options") {
@@ -73,6 +78,17 @@ int main(int argc, char** argv) {
         } else if(scene=="versus-select"||scene=="two-select") {
             app.resident.begin_versus(scene=="two-select" ? 1 : 0);
             app.start_selection(scene=="two-select" ? th03::SelectKind::two_player : th03::SelectKind::versus_cpu);
+        } else if(scene=="stage-intro") {
+            std::istringstream chars(characters);std::string value;unsigned at=0;
+            app.resident.begin_story();
+            while(std::getline(chars,value,',')) {
+                const auto paletted=std::stoul(value);
+                if(at>=2||paletted<1||paletted>18)throw std::runtime_error("characters require two palette IDs from 1 to 18");
+                app.resident.paletted[at++]=std::uint8_t(paletted);
+            }
+            if(at!=2||stage>8)throw std::runtime_error("stage introduction needs two characters and stage 0 to 8");
+            app.resident.stage=std::uint8_t(stage);app.resident.opponents[stage]=app.resident.paletted[1];
+            app.start_stage_intro();
         } else if (scene!="menu" && scene!="title") throw std::runtime_error("unknown scene");
         if (!inputs.empty()) {
             std::istringstream stream(inputs); std::string word;

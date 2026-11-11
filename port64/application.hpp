@@ -1,17 +1,19 @@
 #pragma once
 #include "selection.hpp"
+#include "stage_intro.hpp"
 #include <optional>
 
 namespace th03 {
-enum class Phase {op,versus,selection,mainl_handoff,quit};
+enum class Phase {op,versus,selection,mainl_handoff,quit,stage_intro};
 class Application {
 public:
-    Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture="TL02.PI");
+    Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture="TL02.PI",Bytes font_bitmap={});
     void tick(const InputFrame& input);
     Frame render() const;
     bool finished() const {return phase==Phase::quit||phase==Phase::mainl_handoff;}
     void start_selection(SelectKind kind);
     void return_to_title();
+    void start_stage_intro();
     Phase phase=Phase::op;
     Menu menu;
     Resident resident;
@@ -19,6 +21,8 @@ public:
 private:
     const PfArchive& assets_;
     PiImage background_;
+    Font graphic_font_;
+    std::optional<StageIntro> intro_;
     Bytes font_,window_;
     std::optional<SelectionAssets> selection_assets_;
     unsigned available_=7,transition_wait_=0;

@@ -84,6 +84,12 @@ void Bfnt::put(Canvas& dest,unsigned image,int left,int top) const {
         if(color)dest.put(left+int(x),top+int(y),color);
     }
 }
+void picture(Canvas& dest,const PiImage& image,int left,int top) {
+    for(unsigned y=0;y<image.height;++y)for(unsigned x=0;x<image.width;++x) {
+        const auto packed=image.pixels.at((std::size_t(y)*image.width+x)/2);
+        dest.put(left+int(x),top+int(y),std::uint8_t((x&1) ? packed&15 : packed>>4));
+    }
+}
 void gaiji(Canvas& dest,const Bytes& font,unsigned code,int left,int top,std::uint8_t color) {
     const auto base=32+word(font,28)+code*32;
     need(base+32<=font.size(),"gaiji outside font");

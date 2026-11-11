@@ -36,8 +36,9 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
 The user has authorized semantic and 64-bit work while independently testing
 the DOS build. This checkout is the isolated `port/modern-64` worktree; see
 [portable status and commands](PORTABLE.md). Title/menu/Option and story/versus
-selection now run natively, including original graphics and resident/opponent
-state. Continue with MAINL stage introduction, then MAIN round setup. Preserve
+selection and MAINL stage introduction now run natively, including original
+graphics and resident/opponent state. The full Stage 1 poster matches the DOS
+frame. Continue with MAIN round setup. Preserve
 the live Windows DOSBox disk and do not send inputs to its window.
 
 The four-file DOS package has been played using the TH04-style
