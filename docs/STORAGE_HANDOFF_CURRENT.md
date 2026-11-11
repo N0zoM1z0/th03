@@ -9,6 +9,10 @@ and compare the complete affected native output, including ordered relocations
 and layout. Current entry points still reuse a native baseline and source
 snapshots; keep those actual working inputs until they can be regenerated.
 A chain of historical receipts is not itself a retention requirement.
+Keep the source-bound **currently selected** stages, their original 99-object
+linker inputs, reports and the frozen native baseline. Some historical
+`af...` names in focused notes identify past experiments whose output may
+have been pruned; use a new unused stage to repeat them if needed.
 
 Keep concise knowledge: current blockers, verified compiler/ABI findings and
 failed approaches worth avoiding. Historical archives, duplicate evidence,

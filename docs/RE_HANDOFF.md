@@ -1,4 +1,4 @@
-# TH03 — active agent handoff (2026-11-10)
+# TH03 — active agent handoff (2026-11-11)
 
 Start with [AGENTS.md](../AGENTS.md), then this page. Use
 [generated progress](PROGRESS.md) for the **complete current** per-owner
@@ -17,24 +17,20 @@ findings; Git history holds older chronology.
   MAIN's separate ledger records 106 extents / 78,737 bytes and 459 exact
   function entries. Neither a ledger entry nor source presence certifies
   the current build, and the game's completion percentage is unknown.
-- As of this handoff, `scripts/status.py` selects **76** separately verified
-  native MAIN stages covering **97 distinct physical OBJ owners** and
-  **89,269 CODE bytes**. The two newly selected original zero-byte
-  segment-order scaffold objects contribute no initialized CODE/DATA;
-  their exact raw OMF segment alignment and order are now source-bound. The new VSYNC storage owner has zero executable
-  CODE but separately proves eight initialized DATA bytes and eight BSS bytes.
-  Two newly selected `master.lib` CODE owners contribute **10,570 vendor-library
-  CODE bytes** to this *physical* total; they are not newly recovered authored
-  gameplay functions or a comparable game-code ledger denominator. This is a
-  total for selected, non-overlapping owners, **not new work completed in a
-  session**, and the stages are independently
-  linked against retained unchanged inputs, **not** one all-source build.
-  For the current exact stage IDs and scopes, consult `scripts/status.py`
-  (`native_source_reviews`) or the generated [progress table](PROGRESS.md)
-  instead of copying old stage IDs from historical reviews.
-- Native receipts reproduce complete owned CODE/initialized DATA, ordered
-  OMF fields/PUBLICs/segment layout, and two original TC4/TASM + TLINK MAIN links
-  with target-equal Japanese program image and ordered MZ relocations.
+- As of this handoff, MAIN has **76 independently verified stages**, covering
+  **97 non-overlapping physical objects** and **89,269 executable CODE bytes**.
+  This includes **10,570 bytes of original ReC98 `master.lib` CODE**, not
+  newly recovered authored gameplay code. VSYNC storage, the master DATA/BSS carrier and
+  two segment-order scaffolds contribute no CODE bytes. The stage list and
+  counts are generated in [PROGRESS.md](PROGRESS.md); use that instead of
+  historical stage IDs from older notes.
+- Each selected owner is independently compiled in two original TC4/TASM
+  rounds and linked against retained unchanged inputs. This is **not** one
+  end-to-end cold all-source rebuild, and its physical CODE total is not a
+  whole-game completion percentage.
+- Native receipts compare complete owned CODE/initialized DATA, ordered OMF
+  fields/PUBLICs/segment layouts, and two original TC4/TASM + TLINK MAIN links,
+  including the Japanese program image and ordered MZ relocations.
   Local evidence is separate from canonical Factory Oracle acceptance;
   do not claim whole-product or packed-file acceptance from these scopes.
 
@@ -87,41 +83,26 @@ another: byte/word signedness, local lifetime, `goto` layout, far pointers,
 register effects and RNG consumption matter. Preserve proven original quirks
 rather than adding defensive product fixes or manufactured byte padding.
 
-## Open blocker: BIOS keyboard scanner `input_s`
+## Open blocker: original `input_s` source versus historical linker carrier
 
-`input_s` remains the original 417-byte TC4 physical source owner with the
-historic 418-byte TASM linker-carrier gap. The expanded current selection
-also counts two original vendor library code owners and the now source-bound
-master DATA/BSS tail and MAIN aggregate root, whose exact
-object/carrier source relationships are now both selected. The two zero-byte segment-order scaffolds are now source-bound with
-strict raw OMF alignment checks. The `c0l` CRT startup and historical
-TC4 scanner link gap remain separate provenance questions. Do not infer an all-source game build from these
-scoped native owner checks. Both the original
-OBJ and freshly compiled maintained C++ have 417 bytes of initialized CODE,
-42 ordered native fixup fields and the same PUBLIC/segments. But the frozen
-normal MAIN parent used an older **418-byte** experimental object with a
-trailing `90` after the final `RET`. A fresh normal TLINK using the **actual
-original 417-byte OBJ** (`af1305a`) still differs from the frozen parent
-at only **file offset 68,141** (`90` versus `00`); all ordered MZ relocations
-match. Fresh independent native negative stages `af1320c` and `af1320d`
-confirm the same object and gap. Other one-byte SHARED alignment holes are
-zero in both links, so this is not a general TLINK NOP-fill rule. File-scope
-`asm { even }` did not compile under TC4 (`af1193b`).
+The original TC4 `input_s.obj` and the fresh maintained C++ object each have
+**417 CODE bytes**, **42 ordered OMF fixup fields**, and identical PUBLICs
+and segments (`af1320c`/`af1320d`). The frozen normal MAIN link instead
+used an older **418-byte assembler carrier**. When linked with the genuine
+417-byte TC4 object (`af1305a`), the result differs at only file offset
+**68,141** (`0x90` versus `0x00`), with the same ordered MZ relocations.
 
-**New historical-link provenance:** `af1335b` independently assembles the
-maintained symbolic `src/main/hardware/input_scan.asm` twice with original
-TASM; its natural CODE `EVEN` emits the 418th-byte `90`, and the 418-byte
-object/42 fields match the frozen historical parent. Both complete TLINK
-images, MAP and ordered MZ relocations match. This explains the inherited
-NOP without injecting any bytes, **but is not source-exact acceptance of the
-original 417-byte TC4 physical object**. The original C++ normal-link
-blocker remains open, and this alternative ASM proof is not added to the
-selected native physical-owner counts. See [the input gap analysis](MAIN_INPUT_S_LINK_GAP_AFTER744_REVIEW.md).
+The maintained `src/main/hardware/input_scan.asm` naturally emits the
+extra `0x90` through a TASM `EVEN` alignment. Independent stage `af1335b`
+proves the 418-byte carrier and both complete normal TLINK images. This
+**explains historical parent-link provenance** without a hand-inserted NOP,
+but does not prove that the original **417-byte TC4 source object** can
+reproduce that normal link. Keep those two claims separate; the alternative
+assembler carrier is intentionally absent from current original-OBJ source
+coverage. Full diagnostics: [input alignment review](MAIN_INPUT_S_LINK_GAP_AFTER744_REVIEW.md).
 
-Future work should distinguish the actual 417-byte original TC4 object
-from the 418-byte TASM linker carrier and resolve the source/normal-link
-provenance requirement without changing the original target. Preserve both
-outputs and use isolated scoped experiments.
+The original CRT `c0l.obj`, canonical packed-file/Factory acceptance and
+whole-product source composition remain separate unfinished gates.
 
 ## Good next work
 
@@ -155,12 +136,14 @@ git diff --check
 ```
 
 Use an actual fresh stage ID matching the probe's validation pattern; the
-placeholder is not executable verbatim. **Never routinely replay the cold
-build or run all 65 source reviewers for a small source change.**
+placeholder is not executable verbatim. **Do not routinely replay the cold
+build or run every selected source reviewer for a small change.**
 
 Keep original targets, tools, analyzer projects and current build/compare
-inputs. Record useful conclusions briefly. Historical archives, duplicate
-trial output and cleanup reports need no retention; documentation references
-alone do not make a file necessary. The `input_s` context above remains useful
+inputs. Record useful conclusions briefly. Old trial artifacts may be pruned.
+**Historical stage IDs in focused notes are observations, not a promise that
+an output directory still exists.** Use generated current selections for
+live rechecks and fresh stage IDs for new experiments. Documentation references
+alone do not make old output necessary. The `input_s` context above remains useful
 until its linker discrepancy is resolved. See the short
 [storage guidance](STORAGE_HANDOFF_CURRENT.md).

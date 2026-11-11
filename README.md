@@ -13,11 +13,17 @@ This repository reconstructs the original Japanese PC-98 **Touhou 3:
 Phantasmagoria of Dim.Dream**. Work covers OP.EXE, MAIN.EXE, MAINL.EXE (the ending)
 and ZUN.COM. Reconstruction and whole-product source acceptance remain open.
 
-[Generated progress](docs/PROGRESS.md) shows source inventory, decoded acceptance and independently verified current native owners. All chart bars count tracked unit extents; MAIN's function ledger is separate. MAINL's **current decoded publication is restored** through the `af1055m` Staff/root native refresh and revalidated retained ancestry. Two original compiler rounds reproduce the complete decoded EXE/MAP and ordered relocations; whole-product source ownership remains open. See the [current handoff](docs/RE_HANDOFF.md) for the precise scope and outstanding work.
-[The handoff](docs/RE_HANDOFF.md) records the latest verified checkpoint,
-remaining work, local state and findings for the next agent. Source-present,
-bounded exact source scopes and target-equal complete builds are separate claims;
-there is no whole-game completion percentage.
+[Generated progress](docs/PROGRESS.md) shows the source inventory, decoded
+acceptance and currently verified native physical owners. All chart bars count
+tracked extents; MAIN's function ledger is separate. MAINL has a retained
+decoded publication backed by its Staff/root native refresh. MAIN has many
+independently verified owners, but these are **not** one all-source build or
+canonical packed-game acceptance.
+
+For current stages, remaining blockers and the next agent's starting point,
+use [the handoff](docs/RE_HANDOFF.md). Source presence, physical-source
+exactness and whole-product acceptance remain different claims; there is no
+honest whole-game completion percentage.
 
 ## Navigation
 

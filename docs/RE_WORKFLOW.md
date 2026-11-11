@@ -8,8 +8,9 @@
 
 ## Recover and compare
 
-1. Inspect Git and the concise [handoff](RE_HANDOFF.md). Run preflight at session
-   start or after environment/target changes. Read architecture where relevant;
+1. Inspect Git and the concise [handoff](RE_HANDOFF.md). Run preflight before
+   target-dependent native work or after environment/target changes, not for
+   documentation-only handoff cleanup. Read architecture where relevant;
    attest a database before using Ghidra observations.
 2. Select a complete function or source/ownership question. Recover natural
    source from the fixed Japanese target. TH04 and ReC98 are references;
