@@ -44,3 +44,31 @@ Source proof: `.analysis/work/exatt-layout-af1356f/report.json`, SHA-256
 `86677d1703bc76d25df61aa000ce8e5e0821b289adeb95e313c5cc534514ea07`.
 Joint proof: `.analysis/work/exatt-layout-af1356g/report.json`, SHA-256
 `16f4e3cf8143eff2c82404b47bbc9f93db51aa76ceecb90139bbad3c2ed31d05`.
+
+## Source-exact wide/narrow terminal and ring phase checks (2026-11-11)
+
+The current Marisa BOSS now exits early unless the wide column attack
+has reached its own final frame. The narrow attack independently exits
+unless its shorter final deadline has arrived. All earlier paired
+Extra Attack calls still return on their respective exact frame and
+neither family emits an unintended extra pair on completion.
+`marisa_pattern_ring()` likewise returns if the original inclusive
+32-frame volley window has not ended, after its cadence-dependent ring
+and cloud calls. `marisa_render_main()` checks the low two bits of the
+unsigned global frame directly for the four-frame sprite flicker,
+retaining original damage and alternate-strip priority.
+
+Independent original TC4 stages `af1367a`–`af1367d` proved the changes.
+The larger experiment `af1367e` moved spread completion to the front of
+the firing branch; it was logically equivalent but generated different
+CODE, so the original spread branch shape was restored. Current `af1367f`
+rebuilds all **1,431 CODE bytes, 199 ordered native fields, 9 PUBLICs**,
+with two identical original normal Japanese MAIN links and relocations.
+Consumer `af1367g` jointly rebuilds Marisa BOSS, Bullet, two shared
+BOSS objects, Marisa Extra Attack, sound and Polar: **5,887 CODE bytes,
+554 ordered fields and 45 PUBLICs**, both native rounds exact.
+
+Owner proof: `.analysis/work/exatt-layout-af1367f/report.json`, SHA-256
+`d217585492b260faa7f8780938efc6bd3609a269ce11491105f9a13b3b775b15`.
+Joint proof: `.analysis/work/exatt-layout-af1367g/report.json`, SHA-256
+`ee0128fe90c312230527482244963a6d6bf65ea309edefa66571c40f7fa477f8`.

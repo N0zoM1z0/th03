@@ -256,11 +256,14 @@ void near marisa_pattern_columns_wide(void)
 		marisa_exatt_add(MARISA_COLUMN_PAIR_3_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(boss_frame == MARISA_COLUMN_WIDE_FINISH) {
-		boss_render_mode = MARISA_RENDER_MODE_NORMAL;
-		boss_mode = MARISA_MODE_SELECT;
-		boss_frame = 0;
+	// All four timed column pairs above return independently. Only
+	// the exact final clock reaches the shared SELECT state reset.
+	if(boss_frame != MARISA_COLUMN_WIDE_FINISH) {
+		return;
 	}
+	boss_render_mode = MARISA_RENDER_MODE_NORMAL;
+	boss_mode = MARISA_MODE_SELECT;
+	boss_frame = 0;
 }
 
 // Regular 32-frame volley, ending at the original 0x82 timer.
@@ -302,10 +305,13 @@ void near marisa_pattern_ring(void)
 		bullets_add();
 	}
 
-	if(boss_frame >= MARISA_RING_FINISH) {
-		boss_mode = MARISA_MODE_SELECT;
-		boss_frame = 0;
+	// The cadence-gated cloud/dense volleys always execute first;
+	// SELECT commits only after the original inclusive ring window.
+	if(boss_frame < MARISA_RING_FINISH) {
+		return;
 	}
+	boss_mode = MARISA_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void near marisa_pattern_columns_narrow(void)
@@ -332,11 +338,14 @@ void near marisa_pattern_columns_narrow(void)
 		return;
 	}
 	// Narrow columns complete at the final release frame.
-	if(boss_frame == MARISA_COLUMN_FOURTH) {
-		boss_render_mode = MARISA_RENDER_MODE_NORMAL;
-		boss_mode = MARISA_MODE_SELECT;
-		boss_frame = 0;
+	// The narrow sequence has three pairs, not the wide fourth pair.
+	// Its final clock does not emit a new projectile before SELECT.
+	if(boss_frame != MARISA_COLUMN_FOURTH) {
+		return;
 	}
+	boss_render_mode = MARISA_RENDER_MODE_NORMAL;
+	boss_mode = MARISA_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void far gba_boss_update_marisa(void)
@@ -427,8 +436,8 @@ void far gba_boss_update_marisa(void)
 
 }
 
-// Unsigned global four-frame flicker lowers from natural %4
-// to the original masked native comparison in this renderer.
+// Global frame flicker uses the unsigned word's low two bits; this
+// expression preserves the original masked comparison and sprite order.
 void near marisa_render_main(void)
 {
 	sprite16_offset_t sprite_offset;
@@ -453,7 +462,7 @@ void near marisa_render_main(void)
 		return;
 	}
 	if(
-		(round_or_result_frame % MARISA_MAIN_FLICKER_PERIOD) <
+		(round_or_result_frame & (MARISA_MAIN_FLICKER_PERIOD - 1)) <
 		MARISA_MAIN_FLICKER_FIRST_HALF
 	) {
 		sprite16_put_size.set(MARISA_RENDER_DAMAGE_WIDTH, MARISA_RENDER_DAMAGE_HEIGHT);
