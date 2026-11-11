@@ -35,5 +35,5 @@ extern "C" int far pascal main_exec(const char far *binary_fn)
  // the game's 16-bit large memory model, rather than a near integer zero.
  // The 16-bit SDK requires mutable char* arguments; keep both explicit
  // far-pointer casts to discard const without narrowing their segment.
- return execl((char far *)binary_fn, (char far *)binary_fn, (void far *)0);
+ return execl(const_cast<char far *>(binary_fn), const_cast<char far *>(binary_fn), (void far *)0);
 }

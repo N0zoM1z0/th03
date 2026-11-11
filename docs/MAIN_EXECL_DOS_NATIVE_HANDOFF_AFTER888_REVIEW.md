@@ -55,3 +55,24 @@ Protected actual source-bound original writer evidence:
 This historically source-covered leaf now has clearer native C++
 ABI reasoning; **no newly distinct original CODE, raw vendor OMF packet
 identity or canonical Factory packed-file acceptance** is claimed.
+
+## 2026-11-11: explicit far const removal without ABI narrowing
+
+The maintained `main_exec()` now uses `const_cast<char far *>(binary_fn)`
+for both DOS `execl()` filename arguments. This precisely expresses the
+old Borland SDK's need to discard source `const` while retaining the
+original segmented far pointer and the original two argument positions.
+The terminal `(void far *)0` is still a four-byte segmented NULL. In
+`af1359j`, `static_cast<void far *>(0)` failed to compile under real
+TC4 4.02 (`Cannot cast from 'int' to 'void *'`), so it is not an
+acceptable modernization. The original two separate MRS frees and all
+preceding graphics/keyboard cleanup remain untouched.
+
+`af1359i` reproduces the entire **79 CODE bytes, eleven ordered native
+fields and one PUBLIC** in two original TC4/TLINK rounds. Joint
+`af1359k` additionally recompiles VRAM plane setup, `game_init_main()`,
+shutdown and VSYNC delay, reproducing both full Japanese MAIN images
+and ordered MZ relocation vectors.
+
+Source proof: `.analysis/work/exatt-layout-af1359i/report.json`, SHA-256
+`16e67f36fdfda4f0259b66ac9b11ff0e718c4cf47de0bbbcf61612f1d25f27ec`.

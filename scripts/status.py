@@ -102,11 +102,11 @@ def native_source_reviews(root, artifact):
         # or Factory credit from any historical composite.
         selected = [(label, stage, f'.analysis/work/exatt-layout-{stage}/report.json',
                      'review_th03_main_source_overlay.py', []) for label, stage in (
-            ('VRAM plane initializer', 'af1326e'),
+            ('VRAM plane initializer', 'af1359g'),
             ('Stage demo transition', 'af1333a'),
             ('Shared BOSS', 'af1351g'),
             ('PI image loader', 'af1358n'),
-            ('DOS executable handoff', 'af1322j'),
+            ('DOS executable handoff', 'af1359i'),
             ('Resident CFG loader', 'af1182a'),
             ('PC-98 shutdown', 'af1184d'),
             ('Input modes and keyboard wait', 'af1353i'),

@@ -41,7 +41,7 @@ list. The full selection lives in the generated progress table.
 
 | Owner / area | Stage | Focus |
 | --- | --- | --- |
-| VRAM plane initializer | `af1326e` | Newly source-bound original TH01 shared 41-byte hardware owner; four far plane pointers, complete normal MAIN link |
+| VRAM plane initializer | `af1359g` | Four original TH01 shared VRAM segment pointers, now direct 16-bit C-style segment casts; DOS boot/exit joint `af1359k` |
 | Shared BOSS controller and ring | `af1351g` | Two physical owners, 949 bytes; exact HP terminal short-circuit, active target tracking, edge turns, descent and retained native RNG rejection loop; Mima joint `af1351f` |
 | MAIN entry + frame scheduler | `af1314c` | Full 3,050-byte scheduler; explicit render/VSYNC phase gates and independent victory checks, with original PC-98 page OUT order |
 | Reimu BOSS | `af1352h` | 2,020-byte owner; three orbit phases, explicit cloud cadence, independent spread-window returns and positive maintenance-ring gate; mirror ending and signed radial arithmetic retained |
@@ -56,7 +56,7 @@ list. The full selection lives in the generated progress table.
 | Explosion collision / Fireball | `af1198g` / `af1325i` | Original hit-chain rules; Fireball free-slot filtering, three falling-removal gates and original transfer labels; retain uninitialized state |
 | Kotohime / Yumemi Extra Attack | `af1199e` / `af1200c` | Complete entity/render states |
 | Rikako / Kana / Mima Extra Attack | `af1301f` / `af1302f` / `af1306e` | Full allocators, updates and rendering; first-use locals tested independently |
-| Q8 polar / PI reload / DOS handoff | `af1322h` / `af1358n` / `af1322j` | Original signed Q8 geometry, PI far-Pascal return local initialized at first use, and DOS far arguments; Yumemi/PI/Polar joint `af1358o` |
+| Q8 polar / PI reload / DOS handoff | `af1322h` / `af1358n` / `af1359i` | Original signed Q8 geometry, PI far-Pascal return local initialized at first use, and original DOS filename `const_cast` with four-byte far-null argument; boot/VRAM/exit joint `af1359k` |
 | VSYNC storage-only ASM | `af1337i` | Original `VS.ASM`: 0 CODE, 8 initialized DATA, 8 BSS and 12 aliases; only one tied PUBLIC pair needs MAP-order normalization |
 | Original master.lib CODE | `af1338c` | Original external library carriers, 10,570 CODE bytes / 464 ordered fields / 103 PUBLICs; two exact native links and pinned vendor includes, not game-authored code |
 | Master DATA/BSS tail | `af1340d` | Original `mst_tail` source carrier: 1,566 initialized DATA bytes, 1,606-byte DATA segment, 22,250-byte BSS segment, 414 PUBLICs and 0 CODE; generated sprite and vendor dependencies pinned |
