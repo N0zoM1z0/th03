@@ -296,12 +296,14 @@ void near kana_pattern_staged_ring(void)
 			bullet_template.speed.v = TO_SP(1);
 			bullet_template.group =
 				BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
-			// Native 16-projectile staged volley preserves bullets_add,
-			// byte angle +6, and speed +3 ordering before index advance.
-			for(register int i = 0; i < KANA_MIDDLE_PELLET_COUNT; ++i) {
+			// The pre-tested 16-projectile volley preserves bullets_add,
+			// byte angle +6, and speed +3 before the signed-index advance.
+			register int i = 0;
+			while(i < KANA_MIDDLE_PELLET_COUNT) {
 				bullets_add();
 				bullet_template.angle += KANA_STAGED_PELLET_ANGLE_STEP;
 				bullet_template.speed.v += KANA_STAGED_PELLET_SPEED_STEP;
+				++i;
 			}
 			return;
 		}
@@ -624,9 +626,10 @@ void near kana_render_intro(void)
 	// minus (genuine failed trial af884e).
 	angle = (0 - angle);
 
-	// Sixteen sprite calls now use a natural signed-index for and a
-	// named byte angle step, both native exact (af884b/c).
-	for(register int i = 0; i < KANA_INTRO_SPRITE_COUNT; ++i, angle += KANA_INTRO_SPRITE_ANGLE_STEP) {
+	// Sixteen arrival sprites use a pre-tested signed-index loop. Each
+	// polar draw precedes the signed-index and byte-angle advances.
+	register int i = 0;
+	while(i < KANA_INTRO_SPRITE_COUNT) {
 		register screen_x_t left = polar(
 			boss_center_x,
 			radius,
@@ -647,6 +650,8 @@ void near kana_render_intro(void)
 		// assignment; compound top >>=4 changed CODE (af761b).
 		top = static_cast<screen_y_t>(top >> 4);
 		sprite16_put(left, top, sprite_offset);
+		++i;
+		angle += KANA_INTRO_SPRITE_ANGLE_STEP;
 	}
 }
 

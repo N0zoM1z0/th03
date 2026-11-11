@@ -49,3 +49,31 @@ Current receipt: `.analysis/work/exatt-layout-af1355d/report.json`, SHA-256
 `62fc2b22132bb420571e88c24cbde98c4396118e91513fed5e67f186960a09b3`.
 Joint receipt: `.analysis/work/exatt-layout-af1355e/report.json`, SHA-256
 `809da12d0beebb9f52e11c4d434c9836ea97fa9bac77c8000c23f7235e156052`.
+
+## 2026-11-11: exact pre-tested volley and arrival loops
+
+The staged attack's sixteen-shot middle volley now declares its signed
+index before a `while` loop. Each shot still precedes the byte-angle
+step, speed increment and signed-index advance. The arrival renderer
+also uses a pre-tested signed-index loop, advancing its index before
+its byte angle only after each polar/sprite draw. Both preserve their
+original 16-bit ABI, local lifetimes and RNG order.
+
+The independent `af1364a` and `af1364b` native probes matched the full
+1,874-byte Kana BOSS. Three additional compiler trials failed exact
+CODE: `af1364c` used a natural signed cloud angle subtraction,
+`af1364d` used `_AL -= 0x10` instead of `SUB AL,10h`, and `af1364e`
+reversed the warning sprite threshold dispatch. Their source was
+restored; the original AL carrier and renderer branch order remain.
+
+Current-source `af1364f` reproduces the entire **1,874 CODE bytes,
+274 ordered native fields and 9 PUBLICs** in two original TC4 rounds.
+Consumer stage `af1364g` recompiles Kana BOSS, Kana Extra Attack,
+Bullet, both shared BOSS objects, SE, Kaja and Polar: **6,347 CODE
+bytes, 640 ordered fields, 46 PUBLICs**, with complete normal Japanese
+MAIN links and MZ relocations exact.
+
+Owner proof: `.analysis/work/exatt-layout-af1364f/report.json`, SHA-256
+`9a98031642486bb8abba3332a3042c549947ea763090c4ab72a7ec941239fef5`.
+Consumer proof: `.analysis/work/exatt-layout-af1364g/report.json`, SHA-256
+`adca83d63b54e178b73ccb8284871e707f634c66f2165922c094dd796afb0b58`.
