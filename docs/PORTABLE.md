@@ -244,3 +244,22 @@ capture contains moving objects behind text and additional CPU gauge charge;
 those pixels are not initial-state fixtures. This is a rendering checkpoint,
 not a complete battle comparison. The running player/combat/intro/background
 loop still needs joining before native playtesting.
+
+The round HUD introduction is now ported as a separate update/render owner.
+`check_hud_intro.py --native-checks build/linux-x64/th03-port64-checks --dos-root /path/to/dos`
+compares 520 story/versus frames with actual MAIN updates and render-side state
+changes. All128 particle records, phase/banner state, seed and ring cursor
+agree. The slide destination word aliases particle15.x; it is not separate
+storage. `--hud-picture HDI 100 FILE.ppm` on the checks executable renders an
+isolated original-resource introduction. Linux and native Windows x64 rasters
+agree. This diagnostic does not run the surrounding battle loop.
+
+`collision.cpp` ports the rectangle stripes, vertical line, sloped stripes
+and ordinary player scan. `check_collision.py` takes the same two arguments
+as the HUD check and compares six full 6,624-byte bitmaps plus their hit scans
+with original instructions. Collision Y reports the scan rectangle's top,
+not the occupied row; X reports the containing eight-tile column. Keep these
+coarse values for CPU decisions. Wide CPU scans near the left edge can read
+outside the bitmap through wrapped DGROUP addressing. Recover the aliased
+DATA owners before joining those CPU paths; the current isolated module
+reports the unresolved owner instead of treating that memory as empty.

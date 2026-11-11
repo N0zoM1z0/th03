@@ -24,6 +24,7 @@ private:
 };
 class Bfnt {
 public:
+    std::uint8_t pixel(unsigned image,unsigned x,unsigned y) const;
     explicit Bfnt(Bytes bytes);
     void put(Canvas& dest,unsigned image,int left,int top) const;
     unsigned width{},height{},count{};

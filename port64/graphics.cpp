@@ -76,11 +76,15 @@ Bfnt::Bfnt(Bytes bytes):bytes_(std::move(bytes)) {
     need(data_offset<=bytes_.size()&&std::size_t(width)*height/2*count<=bytes_.size()-data_offset,
          "BFNT sprite pixels truncated");
 }
+std::uint8_t Bfnt::pixel(unsigned image,unsigned x,unsigned y) const {
+    need(image<count&&x<width&&y<height,"BFNT pixel outside file");
+    const auto packed=bytes_[data_offset+(std::size_t(image)*height+y)*(width/2)+x/2];
+    return std::uint8_t((x&1) ? packed&15 : packed>>4);
+}
 void Bfnt::put(Canvas& dest,unsigned image,int left,int top) const {
     need(image<count,"BFNT image index outside file");
     for(unsigned y=0;y<height;++y)for(unsigned x=0;x<width;++x) {
-        const auto packed=bytes_[data_offset+(std::size_t(image)*height+y)*(width/2)+x/2];
-        const auto color=std::uint8_t((x&1) ? packed&15 : packed>>4);
+        const auto color=pixel(image,x,y);
         if(color)dest.put(left+int(x),top+int(y),color);
     }
 }

@@ -70,6 +70,49 @@ void BattleGraphics::pattern(Canvas& dest,unsigned index,int left,int top) const
     }
     throw std::runtime_error("super.lib pattern outside original bank");
 }
+std::uint8_t BattleGraphics::pattern_pixel(unsigned index,unsigned x,unsigned y) const {
+    for(const auto& bank:patterns_) {
+        if(index<bank.count)return bank.pixel(index,x,y);
+        index-=bank.count;
+    }
+    throw std::runtime_error("intro pattern outside original bank");
+}
+void BattleGraphics::intro(Canvas& graphics,const Round& round,const Resident& resident) const {
+    const auto& intro=round.intro;
+    if(intro.flag!=2)return;
+    if(intro.phase==0) {
+        const auto strip=[&](int left,int top,unsigned pattern,unsigned row) {
+            // The original four-byte strip tests X once per byte before
+            // shifting its red-plane mask into physical VRAM.
+            for(unsigned column=0;column<4;++column,left+=8) {
+                if(left>=624)break;
+                if(left<0)continue;
+                for(unsigned bit=0;bit<8;++bit)
+                    if(pattern_pixel(pattern,column*8+bit,row)&2)graphics.put(left+int(bit),top,15);
+            }
+        };
+        for(unsigned i=0;i<16;++i) {
+            const auto& p=intro.particles[i];
+            for(unsigned part=0;part<4;++part) {
+                strip(p.center.x+int(part)*32,p.center.y,intro.sprite+part,i);
+                strip(544-p.center.x-int(part)*32,p.center.y,intro.sprite+3-part,i);
+            }
+        }
+    } else if(intro.phase==1) {
+        if(intro.frame>=24&&intro.frame<(resident.mode==Mode::story ? 56 : 64)) {
+            const auto number=34+(resident.mode==Mode::story ? resident.stage : round.id);
+            pattern(graphics,number,208,84);pattern(graphics,number,544,84);
+        }
+        for(unsigned side=0;side<2;++side)for(unsigned part=0;part<4;++part)
+            pattern(graphics,intro.sprite+part,intro.x+int(side)*320+int(part)*32,84);
+    } else if(intro.phase==3) {
+        for(const auto& p:intro.particles)if(p.active) {
+            // DS helper maps Q4 to an even physical row and writes two dots.
+            const auto x=unsigned(std::uint16_t(p.center.x))>>4,y=unsigned(std::uint16_t(p.center.y))>>5;
+            graphics.put(int(x),int(y),15);graphics.put(int(x+1),int(y),15);
+        }
+    }
+}
 void BattleGraphics::hud(Canvas& display,const Round& round,const Resident& resident) const {
     // TRAM glyphs keep sixteen display rows even while graphics is doubled.
     for(unsigned pid=0;pid<2;++pid) {
@@ -145,6 +188,7 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
         }
         digit_put(pid||resident.mode!=Mode::story ? 0 : 3-resident.credits,origin+64);
     }
+    intro(graphics,round,resident);
     Canvas display;
     for(unsigned y=0;y<400;++y)std::copy_n(graphics.pixels.begin()+(y/2)*640,640,display.pixels.begin()+y*640);
     auto frame=display.frame(palette_);

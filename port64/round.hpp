@@ -48,6 +48,19 @@ struct Enemy {
     const Bytes* script=nullptr;
     bool run(const Round& round,std::uint8_t enemy_speed);
 };
+struct HudParticle {
+    Point center;
+    std::int16_t velocity=0;
+    std::uint8_t angle=0,active=0,turn_early=0,turn_late=0;
+};
+struct HudIntro {
+    std::array<HudParticle,128> particles{};
+    std::uint8_t flag=1,phase=0;
+    std::int16_t frame=0,sprite=0,x=0;
+    void update(RandomRing& random,Mode mode);
+    // Original renderer mutates banner state after updating the particles.
+    void prepare_render(Mode mode);
+};
 class Round {
 public:
     void begin(const Resident& resident,const Bytes& enedat);
@@ -58,6 +71,7 @@ public:
     void add_shots(unsigned pid);
     void update_shots();
     RandomRing random;
+    HudIntro intro;
     std::array<Player,2> players{};
     std::array<ShotPair,32> shots{};
     std::array<Enemy,40> enemies{};

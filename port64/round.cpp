@@ -87,7 +87,7 @@ void Round::begin(const Resident& resident,const Bytes& enedat) {
 }
 void Round::prepare(const Resident& resident,std::uint8_t formation_previous) {
     for(auto& shot:shots)shot.alive=false;
-    frame=result_frame=0;
+    frame=result_frame=0;intro.flag=1;
     for(auto& enemy:enemies)enemy.flag=0;
     enemies_alive={};
     random.fill();

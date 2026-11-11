@@ -2,6 +2,8 @@
 #include "menu.hpp"
 #include "selection.hpp"
 #include "round.hpp"
+#include "collision.hpp"
+#include "battle_graphics.hpp"
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
@@ -44,6 +46,50 @@ void tap(th03::Menu& menu,std::uint16_t key) { menu.tick(0); menu.tick(key); }
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==5&&std::string(argv[1])=="--hud-picture") {
+            const auto disk=read_file(argv[2]);
+            const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            th03::Resident resident;resident.mode=th03::Mode::story;resident.paletted={{5,13}};
+            th03::Round round;round.begin(resident,main.read("ENEDAT.DAT"));
+            th03::BattleGraphics graphics(op,main,resident);
+            const auto ticks=unsigned(std::stoul(argv[3]));
+            for(unsigned i=0;i<ticks;++i) {
+                round.intro.update(round.random,resident.mode);round.intro.prepare_render(resident.mode);
+            }
+            write_file(argv[4],th03::ppm(graphics.render(round,resident)));return 0;
+        }
+        if(argc==10&&std::string(argv[1])=="--collmap") {
+            th03::CollisionMap map;
+            const std::string kind=argv[2];const auto pid=unsigned(std::stoul(argv[3]));
+            const th03::Point point{std::int16_t(std::stoi(argv[4])),std::int16_t(std::stoi(argv[5]))};
+            const auto width=std::stoi(argv[6]),height=std::stoi(argv[7]),right=std::stoi(argv[8]);
+            if(kind=="rectangle")map.rectangle(pid,point,width,height);
+            else if(kind=="vertical")map.vertical(pid,point,height);
+            else if(kind=="slope")map.slope(pid,point.x,right,unsigned(width));
+            else throw std::runtime_error("unknown collision primitive");
+            if(std::string(argv[9])=="hit") {
+                th03::Player player;player.invincibility=0;player.center=point;
+                const auto hit=map.hit(pid,player,4);
+                std::cout<<bool(hit)<<' '<<(hit ? hit->x : 0)<<' '<<(hit ? hit->y : 0)<<'\n';
+            } else std::cout.write(reinterpret_cast<const char*>(map.bytes.data()),map.bytes.size());
+            return 0;
+        }
+        if(argc==6&&std::string(argv[1])=="--hud-intro") {
+            th03::Round round;th03::Resident resident;
+            round.random.seed=std::uint32_t(std::stoul(argv[2]));resident.mode=th03::Mode(std::stoul(argv[3]));
+            const auto ticks=unsigned(std::stoul(argv[4]));round.random.cursor=std::uint8_t(std::stoul(argv[5]));
+            for(unsigned i=0;i<256;++i)round.random.bytes[i]=std::uint8_t(i*13+7);
+            for(unsigned tick=0;tick<ticks;++tick) {
+                round.intro.update(round.random,resident.mode);round.intro.prepare_render(resident.mode);
+                const auto& intro=round.intro;
+                std::cout<<unsigned(intro.flag)<<' '<<unsigned(intro.phase)<<' '<<intro.frame<<' '<<intro.sprite<<' '<<intro.x
+                         <<' '<<round.random.seed<<' '<<unsigned(round.random.cursor)<<' ';
+                for(const auto& p:intro.particles)std::cout<<p.center.x<<' '<<p.center.y<<' '<<p.velocity<<' '
+                    <<unsigned(p.angle)<<' '<<unsigned(p.active)<<' '<<unsigned(p.turn_early)<<' '<<unsigned(p.turn_late)<<' ';
+                std::cout<<'\n';
+            }
+            return 0;
+        }
         if(argc==9&&std::string(argv[1])=="--enemy") {
             th03::Round round;round.formations=th03::read_formations(read_file(argv[2]));
             const auto formation=unsigned(std::stoul(argv[3])),index=unsigned(std::stoul(argv[4]));

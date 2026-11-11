@@ -13,6 +13,8 @@ public:
     void pattern(Canvas& dest,unsigned index,int left,int top) const;
     const Palette& palette() const {return palette_;}
 private:
+    void intro(Canvas& graphics,const Round& round,const Resident& resident) const;
+    std::uint8_t pattern_pixel(unsigned index,unsigned x,unsigned y) const;
     void hud(Canvas& display,const Round& round,const Resident& resident) const;
     Canvas atlas_;
     Palette palette_{};
