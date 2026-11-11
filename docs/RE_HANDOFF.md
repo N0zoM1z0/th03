@@ -72,7 +72,7 @@ list. The full selection lives in the generated progress table.
 | Input modes / wait | `af1353i` | Nine exact interfaces with explicit per-caller joystick merges, natural input truth tests, signed bounded wait; current CPU/VSYNC joint `af1353j` |
 | Hitbox + HitCircle | `af1350h` | Whole 711-byte collision pair; short-circuited spawn/bomb gates, explicit DGROUP near-pointers, natural live-age sprite rendering and random-center guard; historical Chiyuri/Bullet join `af1348k` |
 | CPU movement/dodge controller | `af1327h` | Full 1,077-byte controller; floor escape, nine-direction retries, separate hit/safety gates; current joint source `af1327i` |
-| Gauge / shared Extra Attack | `af1324e` | Near DGROUP player pointer, Hyper/full-gauge short circuit and native saturation, two full owners |
+| Gauge / shared Extra Attack | `af1356l` | Constant near player pointer, positive non-Hyper/not-full charge gate and exact saturation; Polar/Marisa/Bullet joint `af1356m` |
 | MAINL Staff + root | `af942s` / `af944r` | Retained source scopes; decoded MAINL publication refreshed at `af1055m` |
 
 Other complete BOSS, Bullet, Chargeshot, Bomb, HUD and player owners are listed

@@ -12,17 +12,14 @@ void pascal near gauge_avail_add(pid_t pid, uint8_t charge)
 {
 	// The state stays in DGROUP: explicitly retaining its near pointer
 	// preserves the original index and memory accesses under TC4.
-	player_stuff_t near *p = &players[pid];
+	player_stuff_t near * const p = &players[pid];
 	// Refuse a charge while Hyper or an already-full gauge is active.
-	if(p->hyper_active || (p->gauge_avail >= GAUGE_MAX)) {
-		return;
-	}
-	// TC4's original compound memory addition is bytecode-sensitive:
-	// explicit p->gauge_avail = p->gauge_avail + charge failed in
-	// af851b. The post-add > GAUGE_MAX check (not >= MAX+1) is also
-	// codegen-visible, even though mathematically equivalent (af851c).
-	p->gauge_avail += charge;
-	if(p->gauge_avail > GAUGE_MAX) {
-		p->gauge_avail = GAUGE_MAX;
+	if(!p->hyper_active && (p->gauge_avail < GAUGE_MAX)) {
+		// Keep the original compound word addition before the strict
+		// saturation test; TC4 is sensitive to this operation order.
+		p->gauge_avail += charge;
+		if(p->gauge_avail > GAUGE_MAX) {
+			p->gauge_avail = GAUGE_MAX;
+		}
 	}
 }

@@ -63,7 +63,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Static HUD | af1165h | Verified | 1 | 539 | — |
 | th03-main / Player core | af1191e | Verified | 1 | 3,135 | — |
 | th03-main / Player loss and defeat | af1163i | Verified | 1 | 664 | — |
-| th03-main / Gauge and shared Extra Attack | af1324e | Verified | 2 | 96 | — |
+| th03-main / Gauge and shared Extra Attack | af1356l | Verified | 2 | 96 | — |
 | th03-main / Marisa Chargeshot | af1134f | Verified | 1 | 1,509 | — |
 | th03-main / Chiyuri Chargeshot | af1135h | Verified | 1 | 1,011 | — |
 | th03-main / Reimu Chargeshot | af1136f | Verified | 1 | 1,448 | — |
@@ -184,7 +184,7 @@ th03-main Player core: `.analysis/work/exatt-layout-af1191e/report.json`.
 
 th03-main Player loss and defeat: `.analysis/work/exatt-layout-af1163i/report.json`.
 
-th03-main Gauge and shared Extra Attack: `.analysis/work/exatt-layout-af1324e/report.json`.
+th03-main Gauge and shared Extra Attack: `.analysis/work/exatt-layout-af1356l/report.json`.
 
 th03-main Marisa Chargeshot: `.analysis/work/exatt-layout-af1134f/report.json`.
 
