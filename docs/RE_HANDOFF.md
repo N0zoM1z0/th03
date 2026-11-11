@@ -71,7 +71,7 @@ list. The full selection lives in the generated progress table.
 | PMD/MIDI audio services | `af1364k` | Driver-inactive and PMD early returns retain AX and original interrupt vector order; SE priority/frame path unchanged; Kana combat/audio joint `af1364l` |
 | Input modes / wait | `af1353i` | Nine exact interfaces with explicit per-caller joystick merges, natural input truth tests, signed bounded wait; current CPU/VSYNC joint `af1353j` |
 | Warning / Gauge HUD | `af1362n` | Exact pause and key-release loops, signed 27-frame palette flash, six-row cleanup and word-frame low-bit tests; 7-owner joint `af1362o` |
-| Hitbox + HitCircle | `af1350h` | Whole 711-byte collision pair; short-circuited spawn/bomb gates, explicit DGROUP near-pointers, natural live-age sprite rendering and random-center guard; historical Chiyuri/Bullet join `af1348k` |
+| Hitbox + HitCircle | `af1365j` | Two pre-tested indexed/near-pointer walks across 13 age slots and 12 enemy sprites, retaining the final player slot; Chiyuri combat joint `af1365k` |
 | CPU movement/dodge controller | `af1357k` | Full 1,077-byte controller; short-circuit floor escape, exact collision scan/bomb clocks and nine-direction retry predicates; core/input/hitbox/VSYNC joint `af1357l` |
 | Gauge / shared Extra Attack | `af1363i` | Exact player-zero callback early return with two 16-bit locals and original far-Pascal ABI; Gauge gate unchanged; Kotohime/Extra/Polar joint `af1363j` |
 | MAINL Staff + root | `af942s` / `af944r` | Retained source scopes; decoded MAINL publication refreshed at `af1055m` |

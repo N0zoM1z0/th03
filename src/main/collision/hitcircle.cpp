@@ -106,16 +106,20 @@ void near hitcircles_update(void)
 {
 	register HitCircle near* p = hitcircles;
 	// The thirteen-record age walk keeps its signed index and near-pointer
-	// increments together after each byte-state update.
-	// Zero-age slots remain dormant. A live age advances once per frame
+	// increments together after each byte-state update, now explicit
+	// at the tail of the pre-tested loop. Dormant slots stay at age zero;
+	// a live age advances once per frame
 	// and expires only after the sixteenth animation frame.
-	for(register int i = 0; i < HITCIRCLE_COUNT; (++i, ++p)) {
+	register int i = 0;
+	while(i < HITCIRCLE_COUNT) {
 		if(p->age) {
 			p->age++;
 			if(HITCIRCLE_FRAMES < p->age) {
 				p->age = 0;
 			}
 		}
+		++i;
+		++p;
 	}
 }
 
@@ -138,8 +142,9 @@ void near hitcircles_render(void)
 
 	// Only twelve enemy slots draw in this pass. The thirteenth player
 	// hit circle uses its own monochrome palette after the signed-index
-	// and near-pointer for loop.
-	for(register int i = 0; i < HITCIRCLE_ENEMY_COUNT; (++i, ++p)) {
+	// and near-pointer pre-tested loop, which ends on that player slot.
+	register int i = 0;
+	while(i < HITCIRCLE_ENEMY_COUNT) {
 		// Dormant slots skip sprite clipping, cel calculation and drawing;
 		// the cursor still advances through all twelve physical slots.
 		if(p->age) {
@@ -147,6 +152,8 @@ void near hitcircles_render(void)
 			sprite16_offset_t so = p->cel();
 			sprite16_put(p->topleft.x, p->topleft.y, so);
 		}
+		++i;
+		++p;
 	}
 
 	// Player circle

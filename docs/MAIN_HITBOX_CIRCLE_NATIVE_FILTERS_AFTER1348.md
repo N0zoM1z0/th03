@@ -73,3 +73,29 @@ complete ordered OMF native fields and PUBLICs**, normal Japanese MAIN
 links and ordered MZ relocations. Current proof:
 `.analysis/work/exatt-layout-af1350h/report.json`, SHA-256
 `7b532c3e99a085c7f420b102d7e70c0f5da65529c75ab6c03431bdc3d8444aa2`.
+
+## 2026-11-11: exact enemy/player circle cursor progression
+
+The `hitcircles_update()` and `hitcircles_render()` loops now use
+pre-tested `while` traversals. The former visits all thirteen records
+and expires an active byte age after frame sixteen; the latter draws
+only twelve enemy records, then uses the final near pointer to draw
+the thirteenth, reserved player hit circle. Every loop advances its
+signed index and DGROUP near pointer **after** examining a record,
+including inactive slots; no early continue skips an increment.
+Both palette selections and the original BX-carried animation cel
+calculation remain unchanged.
+
+`af1365h` tested the full update loop, and `af1365i` also tested the
+render loop. Current `af1365j` recompiles both collision objects in two
+original TC4 rounds: **711 CODE bytes, 63 ordered native fields and
+5 PUBLICs**, with complete normal Japanese MAIN links and ordered MZ
+relocations exact. Consumer `af1365k` recompiles these alongside
+Chiyuri BOSS, Bullet, both shared BOSS owners, Chiyuri Extra Attack
+and Polar: **8,003 CODE bytes, 801 fields and 49 PUBLICs**, exact in
+both rounds. No full cold replay was necessary.
+
+Current receipt: `.analysis/work/exatt-layout-af1365j/report.json`, SHA-256
+`95126413b5f4754f9205b7b1597143494fdeb4f5024bb8af7140b0bbbe7c33f7`.
+Joint receipt: `.analysis/work/exatt-layout-af1365k/report.json`, SHA-256
+`a0e1a0ab8ffced3f2edc872ef36637a3bc2fe54b330ab7339012421c910d6451`.
