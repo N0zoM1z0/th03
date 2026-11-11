@@ -104,7 +104,7 @@ def native_source_reviews(root, artifact):
                      'review_th03_main_source_overlay.py', []) for label, stage in (
             ('VRAM plane initializer', 'af1326e'),
             ('Stage demo transition', 'af1333a'),
-            ('Shared BOSS', 'af1326i'),
+            ('Shared BOSS', 'af1351g'),
             ('PI image loader', 'af1322i'),
             ('DOS executable handoff', 'af1322j'),
             ('Resident CFG loader', 'af1182a'),
@@ -128,7 +128,7 @@ def native_source_reviews(root, artifact):
             ('Chiyuri BOSS', 'af1349a'),
             ('Kotohime BOSS', 'af1343i'),
             ('Reimu BOSS', 'af1336i'),
-            ('Mima BOSS', 'af1339d'),
+            ('Mima BOSS', 'af1351b'),
             ('Marisa BOSS', 'af1325h'),
             ('Ellen BOSS', 'af1331h'),
             ('Yumemi BOSS', 'af1350l'),

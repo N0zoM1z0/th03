@@ -23,7 +23,7 @@ These read-only checks validate maintained source bindings, both original compil
 | --- | --- | --- | ---: | ---: | ---: |
 | th03-main / VRAM plane initializer | af1326e | Verified | 1 | 41 | — |
 | th03-main / Stage demo transition | af1333a | Verified | 1 | 663 | — |
-| th03-main / Shared BOSS | af1326i | Verified | 2 | 949 | — |
+| th03-main / Shared BOSS | af1351g | Verified | 2 | 949 | — |
 | th03-main / PI image loader | af1322i | Verified | 1 | 70 | — |
 | th03-main / DOS executable handoff | af1322j | Verified | 1 | 79 | — |
 | th03-main / Resident CFG loader | af1182a | Verified | 1 | 49 | — |
@@ -47,7 +47,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Chiyuri BOSS | af1349a | Verified | 1 | 2,654 | — |
 | th03-main / Kotohime BOSS | af1343i | Verified | 1 | 1,840 | — |
 | th03-main / Reimu BOSS | af1336i | Verified | 1 | 2,020 | — |
-| th03-main / Mima BOSS | af1339d | Verified | 1 | 1,922 | — |
+| th03-main / Mima BOSS | af1351b | Verified | 1 | 1,922 | — |
 | th03-main / Marisa BOSS | af1325h | Verified | 1 | 1,431 | — |
 | th03-main / Ellen BOSS | af1331h | Verified | 1 | 1,675 | — |
 | th03-main / Yumemi BOSS | af1350l | Verified | 1 | 2,358 | — |
@@ -104,7 +104,7 @@ th03-main VRAM plane initializer: `.analysis/work/exatt-layout-af1326e/report.js
 
 th03-main Stage demo transition: `.analysis/work/exatt-layout-af1333a/report.json`.
 
-th03-main Shared BOSS: `.analysis/work/exatt-layout-af1326i/report.json`.
+th03-main Shared BOSS: `.analysis/work/exatt-layout-af1351g/report.json`.
 
 th03-main PI image loader: `.analysis/work/exatt-layout-af1322i/report.json`.
 
@@ -152,7 +152,7 @@ th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1343i/report.json`.
 
 th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1336i/report.json`.
 
-th03-main Mima BOSS: `.analysis/work/exatt-layout-af1339d/report.json`.
+th03-main Mima BOSS: `.analysis/work/exatt-layout-af1351b/report.json`.
 
 th03-main Marisa BOSS: `.analysis/work/exatt-layout-af1325h/report.json`.
 

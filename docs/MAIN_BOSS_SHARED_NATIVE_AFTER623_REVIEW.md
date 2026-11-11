@@ -52,3 +52,23 @@ or byte arrays.
 This is source readability and native compiler provenance work for
 already owned CODE. No canonical packed-file Factory credit, historical
 vendor packet identity or physical runtime compatibility is inferred.
+
+## 2026-11-11: exact HP exit and active target-tracking predicates
+
+The shared `boss_hittest_end()` leaf now expresses its two terminal exclusions
+as one ordered short-circuit test: positive HP or the original exploding
+mode. Both must skip the original reset, palette, award and boss-level
+update. The `boss_target_update()` leaf uses a positive not-descending
+condition around the two target-coordinate assignments; descending frames
+still leave the previous target untouched. No register-copy or RNG path in
+the larger shared controller was changed.
+
+`af1351c` and `af1351d` each proved the 601-byte controller in two genuine
+original TC4 rounds. The final source-bound `af1351g` compiled **both**
+physical shared objects: **949 CODE bytes, 106 ordered native fields and
+8 PUBLICs** reproduce the original, with two full normal MAIN links and
+ordered relocations. The joint Mima/shared test `af1351f` additionally
+passes at 2,871 CODE bytes without a full cold rebuild.
+
+Current receipt: `.analysis/work/exatt-layout-af1351g/report.json`, SHA-256
+`993df2c7b82bf6dfff107ca34acfde0058c03d300059421ed3c76e58f1e19891`.

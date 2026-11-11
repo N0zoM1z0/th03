@@ -224,10 +224,7 @@ extern "C" void far boss_hittest_end(void)
 
 	// A living BOSS and one already exploding both skip the HP terminal
 	// transition. Keep the checks ordered before changing shared state.
-	if(boss_hp > 0) {
-		return;
-	}
-	if(boss_mode == BOSS_EXPLODE_MODE) {
+	if((boss_hp > 0) || (boss_mode == BOSS_EXPLODE_MODE)) {
 		return;
 	}
 	boss_mode = -1;
@@ -244,11 +241,10 @@ extern "C" void far boss_hittest_end(void)
 
 extern "C" void near boss_target_update(void)
 {
-	if(boss_mode == BOSS_DESCEND_MODE) {
-		return;
+	if(boss_mode != BOSS_DESCEND_MODE) {
+		boss_target_x = boss_center_x;
+		boss_target_y = (BOSS_TARGET_Y_AHEAD + boss_center_y);
 	}
-	boss_target_x = boss_center_x;
-	boss_target_y = (BOSS_TARGET_Y_AHEAD + boss_center_y);
 }
 
 extern "C" void near boss_pattern_next(void)

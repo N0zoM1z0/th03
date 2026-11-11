@@ -42,14 +42,14 @@ list. The full selection lives in the generated progress table.
 | Owner / area | Stage | Focus |
 | --- | --- | --- |
 | VRAM plane initializer | `af1326e` | Newly source-bound original TH01 shared 41-byte hardware owner; four far plane pointers, complete normal MAIN link |
-| Shared BOSS controller and ring | `af1326i` | Two physical owners, 949 bytes; exact HP, edge turns, descent, pattern-count transitions, retained native RNG rejection loop |
+| Shared BOSS controller and ring | `af1351g` | Two physical owners, 949 bytes; exact HP terminal short-circuit, active target tracking, edge turns, descent and retained native RNG rejection loop; Mima joint `af1351f` |
 | MAIN entry + frame scheduler | `af1314c` | Full 3,050-byte scheduler; explicit render/VSYNC phase gates and independent victory checks, with original PC-98 page OUT order |
 | Reimu BOSS | `af1336i` | 2,020-byte owner; three true orbit phases, cadence-gated spreads and mirrored attack ending; original signed radial arithmetic retained |
 | Rikako BOSS | `af1345e` | Complete 1,677-byte owner; three orbit phases, four entity/pellet phases and terminating alternating volley use exact mutually exclusive branch gates |
 | Kana BOSS | `af1323f` | Complete 1,874-byte owner; staged and rotating emission windows, two cadence gates, byte-angle/speed increments, and intro flicker |
 | Chiyuri BOSS | `af1349a` | Full 2,654-byte owner; positive four-way/ring cadence gates, 48-shot release, mutually exclusive horizontal/vertical fans; native joint `af1347h` |
 | Marisa BOSS | `af1325h` | Complete 1,431-byte owner; positive active-attack renderer, narrow-column completion, original high-level ring branch |
-| Kotohime / Yumemi / Mima BOSS | `af1343i` / `af1350l` / `af1339d` | Kotohime's random, aimed and nested radial releases now use original exact positive phase gates; Mima remains source-bound; Yumemi now uses the original complete 128-byte player type with exact EXTDEF order |
+| Kotohime / Yumemi / Mima BOSS | `af1343i` / `af1350l` / `af1351b` | Kotohime's random, aimed and nested radial releases now use original exact positive phase gates; Mima now uses exact short-circuit pellet timing and explicit attack clocks; Yumemi uses the full 128-byte player type with original EXTDEF order |
 | Ellen BOSS | `af1331h` | Complete 1,675-byte owner; original extra-attack/paired-pellet byte-angle advances, intro flicker, spread phase and renderer codegen constraints |
 | Enemy formations / ENEDAT VM | `af1349h` | Four original objects, 3,325 CODE bytes; segmented formation-script block-first indexing and original unchecked interpreter behavior |
 | Bullet engine | `af1318f` | Complete 2,685-byte owner; independent spawn bounds, slot-state/clip guards, and collision-map eligibility; jointly linked with Mima at `af1318g` |

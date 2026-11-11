@@ -60,3 +60,28 @@ Replacing the unsigned division by four in the level-derived random count
 with `gba_boss_level >> 2` changed complete CODE (af1035q). Keep the named
 integer division; do not generalize the modulo-to-mask optimization into a
 claim that every division can become a shift.
+
+## 2026-11-11: whole Mima BOSS current-source gate recovery
+
+`mima_pattern_spread()` now expresses the optional pellet volley as a single
+ordered short-circuit condition: first the unsigned-word expiry check, then
+the unsigned-word six-frame remainder. The two pellets still fire at their
+original angles and speed, and the angle update still occurs after the
+optional volley on each eligible main-attack tick. All four other even/four-
+frame attack clocks in `mima_pattern_spread`, `mima_pattern_bomb_random`, and
+`mima_pattern_orbit` now state an explicit zero-remainder predicate. The
+original word division, RNG use, sounds and state transitions are unchanged.
+
+An independent trial `af1351e` replaced the trail-phase group selection with
+an equivalent conditional expression. TC4 emitted **1,918 instead of 1,922
+CODE bytes**; the compiler-visible branch layout differs, so that variant
+was discarded. The successful current `af1351b` stage compiled the entire
+**1,922-byte Mima BOSS** twice, matching all **277 ordered native fields**,
+**9 PUBLICs**, and both normal Japanese MAIN links. It is independently
+jointly linked with the two shared BOSS objects at `af1351f` (**2,871 CODE
+bytes, 383 ordered fields, 17 PUBLICs**).
+
+Current source receipt: `.analysis/work/exatt-layout-af1351b/report.json`,
+SHA-256 `59de33d539412208037239c6265331278db7c3327865ac4cd5929130387b7c2e`.
+Joint receipt: `.analysis/work/exatt-layout-af1351f/report.json`,
+SHA-256 `760a257f1db1ac33f7e997be1d12c0ab995b2ea068c45f3934cce88d0df5a65d`.

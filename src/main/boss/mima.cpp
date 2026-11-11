@@ -217,7 +217,7 @@ void near mima_pattern_spread(void)
 	if(boss_frame < MIMA_SPREAD_FIRE_BEGIN) {
 		return;
 	}
-	if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
+	if((boss_frame % MIMA_FIRE_EVEN_PERIOD) == 0) {
 		snd_se_play(MIMA_SOUND_SPREAD);
 
 		bullet_template.angle = mima_spread_angle;
@@ -235,17 +235,18 @@ void near mima_pattern_spread(void)
 
 		// The pellet subpattern has its own deadline and six-frame clock.
 		// The modulo remains a genuine unsigned-word division by six.
-		if(boss_frame < mima_pellet_until) {
-			if(!(boss_frame % MIMA_SPREAD_PELLET_PERIOD)) {
-				bullet_template.type = BT_PELLET;
-				bullet_template.group = BG_4_SPREAD_MEDIUM;
-				bullet_template.speed.v = mima_pellet_speed;
-				bullet_template.angle = mima_pellet_angle;
-				bullets_add();
+		if(
+			(boss_frame < mima_pellet_until) &&
+			((boss_frame % MIMA_SPREAD_PELLET_PERIOD) == 0)
+		) {
+			bullet_template.type = BT_PELLET;
+			bullet_template.group = BG_4_SPREAD_MEDIUM;
+			bullet_template.speed.v = mima_pellet_speed;
+			bullet_template.angle = mima_pellet_angle;
+			bullets_add();
 
-				bullet_template.angle = (MIMA_PELLET_OPPOSITE_ANGLE - mima_pellet_angle);
-				bullets_add();
-			}
+			bullet_template.angle = (MIMA_PELLET_OPPOSITE_ANGLE - mima_pellet_angle);
+			bullets_add();
 		}
 		mima_pellet_angle += MIMA_PELLET_ANGLE_STEP;
 	}
@@ -285,7 +286,7 @@ void near mima_pattern_bomb_random(void)
 	}
 	// Natural unsigned 16-bit four-frame attack clock, not a byte
 	// animation division. The original hardware RNG order is unchanged.
-	if(!(boss_frame % MIMA_RANDOM_BOMB_FIRE_PERIOD)) {
+	if((boss_frame % MIMA_RANDOM_BOMB_FIRE_PERIOD) == 0) {
 		bullet_template.angle = 0;
 		bullet_template.group = BG_RANDOM_ANGLE_AND_SPEED;
 		bullet_template.center.x.v = x;
@@ -313,7 +314,7 @@ void near mima_pattern_bomb_random(void)
 		bullet_template.is_animated = true;
 	}
 
-	if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
+	if((boss_frame % MIMA_FIRE_EVEN_PERIOD) == 0) {
 		snd_se_play(MIMA_SOUND_SPREAD);
 	}
 
@@ -386,7 +387,7 @@ void near mima_pattern_orbit(void)
 		mima_orbit_angle = randring_far_next16();
 	}
 
-	if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
+	if((boss_frame % MIMA_FIRE_EVEN_PERIOD) == 0) {
 		bullet_template.center.x.v = polar(
 			boss_center_x, MIMA_ORBIT_RADIUS, CosTable8[mima_orbit_angle]
 		);
