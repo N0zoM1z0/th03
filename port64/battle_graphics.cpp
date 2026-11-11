@@ -1,5 +1,6 @@
 #include "battle_graphics.hpp"
 #include "score_font.hpp"
+#include "motion.hpp"
 #include <algorithm>
 #include <cstdio>
 #include <stdexcept>
@@ -44,14 +45,14 @@ BattleGraphics::BattleGraphics(const PfArchive& op,const PfArchive& main,const R
     patterns_.emplace_back(main.read("ROUND.BF2"));
     patterns_.emplace_back(main.read("ZIKICW.BF2"));
 }
-void BattleGraphics::sprite(Canvas& dest,int left,int top,unsigned offset,unsigned width,unsigned height,int clip_left,int clip_right) const {
+void BattleGraphics::sprite(Canvas& dest,int left,int top,unsigned offset,unsigned width,unsigned height,int clip_left,int clip_right,bool clipped,int monochrome) const {
     // The TH03 wrapper clips whole 16-pixel columns before invoking
     // SPRITE16. The latter reads physical 200-line rows; color0 is alpha.
     int right=left+int(width);
-    if(right>=clip_right) {
+    if(clipped&&right>=clip_right) {
         if(left>=clip_right)return;
         do {right-=16;width-=16;if(!width)return;}while(right>=clip_right);
-    } else if(left<clip_left) {
+    } else if(clipped&&left<clip_left) {
         if(right<clip_left)return;
         do {left+=16;width-=16;offset+=2;if(!width)return;}while(left<clip_left);
     }
@@ -60,7 +61,7 @@ void BattleGraphics::sprite(Canvas& dest,int left,int top,unsigned offset,unsign
         const auto address=(std::size_t(offset)+y*80)*8+x;
         if(address>=640*200)throw std::runtime_error("sprite source outside original atlas");
         const auto color=atlas_.pixels[address];
-        if(color)dest.put(left+int(x),physical_top+int(y),color);
+        if(color)dest.put(left+int(x),physical_top+int(y),monochrome<0 ? color : std::uint8_t(monochrome));
     }
 }
 void BattleGraphics::pattern(Canvas& dest,unsigned index,int left,int top) const {
@@ -113,6 +114,33 @@ void BattleGraphics::intro(Canvas& graphics,const Round& round,const Resident& r
         }
     }
 }
+void BattleGraphics::bullets(Canvas& graphics,const Round& round) const {
+    const auto position=[&](Point point,unsigned pid,int half) {
+        return std::pair<int,int>{16+int(pid)*320+pixels(point.x)+round.fg_shift[pid]-half,16+pixels(point.y)-half};
+    };
+    for(const auto& b:round.bullets.items)if(b.flag==2) {
+        unsigned so=b.sprite;
+        if(b.has_trail) {
+            const auto& trail=round.bullets.trails[b.trail];so+=6;
+            for(int i=5;i>0;i-=2,so-=2) {
+                const auto at=position({trail.x[unsigned(i)],trail.y[unsigned(i)]},b.pid,8);
+                sprite(graphics,at.first,at.second,so,16,8,0,639,false);
+            }
+        }
+        if(b.animated)so+=(b.age%4)*2;
+        const auto at=position(b.center,b.pid,8);
+        sprite(graphics,at.first,at.second,so,16,8,0,639,false);
+    }
+    for(const auto& b:round.bullets.items)if(b.flag==4) {
+        const auto at=position(b.center,b.pid,16);
+        sprite(graphics,at.first,at.second,b.sprite,32,16,0,639,true,15);
+    }
+    for(const auto& b:round.bullets.items)if(b.flag&1) {
+        const int left=16+b.pid*320+pixels(b.center.x)+round.fg_shift[b.pid]-4;
+        const int top=(pixels(b.center.y)>=0 ? pixels(b.center.y)/2 : -((-pixels(b.center.y)+1)/2))+6;
+        pellet(graphics,left,top,b.flag==1 ? 0 : 1);
+    }
+}
 void BattleGraphics::hud(Canvas& display,const Round& round,const Resident& resident) const {
     // TRAM glyphs keep sixteen display rows even while graphics is doubled.
     for(unsigned pid=0;pid<2;++pid) {
@@ -131,7 +159,7 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
     Canvas graphics;
     graphics.fill(16,8,303,191,0);graphics.fill(336,8,623,191,1);
     for(const auto& shot:round.shots)if(shot.alive) {
-        const int left=16+shot.pid*320+pixels(shot.top_left.x),top=16+pixels(shot.top_left.y);
+        const int left=16+shot.pid*320+pixels(shot.top_left.x)+round.fg_shift[shot.pid],top=16+pixels(shot.top_left.y);
         sprite(graphics,left,top,shot.animation+shot.pid*40,16,8);
         sprite(graphics,left+16,top,shot.animation+shot.pid*40,16,8);
     }
@@ -142,13 +170,13 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
             const auto cel=enemy.frame<10 ? 0 : enemy.frame<32 ? 1+((enemy.frame/4)&1) : 3;
             offset=explosion_sprites[enemy.size_words-1][cel];size+=16;
         }
-        const int left=16+enemy.pid*320+pixels(enemy.center.x)-int(size/2),top=16+pixels(enemy.center.y)-int(size/2);
+        const int left=16+enemy.pid*320+pixels(enemy.center.x)+round.fg_shift[enemy.pid]-int(size/2),top=16+pixels(enemy.center.y)-int(size/2);
         sprite(graphics,left,top,offset,size,size/2,enemy.pid ? 320 : 0,enemy.pid ? 639 : 319);
     }
     for(unsigned pid=0;pid<2;++pid) {
         const auto& p=round.players[pid];
         if(p.lose_time)continue;
-        const int left=16+int(pid)*320+pixels(p.center.x)-16,top=pixels(p.center.y)-16;
+        const int left=16+int(pid)*320+pixels(p.center.x)+round.fg_shift[pid]-16,top=pixels(p.center.y)-16;
         if(p.pattern_glow)pattern(graphics,p.pattern_glow+pid*9+p.pattern_movement*3,left,top/2);
         else sprite(graphics,left,top,0x2844+p.pattern_movement*4+pid*0xa00,32,32);
         if(p.gauge_charged>=0x100) {
@@ -156,6 +184,7 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
             pattern(graphics,base+((round.result_frame>>2)&3),left,p.center.y/32-15);
         }
     }
+    bullets(graphics,round);
     // Gauge highlight strip resides in ENEMYxx's final eight atlas rows.
     for(unsigned pid=0;pid<2;++pid)for(unsigned y=0;y<8;++y)for(unsigned x=0;x<288;++x)
         graphics.put(16+int(pid)*320+int(x),192+int(y),atlas_.pixels[(192+y)*640+320+x]);

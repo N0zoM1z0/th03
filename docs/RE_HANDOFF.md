@@ -40,8 +40,9 @@ selection and MAINL stage introduction now run natively, including original
 graphics and resident/opponent state. The full Stage 1 poster matches the DOS
 frame. MAIN round initialization and its RNG/formation rings also agree with
 bounded original-instruction checks. Original enemy scripts and battle
-resource/HUD rendering, round intro and collision primitives are ported
-separately. Continue with background and the player/combat loop. Resolve wide
+resource/HUD rendering, round intro, collision primitives and bullet
+generation/update/rendering are ported separately. Bullet pools, trails and
+transfers agree with bounded original-instruction checks. Continue with background and the player/combat loop. Resolve wide
 CPU collision scans' aliased DATA reads when joining that path; the native
 program still stops before gameplay. Preserve the live Windows DOSBox disk
 and do not send inputs to its window.

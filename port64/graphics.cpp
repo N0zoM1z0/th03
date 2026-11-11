@@ -1,4 +1,6 @@
 #include "graphics.hpp"
+#include "pellet_masks.hpp"
+#include "motion.hpp"
 #include <algorithm>
 #include <stdexcept>
 
@@ -87,6 +89,19 @@ void Bfnt::put(Canvas& dest,unsigned image,int left,int top) const {
         const auto color=pixel(image,x,y);
         if(color)dest.put(left+int(x),top+int(y),color);
     }
+}
+void pellet(Canvas& dest,int left,int top,unsigned cel) {
+    need(cel<2,"pellet cel outside source bitmap");
+    const int word=left>=0 ? left/16 : -((-left+15)/16);
+    const auto shifted=std::uint16_t(top*64);
+    auto offset=std::uint16_t(word*2+shifted+(shifted>>2));
+    const bool narrow=motion::wrap(offset)<8;
+    const auto& mask=pellet_masks[cel][unsigned(left)&15];
+    for(unsigned y=0;y<4;++y,offset=std::uint16_t(offset+80))for(unsigned x=0;x<(narrow ? 16u : 32u);++x)
+        if(mask[y]&(0x80000000u>>x)) {
+            const unsigned at=unsigned(offset)*8+x;
+            if(at<640*200)dest.pixels[at]=15;
+        }
 }
 void picture(Canvas& dest,const PiImage& image,int left,int top) {
     for(unsigned y=0;y<image.height;++y)for(unsigned x=0;x<image.width;++x) {

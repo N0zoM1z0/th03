@@ -90,7 +90,7 @@ void Round::prepare(const Resident& resident,std::uint8_t formation_previous) {
     frame=result_frame=0;intro.flag=1;
     for(auto& enemy:enemies)enemy.flag=0;
     enemies_alive={};
-    random.fill();
+    random.fill();bullets.reset();
     if(resident.mode==Mode::story) {
         const int column=std::min(int(id)-resident.credits+3,5);
         // These are valid game-state assumptions, not clamps on DOS behavior.
@@ -123,6 +123,7 @@ void Round::prepare(const Resident& resident,std::uint8_t formation_previous) {
         player.charge_cursor=0;player.bombs=2;player.lose_time=0;player.hyper_active=0;player.cpu_frame=0;
         player.gauge_attacks=0;player.boss_attacks=0;player.boss_reversals=0;player.boss_panics=0;
     }
+    fg_shift={};damage_all={};gauge_flags={};
     randomize_formations(formation_previous);
 }
 bool Player::move(std::uint16_t input) {

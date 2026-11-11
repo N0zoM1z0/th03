@@ -1,5 +1,7 @@
 #pragma once
 #include "resident.hpp"
+#include "game_types.hpp"
+#include "bullet.hpp"
 #include <array>
 #include <vector>
 
@@ -16,7 +18,6 @@ struct Formation {
     std::vector<Bytes> scripts;
 };
 std::vector<Formation> read_formations(const Bytes& file);
-struct Point {std::int16_t x=0,y=0;}; // Signed Q4 playfield coordinates.
 struct Player {
     Point center;
     std::uint8_t paletted=1;
@@ -72,6 +73,9 @@ public:
     void update_shots();
     RandomRing random;
     HudIntro intro;
+    Bullets bullets;
+    std::array<std::int16_t,2> fg_shift{};
+    std::array<std::uint8_t,2> bomb_flags{},damage_all{},gauge_flags{};
     std::array<Player,2> players{};
     std::array<ShotPair,32> shots{};
     std::array<Enemy,40> enemies{};

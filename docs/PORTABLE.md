@@ -3,7 +3,7 @@
 `port/modern-64` builds native C++17 for Linux/SDL2 and Windows x64/Win32-GDI.
 Title, menus, character selection and MAINL stage introduction join through
 explicit resident state into MAIN round initialization. Enemy scripts, battle
-resources/HUD, round-introduction animation and collision primitives are also
+resources/HUD, round-introduction animation, collision primitives and bullets are also
 ported and checked separately. The program stops at initialized battle state;
 it is not yet a playable full-game port. Player/CPU combat, all attack families,
 backgrounds, results/dialogues/endings, Music Room/HiScore, audio and persistence
@@ -94,6 +94,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_battle_graphics.py` | Same arguments as `check_intro.py` | Unchanged DOS borders, P1 gauge/score and TRAM glyph ink |
 | `check_hud_intro.py` | Same arguments as `check_selection.py` | 520 story/versus frames: slide/banner state, all128 particles, seed and ring cursor |
 | `check_collision.py` | Same arguments as `check_selection.py` | Six complete 6,624-byte bitmaps and their player hit scans |
+| `check_bullet.py` | Same arguments as `check_selection.py` | Group vectors, full bullet/trail pools, motion/transfer/cloud/clearing, collision maps and complete pellet rasters |
 
 Linux and native Windows x64 state checks pass; menu, selection and isolated
 introduction PPMs agree between platforms. Private SDL window checks exercised
@@ -124,6 +125,16 @@ source preserves these consequential details:
 - The round-introduction slide destination aliases particle15.x. Collision Y
   reports the scan rectangle's top, not the occupied row; X reports the
   containing eight-tile column. Preserve these coarse values for CPU decisions.
+
+`bullet.cpp` retains the 320-slot pool, shared 48-slot trail ring, byte-wrapped
+speed tuning and ascending update order. Derived groups can occupy later slots
+and update on that same tick. The pellet explosion query is an explicit foreign
+service until the chain owner is joined. Six full spawn pools, nine update
+fixtures, sixteen group vectors and five complete pellet rasters agree with
+original MAIN instructions. These include the transfer target's pixel rounding,
+independent X/Y trail updates and the narrow pellet-write path. The authored
+ReC98 pellet bitmap retains the distinct dots in transfer preshifts6/14.
+Native Windows x64 transfer/trail states and collision maps agree with Linux.
 
 Continue with backgrounds and the player/CPU combat loop, then join attack
 families and result/MAINL routes. Wide CPU scans near the left edge can read

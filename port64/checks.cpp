@@ -46,6 +46,61 @@ void tap(th03::Menu& menu,std::uint16_t key) { menu.tick(0); menu.tick(key); }
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==5&&std::string(argv[1])=="--pellet") {
+            th03::Canvas canvas;th03::pellet(canvas,std::stoi(argv[2]),std::stoi(argv[3]),unsigned(std::stoul(argv[4])));
+            std::cout.write(reinterpret_cast<const char*>(canvas.pixels.data()),640*200);return 0;
+        }
+        if((argc==14&&std::string(argv[1])=="--bullet-spawn")||
+           (argc==16&&std::string(argv[1])=="--bullet-run")) {
+            th03::Round round;auto& bullets=round.bullets;auto& t=bullets.model;
+            t.center={1200,1600};round.players[0].center={3600,4800};round.players[1].center={800,5200};
+            t.type=std::uint8_t(std::stoul(argv[2]));t.group=std::uint8_t(std::stoul(argv[3]));
+            t.count=std::uint8_t(std::stoul(argv[4]));t.speed=std::uint8_t(std::stoul(argv[5]));
+            t.angle=std::uint8_t(std::stoul(argv[6]));t.pid=std::uint8_t(std::stoul(argv[7]));
+            round.bullet_base_speed=std::uint8_t(std::stoul(argv[8]));t.has_trail=bool(std::stoi(argv[9]));
+            bullets.trail_cursor=std::uint8_t(std::stoul(argv[10]));round.random.cursor=std::uint8_t(std::stoul(argv[11]));
+            round.fg_shift={{std::int16_t(std::stoi(argv[12])),std::int16_t(std::stoi(argv[13]))}};
+            t.sprite=0x1234;t.acceleration=128;t.collidable=true;t.animated=true;bullets.items[0].flag=5;
+            for(unsigned i=0;i<256;++i)round.random.bytes[i]=std::uint8_t(i*13+7);
+            bullets.add(round,t.pid ? 40 : 0);
+            th03::CollisionMap collision;
+            if(argc==16) {
+                const auto ticks=unsigned(std::stoul(argv[14])),policy=unsigned(std::stoul(argv[15]));
+                for(unsigned tick=0;tick<ticks;++tick) {
+                    collision.clear();round.bomb_flags[0]=policy==2&&tick>=2;
+                    round.damage_all[1]=policy==3&&tick>=1;round.gauge_flags[0]=round.gauge_flags[1]=policy==4;
+                    bullets.update(round,collision,[&](th03::Point,std::uint8_t) {return (policy==1||policy==4)&&tick==2;});
+                }
+            }
+            std::cout<<t.center.x<<' '<<t.center.y<<' '<<unsigned(t.speed)<<' '<<unsigned(t.angle)<<' '
+                     <<unsigned(t.pid)<<' '<<unsigned(t.group)<<' '<<unsigned(t.acceleration)<<' '<<unsigned(t.count)<<' '
+                     <<t.velocity.x<<' '<<t.velocity.y<<' '<<t.sprite<<' '<<unsigned(t.type)<<' '
+                     <<t.collidable<<' '<<t.animated<<' '<<t.has_trail<<' '
+                     <<unsigned(bullets.group_angle)<<' '<<unsigned(round.random.cursor)<<' '<<unsigned(bullets.trail_cursor)<<' ';
+            for(const auto& b:bullets.items)std::cout<<unsigned(b.flag)<<' '<<unsigned(b.age)<<' '<<b.center.x<<' '<<b.center.y<<' '
+                <<b.target_x<<' '<<b.target_x_origin<<' '<<b.velocity.x<<' '<<b.velocity.y<<' '
+                <<unsigned(b.speed_next)<<' '<<unsigned(b.angle_next)<<' '<<unsigned(b.pid)<<' '<<unsigned(b.group_next)<<' '
+                <<b.sprite<<' '<<unsigned(b.acceleration)<<' '<<b.collidable<<' '<<b.animated<<' '<<b.has_trail<<' '
+                <<unsigned(b.has_trail ? b.trail : 0)<<' ';
+            for(const auto& trail:bullets.trails) {
+                for(auto value:trail.x)std::cout<<value<<' ';
+                for(auto value:trail.y)std::cout<<value<<' ';
+            }
+            if(argc==16)for(auto value:collision.bytes)std::cout<<unsigned(value)<<' ';
+            std::cout<<'\n';return 0;
+        }
+        if(argc==8&&std::string(argv[1])=="--bullet-group") {
+            th03::Round round;
+            auto& t=round.bullets.model;t.center={1200,1600};
+            round.players[0].center={3600,4800};
+            t.group=std::uint8_t(std::stoul(argv[2]));t.count=std::uint8_t(std::stoul(argv[3]));
+            t.speed=std::uint8_t(std::stoul(argv[4]));t.angle=std::uint8_t(std::stoul(argv[5]));
+            const auto index=std::stoi(argv[6]);round.random.cursor=std::uint8_t(std::stoul(argv[7]));
+            for(unsigned i=0;i<256;++i)round.random.bytes[i]=std::uint8_t(i*13+7);
+            const auto done=round.bullets.group_velocity(round,index);
+            std::cout<<done<<' '<<t.velocity.x<<' '<<t.velocity.y<<' '<<unsigned(round.bullets.group_angle)
+                     <<' '<<unsigned(round.random.cursor)<<'\n';return 0;
+        }
         if(argc==5&&std::string(argv[1])=="--hud-picture") {
             const auto disk=read_file(argv[2]);
             const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
