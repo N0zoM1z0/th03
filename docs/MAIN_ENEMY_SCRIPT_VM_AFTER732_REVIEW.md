@@ -78,3 +78,35 @@ TC4 rounds: all 3,325 CODE bytes, 222 ordered native fields, 19 PUBLICs,
 complete normal MAIN images and ordered MZ relocations match. Local proof:
 `.analysis/work/exatt-layout-af1349h/report.json`, SHA-256
 `682ad95ce733847bdf346f29d92f6ed9f5c59e9a732354b6b5b253fb5d06e919`.
+
+## 2026-11-11: typed ES opcode dispatch and unchanged control-flow boundaries
+
+The actual switch discriminator in `enemy_run()` now uses the same
+`ENEDAT_AT(enedat_op_t)->code` typed far-ES instruction view as every
+other opcode field. It does not cache a script pointer or an opcode
+value; old Turbo C++ still performs the historical read and advances
+`script` separately from `enemy.script_ip`.
+
+The large `enemy_hittest()` chain now uses an explicit byte-truth test
+`!p->hp` alongside `ef_onehit`, while preserving the original HP-before-
+decrement behavior. `af1358f` isolated that equality as native exact.
+A different change from `(hits & 1) == 0` to `!(hits & 1)` **did change**
+`eupdb` CODE and was rejected. The distinction matters for compiler-
+faithful original chain charge, even when the conditions agree logically.
+
+The VM's original branch shapes are also now tested by four negative
+compiler controls: `af1358a` flattened the linear opcode/Y/X overlap
+checks, `af1358b` inverted the circular clip exit, `af1358c` inverted
+the `EO_MOVE` clip exit, and `af1358d` replaced the spawn X flag's
+Boolean multiplication with a conditional expression. Each changed the
+complete original `efornb` instruction stream, so all were reverted.
+An additional `af1358h` attempted an equivalent pre-tested rejection
+loop in `enemy_formations_randomize()`; `eforna` differed, so the original
+`do/while` and its uninitialized `prev` remain intact.
+
+Current native proof `af1358g` recompiles **all four** physical Enemy
+objects twice in Turbo C++: **3,325 CODE bytes, 222 ordered native fields,
+19 PUBLICs**, the complete original normal Japanese MAIN images and
+ordered MZ relocations. Retained receipt:
+`.analysis/work/exatt-layout-af1358g/report.json`, SHA-256
+`655cce97c823dd61a487c0109787750bded6ba870d7707e471adc2f05a29d684`.

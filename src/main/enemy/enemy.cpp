@@ -581,7 +581,7 @@ bool near enemy_run(void)
 	// [enemy.flag] to [EFF_FREE]. This full segmented script interpreter
 	// also emits native-exact CODE as a natural while(true) (af890g).
 	while(true) {
-		switch(reinterpret_cast<enedat_op_t __es *>(script)->code) {
+		switch(ENEDAT_AT(enedat_op_t)->code) {
 		case EO_MOVE_LINEAR:
 		case EO_MOVE_LINEAR_STOP_AT_PLAYER_Y:
 		case EO_MOVE_LINEAR_STOP_AT_PLAYER_X:
@@ -890,7 +890,7 @@ void near enemy_hittest(void)
 	// Checking HP *before* decrementing means that enemies still live at 0 HP
 	// and are only destroyed if their HP would reach -1, matching what you'd
 	// expect from the formation scripts.
-	if((p->hp == 0) || ef_onehit) {
+	if(!p->hp || ef_onehit) {
 		p->flag = EFF_EXPLOSION_IGNORING_ENEMIES;
 		enemy_killed_in_previous_hittest = true;
 		if(!explosion_collision_in_last_hittest) {
