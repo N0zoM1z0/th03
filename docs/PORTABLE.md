@@ -185,3 +185,42 @@ python3 port64/check_intro.py --native build/linux-x64/th03-port64 --dos-root /p
 Use `--scene stage-intro --characters 5,13 --frames 20` with the HDI and font
 for the same frame. The two IDs are paletted character IDs 1..18; `--stage`
 accepts the original zero-based stage. No original disk or font is written.
+
+MAIN round initialization now runs after the introduction, reading
+`ENEDAT.DAT` from the second PF. The typed state includes original CPU safety,
+rank/round difficulty, player positions/hearts/bombs, gauge state, character
+speeds, CPU charge thresholds and formation rings. MAIN's process-local LCG is
+seeded anew from the resident counter. The backward random-ring fill retains
+its cursor; the WORD getter increments that cursor before reading, so index255
+reads the wrapped cursor as its high byte. Stage setup assigns initial versus
+gauge levels *after* round preparation; keeping the earlier rank increment
+would change the first round.
+
+`round.cpp` also contains ordinary player movement and shot-pair allocation/
+update. They are not connected to a running battle yet. Next, implement the
+original battle resources/rendering, formation/enemy VM and player state loop,
+then the remaining attack families and result/MAINL routes. Audio, persistence
+and campaign acceptance still remain.
+
+Run the focused MAIN comparison with:
+
+```sh
+/path/to/dos/.venv/bin/python port64/check_round.py \
+  --native build/linux-x64/th03-port64 \
+  --native-checks build/linux-x64/th03-port64-checks --dos-root /path/to/dos
+```
+
+Six normal/versus/later-stage fixtures run the actual MAIN initializer, LCG,
+ring fill and formation randomizer instructions. Scalar state, both players'
+threshold arrays, the final seed and both complete formation rings agree.
+Unrelated object-pool resetters are foreign services in this bounded check.
+The first formation randomizer reads an uninitialized stack byte, attested as
+`0x5e` from C0's saved InitStart. `Round::prepare` takes that context explicitly;
+recover later-round stack context before connecting the round restart path.
+The original instruction baseline comes from the pinned Japanese MAIN target,
+not the user's no-hit executable.
+
+`--main-assets --list` and `--main-assets --extract NAME --output FILE` inspect
+the second PF in the original HDI. Both Linux and Windows x64 build; native
+Windows headless state checks pass and its full introduction frame agrees with
+Linux. The independent Windows DOSBox session remains untouched.

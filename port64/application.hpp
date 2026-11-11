@@ -1,13 +1,14 @@
 #pragma once
 #include "selection.hpp"
 #include "stage_intro.hpp"
+#include "round.hpp"
 #include <optional>
 
 namespace th03 {
 enum class Phase {op,versus,selection,mainl_handoff,quit,stage_intro};
 class Application {
 public:
-    Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture="TL02.PI",Bytes font_bitmap={});
+    Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture="TL02.PI",Bytes font_bitmap={},const PfArchive* main_assets=nullptr);
     void tick(const InputFrame& input);
     Frame render() const;
     bool finished() const {return phase==Phase::quit||phase==Phase::mainl_handoff;}
@@ -18,8 +19,10 @@ public:
     Menu menu;
     Resident resident;
     Selection selection;
+    std::optional<Round> round;
 private:
     const PfArchive& assets_;
+    const PfArchive* main_assets_;
     PiImage background_;
     Font graphic_font_;
     std::optional<StageIntro> intro_;

@@ -1,7 +1,8 @@
 #include "application.hpp"
+#include <stdexcept>
 
 namespace th03 {
-Application::Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture,Bytes font_bitmap):assets_(assets),
+Application::Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture,Bytes font_bitmap,const PfArchive* main_assets):assets_(assets),main_assets_(main_assets),
     background_(decode_pi(assets.read(picture))),graphic_font_(std::move(font_bitmap)),font_(assets.read("MIKOFT.BFT")),window_(assets.read("OPWIN.BFT")) {
     menu.options=resident.options=options;available_=characters_unlocked(nem) ? 9 : 7;
 }
@@ -20,7 +21,11 @@ void Application::tick(const InputFrame& input) {
     if(finished())return;
     if(phase==Phase::stage_intro) {
         intro_->tick(input.single);
-        if(intro_->done())phase=Phase::mainl_handoff;
+        if(intro_->done()) {
+            if(!main_assets_)throw std::runtime_error("MAIN setup requires the second original PF archive");
+            round.emplace();round->begin(resident,main_assets_->read("ENEDAT.DAT"));
+            phase=Phase::mainl_handoff;
+        }
         return;
     }
     if(transition_wait_) {--transition_wait_;return;}

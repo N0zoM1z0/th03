@@ -1,6 +1,7 @@
 #include "assets.hpp"
 #include "menu.hpp"
 #include "selection.hpp"
+#include "round.hpp"
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
@@ -43,6 +44,30 @@ void tap(th03::Menu& menu,std::uint16_t key) { menu.tick(0); menu.tick(key); }
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==9&&std::string(argv[1])=="--round") {
+            th03::Round round;th03::Resident resident;
+            round.formations=th03::read_formations(read_file(argv[2]));
+            round.random.seed=std::uint32_t(std::stoul(argv[3]));
+            resident.options.rank=std::uint8_t(std::stoul(argv[4]));resident.mode=th03::Mode(std::stoul(argv[5]));
+            round.id=std::uint8_t(std::stoul(argv[6]));resident.credits=std::uint8_t(std::stoul(argv[7]));
+            resident.stage=std::uint8_t(std::stoul(argv[8]));resident.paletted={{5,13}};resident.cpu={{false,true}};
+            round.gauge_levels={{3,5}};round.players[0].cpu_safety=777;round.players[1].cpu_safety=888;
+            round.prepare(resident,0x5e);
+            std::cout<<round.formations.size()<<' '<<round.random.seed<<' '<<unsigned(round.speed)<<' '
+                     <<unsigned(round.bullet_base_speed)<<' '<<unsigned(round.boss_level)<<' '
+                     <<unsigned(round.gauge_levels[0])<<' '<<unsigned(round.gauge_levels[1])<<' '
+                     <<round.players[0].cpu_safety<<' '<<round.players[1].cpu_safety<<'\n';
+            const auto row=[&](const auto& values) {for(auto value:values)std::cout<<unsigned(value)<<' ';std::cout<<'\n';};
+            row(round.random.bytes);row(round.formation_types);row(round.formation_positions);
+            for(const auto& p:round.players) {
+                std::cout<<p.center.x<<' '<<p.center.y<<' '<<unsigned(p.invincibility)<<' '<<int(p.halfhearts)<<' '
+                         <<unsigned(p.paletted)<<' '<<p.cpu<<' '<<unsigned(p.shot_mode)<<' '<<p.gauge_charged<<' '
+                         <<unsigned(p.shot_active)<<' '<<unsigned(p.hit_damage_next)<<' '<<unsigned(p.charge_cursor)<<' '
+                         <<unsigned(p.bombs)<<' '<<unsigned(p.lose_time)<<' '<<unsigned(p.hyper_active)<<' '<<p.cpu_frame<<'\n';
+                row(p.charge_thresholds);
+            }
+            return 0;
+        }
         if(argc>1&&std::string(argv[1])=="--curves") {
             th03::Canvas canvas;
             th03::selection_curves(canvas,std::uint8_t(std::stoul(argv[2])),std::stoi(argv[3]));
@@ -123,6 +148,19 @@ int main(int argc,char** argv) {
         picture.put(canvas,0,0,0,true,true);check(canvas.pixels[640+31]==1,"CDG horizontal flip");
         picture.put(canvas,0,0,0,false);check(canvas.pixels[0]==1,"CDG no-alpha overwrite");
         cdg.pop_back();rejects([&]{th03::Cdg invalid(cdg);});
+        th03::RandomRing random;random.bytes[255]=0x73;random.bytes[0]=0xab;random.cursor=255;
+        check(random.ring()==0x73&&random.cursor==0,"ring WORD aliases incremented cursor");
+        random.cursor=254;random.fill();check(random.cursor==254,"ring refill retains cursor");
+        th03::Player player;player.center={144<<4,336<<4};player.speeds={{64,64,48,48,28}};
+        check(player.move(th03::left)&&player.center.x==(140<<4),"player aligned Q4 movement");
+        check(player.move(th03::left|th03::right)&&player.center.x==(144<<4),"last human direction resolves overlap");
+        check(player.move(th03::up_right)&&player.center.x==2352&&player.center.y==5328,"player diagonal Q4 movement");
+        player.center={8<<4,24<<4};player.move(th03::up_left);
+        check(player.center.x==128&&player.center.y==384,"player clamps to original field");
+        th03::Round shots;shots.players[0].center={144<<4,336<<4};shots.add_shots(0);
+        check(shots.shots[0].alive&&shots.shots[0].top_left.x==(128<<4)&&!shots.shots[1].alive,"single shot pair allocation");
+        shots.update_shots();check(shots.shots[0].top_left.y==(324<<4),"shot Q4 velocity");
+        shots.shots[0].top_left.y=0;shots.update_shots();check(!shots.shots[0].alive,"shot top-edge removal");
         std::cout<<"PF, PI, menu release/ordering/options and 32-bit RNG checks passed\n";
         return 0;
     } catch (const std::exception& error) { std::cerr<<error.what()<<'\n'; return 1; }

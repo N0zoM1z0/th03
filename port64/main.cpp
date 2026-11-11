@@ -10,17 +10,18 @@ int main(int argc, char** argv) {
         std::string hdi, archive, screenshot, extract, output, packed, inputs;
         std::string scene="title", picture="TL02.PI",font_bitmap,characters="1,3";
         unsigned stage=0;
-        bool headless=false, list=false;
+        bool headless=false, list=false, main_assets=false;
         unsigned frames=0;
         for (int i=1;i<argc;++i) {
             const std::string arg=argv[i];
             if (arg=="--headless") { headless=true; continue; }
+            if (arg=="--main-assets") {main_assets=true;continue;}
             if (arg=="--list") { list=true; continue; }
             if (arg=="--help") {
                 std::cout<<"th03-port64 (--hdi FILE | --archive FILE) [--headless] [--scene title|menu|options|story-select|versus-select|two-select|stage-intro]\n"
                          <<"  [--font-bmp FILE] [--characters P1,P2] [--stage N]\n"
                          <<"  [--screenshot FILE.ppm] [--frames N] [--inputs SP[:P1:P2],...]\n"
-                         <<"  [--list] [--extract NAME --output FILE] [--pi NAME --packed FILE]\n";
+                         <<"  [--main-assets] [--list] [--extract NAME --output FILE] [--pi NAME --packed FILE]\n";
                 return 0;
             }
             if (++i>=argc) throw std::runtime_error("missing option value");
@@ -43,7 +44,7 @@ int main(int argc, char** argv) {
         if (hdi.empty()==archive.empty()) throw std::runtime_error("supply one original HDI or PF archive");
         Bytes disk;
         if (!hdi.empty()) disk=read_file(hdi);
-        PfArchive assets(hdi.empty() ? read_file(archive) : hdi_file(disk,op_archive_name));
+        PfArchive assets(hdi.empty() ? read_file(archive) : hdi_file(disk,main_assets ? main_archive_name : op_archive_name));
         if (list) {
             for (const auto& e:assets.entries()) std::cout<<e.name<<' '<<e.size<<'\n';
             return 0;
@@ -67,7 +68,10 @@ int main(int argc, char** argv) {
             options={cfg[0],cfg[1],cfg[2]};
             nem=hdi_file(disk,"YUME    NEM");
         }
-        th03::Application app(assets,options,nem,picture,font_bitmap.empty() ? Bytes{} : read_file(font_bitmap));
+        std::optional<PfArchive> main_archive;
+        if(!disk.empty())main_archive.emplace(hdi_file(disk,main_archive_name));
+        th03::Application app(assets,options,nem,picture,font_bitmap.empty() ? Bytes{} : read_file(font_bitmap),
+                              main_archive ? &*main_archive : nullptr);
         auto& menu=app.menu;
         if (scene=="menu" || scene=="options") { menu.tick(th03::left); menu.tick(0); }
         if (scene=="options") {
@@ -115,6 +119,12 @@ int main(int argc, char** argv) {
                  <<" keys="<<int(menu.options.keys)<<" handoff="<<int(menu.request)
                  <<" phase="<<int(app.phase)<<" characters="<<int(app.resident.paletted[0])<<','<<int(app.resident.paletted[1])
                  <<" selection="<<int(app.selection.selected[0])<<','<<int(app.selection.selected[1])<<'\n';
+        if(app.round) {
+            const auto& round=*app.round;
+            std::cout<<"round="<<unsigned(round.id)<<" speed="<<unsigned(round.speed)
+                     <<" boss="<<unsigned(round.boss_level)<<" safety="<<round.players[1].cpu_safety
+                     <<" formations="<<round.formations.size()<<" main_seed="<<round.random.seed<<'\n';
+        }
         return 0;
     } catch (const std::exception& e) {
         std::cerr<<"TH03 port64: "<<e.what()<<'\n';
