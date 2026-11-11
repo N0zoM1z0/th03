@@ -70,6 +70,7 @@ list. The full selection lives in the generated progress table.
 | Round RNG / collision reset | `af1333c` | 82-byte TASM carrier, source-bound RNG macros, fill loop, collision reset, three maintained includes |
 | PMD/MIDI audio services | `af1354n` | Two complete audio owners; SE selection and dispatch use exact early exits, ordered original priority reads and frame-zero PMD interrupt; Kotohime joint `af1354o` |
 | Input modes / wait | `af1353i` | Nine exact interfaces with explicit per-caller joystick merges, natural input truth tests, signed bounded wait; current CPU/VSYNC joint `af1353j` |
+| Warning / Gauge HUD | `af1362n` | Exact pause and key-release loops, signed 27-frame palette flash, six-row cleanup and word-frame low-bit tests; 7-owner joint `af1362o` |
 | Hitbox + HitCircle | `af1350h` | Whole 711-byte collision pair; short-circuited spawn/bomb gates, explicit DGROUP near-pointers, natural live-age sprite rendering and random-center guard; historical Chiyuri/Bullet join `af1348k` |
 | CPU movement/dodge controller | `af1357k` | Full 1,077-byte controller; short-circuit floor escape, exact collision scan/bomb clocks and nine-direction retry predicates; core/input/hitbox/VSYNC joint `af1357l` |
 | Gauge / shared Extra Attack | `af1356l` | Constant near player pointer, positive non-Hyper/not-full charge gate and exact saturation; Polar/Marisa/Bullet joint `af1356m` |

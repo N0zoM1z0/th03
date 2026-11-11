@@ -24,13 +24,14 @@ void near round_pause_or_quit(void)
     snd_se_reset();
     snd_se_play(21);
     snd_se_update();
-    // The two release polls and the unbounded pause command loop retain
-    // their original BIOS key-sense and VSync ordering as natural while loops.
-    while(input_sp != INPUT_NONE) {
+    // Both key-release polls test a nonzero physical input word; the
+    // unbounded command poll still checks quit before cancel, with every
+    // original BIOS key-sense and VSYNC delay in place.
+    while(input_sp) {
         input_reset_sense_key_held();
         frame_delay(1);
     }
-    while(1) {
+    for(;;) {
         input_reset_sense_key_held();
         if(input_sp & INPUT_Q) {
             round_quit_requested = 1;
@@ -39,7 +40,7 @@ void near round_pause_or_quit(void)
         if(input_sp & INPUT_CANCEL) break;
         frame_delay(1);
     }
-    while(input_sp != INPUT_NONE) {
+    while(input_sp) {
         input_reset_sense_key_held();
         frame_delay(1);
     }
@@ -54,7 +55,9 @@ void near round_C830(void)
     egc_on();
     asm { call near ptr hud_gauge_highlights_restore }
     egc_off();
-    if(players[0].hyper_active && (round_or_result_frame % 2)) {
+    // The global word-frame low bit is enough for both Hyper flashes;
+    // do not change the original GRCG register and OUT sequences.
+    if(players[0].hyper_active && (round_or_result_frame & 1)) {
         color = players[0].gauge_avail >> 10;
         if(color == 1) color = 8;
         else if(color == 2) color = 12;
@@ -67,7 +70,7 @@ void near round_C830(void)
             out 07Ch, ax
         }
     }
-    if(players[1].hyper_active && (round_or_result_frame % 2)) {
+    if(players[1].hyper_active && (round_or_result_frame & 1)) {
         color = players[1].gauge_avail >> 10;
         if(color == 1) color = 8;
         else if(color == 2) color = 12;
@@ -91,7 +94,7 @@ void near round_C8C4(void)
     register int available_p2 = players[1].gauge_avail >> 4;
     available_p1 -= static_cast<int>(charged_p1);
     if(available_p1 > 0) {
-        if(!players[0].hyper_active || (round_or_result_frame % 2))
+        if(!players[0].hyper_active || (round_or_result_frame & 1))
             grcg_setcolor(GC_RMW, 9);
         else grcg_setcolor(GC_RMW, 15);
         // Genuine B3F6 input contract; do not name C locals inside asm.
@@ -101,7 +104,7 @@ void near round_C8C4(void)
     }
     available_p2 -= static_cast<int>(charged_p2);
     if(available_p2 > 0) {
-        if(!players[1].hyper_active || (round_or_result_frame % 2))
+        if(!players[1].hyper_active || (round_or_result_frame & 1))
             grcg_setcolor(GC_RMW, 9);
         else grcg_setcolor(GC_RMW, 15);
         // Genuine B3F6 input contract; do not name C locals inside asm.
@@ -146,13 +149,13 @@ void far pascal round_C9FE(pid_t player)
     register int left;
     if(warning_flag[player] != WF_PORTRAIT) return;
     left = PLAYFIELD_LEFT;
-    if(player != 0) left += PLAYFIELD_W_BORDERED;
+    if(player) left += PLAYFIELD_W_BORDERED;
     mrs_put_8(left, PLAYFIELD_TOP, player);
     warning_flag[player] = WF_FLASH_WHITE;
 }
 
-// The 27-frame physical flash loop preserves its original signed
-// frame local; unsigned parity only describes the actual low bit.
+// The 27-frame flash keeps its signed index and checks only the
+// unsigned low frame bit after the original key sense and VSYNC call.
 void far round_CA3C(void)
 {
     if(warning_flag[0] != WF_FLASH_WHITE &&
@@ -182,12 +185,14 @@ void far round_CA3C(void)
         warning_flag[1] = WF_FLASH_RED;
         warning_text_put(1, TX_WHITE);
     }
-    for(register int frame = 0; frame < WARNING_FLASH_FRAME_COUNT; ++frame) {
+    register int frame = 0;
+    while(frame < WARNING_FLASH_FRAME_COUNT) {
         input_reset_sense_key_held();
         if(input_sp & INPUT_CANCEL) round_pause_or_quit();
         frame_delay(1);
-        PaletteTone = WARNING_FLASH_TONE_NORMAL + (static_cast<unsigned int>(frame) % 2) * WARNING_FLASH_TONE_ALTERNATE;
+        PaletteTone = WARNING_FLASH_TONE_NORMAL + (static_cast<unsigned int>(frame) & 1) * WARNING_FLASH_TONE_ALTERNATE;
         palette_show();
+        ++frame;
     }
 }
 
@@ -264,8 +269,14 @@ void far pascal round_CB81(pid_t player)
         } else {
             x = 4;
             if(attacked == 1) x += 40;
-            for(i = 0, attribute_or_y = WARNING_CLEAR_TEXT_FIRST_ROW; i < WARNING_CLEAR_TEXT_ROW_COUNT; (++i, ++attribute_or_y)) {
+            i = 0;
+            attribute_or_y = WARNING_CLEAR_TEXT_FIRST_ROW;
+            // Separate unsigned index and text-row increments occur
+            // after each original text draw, not before it.
+            while(i < WARNING_CLEAR_TEXT_ROW_COUNT) {
                 text_putsa(x, attribute_or_y, warning_clear_line, TX_WHITE);
+                ++i;
+                ++attribute_or_y;
             }
             // Preserve the original word push; the far-Pascal callee uses its low byte.
             asm {

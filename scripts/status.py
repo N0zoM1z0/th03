@@ -166,7 +166,7 @@ def native_source_reviews(root, artifact):
             ('Combo HUD and chain', 'af1360o'),
             ('Player shots', 'af1132b'),
             ('Player effects', 'af1133a'),
-            ('Warning and Gauge HUD', 'af1160e'),
+            ('Warning and Gauge HUD', 'af1362n'),
             ('Character callback setup', 'af1161f'),
             ('CPU controller', 'af1357k'),
         )]
