@@ -372,11 +372,11 @@ enum chiyuri_fan_phase_t {
 // scaling; moving the scale into the quotient changes trajectory rounding.
 // Each of the four fan passes expresses its independent speed and index
 // progression in the for header, after the body emits its projectiles.
-// Keep the byte speed assignment before the signed ++i, the signed division
-// before TO_SP, and the original angle reflection and emission order.
-// Current original TC4 source context accepts compound speed +=/-= in
-// all four headers (af1329j); older failures af922h/af1033q applied to
-// different surrounding source and are not a global prohibition.
+// Four pre-tested fan loops keep each signed division before TO_SP and
+// the two original angle reflections. Each pass changes bullet speed
+// after the final shot of that iteration, then advances signed i.
+// The native compiler accepts the same compound speed +=/-= operations
+// here as in the earlier for headers (af1329j).
 void near chiyuri_pattern_fans(void)
 {
 	register pid_t pid_other = (1 - pid_current);
@@ -395,11 +395,8 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.type = BT_PELLET;
 		bullet_template.speed.v = chiyuri_fan_speed;
 
-		for(
-			i = 0;
-			i < chiyuri_fan_count;
-			bullet_template.speed.v += CHIYURI_FAN_SPEED_STEP, ++i
-		) {
+		i = 0;
+		while(i < chiyuri_fan_count) {
 			bullet_template.center.x.v = (
 				(boss_center_x - CHIYURI_FAN_EDGE_OFFSET) +
 				TO_SP((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count)
@@ -411,14 +408,12 @@ void near chiyuri_pattern_fans(void)
 
 			bullet_template.angle = (0 - bullet_template.angle);
 			bullets_add();
-
+			bullet_template.speed.v += CHIYURI_FAN_SPEED_STEP;
+			++i;
 		}
 
-		for(
-			i = 0;
-			i < chiyuri_fan_count;
-			bullet_template.speed.v -= CHIYURI_FAN_SPEED_STEP, ++i
-		) {
+		i = 0;
+		while(i < chiyuri_fan_count) {
 			bullet_template.center.x.v = (
 				(boss_center_x - CHIYURI_FAN_EDGE_OFFSET) +
 				TO_SP((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count)
@@ -430,7 +425,8 @@ void near chiyuri_pattern_fans(void)
 
 			bullet_template.angle = (0 - bullet_template.angle);
 			bullets_add();
-
+			bullet_template.speed.v -= CHIYURI_FAN_SPEED_STEP;
+			++i;
 		}
 		return;
 	}
@@ -450,11 +446,8 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
 		bullet_template.speed.v = chiyuri_fan_speed;
 
-		for(
-			i = 0;
-			i < chiyuri_fan_count;
-			bullet_template.speed.v += CHIYURI_FAN_SPEED_STEP, ++i
-		) {
+		i = 0;
+		while(i < chiyuri_fan_count) {
 			bullet_template.center.y.v = (
 				(boss_center_y - CHIYURI_FAN_EDGE_OFFSET) +
 				TO_SP((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count)
@@ -463,13 +456,12 @@ void near chiyuri_pattern_fans(void)
 				((i * CHIYURI_FAN_ANGLE_UNITS) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
 			);
 			bullets_add();
+			bullet_template.speed.v += CHIYURI_FAN_SPEED_STEP;
+			++i;
 		}
 
-		for(
-			i = 0;
-			i < chiyuri_fan_count;
-			bullet_template.speed.v -= CHIYURI_FAN_SPEED_STEP, ++i
-		) {
+		i = 0;
+		while(i < chiyuri_fan_count) {
 			bullet_template.center.y.v = (
 				(boss_center_y - CHIYURI_FAN_EDGE_OFFSET) +
 				TO_SP((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count)
@@ -478,6 +470,8 @@ void near chiyuri_pattern_fans(void)
 				((i * CHIYURI_FAN_ANGLE_UNITS) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
 			);
 			bullets_add();
+			bullet_template.speed.v -= CHIYURI_FAN_SPEED_STEP;
+			++i;
 		}
 
 		boss_mode = CHIYURI_MODE_SELECT;
@@ -641,9 +635,8 @@ void far gba_boss_update_chiyuri(void)
 }
 
 // Natural signed 16-bit radius and sprite-frame shifts remain exact.
-// The original two-carrier 16-sprite ring now uses a natural for-header.
-// Its update advances the signed index before the byte-angle assignment;
-// the compound angle += is native-exact in this current context (af1329k).
+// The 16-sprite ring's pre-tested loop advances signed i, then the
+// mutable byte angle, only after each original sprite draw.
 void near chiyuri_render_ring(void)
 {
 	screen_y_t top;
@@ -663,11 +656,9 @@ void near chiyuri_render_ring(void)
 	sprite_offset = (CHIYURI_RING_SPRITE_OFFSET + boss_sprite_offset);
 	sprite_offset += (CHIYURI_RING_SPRITE_ANIM_SCALE * boss_render_frame);
 
-	for(
-		i = 0, angle = boss_move_phase;
-		i < CHIYURI_RING_SPRITES;
-		++i, angle += CHIYURI_RING_SPRITE_ANGLE_STEP
-	) {
+	i = 0;
+	angle = boss_move_phase;
+	while(i < CHIYURI_RING_SPRITES) {
 		left = polar(
 			boss_center_x, radius, CosTable8[angle]
 		);
@@ -680,6 +671,8 @@ void near chiyuri_render_ring(void)
 		// different TC4 CODE (native negative trial af759b).
 		top = TO_PIXEL(top);
 		sprite16_put(left, top, sprite_offset);
+		++i;
+		angle += CHIYURI_RING_SPRITE_ANGLE_STEP;
 	}
 }
 

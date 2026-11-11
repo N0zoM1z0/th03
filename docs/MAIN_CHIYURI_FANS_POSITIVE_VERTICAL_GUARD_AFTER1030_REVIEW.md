@@ -40,3 +40,28 @@ an explicit `if`/byte increment (2,643 instead of 2,654 CODE bytes). Stage
 `register unsigned char` local (2,669 CODE bytes). Both compiled, but
 neither reproduced the native CODE. The maintained source retains the original
 compiler-visible expressions for those operations.
+
+## Five pre-tested fan and ring renderer loops (2026-11-11)
+
+The current `chiyuri_pattern_fans()` uses four pre-tested `while`
+loops for horizontal/vertical increasing/decreasing speed volleys.
+Both horizontal loops perform the two original mirrored bullet calls;
+all four update the byte speed only **after** the last emission, then
+advance the signed index. The original 16-bit quotient precedes TO_SP,
+and the vertical frame still resets SELECT after the complete second
+pair. `chiyuri_render_ring()` likewise uses a pre-tested signed index,
+advancing the index then the mutable byte angle after every sprite draw.
+
+Incremental stages `af1365a`–`af1365e` proved the five changes
+separately. Current-source `af1365f` recompiles the entire Chiyuri BOSS:
+**2,654 CODE bytes, 381 ordered native fields and 11 PUBLICs**, both
+original TC4 rounds and normal Japanese MAIN links exact. Consumer
+`af1365g` recompiles Chiyuri, Bullet, both shared BOSS objects, Hitbox,
+HitCircle, Chiyuri Extra Attack and Polar: **8,003 CODE bytes,
+801 ordered fields, 49 PUBLICs**, both normal links and ordered MZ
+relocations exact. These scopes reuse the remaining unchanged objects.
+
+Current receipt: `.analysis/work/exatt-layout-af1365f/report.json`, SHA-256
+`19af386e0bb44d3c1fff63536fbcceabeb0adc0fbf99e44e040ec39844eadbd9`.
+Joint receipt: `.analysis/work/exatt-layout-af1365g/report.json`, SHA-256
+`677b2360c8f60a60a14cb34a207d8e79d59a6ad28ee65ea47380e2ae3e320f94`.
