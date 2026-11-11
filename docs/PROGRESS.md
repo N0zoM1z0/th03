@@ -22,7 +22,7 @@ These read-only checks validate maintained source bindings, both original compil
 | Product / scope | Stage | Current check | Physical owners | CODE bytes | Initialized DATA bytes |
 | --- | --- | --- | ---: | ---: | ---: |
 | th03-main / VRAM plane initializer | af1359g | Verified | 1 | 41 | — |
-| th03-main / Stage demo transition | af1333a | Verified | 1 | 663 | — |
+| th03-main / Stage demo transition | af1367p | Verified | 1 | 663 | — |
 | th03-main / Shared BOSS | af1351g | Verified | 2 | 949 | — |
 | th03-main / PI image loader | af1358n | Verified | 1 | 70 | — |
 | th03-main / DOS executable handoff | af1359i | Verified | 1 | 79 | — |
@@ -102,7 +102,7 @@ These read-only checks validate maintained source bindings, both original compil
 
 th03-main VRAM plane initializer: `.analysis/work/exatt-layout-af1359g/report.json`.
 
-th03-main Stage demo transition: `.analysis/work/exatt-layout-af1333a/report.json`.
+th03-main Stage demo transition: `.analysis/work/exatt-layout-af1367p/report.json`.
 
 th03-main Shared BOSS: `.analysis/work/exatt-layout-af1351g/report.json`.
 

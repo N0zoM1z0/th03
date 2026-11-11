@@ -32,3 +32,32 @@ Read-only current source checks:
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1333a
 PYTHONPATH=scripts .venv/bin/python scripts/probe_th03_main_roundpr_asm.py --stage af1333c --check
 ```
+
+## Pre-tested stage wipes and TC4 enum signedness (2026-11-11)
+
+Both closing checkerboard passes and the uncovering four-triangle pass
+now use pre-tested `while` traversals with a signed 320-pixel second-
+playfield offset. Each iteration draws before advancing the original
+signed index; the original clip windows, alternating masks, GRCG calls,
+16-frame callback changes and 16-bit assembly arguments are unchanged.
+
+An independent original TC4 compiler experiment established a subtle
+constraint: naming `320` in the **same enum** as high-bit `0xAAAA` and
+`0xFFFF` masks (`af1367m`) changes the entire physical CODE. Its
+unsigned enum type affects the signed loop-bound comparison. Separating
+the small signed offset/frame constants from the hardware mask enum
+(`af1367n`) restored native equality. This avoids any ad hoc byte patch.
+
+Stages `af1367h`–`af1367j` proved all three loop rewrites. Stage
+`af1367l` proved named masks, `af1367n` the separated enum types and
+`af1367o` the named 16-frame phase deadline. Current source-bound
+`af1367p` reproduces all **663 CODE bytes, 74 ordered native fields,
+3 PUBLICs**, with two original TC4 rounds and exact normal MAIN links.
+Joint `af1367q` recompiles Stage Demo Transition, MAIN entry, HitCircle
+and Hitbox: **4,424 CODE bytes, 570 fields, 16 PUBLICs**, complete
+original Japanese MAIN images and ordered relocations in both rounds.
+
+Current proof: `.analysis/work/exatt-layout-af1367p/report.json`, SHA-256
+`e1084a402afd1834456f0ae54f878424491e48a502381ec698b00f724e36f828`.
+Joint proof: `.analysis/work/exatt-layout-af1367q/report.json`, SHA-256
+`4fa89068a2e31391e78407b4fe8dffd373df7610e6a45e78f20a3d124e336af9`.

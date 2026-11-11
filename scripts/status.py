@@ -103,7 +103,7 @@ def native_source_reviews(root, artifact):
         selected = [(label, stage, f'.analysis/work/exatt-layout-{stage}/report.json',
                      'review_th03_main_source_overlay.py', []) for label, stage in (
             ('VRAM plane initializer', 'af1359g'),
-            ('Stage demo transition', 'af1333a'),
+            ('Stage demo transition', 'af1367p'),
             ('Shared BOSS', 'af1351g'),
             ('PI image loader', 'af1358n'),
             ('DOS executable handoff', 'af1359i'),

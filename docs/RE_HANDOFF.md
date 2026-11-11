@@ -66,7 +66,7 @@ list. The full selection lives in the generated progress table.
 | Shared sound ASM leaves | `af1328b` | Three newly source-bound original TASM owners: PMD mode detection, resident probe and SE reset; 100 CODE bytes, native link/relocs exact |
 | Graphics/resource ASM leaves | `af1330f` | Six source-bound TASM owners, 1,622 CODE bytes; HUD score aliases, sprite16, MRS, palette, flip LUT and fill carrier; includes now bound |
 | Vector/playfield/collision ASM | `af1332c` | Three newly source-bound TASM objects: 160-byte vectors, 118-byte playfield geometry, 432-byte collision-map generator |
-| Demo transition control | `af1333a` | 663-byte source-bound TC4 stage wipe, triangle mask, two phase callbacks and frame transitions |
+| Demo transition control | `af1367p` | Exact two-pass close/uncover while scans, signed playfield offset/frame gates and separate unsigned GRCG mask enums; entry/collision joint `af1367q` |
 | Round RNG / collision reset | `af1333c` | 82-byte TASM carrier, source-bound RNG macros, fill loop, collision reset, three maintained includes |
 | PMD/MIDI audio services | `af1364k` | Driver-inactive and PMD early returns retain AX and original interrupt vector order; SE priority/frame path unchanged; Kana combat/audio joint `af1364l` |
 | Input modes / wait | `af1366k` | No-joystick early exit in both asymmetric keyboard/joystick modes and at-least-once release poll; CPU/VSYNC/Warning/Sound joint `af1366l` |
