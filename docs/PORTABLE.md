@@ -5,7 +5,7 @@ Title, menus, character selection and MAINL stage introduction join through
 explicit resident state into MAIN round initialization. Enemy scripts, battle
 resources/HUD, round-introduction animation, collision primitives, bullets,
 explosion chains, fireballs, all nine Charge Shot/Bomb families, Hyper handlers,
-shared effects, player/loss state machines and CPU decisions are ported and
+shared effects, both background chains, player/loss state machines and CPU decisions are ported and
 checked separately.
 The program stops at initialized battle state;
 it is not yet a playable full-game port. CPU edge-scan data, Extra/Gauge/Boss attacks,
@@ -102,6 +102,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_charge.py` | Same arguments as `check_selection.py` | All nine Charge Shot lifecycles, full physical pools/history, hit circles and RNG, sound events and four projectile Hyper helpers |
 | `check_bomb.py` | Same arguments as `check_selection.py` | Nine Bomb controllers coupled to complete effect pools, palette/foreground state, RNG and sound events |
 | `check_cpu.py` | Same arguments as `check_selection.py` | Offensive/defensive CPU, target selection, collision/retry grids, shared velocity/RNG and real Bomb activation |
+| `check_background.py` | Same arguments as `check_selection.py` | Both particle chains, all80 slots, LCG, acceleration/phase transitions, reset and both indeterminate-byte branches |
 | `check_raster.py` | Same arguments as `check_selection.py` | Complete original GRCG circle, clipped DDA line and filled-triangle rasters |
 | `check_mrs.py` | Same arguments as `check_round.py` | Original MRS opaque/altered/alpha blits, alignment and horizontal flip in all pixels |
 
@@ -211,8 +212,26 @@ the real Bomb/Hyper entry. Ordinary in-map fixtures agree with original MAIN on
 Linux and Windows x64, including the unused RNG draw during approach, stuck-Bomb
 activation and preserving a charged attack by reporting a hit instead.
 
-Continue with backgrounds and the real round loop, then join Extra/Gauge/Boss
-attacks and result/MAINL routes. Wide CPU scans near the left edge still need
+`background.cpp` supplies both original 48/50-particle chains and the complete
+80-slot velocity reset. The second player's character selects the chain. The
+initializers consume the LCG directly, so call them after MAIN stage setup,
+not during `Round::prepare`. Native states match original instructions and
+Linux/Windows fixture pictures agree at acceleration and periodic frames.
+`--background-picture HDI CHARACTER TICKS FILE.ppm` renders an isolated chain.
+
+Periodic non-turn paths read an indeterminate `changed` byte in DOS. Either
+branch has the same effect in reachable particle states: acceleration records
+the final speed, and each actual turn/reset establishes velocity equal to the
+polar vector for the current angle/speed. Recomputing that vector without a
+turn leaves it unchanged and consumes no RNG. Original comparisons check both
+zero and nonzero incoming bytes. The final acceleration call draws with its
+original clipping/cels before changing the next callback. Background callbacks
+run before the frame-skip branch; a skipped frame can leave background pixels
+in the pending back page. Preserve that page when joining the scheduler. Bomb
+first-phase fills erase the selected playfield's background as in DOS.
+
+Continue with the real round loop, then join Extra/Gauge/Boss attacks and
+result/MAINL routes. Wide CPU scans near the left edge still need
 their aliased DGROUP owners. With an empty bitmap and initialized target DATA,
 P0 at (8,336) pixels with a 32-tile scan reads `02D0..02D4` and collides with
 `PaletteTone`; at X16 it immediately reads `SinTable8` byte `0380`. P1's

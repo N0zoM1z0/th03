@@ -7,6 +7,7 @@
 #include "charge.hpp"
 #include "bomb.hpp"
 #include "graphics.hpp"
+#include "background.hpp"
 #include <array>
 #include <vector>
 
@@ -98,6 +99,7 @@ public:
     bool page_back=false;
     std::vector<std::uint8_t> sounds;
     RandomRing random;
+    Background background;
     HudIntro intro;
     Bullets bullets;
     ChargeShots charge_shots;

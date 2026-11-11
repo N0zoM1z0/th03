@@ -55,7 +55,10 @@ Bomb fixture pictures agree. Kotohime's fade still needs its actual incoming
 stack color when the round renderer joins. Both CPU strategies, retry grids and
 real Bomb activation now agree with original instructions on Linux/Windows for
 in-map cases; common player contracts bind all five actual service owners.
-Continue with backgrounds and the real round loop,
+Both background chains now match original state/RNG instructions; native
+Linux/Windows pictures agree. The indeterminate periodic byte is redundant
+under the established velocity invariant (PORTABLE.md). Preserve skipped-frame
+background pixels when joining the scheduler. Continue with the real round loop,
 then Extra/Gauge/Boss attacks and result/MAINL routes.
 Resolve wide CPU collision scans' aliased DATA reads when joining that path;
 observed aliases include palette tone, sine tables and CRT tables (PORTABLE.md).

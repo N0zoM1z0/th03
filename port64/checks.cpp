@@ -47,6 +47,19 @@ void tap(th03::Menu& menu,std::uint16_t key) { menu.tick(0); menu.tick(key); }
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==7&&std::string(argv[1])=="--background") {
+            const auto chain=unsigned(std::stoul(argv[2])),accel=unsigned(std::stoul(argv[3])),first=unsigned(std::stoul(argv[4])),count=unsigned(std::stoul(argv[5]));
+            if(chain<1||chain>2)throw std::runtime_error("unknown background chain");
+            th03::Round round;round.random.seed=0x12345678;round.background.begin(round.random,chain==1 ? 0 : 2);
+            for(unsigned f=0;f<accel;++f)round.background.update(round.random,f,std::uint16_t(f));
+            if(std::stoi(argv[6]))round.background.reset_velocity();
+            for(unsigned i=0;i<count;++i)round.background.update(round.random,first+i,std::uint16_t(first+i));
+            const auto& bg=round.background;
+            std::cout<<round.random.seed<<' '<<unsigned(bg.angle)<<' '<<bg.periodic<<' '<<bg.draw_periodic<<' '<<bg.phase_frame<<' ';
+            for(const auto& p:bg.particles)std::cout<<p.center.x<<' '<<p.center.y<<' '<<p.velocity.x<<' '<<p.velocity.y<<' '
+                <<unsigned(p.speed)<<' '<<p.sprite<<' '<<p.auxiliary<<' ';
+            std::cout<<'\n';return 0;
+        }
         if(argc==3&&std::string(argv[1])=="--cpu") {
             const unsigned fixture=unsigned(std::stoul(argv[2]));if(fixture>7)throw std::runtime_error("unknown CPU fixture");
             const auto pid=fixture&1;th03::Round round;th03::Resident resident;th03::CollisionMap collision;
@@ -106,7 +119,7 @@ int main(int argc,char** argv) {
             else throw std::runtime_error("invalid raster fixture");
             std::cout.write(reinterpret_cast<const char*>(canvas.pixels.data()),640*200);return 0;
         }
-        if(argc==6&&(std::string(argv[1])=="--charge-picture"||std::string(argv[1])=="--loss-picture"||std::string(argv[1])=="--bomb-picture")) {
+        if(argc==6&&(std::string(argv[1])=="--charge-picture"||std::string(argv[1])=="--loss-picture"||std::string(argv[1])=="--bomb-picture"||std::string(argv[1])=="--background-picture")) {
             const auto disk=read_file(argv[2]);
             const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
             const auto character=unsigned(std::stoul(argv[3])),ticks=unsigned(std::stoul(argv[4]));
@@ -116,13 +129,15 @@ int main(int argc,char** argv) {
             th03::Round round;round.begin(resident,main.read("ENEDAT.DAT"));round.intro.flag=0;
             th03::BattleGraphics graphics(op,main,resident);
             round.set_palette(graphics.palette());
-            const bool loss=std::string(argv[1])=="--loss-picture",bomb=std::string(argv[1])=="--bomb-picture";
-            if(loss) {round.players[0].lose_time=48;round.defeated_player=0;}
+            const bool loss=std::string(argv[1])=="--loss-picture",bomb=std::string(argv[1])=="--bomb-picture",background=std::string(argv[1])=="--background-picture";
+            if(background)round.background.begin(round.random,character);
+            else if(loss) {round.players[0].lose_time=48;round.defeated_player=0;}
             else if(bomb)for(unsigned p=0;p<2;++p)round.player_bomb(p,resident);
             else for(unsigned p=0;p<2;++p)round.charge_shots.add(round,round.players[p].center,p);
             for(unsigned i=0;i<ticks;++i) {
                 round.result_frame=std::uint16_t(i);
-                if(loss) {if(round.players[0].lose_time!=255)round.player_lose_update(0,resident);}
+                if(background)round.background.update(round.random,i,std::uint16_t(i));
+                else if(loss) {if(round.players[0].lose_time!=255)round.player_lose_update(0,resident);}
                 else if(bomb) {
                     for(unsigned p=0;p<2;++p)round.bombs.update(round,p);
                     round.update_effects();

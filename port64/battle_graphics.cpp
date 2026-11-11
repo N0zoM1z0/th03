@@ -262,6 +262,30 @@ void BattleGraphics::charges(Canvas& graphics,const Round& round) const {
         }
     }
 }
+void BattleGraphics::background(Canvas& graphics,const Round& round) const {
+    const auto& bg=round.background;if(!bg.chain)return;
+    for(unsigned i=0;i<24;++i) {
+        const auto p=bg.particles[i].center;
+        // The original pixel helper writes a rotated WORD through a raw
+        // VRAM byte offset. Keep the row/byte carry of that two-dot mask.
+        const int x=pixels(p.x);
+        const int byte=x>=0 ? x/8 : -((-x+7)/8);
+        const unsigned rotate=unsigned(x)&7;
+        const auto mask=std::uint16_t(rotate ? (0xc0u>>rotate)|(0xc0u<<(16-rotate)) : 0xc0);
+        const auto doubled=std::uint16_t((std::uint16_t(p.y)&0xffe0u)<<1);
+        const auto address=std::uint16_t(byte+doubled+(doubled>>2));
+        for(unsigned part=0;part<2;++part)for(unsigned bit=0;bit<8;++bit)if((mask>>(part*8))&(0x80u>>bit)) {
+            const unsigned at=std::uint16_t(address+part)*8+bit;
+            if(at<640*200)graphics.put(int(at%640),int(at/640),bg.chain==1 ? 10 : 13);
+        }
+    }
+    const unsigned count=bg.chain==1 ? 48 : 50,height=bg.chain==1 ? 3 : 8;
+    for(unsigned i=24;i<count;++i) {
+        const auto& p=bg.particles[i];
+        const unsigned delta=bg.chain==2&&bg.draw_periodic&&i>=40 ? ((bg.phase_frame&31)>>3)*2 : 0;
+        sprite(graphics,pixels(p.center.x),pixels(p.center.y),p.sprite+delta,16,height,0,639,!bg.draw_periodic&&bg.chain==1);
+    }
+}
 void BattleGraphics::bombs(Canvas& graphics,const Round& round) const {
     const auto& bombs=round.bombs;
     for(unsigned pid=0;pid<2;++pid)if(round.bomb_flags[pid]) {
@@ -269,6 +293,8 @@ void BattleGraphics::bombs(Canvas& graphics,const Round& round) const {
         const int left=int(pid)*320+16;
         const Clip clip{left,8,left+287,191};
         const auto x=[&](int q4) {return left+pixels(q4)+round.fg_shift[pid];};
+        if(character==1 ? frame<=80 : character!=5&&character!=8&&frame<64)
+            graphics.fill(left,8,left+287,191,std::uint8_t(pid));
         bool portrait=false;int portrait_left=left;
         switch(character) {
         case 0:
@@ -335,6 +361,7 @@ void BattleGraphics::effects(Canvas& graphics,const Round& round) const {
 Frame BattleGraphics::render(const Round& round,const Resident& resident) const {
     Canvas graphics;
     graphics.fill(16,8,303,191,0);graphics.fill(336,8,623,191,1);
+    background(graphics,round);
     bombs(graphics,round);
     for(const auto& shot:round.shots)if(shot.alive) {
         const int left=16+shot.pid*320+pixels(shot.top_left.x)+round.fg_shift[shot.pid],top=16+pixels(shot.top_left.y);

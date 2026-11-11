@@ -13,6 +13,7 @@ public:
     void pattern(Canvas& dest,unsigned index,int left,int top) const;
     const Palette& palette() const {return palette_;}
 private:
+    void background(Canvas& graphics,const Round& round) const;
     void bombs(Canvas& graphics,const Round& round) const;
     void effects(Canvas& graphics,const Round& round) const;
     void charges(Canvas& graphics,const Round& round) const;
