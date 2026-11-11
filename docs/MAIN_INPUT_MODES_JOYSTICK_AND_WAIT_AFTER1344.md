@@ -1,12 +1,11 @@
 # Input mode services: native joystick presence and signed wait semantics
 
-The complete physical nine-function input-mode object now tests actual
-joystick availability using an explicit nonzero byte condition in the
-source-level merge macro and both joystick-versus-keyboard interfaces.
-Without a connected joystick, no `js_sense()` call runs and the existing
-keyboard-to-player assignments retain their original control flow.
-The macro remains expanded inside each original caller: replacing it
-with a helper function or reference had previously increased native CODE.
+The earlier `af1344d` nine-function source tested joystick availability
+with an explicit nonzero byte check inside its expanded merge macro and
+the two joystick-versus-keyboard interfaces. With no joystick connected,
+no `js_sense()` call ran, preserving keyboard-to-player assignment order.
+Replacing the macro with an actual C++ helper function or reference had
+increased native CODE, so each original caller retained inline actions.
 
 The `input_wait_for_change()` entry now compares the shared input word
 against its named `INPUT_NONE` zero sentinel in both polling phases.
@@ -39,3 +38,35 @@ Read-only original source-bound evidence:
 ```
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1344d af1344e
 ```
+
+## Current direct source, independent joystick actions and wait gates (2026-11-11)
+
+The maintained `src/main/hardware/input_modes.cpp` now contains the
+original four *explicit per-caller* joystick read/merge blocks rather
+than a `merge_joystick` preprocessor macro. This is a source-level
+recovery, not a helper call: each conditional still tests availability,
+reads `js_sense()` once and ORs the corresponding physical input word
+at its original position. The two joystick-versus-keyboard assignments
+also use direct nonzero tests. Extracting the actions into a C++ helper
+would change the original Turbo C++ register and call layout.
+
+`input_wait_for_change()` now uses the native-equivalent input truth
+checks: `if(!input_sp)` exits the **unbounded release** wait, while
+`if(input_sp)` exits the bounded press wait. The separate `if(!frames_to_wait)`
+selects the original 9999 sentinel. The signed frame comparison, delay
+ordering, and negative-bound press skip remain unchanged.
+
+Independent native stages `af1353g` (joystick truth), `af1353h`
+(polling truth) and `af1353i` (actual per-caller C++ actions) each
+recompiled the entire nine-function physical object with genuine original
+TC4 in two rounds. The current `af1353i` reproduces **367 CODE bytes,
+58 ordered native fields and 9 PUBLICs** plus both normal Japanese MAIN
+links. The joint `af1353j` compiled input modes, CPU controller and
+VSYNC delay: **1,465 CODE bytes, 124 native fields and 14 PUBLICs**,
+full MAIN images and MZ relocations exact. The separate original `input_s`
+417/418-byte historical-link-carrier gap remains open.
+
+Current source receipt: `.analysis/work/exatt-layout-af1353i/report.json`,
+SHA-256 `9c07a8322324a99627c9c30134c64a9fb57487574274a3b6ed78c5d417905fd1`.
+Joint receipt: `.analysis/work/exatt-layout-af1353j/report.json`,
+SHA-256 `5d70c9acc3aac2c6d3611546903b5eb9ff46a1b233e6a9acdee74efcc83bb65c`.

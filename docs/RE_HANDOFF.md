@@ -69,7 +69,7 @@ list. The full selection lives in the generated progress table.
 | Demo transition control | `af1333a` | 663-byte source-bound TC4 stage wipe, triangle mask, two phase callbacks and frame transitions |
 | Round RNG / collision reset | `af1333c` | 82-byte TASM carrier, source-bound RNG macros, fill loop, collision reset, three maintained includes |
 | PMD/MIDI audio services | `af1346g` | Two complete audio owners: active-only Kaja interrupt, positive SE priority/first-selection and frame-zero PMD dispatch; Rikako joint proof `af1346h` |
-| Input modes / wait | `af1344d` | Nine native interfaces; explicit joystick availability, signed bounded wait and release/press empty-input gates; CPU/VSYNC joint stage `af1344e` |
+| Input modes / wait | `af1353i` | Nine exact interfaces with explicit per-caller joystick merges, natural input truth tests, signed bounded wait; current CPU/VSYNC joint `af1353j` |
 | Hitbox + HitCircle | `af1350h` | Whole 711-byte collision pair; short-circuited spawn/bomb gates, explicit DGROUP near-pointers, natural live-age sprite rendering and random-center guard; historical Chiyuri/Bullet join `af1348k` |
 | CPU movement/dodge controller | `af1327h` | Full 1,077-byte controller; floor escape, nine-direction retries, separate hit/safety gates; current joint source `af1327i` |
 | Gauge / shared Extra Attack | `af1324e` | Near DGROUP player pointer, Hyper/full-gauge short circuit and native saturation, two full owners |

@@ -2,20 +2,16 @@
 
 #include "src/main/hardware/input.hpp"
 
-// The original source must expand these reads in each caller. A natural
-// input_t& inline function changes the TC4 register/layout and adds 8 CODE
-// bytes (native negative af839c); keep the source-level expansion here.
-// The explicit nonzero joystick-presence test remains native exact.
-#define merge_joystick(destination) \
-    if(js_bexist != 0) { \
-        js_sense(); \
-        destination |= js_stat[0]; \
-    }
+// Keep the joystick read and merge in each physical caller. Extracting
+// a C++ helper changes old TC4 register allocation and native CODE.
 
 void far pascal input_mode_interface(void)
 {
     input_reset_sense_key_held();
-    merge_joystick(input_sp);
+    if(js_bexist) {
+        js_sense();
+        input_sp |= js_stat[0];
+    }
     input_sp |= input_mp_p1;
 }
 
@@ -27,7 +23,7 @@ void far pascal input_mode_key_vs_key(void)
 void far pascal input_mode_joy_vs_key(void)
 {
     input_reset_sense_key_held();
-    if(js_bexist != 0) {
+    if(js_bexist) {
         js_sense();
         input_mp_p1 = js_stat[0];
         input_mp_p2 = input_sp;
@@ -37,7 +33,7 @@ void far pascal input_mode_joy_vs_key(void)
 void far pascal input_mode_key_vs_joy(void)
 {
     input_reset_sense_key_held();
-    if(js_bexist != 0) {
+    if(js_bexist) {
         js_sense();
         input_mp_p2 = js_stat[0];
         input_mp_p1 = input_sp;
@@ -48,7 +44,10 @@ void far pascal input_mode_1p_vs_cpu(void)
 {
     input_reset_sense_key_held();
     input_mp_p1 |= input_sp;
-    merge_joystick(input_mp_p1);
+    if(js_bexist) {
+        js_sense();
+        input_mp_p1 |= js_stat[0];
+    }
     input_mp_p2 = INPUT_NONE;
 }
 
@@ -56,7 +55,10 @@ void far pascal input_mode_cpu_vs_1p(void)
 {
     input_reset_sense_key_held();
     input_mp_p2 = input_sp | input_mp_p1;
-    merge_joystick(input_mp_p2);
+    if(js_bexist) {
+        js_sense();
+        input_mp_p2 |= js_stat[0];
+    }
     input_mp_p1 = INPUT_NONE;
 }
 
@@ -78,7 +80,10 @@ void far pascal input_mode_cpu_vs_cpu(void)
 void far pascal input_mode_attract(void)
 {
     input_reset_sense_key_held();
-    merge_joystick(input_sp);
+    if(js_bexist) {
+        js_sense();
+        input_sp |= js_stat[0];
+    }
     input_sp |= input_mp_p1;
     input_mp_p1 = INPUT_NONE;
     input_mp_p2 = INPUT_NONE;
@@ -100,13 +105,13 @@ void far pascal input_wait_for_change(int frames_to_wait)
         input_mode_interface();
         // Compare the actual shared input word to its named zero sentinel.
         // No timeout applies to this original key-release phase.
-        if(input_sp == INPUT_NONE) {
+        if(!input_sp) {
             break;
         }
         frame_delay(1);
     }
 
-    if(frames_to_wait == 0) {
+    if(!frames_to_wait) {
         frames_to_wait = INPUT_WAIT_UNLIMITED_FRAMES;
     }
 
@@ -116,7 +121,7 @@ void far pascal input_wait_for_change(int frames_to_wait)
     // the counter reset stays after the real input read and frame delay.
     while(frames_waited < frames_to_wait) {
         input_mode_interface();
-        if(input_sp != INPUT_NONE) {
+        if(input_sp) {
             break;
         }
         ++frames_waited;
