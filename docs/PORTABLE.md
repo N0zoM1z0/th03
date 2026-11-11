@@ -154,6 +154,15 @@ refreshes when either player spawns a formation, not on every speed increment.
 fireball/explosion/circle/bullet states for a visual smoke. It is a graphics
 fixture, separate from the game loop.
 
+`player.cpp` now supplies the common movement/charge/fire/hit/knockback
+state machine. Required callbacks retain the original Hyper, CPU, Charge Shot,
+Bomb and loss owners; bind those implementations when joining the game loop.
+Native contracts exercise held-charge/release/tap timing, one-halfheart survival,
+final defeat, CPU shot cadence and locked-player banking/glow. They pass on
+Linux and native Windows x64. The movement velocity is a signed byte shared
+across player calls: locked paths can retain the preceding player's velocity
+for sprite banking. Audio calls are queued in order for the later sound owner.
+
 Continue with backgrounds and the player/CPU combat loop, then join attack
 families and result/MAINL routes. Wide CPU scans near the left edge can read
 outside the bitmap through wrapped DGROUP addressing. Recover those aliased

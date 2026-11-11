@@ -408,7 +408,37 @@ int main(int argc,char** argv) {
         check(formation.enemy_speed==0,"existing formations retain previous enemy speed band");
         formation.enemies_alive[1]=0;formation.update_formations();
         check(formation.enemy_speed==3&&formation.enemies[0].pid==1,"either player's new formation refreshes shared enemy speed");
-        std::cout<<"PF, PI, menu release/ordering/options and 32-bit RNG checks passed\n";
+        unsigned charges=0,bombs=0,losses=0;
+        th03::PlayerServices services;
+        services.hyper=[](th03::Round& round,unsigned pid){round.players[pid].shot_mode=1;};
+        services.cpu=[](th03::Round& round,unsigned){round.player_velocity={};round.target_formation_marker=255;};
+        services.bomb=[&](th03::Round&,unsigned){++bombs;};services.lose=[&](th03::Round&,unsigned){++losses;};
+        services.charge=[&](th03::Round&,th03::Point,unsigned){++charges;};
+        th03::Round control;th03::Resident game;th03::CollisionMap collision;
+        auto& human=control.players[0];human.center={144*16,336*16};human.speeds={{64,64,48,48,28}};human.gauge_avail=1024;
+        for(unsigned i=0;i<37;++i)control.player_update(0,th03::shot,collision,game,services);
+        check(human.gauge_charged==1024&&!charges&&!control.shots[0].alive,"held shot reaches charge without autofiring");
+        for(unsigned i=0;i<4;++i)control.player_update(0,0,collision,game,services);
+        check(charges==1&&human.gauge_charged==0&&human.invincibility==6,"release window fires one charge shot");
+        control.player_update(0,th03::shot,collision,game,services);
+        check(control.shots[0].alive&&control.shot_release[0]==0&&control.sounds.back()==1,"tap after release fires an ordinary shot pair");
+        th03::Round damage;
+        damage.players[0].center=human.center;damage.players[0].halfhearts=2;damage.players[0].hit_damage_next=6;damage.shot_release[0]=8;
+        collision.rectangle(0,human.center,4,4);damage.player_update(0,0,collision,game,services);
+        check(damage.players[0].halfhearts==1&&damage.players[0].knockback_active&&damage.players[0].invincibility==110,"nonfinal hit preserves one halfheart");
+        th03::Round fatal;fatal.players[0].center=human.center;fatal.players[0].halfhearts=1;fatal.shot_release[0]=8;
+        fatal.player_update(0,0,collision,game,services);
+        check(fatal.players[0].halfhearts==0&&fatal.players[0].lose_time==48&&fatal.defeated_player==0&&fatal.circles[12].age==1,"last halfheart starts actual defeat");
+        th03::Round computer;collision.clear();computer.result_frame=32;
+        computer.players[0].center=human.center;computer.players[0].cpu=true;computer.players[0].gauge_avail=1024;
+        computer.players[0].charge_thresholds.fill(255);computer.player_update(0,0,collision,game,services);
+        check(computer.players[0].cpu_frame==1&&computer.shots[0].alive&&computer.target_formation_marker==0,"CPU target cadence overrides input then clears marker");
+        th03::Round locked;locked.player_velocity.x=-64;locked.page_back=true;locked.shot_release[1]=8;
+        locked.players[1].center=human.center;locked.players[1].move_lock=1;locked.players[1].invincibility=50;
+        locked.player_update(1,0,collision,game,services);
+        check(locked.players[1].center.x==human.center.x&&locked.players[1].pattern_movement==1&&locked.players[1].pattern_glow==1,
+              "locked player retains shared velocity for banking and back-page glow");
+        std::cout<<"Portable resources, menus, movement, formations and player-state checks passed\n";
         return 0;
     } catch (const std::exception& error) { std::cerr<<error.what()<<'\n'; return 1; }
 }

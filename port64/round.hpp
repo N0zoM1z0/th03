@@ -3,6 +3,7 @@
 #include "game_types.hpp"
 #include "bullet.hpp"
 #include "combat.hpp"
+#include "player.hpp"
 #include <array>
 #include <vector>
 
@@ -24,6 +25,7 @@ struct Player {
     std::uint8_t paletted=1;
     bool cpu=false,is_hit=false,knockback_active=false;
     std::uint8_t invincibility=0,knockback_time=0,move_lock=0,shot_mode=1,shot_active=1;
+    std::uint8_t knockback_angle=0,knockback_length=0,spell_ready_frames=0,cpu_dodge_strategy=0;
     std::int8_t halfhearts=10;
     std::array<std::uint8_t,5> speeds{};
     std::uint16_t gauge_charged=0,gauge_avail=0,cpu_safety=0,cpu_frame=0;
@@ -71,6 +73,17 @@ public:
     void randomize_formations(std::uint8_t previous);
     void add_shots(unsigned pid);
     void update_shots();
+    void player_update(unsigned pid,std::uint16_t input,CollisionMap& collision,Resident& resident,const PlayerServices& services);
+    MoveResult move_player(unsigned pid,std::uint16_t input);
+    void knockback_update(unsigned pid);
+    void player_hit(unsigned pid,int tiles,const CollisionMap& collision);
+    std::int8_t hit_damage(unsigned pid,Resident& resident);
+    Point player_velocity;
+    std::array<std::uint8_t,4> movement_speed{};
+    std::array<std::uint8_t,2> shot_release{};
+    std::uint8_t target_formation_marker=0,defeated_player=255;
+    bool page_back=false;
+    std::vector<std::uint8_t> sounds;
     RandomRing random;
     HudIntro intro;
     Bullets bullets;

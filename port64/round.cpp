@@ -128,37 +128,20 @@ void Round::prepare(const Resident& resident,std::uint8_t formation_previous) {
     randomize_formations(formation_previous);
 }
 bool Player::move(std::uint16_t input) {
-    const auto velocity=[&](std::uint16_t movement,Point& v) {
-        int x=0,y=0;
-        switch(movement) {
-        case left:x=-1;break;
-        case down|left:case down_left:x=-1;y=1;break;
-        case down:y=1;break;
-        case down|right:case down_right:x=1;y=1;break;
-        case right:x=1;break;
-        case up|right:case up_right:x=1;y=-1;break;
-        case up:y=-1;break;
-        case up|left:case up_left:x=-1;y=-1;break;
-        case 0:return 0;
-        default:return -1;
-        }
-        v.x=std::int16_t(x*speeds[x&&y ? 2 : 0]);v.y=std::int16_t(y*speeds[x&&y ? 3 : 1]);return 1;
-    };
-    auto movement=std::uint16_t(input&0x0f0f);
-    Point v;
-    auto result=velocity(movement,v);
-    if(result==-1&&human_movement_last!=movement) {
-        movement&=std::uint16_t(~human_movement_last);result=velocity(movement,v);
-    } else human_movement_last=movement;
-    if(result!=1)return false;
-    center.x=std::clamp<std::int16_t>(motion::wrap(int(center.x)+v.x),8<<4,280<<4);
-    center.y=std::clamp<std::int16_t>(motion::wrap(int(center.y)+v.y),24<<4,352<<4);
-    return true;
+    const std::array<std::uint8_t,4> speed{{speeds[0],speeds[1],speeds[2],speeds[3]}};
+    auto mask=std::uint16_t(input&0x0f0f);Point velocity;
+    auto result=movement(mask,speed,velocity);
+    if(result==MoveResult::invalid&&human_movement_last!=mask) {
+        mask&=std::uint16_t(~human_movement_last);result=movement(mask,speed,velocity);
+    } else human_movement_last=mask;
+    if(result!=MoveResult::valid)return false;
+    move_position(center,velocity);return true;
 }
 void Round::add_shots(unsigned pid) {
     const auto& player=players.at(pid);
     if(!player.shot_mode)return;
     if(player.shot_mode>3)throw std::runtime_error("Reimu hyper shot family is not joined yet");
+    sounds.push_back(1);
     int pair=player.shot_mode==3 ? 0 : player.shot_mode==2 ? 2 : 3;
     auto left=motion::wrap(int(player.center.x)-(4-pair)*256);
     for(;left<=-512;left=motion::wrap(int(left)+512),++pair){}
