@@ -1,5 +1,6 @@
 #include "assets.hpp"
 #include "menu.hpp"
+#include "selection.hpp"
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
@@ -40,8 +41,36 @@ Bytes pi(const std::string& bits) {
 }
 void tap(th03::Menu& menu,std::uint16_t key) { menu.tick(0); menu.tick(key); }
 }
-int main() {
+int main(int argc,char** argv) {
     try {
+        if(argc>1&&std::string(argv[1])=="--curves") {
+            th03::Canvas canvas;
+            th03::selection_curves(canvas,std::uint8_t(std::stoul(argv[2])),std::stoi(argv[3]));
+            std::cout.write(reinterpret_cast<const char*>(canvas.pixels.data()),canvas.pixels.size());
+            return 0;
+        }
+        if(argc>1&&std::string(argv[1])=="--opponents") {
+            th03::Resident resident;
+            resident.seed=std::uint32_t(std::stoul(argv[2]));resident.paletted[0]=std::uint8_t(std::stoul(argv[3]));
+            resident.options.rank=std::uint8_t(std::stoul(argv[4]));resident.choose_story_opponents();
+            for(auto value:resident.opponents)std::cout<<unsigned(value)<<' ';
+            std::cout<<resident.seed<<' '<<unsigned(resident.skill)<<'\n';
+            return 0;
+        }
+        if(argc>1&&std::string(argv[1])=="--selection") {
+            unsigned pid,input,available,s0,s1,c0,c1,l0,l1,p0,p1,fade;
+            while(std::cin>>pid>>input>>available>>s0>>s1>>c0>>c1>>l0>>l1>>p0>>p1>>fade) {
+                th03::Resident resident;th03::Selection s;
+                resident.paletted={{std::uint8_t(p0),std::uint8_t(p1)}};
+                s.available=std::uint8_t(available);s.selected={{std::uint8_t(s0),std::uint8_t(s1)}};
+                s.confirmed={{bool(c0),bool(c1)}};s.locked={{bool(l0),bool(l1)}};s.fade=std::uint16_t(fade);
+                s.update_player(resident,std::uint16_t(input),pid);
+                std::cout<<unsigned(s.selected[0])<<' '<<unsigned(s.selected[1])<<' '
+                         <<s.confirmed[0]<<' '<<s.confirmed[1]<<' '<<s.locked[0]<<' '<<s.locked[1]<<' '
+                         <<unsigned(resident.paletted[0])<<' '<<unsigned(resident.paletted[1])<<' '<<s.fade<<'\n';
+            }
+            return 0;
+        }
         static_assert(sizeof(void*)==8 && sizeof(std::uint32_t)==4);
         check(PfArchive(archive(false)).read("test.bin")==Bytes({'A','A','B'}),"PF stored/XOR/case");
         check(PfArchive(archive(true)).read("TEST.BIN")==Bytes(4,'A'),"PF terminal run/logical length");
@@ -77,6 +106,23 @@ int main() {
         idle.tick(0); check(idle.request==th03::Request::attract && idle.resident_seed==521,"attract boundary/seed");
         std::uint32_t seed=0xffffffffu;
         check(th03::random_next(seed)==32421 && seed==0xfea5b1ccu,"32-bit LCG carry/wrap");
+        th03::Menu vs;vs.screen=th03::Screen::versus;vs.input_allowed=true;
+        vs.tick(th03::cancel);check(vs.screen==th03::Screen::versus,"original VS ignores Escape");
+        th03::Resident resident;resident.begin_story();
+        th03::Selection select;select.begin(resident,th03::SelectKind::story,7);
+        select.update_player(resident,th03::up,0);check(select.selected[0]==6,"selection upward wrap");
+        select.update_player(resident,th03::shot,0);check(!select.confirmed[0],"selection held input lock");
+        select.update_player(resident,0,0);select.update_player(resident,th03::bomb,0);
+        check(select.confirmed[0]&&resident.paletted[0]==14,"alternate character palette");
+        select.begin(resident,th03::SelectKind::story,7);check(select.locked[0],"selection lock survives cancel/reentry");
+        Bytes cdg(56);put16(cdg,0,8);put16(cdg,2,32);put16(cdg,4,2);
+        cdg[16]=0x80;cdg[24]=0x80;cdg[28]=0x80;
+        th03::Cdg picture(cdg);th03::Canvas canvas;canvas.fill(0,0,639,399,2);
+        picture.put(canvas,0,0,0);
+        check(canvas.pixels[0]==3&&canvas.pixels[640]==1,"CDG bottom-up clear/OR");
+        picture.put(canvas,0,0,0,true,true);check(canvas.pixels[640+31]==1,"CDG horizontal flip");
+        picture.put(canvas,0,0,0,false);check(canvas.pixels[0]==1,"CDG no-alpha overwrite");
+        cdg.pop_back();rejects([&]{th03::Cdg invalid(cdg);});
         std::cout<<"PF, PI, menu release/ordering/options and 32-bit RNG checks passed\n";
         return 0;
     } catch (const std::exception& error) { std::cerr<<error.what()<<'\n'; return 1; }

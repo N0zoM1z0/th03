@@ -1,7 +1,7 @@
 # TH03 semantic and 64-bit port
 
-`port/modern-64` contains the first native C++17 slice: read-only HDI/PF assets,
-PI decoding, title/menu rendering, input release gates and Option state. Linux
+`port/modern-64` contains native C++17 HDI/PF assets, PI/CDG/BFNT graphics,
+title/menu/Option state and story/versus character selection. Linux
 uses SDL2; Windows x64 uses Win32/GDI. No DOS executable is executed by this
 program. Game data remains external.
 
@@ -42,9 +42,11 @@ playtesting.
 The title starts with hidden labels. A direction opens the menu. Arrows move,
 Z/Enter confirms and Escape returns/quits. Option changes rank, sound-mode
 state and key-mode state in memory. There is no sound synthesis or save writer
-yet. Start, VS, Music Room, HiScore and idle attract return their named request
-at the original handoff boundary; the corresponding scenes are not implemented.
-This is a title/menu milestone, not a playable game preview.
+yet. Start enters story selection; VS opens the three original match modes and
+then selection. Completion prepares the resident characters, opponent order
+and CPU flags, stopping at the MAINL handoff. Stage introduction, gameplay,
+Music Room, HiScore and attract playback remain to be joined. The goal is a
+complete playable port; this intermediate build is not a full game preview.
 
 Headless examples:
 
@@ -55,10 +57,16 @@ build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
   --scene options --inputs 8,0,4096 --screenshot options-return.ppm
 build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --list
 build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --pi TL02.PI --packed title.pixels
+build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
+  --scene story-select --screenshot selection.ppm
 ```
 
 `--inputs` supplies original hexadecimal or decimal WORD input masks, one per
-tick; use zero between separate presses. `--archive` can replace `--hdi` for
+VBlank; use zero between separate presses. A tuple `SP:P1:P2` supplies the
+interface and both independent player words. Selection samples once per three
+VBlanks after its initial 30-frame loading wait; held/released samples must
+span that cadence. `--frames` advances idle headless frames or limits a window
+run. `--archive` can replace `--hdi` for
 an extracted original PF. `--extract NAME --output FILE` exports one decoded
 resource for focused comparisons. Outputs must stay outside original media
 and the user's playable disk.
@@ -125,9 +133,35 @@ full-game machine model is added.
 
 ## Next integration
 
-Port the character-selection CD2 images and selection state, then join the
-MAIN resident/round setup through explicit C++ state. Preserve 16-bit arithmetic,
-two-player ownership and random draw order. Add a save directory separate from
+Character selection now uses original CD2 portraits, BFNT names, gaiji cursors,
+ability stars, spell cards and RGB palette. CDG drawing preserves bottom-up
+planes, masked clear/OR, no-alpha overwrite and horizontal flip. Curve math
+preserves byte-angle and signed-WORD multiplication wraps before division.
+The selection locks/curve cycle survive cancellation within the OP process;
+normal and alternate Shot/Bomb confirmations are independent ordered tests.
+
+`check_selection.py` compares actual OP instructions against the native helper
+for selection state/palette collisions, complete curve rasters and story
+opponent generation. It verifies that OP's local LCG does not publish its last
+draw into the resident counter used to seed MAIN. Run with the DOS Python:
+
+```sh
+/path/to/dos/.venv/bin/python port64/check_selection.py \
+  --native-checks build/linux-x64/th03-port64-checks --dos-root /path/to/dos
+```
+
+The source is `src/op/menu/character_selection.inl` and the story/VS procedures
+in `src/op/entry.cpp`. An SDL window entered story selection from Start,
+selected Marisa and completed the handoff. A two-player headless route confirmed
+Mima on both sides and resolved their palette collision. Linux and native Windows
+selection PPMs agree. Windows state checks also pass. Evidence is in the DOS
+worktree's `.analysis/work/port64-selection-*` files. Two-player controls follow
+the DOS mappings: P1 uses T/F/H/B with Z/X; P2 uses keypad movement with Left/Right
+for Shot/Bomb. Ordinary single-player menus/movement also accept arrows.
+
+Next, join MAINL's stage introduction and then MAIN's resident/round setup
+through explicit C++ state. Preserve 16-bit arithmetic, two-player ownership
+and random draw order. Add a save directory separate from
 both DOS media and the user's DOSBox package before implementing persistence.
 Use the original DOS behavior as the comparison baseline, and clarify another
 semantic owner when it blocks that integration.

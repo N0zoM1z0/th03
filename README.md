@@ -1,6 +1,6 @@
 # 東方夢時空 ～ Phantasmagoria of Dim.Dream
 
-This is the `port/modern-64` branch. The first native C++17 title/menu slice
+This is the `port/modern-64` branch. The native C++17 title/menu and character-selection path
 builds for Linux x64 and Windows x64; [portable status and commands](docs/PORTABLE.md)
 describe its checks and remaining gameplay integration. The DOS reconstruction
 is retained on `main` and remains the behavioral baseline.

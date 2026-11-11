@@ -71,6 +71,14 @@ void Menu::tick(std::uint16_t input) {
     }
     if (!input) input_allowed=true;
     if (!input_allowed) return;
+    if(screen==Screen::versus) {
+        if(input&up)move(selected,-1,3);
+        if(input&down)move(selected,1,3);
+        if(input&(ok|shot)) {request=Request::versus;screen=Screen::handoff;}
+        // The original VS submenu has no Escape branch.
+        if(input)input_allowed=false;
+        return;
+    }
     const bool option = screen == Screen::options;
     // These are independent tests: simultaneous Up and Down cancel in order.
     if (input&up) move(selected,-1,option ? 4 : 6);
@@ -116,7 +124,15 @@ Frame menu_frame(const PiImage& background, const Bytes& gaiji, const Bytes& win
     if (menu.screen==Screen::title ||
         (menu.screen==Screen::handoff && menu.request==Request::attract)) return frame;
     const bool option=menu.screen==Screen::options;
-    box(frame,background,window,option ? 240 : 136);
+    const bool versus=menu.screen==Screen::versus;
+    box(frame,background,window,(option||versus) ? 240 : 136);
+    if(versus) {
+        for(int i=0;i<3;++i) {
+            text(frame,gaiji,i==2 ? 0x92 : 0x88,4,248,i+1,0,menu.selected==i);
+            text(frame,gaiji,i==1 ? 0x96 : 0x8c,4,312,i+1,0,menu.selected==i);
+        }
+        return frame;
+    }
     if (!option) {
         constexpr unsigned starts[]={0x30,0x33,0x41,0x82,0x3d,0x48};
         constexpr unsigned counts[]={3,6,7,5,4,3};

@@ -6,9 +6,10 @@
 namespace th03 {
 enum Input : std::uint16_t {
     up=1, down=2, left=4, right=8, bomb=0x10, shot=0x20,
-    cancel=0x1000, ok=0x2000
+    up_left=0x100,down_left=0x200,up_right=0x400,down_right=0x800,
+    cancel=0x1000, ok=0x2000, q=0x4000
 };
-enum class Screen { title, main, options, handoff, quit };
+enum class Screen { title, main, options, handoff, quit, versus };
 enum class Request { none, story, versus, music, scores, attract };
 struct Options { std::uint8_t music=1, keys=0, rank=0; };
 struct Menu {

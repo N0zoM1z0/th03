@@ -16,8 +16,8 @@ int main(int argc, char** argv) {
             if (arg=="--headless") { headless=true; continue; }
             if (arg=="--list") { list=true; continue; }
             if (arg=="--help") {
-                std::cout<<"th03-port64 (--hdi FILE | --archive FILE) [--headless] [--scene title|menu|options]\n"
-                         <<"  [--screenshot FILE.ppm] [--frames N] [--inputs WORD,WORD,...]\n"
+                std::cout<<"th03-port64 (--hdi FILE | --archive FILE) [--headless] [--scene title|menu|options|story-select|versus-select|two-select]\n"
+                         <<"  [--screenshot FILE.ppm] [--frames N] [--inputs SP[:P1:P2],...]\n"
                          <<"  [--list] [--extract NAME --output FILE] [--pi NAME --packed FILE]\n";
                 return 0;
             }
@@ -48,38 +48,57 @@ int main(int argc, char** argv) {
             write_file(output,assets.read(extract));
             return 0;
         }
-        const auto background=decode_pi(assets.read(picture));
         if (!packed.empty()) {
+            const auto background=decode_pi(assets.read(picture));
             write_file(packed,background.pixels);
             std::cout<<background.width<<'x'<<background.height<<' '<<background.pixels.size()<<'\n';
             return 0;
         }
-        const auto gaiji=assets.read("MIKOFT.BFT"), window=assets.read("OPWIN.BFT");
-        th03::Menu menu;
+        th03::Options options;
+        Bytes nem;
         if (!disk.empty()) {
             const auto cfg=hdi_file(disk,"YUME    CFG");
             if (cfg.size()!=8 || cfg[0]>2 || cfg[1]>2 || cfg[2]>3) throw std::runtime_error("unsupported YUME.CFG");
-            menu.options={cfg[0],cfg[1],cfg[2]};
+            options={cfg[0],cfg[1],cfg[2]};
+            nem=hdi_file(disk,"YUME    NEM");
         }
+        th03::Application app(assets,options,nem,picture);
+        auto& menu=app.menu;
         if (scene=="menu" || scene=="options") { menu.tick(th03::left); menu.tick(0); }
         if (scene=="options") {
             for (int i=0;i<4;++i) { menu.tick(th03::down); menu.tick(0); }
             menu.tick(th03::shot); menu.tick(0);
+        } else if(scene=="story-select") {
+            app.resident.begin_story();app.start_selection(th03::SelectKind::story);
+        } else if(scene=="versus-select"||scene=="two-select") {
+            app.resident.begin_versus(scene=="two-select" ? 1 : 0);
+            app.start_selection(scene=="two-select" ? th03::SelectKind::two_player : th03::SelectKind::versus_cpu);
         } else if (scene!="menu" && scene!="title") throw std::runtime_error("unknown scene");
         if (!inputs.empty()) {
             std::istringstream stream(inputs); std::string word;
             while (std::getline(stream,word,',')) {
-                const auto value=std::stoul(word,nullptr,0);
-                if (value>65535) throw std::runtime_error("input exceeds original WORD");
-                menu.tick(std::uint16_t(value));
+                th03::InputFrame input;
+                std::istringstream values(word);std::string value;
+                unsigned at=0;
+                while(std::getline(values,value,':')) {
+                    const auto mask=std::stoul(value,nullptr,0);
+                    if(mask>65535||at>2)throw std::runtime_error("input exceeds original WORD tuple");
+                    if(at==0)input.single=std::uint16_t(mask);
+                    else input.players[at-1]=std::uint16_t(mask);
+                    ++at;
+                }
+                app.tick(input);
             }
         }
-        const auto render=[&] { return th03::menu_frame(background,gaiji,window,menu); };
-        if (!headless) run_view(menu,render,frames);
+        const auto render=[&] { return app.render(); };
+        if (!headless) run_view(app,render,frames);
+        else for(unsigned i=0;i<frames&&!app.finished();++i)app.tick({});
         if (!screenshot.empty()) write_file(screenshot,th03::ppm(render()));
         std::cout<<"screen="<<int(menu.screen)<<" selected="<<int(menu.selected)
                  <<" rank="<<int(menu.options.rank)<<" music="<<int(menu.options.music)
-                 <<" keys="<<int(menu.options.keys)<<" handoff="<<int(menu.request)<<'\n';
+                 <<" keys="<<int(menu.options.keys)<<" handoff="<<int(menu.request)
+                 <<" phase="<<int(app.phase)<<" characters="<<int(app.resident.paletted[0])<<','<<int(app.resident.paletted[1])
+                 <<" selection="<<int(app.selection.selected[0])<<','<<int(app.selection.selected[1])<<'\n';
         return 0;
     } catch (const std::exception& e) {
         std::cerr<<"TH03 port64: "<<e.what()<<'\n';
