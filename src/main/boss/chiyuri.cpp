@@ -200,124 +200,124 @@ void near chiyuri_pattern_cardinal(void)
 {
 	// An unsigned-word remainder of one opens the four-shot cardinal
 	// emission. Other ticks never touch the bullet template.
-	if((boss_frame % chiyuri_cardinal_interval) == 1) {
-		if(boss_frame == CHIYURI_CARDINAL_FIRST_FRAME) {
-			pid_t pid_other;
-
-			chiyuri_cardinal_angle = 0xE0;
-			chiyuri_cardinal_reverse = 0;
-			pid_other = (1 - pid_current);
-
-			bomb_axis_add(
-				(boss_center_x - TO_SP(56)), boss_center_y, pid_other
-			);
-			bomb_axis_add(
-				(boss_center_x + TO_SP(56)), boss_center_y, pid_other
-			);
-			bomb_axis_add(
-				boss_center_x, (boss_center_y - TO_SP(56)), pid_other
-			);
-			bomb_axis_add(
-				boss_center_x, (boss_center_y + TO_SP(56)), pid_other
-			);
-		} else if(boss_frame >= CHIYURI_PATTERN_END_AT) {
-			boss_mode = CHIYURI_MODE_SELECT;
-			boss_frame = 0;
-			boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
-		}
-
-		bullet_template.type = BT_PELLET;
-		bullet_template.group = BG_1;
-		bullet_template.speed.v = chiyuri_cardinal_speed;
-
-		// Forward/reverse angular steering has its own compiler-visible
-		// branch polarity; swapping these arms changes nine CODE bytes.
-		if(chiyuri_cardinal_reverse == 0) {
-			// Named compound byte-angle steps preserve the original CODE
-			// in both directions (af1013a).
-			chiyuri_cardinal_angle += CHIYURI_CARDINAL_STEP;
-			if(chiyuri_cardinal_angle == CHIYURI_CARDINAL_FORWARD_END) {
-				chiyuri_cardinal_reverse = 1;
-				chiyuri_cardinal_angle = 0x24;
-			}
-		} else {
-			chiyuri_cardinal_angle -= CHIYURI_CARDINAL_STEP;
-			if(chiyuri_cardinal_angle == CHIYURI_CARDINAL_REVERSE_END) {
-				chiyuri_cardinal_reverse = 0;
-				chiyuri_cardinal_angle = 0xE0;
-			}
-		}
-
-		bullet_template.center.x.v = (boss_center_x + TO_SP(56));
-		bullet_template.center.y.v = boss_center_y;
-		bullet_template.angle = chiyuri_cardinal_angle;
-		bullets_add();
-
-		bullet_template.center.x.v = boss_center_x;
-		bullet_template.center.y.v = (boss_center_y + TO_SP(56));
-		// Each 90-degree compound rotation stays after the previous bullet
-		// call; all three named updates are TC4-exact (af1013b).
-		bullet_template.angle += CHIYURI_CARDINAL_QUARTER_TURN;
-		bullets_add();
-
-		bullet_template.center.x.v = (boss_center_x - TO_SP(56));
-		bullet_template.center.y.v = boss_center_y;
-		bullet_template.angle += CHIYURI_CARDINAL_QUARTER_TURN;
-		bullets_add();
-
-		bullet_template.center.x.v = boss_center_x;
-		bullet_template.center.y.v = (boss_center_y - TO_SP(56));
-		bullet_template.angle += CHIYURI_CARDINAL_QUARTER_TURN;
-		bullets_add();
+	if((boss_frame % chiyuri_cardinal_interval) != 1) {
+		return;
 	}
-}
+	if(boss_frame == CHIYURI_CARDINAL_FIRST_FRAME) {
+		pid_t pid_other;
 
+		chiyuri_cardinal_angle = 0xE0;
+		chiyuri_cardinal_reverse = 0;
+		pid_other = (1 - pid_current);
+
+		bomb_axis_add(
+			(boss_center_x - TO_SP(56)), boss_center_y, pid_other
+		);
+		bomb_axis_add(
+			(boss_center_x + TO_SP(56)), boss_center_y, pid_other
+		);
+		bomb_axis_add(
+			boss_center_x, (boss_center_y - TO_SP(56)), pid_other
+		);
+		bomb_axis_add(
+			boss_center_x, (boss_center_y + TO_SP(56)), pid_other
+		);
+	} else if(boss_frame >= CHIYURI_PATTERN_END_AT) {
+		boss_mode = CHIYURI_MODE_SELECT;
+		boss_frame = 0;
+		boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
+	}
+
+	bullet_template.type = BT_PELLET;
+	bullet_template.group = BG_1;
+	bullet_template.speed.v = chiyuri_cardinal_speed;
+
+	// Forward/reverse angular steering has its own compiler-visible
+	// branch polarity; swapping these arms changes nine CODE bytes.
+	if(chiyuri_cardinal_reverse == 0) {
+		// Named compound byte-angle steps preserve the original CODE
+		// in both directions (af1013a).
+		chiyuri_cardinal_angle += CHIYURI_CARDINAL_STEP;
+		if(chiyuri_cardinal_angle == CHIYURI_CARDINAL_FORWARD_END) {
+			chiyuri_cardinal_reverse = 1;
+			chiyuri_cardinal_angle = 0x24;
+		}
+	} else {
+		chiyuri_cardinal_angle -= CHIYURI_CARDINAL_STEP;
+		if(chiyuri_cardinal_angle == CHIYURI_CARDINAL_REVERSE_END) {
+			chiyuri_cardinal_reverse = 0;
+			chiyuri_cardinal_angle = 0xE0;
+		}
+	}
+
+	bullet_template.center.x.v = (boss_center_x + TO_SP(56));
+	bullet_template.center.y.v = boss_center_y;
+	bullet_template.angle = chiyuri_cardinal_angle;
+	bullets_add();
+
+	bullet_template.center.x.v = boss_center_x;
+	bullet_template.center.y.v = (boss_center_y + TO_SP(56));
+	// Each 90-degree compound rotation stays after the previous bullet
+	// call; all three named updates are TC4-exact (af1013b).
+	bullet_template.angle += CHIYURI_CARDINAL_QUARTER_TURN;
+	bullets_add();
+
+	bullet_template.center.x.v = (boss_center_x - TO_SP(56));
+	bullet_template.center.y.v = boss_center_y;
+	bullet_template.angle += CHIYURI_CARDINAL_QUARTER_TURN;
+	bullets_add();
+
+	bullet_template.center.x.v = boss_center_x;
+	bullet_template.center.y.v = (boss_center_y - TO_SP(56));
+	bullet_template.angle += CHIYURI_CARDINAL_QUARTER_TURN;
+	bullets_add();
+}
 void near chiyuri_pattern_rings(void)
 {
 	// Only remainder one on the unsigned ring clock permits the warning,
 	// common ring, and four optional high-level rings, in that order.
-	if((boss_frame % chiyuri_ring_interval) == 1) {
-		// The original mode completion still precedes the common 32-way
-		// launch, and its optional four eight-way pellet rings follow it.
-		bomb_axis_add(
-			boss_center_x, boss_center_y, (1 - pid_current)
-		);
+	if((boss_frame % chiyuri_ring_interval) != 1) {
+		return;
+	}
+	// The original mode completion still precedes the common 32-way
+	// launch, and its optional four eight-way pellet rings follow it.
+	bomb_axis_add(
+		boss_center_x, boss_center_y, (1 - pid_current)
+	);
 
-		if(boss_frame >= CHIYURI_PATTERN_END_AT) {
-			boss_mode = CHIYURI_MODE_SELECT;
-			boss_frame = 0;
-			boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
-		}
+	if(boss_frame >= CHIYURI_PATTERN_END_AT) {
+		boss_mode = CHIYURI_MODE_SELECT;
+		boss_frame = 0;
+		boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
+	}
 
-		bullet_template.center.x.v = boss_center_x;
-		bullet_template.center.y.v = boss_center_y;
-		bullet_template.angle = randring_far_next16();
-		bullet_template.type = BT_BULLET16_DEFAULT;
-		bullet_template.group = BG_32_RING;
-		bullet_template.speed.v = chiyuri_ring_speed;
+	bullet_template.center.x.v = boss_center_x;
+	bullet_template.center.y.v = boss_center_y;
+	bullet_template.angle = randring_far_next16();
+	bullet_template.type = BT_BULLET16_DEFAULT;
+	bullet_template.group = BG_32_RING;
+	bullet_template.speed.v = chiyuri_ring_speed;
+	bullets_add();
+
+	// High difficulty adds four eight-pellet rings after the common
+	// 32-bullet emission; its level gate remains an independent branch.
+	if(gba_boss_level >= 8) {
+		bullet_template.type = BT_PELLET;
+		bullet_template.group = BG_8_RING;
+		bullet_template.speed.v = (chiyuri_ring_speed / 4);
+
+		bullet_template.center.x.v = (boss_center_x + TO_SP(56));
+		bullets_add();
+		bullet_template.center.x.v = (boss_center_x - TO_SP(56));
 		bullets_add();
 
-		// High difficulty adds four eight-pellet rings after the common
-		// 32-bullet emission; its level gate remains an independent branch.
-		if(gba_boss_level >= 8) {
-			bullet_template.type = BT_PELLET;
-			bullet_template.group = BG_8_RING;
-			bullet_template.speed.v = (chiyuri_ring_speed / 4);
-
-			bullet_template.center.x.v = (boss_center_x + TO_SP(56));
-			bullets_add();
-			bullet_template.center.x.v = (boss_center_x - TO_SP(56));
-			bullets_add();
-
-			bullet_template.center.x.v = boss_center_x;
-			bullet_template.center.y.v = (boss_center_y + TO_SP(56));
-			bullets_add();
-			bullet_template.center.y.v = (boss_center_y - TO_SP(56));
-			bullets_add();
-		}
+		bullet_template.center.x.v = boss_center_x;
+		bullet_template.center.y.v = (boss_center_y + TO_SP(56));
+		bullets_add();
+		bullet_template.center.y.v = (boss_center_y - TO_SP(56));
+		bullets_add();
 	}
 }
-
 // Bomb warnings repeat every eight ticks before the single 48-shot
 // trailing ring is released at the original 0x30 frame.
 enum chiyuri_trail_phase_t {
@@ -606,17 +606,17 @@ void far gba_boss_update_chiyuri(void)
 	// Preserve the original byte-memory mask, NOT %=4 (af922i).
 	boss_render_frame &= (CHIYURI_RENDER_ANIM_PERIOD - 1);
 
-	if(boss_move_phase != 0) {
+	if(boss_move_phase) {
 		// The original postfix byte decrement is CODE-visible; prefix
 		// --boss_move_phase was native-unequal (af702d).
 		// Preserve the byte postfix: prefix changed TC4 CODE (af922k).
 		boss_move_phase--;
-		if(boss_move_phase != 0) {
+		if(boss_move_phase) {
 			bomb_palette_step((16 * boss_move_phase), pid_other);
 		}
 	}
 
-	if(boss_render_mode != 0) {
+	if(boss_render_mode) {
 		boss_render_mode--;
 	}
 
@@ -746,10 +746,8 @@ void near chiyuri_render_intro(void)
 {
 	register int frame;
 
-	if(round_frame_mod2) {
-		if(boss_frame < CHIYURI_INTRO_RENDER_LAST_END) {
-			return;
-		}
+	if(round_frame_mod2 && (boss_frame < CHIYURI_INTRO_RENDER_LAST_END)) {
+		return;
 	}
 
 	// TC4 compiles the signed frame << 3 to the original shift. The

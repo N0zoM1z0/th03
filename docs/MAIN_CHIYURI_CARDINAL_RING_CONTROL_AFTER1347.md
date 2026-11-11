@@ -1,6 +1,6 @@
 # Chiyuri BOSS: exact cardinal cadence, trail release and fan selection
 
-The full `ba_chiyu` controller now contains a positively gated
+The historical `af1347g` `ba_chiyu` controller contained a positively gated
 four-cardinal-bullet phase: the **unsigned 16-bit frame remainder must
 be one** before the four axis warnings, mutable byte steering and
 four quarter-turn bullet spawns. Off-cadence ticks never touch the
@@ -49,3 +49,31 @@ PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py -
 This improves a previously selected source-exact BOSS physical owner;
 it does not represent first-time ownership of 2,654 gameplay bytes or
 Factory canonical packed-file acceptance.
+
+## 2026-11-11: early return for the two largest attack clocks
+
+The maintained `chiyuri_pattern_cardinal()` and `chiyuri_pattern_rings()`
+now explicitly return whenever their independent unsigned-word script
+remainder is **not one**. Their larger bodies are no longer enclosed in
+single-use positive gates. This preserves warning effects, cardinal
+forward/reverse byte steering, four shot calls, ring RNG consumption,
+mode reset before the last 32-shot release and four optional high-level
+pellet groups. The intro renderer also short-circuits its global odd
+frame and animation cutoff. The large update uses natural nonzero byte
+predicates for the palette countdown and rendering stage while retaining
+the original post-decrements and palette-call order.
+
+A separate attempt to express the first intro AL-carried phase step as a
+volatile byte load plus natural assignment (`af1357d`) changed native
+CODE and was reverted; the explicit AL carriers remain necessary.
+Stages `af1357a`, `af1357b`, `af1357c` and current `af1357e` rebuilt
+the complete **2,654-byte**, **381-field**, **11-PUBLIC** Chiyuri owner
+in two original TC4 rounds. Consumer joint `af1357f` compiled Chiyuri,
+Bullet, both shared BOSS objects, Hitbox, HitCircle and Chiyuri Extra:
+**7,977 CODE bytes, 801 ordered fields, 48 PUBLICs**, with both normal
+Japanese MAIN links and all ordered MZ relocations exact.
+
+Current receipt: `.analysis/work/exatt-layout-af1357e/report.json`, SHA-256
+`5d872fa923e0fa02a4defb5ce7ce2638cbc9e3f0bbc38d35ff093e6dd20b6085`.
+Consumer receipt: `.analysis/work/exatt-layout-af1357f/report.json`, SHA-256
+`6f8542fbb999c713b79f8655472442495719e47dcdce9dcc22a5a8d76ce94f6e`.
