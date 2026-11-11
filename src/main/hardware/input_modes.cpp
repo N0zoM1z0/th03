@@ -3,7 +3,8 @@
 #include "src/main/hardware/input.hpp"
 
 // Keep the joystick read and merge in each physical caller. Extracting
-// a C++ helper changes old TC4 register allocation and native CODE.
+// a C++ helper changes TC4 register allocation. The two joystick-vs-key
+// entrypoints can return immediately if no joystick exists.
 
 void far pascal input_mode_interface(void)
 {
@@ -23,21 +24,23 @@ void far pascal input_mode_key_vs_key(void)
 void far pascal input_mode_joy_vs_key(void)
 {
     input_reset_sense_key_held();
-    if(js_bexist) {
-        js_sense();
-        input_mp_p1 = js_stat[0];
-        input_mp_p2 = input_sp;
+    if(!js_bexist) {
+        return;
     }
+    js_sense();
+    input_mp_p1 = js_stat[0];
+    input_mp_p2 = input_sp;
 }
 
 void far pascal input_mode_key_vs_joy(void)
 {
     input_reset_sense_key_held();
-    if(js_bexist) {
-        js_sense();
-        input_mp_p2 = js_stat[0];
-        input_mp_p1 = input_sp;
+    if(!js_bexist) {
+        return;
     }
+    js_sense();
+    input_mp_p2 = js_stat[0];
+    input_mp_p1 = input_sp;
 }
 
 void far pascal input_mode_1p_vs_cpu(void)
@@ -98,18 +101,18 @@ void far pascal input_wait_for_change(int frames_to_wait)
     int frames_waited = 0;
 
     // Release phase has no timeout, even for negative limits. This
-    // original old-TC4 compile lacks a defined `true` at this source
-    // point (`while(true)` failed to compile in af907a). An unbounded
-    // for-loop retains the original scan/delay control flow.
-    for(;;) {
+    // source point has no defined `true` (`while(true)` failed in
+    // af907a). The do-loop samples at least once, retains the original
+    // scan/delay order, and ends only after the input word is released.
+    do {
         input_mode_interface();
-        // Compare the actual shared input word to its named zero sentinel.
-        // No timeout applies to this original key-release phase.
+        // The release phase must sample at least once and has no
+        // timeout, irrespective of the caller's press-phase limit.
         if(!input_sp) {
             break;
         }
         frame_delay(1);
-    }
+    } while(1);
 
     if(!frames_to_wait) {
         frames_to_wait = INPUT_WAIT_UNLIMITED_FRAMES;

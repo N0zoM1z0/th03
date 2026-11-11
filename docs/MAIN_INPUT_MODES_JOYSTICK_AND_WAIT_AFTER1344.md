@@ -70,3 +70,31 @@ Current source receipt: `.analysis/work/exatt-layout-af1353i/report.json`,
 SHA-256 `9c07a8322324a99627c9c30134c64a9fb57487574274a3b6ed78c5d417905fd1`.
 Joint receipt: `.analysis/work/exatt-layout-af1353j/report.json`,
 SHA-256 `5d70c9acc3aac2c6d3611546903b5eb9ff46a1b233e6a9acdee74efcc83bb65c`.
+
+## Independent joystick early exits and release polling (2026-11-11)
+
+Both asymmetric game modes now exit immediately after the original
+keyboard BIOS scan when `js_bexist` is zero. With a connected joystick,
+`js_sense()` is still called exactly once and the same P1/P2 assignments
+happen in the original order. The other modes retain their own inline
+joystick merge logic; introducing an out-of-line helper would change
+the original register allocation.
+
+`input_wait_for_change()` now uses a `do { ... } while(1)` for the
+unbounded key-release phase. This guarantees the original first scan,
+returns to the loop only after a frame delay when a key remains held,
+and applies no timeout to release. The subsequent signed bounded press
+phase, negative-limit skip and 9999-frame sentinel remain unchanged.
+
+The three changes passed incremental complete-owner stages `af1366h`,
+`af1366i` and `af1366j`. Current `af1366k` recompiles all **nine input
+interfaces: 367 CODE bytes, 58 ordered native fields, 9 PUBLICs** in
+two exact TC4 rounds and normal Japanese MAIN links. Consumer `af1366l`
+recompiles input modes, CPU controller, VSYNC delay, Warning and SE:
+**3,145 CODE bytes, 267 fields, 23 PUBLICs**, full normal MAIN image
+and ordered MZ relocations exact in both rounds.
+
+Owner proof: `.analysis/work/exatt-layout-af1366k/report.json`, SHA-256
+`81e01de10410e11b3727f80d331cb394e7f61c5ee19a65492114c199d164969a`.
+Joint proof: `.analysis/work/exatt-layout-af1366l/report.json`, SHA-256
+`0e9178d959baf4510e6c9950b04cb8ebf0eb05bfdca821751a91375a03622576`.
