@@ -123,7 +123,7 @@ def native_source_reviews(root, artifact):
             ('Chiyuri Extra Attack', 'af1122c'),
             ('Rikako Extra Attack', 'af1301f'),
             ('Kana Extra Attack', 'af1302f'),
-            ('Rikako BOSS', 'af1352l'),
+            ('Rikako BOSS', 'af1361f'),
             ('Kana BOSS', 'af1355d'),
             ('Chiyuri BOSS', 'af1357e'),
             ('Kotohime BOSS', 'af1354g'),

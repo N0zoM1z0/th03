@@ -45,7 +45,7 @@ list. The full selection lives in the generated progress table.
 | Shared BOSS controller and ring | `af1351g` | Two physical owners, 949 bytes; exact HP terminal short-circuit, active target tracking, edge turns, descent and retained native RNG rejection loop; Mima joint `af1351f` |
 | MAIN entry + frame scheduler | `af1314c` | Full 3,050-byte scheduler; explicit render/VSYNC phase gates and independent victory checks, with original PC-98 page OUT order |
 | Reimu BOSS | `af1352h` | 2,020-byte owner; three orbit phases, explicit cloud cadence, independent spread-window returns and positive maintenance-ring gate; mirror ending and signed radial arithmetic retained |
-| Rikako BOSS | `af1352l` | Complete 1,677-byte owner; signed positive/negative/neutral spin clocks use ordered short circuits, intro flicker gate remains exact; orbit/entity/burst dispatch and Bullet/Extra Attack join `af1352n` |
+| Rikako BOSS | `af1361f` | Five original 16-bit indexed fire/render loops recovered as pre-tested `while`, preserving RNG, signed angle divisions and sprite updates; joint Bullet/Extra/Polar/Sound `af1361g` |
 | Kana BOSS | `af1355d` | 1,874-byte owner; natural staged/rotating fire-window conjunctions, positive accel/cloud completion, explicit cloud/ring clocks and intro flicker; joint engine/audio `af1355e` |
 | Chiyuri BOSS | `af1357e` | Full 2,654-byte owner; cardinal/ring inactive-frame exits, original RNG/fire order, intro flicker and palette truth gates; 7-owner combat joint `af1357f` |
 | Marisa BOSS | `af1356f` | 1,431-byte owner; exact spread four-frame volley, wide-column/ring terminal guards and early-exit renderer; original high-level dense-ring order retained; joint `af1356g` |

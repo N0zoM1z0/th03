@@ -242,9 +242,10 @@ void near rikako_pattern_orbit_spread(void)
 			: RIKAKO_ORBIT_ANGLE_DELTA_NEG
 		);
 
-		// Original 256-unit angle distribution precedes signed division;
-		// ordinary C++ for retains the complete ring call order.
-		for(register int i = 0; i < rikako_orbit_count; ++i) {
+		// The signed 256-unit angle product precedes division. The
+		// pre-tested loop advances its signed index after each bullet.
+		register int i = 0;
+		while(i < rikako_orbit_count) {
 			angle = ((i * RIKAKO_CIRCLE_ANGLE_UNITS) / rikako_orbit_count);
 			bullet_template.center.x.v = polar(
 				boss_center_x,
@@ -258,6 +259,7 @@ void near rikako_pattern_orbit_spread(void)
 			);
 			bullet_template.angle = (angle + angle_delta);
 			bullets_add();
+			++i;
 		}
 		snd_se_play(RIKAKO_SOUND_BOMB);
 	} else if(boss_frame > RIKAKO_ORBIT_FINISH_AFTER) {
@@ -305,13 +307,15 @@ void near rikako_pattern_entities_and_pellets(void)
 		angle = randring_far_next16();
 		// This separate emitter consumes the original otherwise overwritten
 		// RNG result before its same 256-step angular distribution.
-		for(register int i = 0; i < rikako_entity_count; ++i) {
+		register int i = 0;
+		while(i < rikako_entity_count) {
 			angle = ((i * RIKAKO_CIRCLE_ANGLE_UNITS) / rikako_entity_count);
 			rikako_extra_add(
 				boss_center_x,
 				boss_center_y,
 				angle
 			);
+			++i;
 		}
 		snd_se_play(RIKAKO_SOUND_BOMB);
 	} else if(boss_frame == RIKAKO_ENTITIES_PELLET_FRAME) {
@@ -322,12 +326,14 @@ void near rikako_pattern_entities_and_pellets(void)
 		bullet_template.center.y.v = boss_center_y;
 		bullet_template.speed.v = TO_SP(2);
 
-		// Four distinct RNG angles and speed increments precede their
-		// bullets_add calls; the for header advances after each emitted shot.
-		for(register int i = 0; i < RIKAKO_PELLET_VOLLEY_COUNT; ++i) {
+		// Each of the four independent RNG angles and speed increments
+		// precedes its bullet call; the signed index advances afterward.
+		register int i = 0;
+		while(i < RIKAKO_PELLET_VOLLEY_COUNT) {
 			bullet_template.angle = randring_far_next16();
 			bullet_template.speed.v += RIKAKO_PELLET_VOLLEY_SPEED_INC;
 			bullets_add();
+			++i;
 		}
 		snd_se_play(RIKAKO_SOUND_BULLET);
 	} else if(boss_frame > RIKAKO_ENTITIES_FINISH_AFTER) {
@@ -513,11 +519,11 @@ void near rikako_render_main(void)
 	left += RIKAKO_RENDER_RING_CENTER_OFF;
 	top += RIKAKO_RENDER_RING_CENTER_OFF;
 
-	// Native original sprite loop accepts signed-index C++ for,
-	// but its %4 MUST explicitly promote that signed `i` to unsigned:
-	// ordinary signed `i %4` differs in original TC4 (af862f).
-	// A compound byte-angle step preserves unsigned wrap in this renderer.
-	for(register int i = 0; i < RIKAKO_MAIN_SPRITE_COUNT; ++i, angle += RIKAKO_RENDER_MAIN_ANGLE_STEP) {
+	// The pre-tested sprite loop retains signed i, but the %4 operand
+	// MUST explicitly promote i to unsigned: signed i%4 differs in TC4
+	// (af862f). Both i and byte angle advance after each sprite draw.
+	register int i = 0;
+	while(i < RIKAKO_MAIN_SPRITE_COUNT) {
 		x = polar(left, RIKAKO_ORBIT_RING_RADIUS, CosTable8[angle]);
 		y = polar(top, RIKAKO_ORBIT_RING_RADIUS, SinTable8[angle]);
 
@@ -534,8 +540,8 @@ void near rikako_render_main(void)
 			y,
 			(pid.so_attack + sprite_offset)
 		);
-		// Original mutable byte += can naturally use explicit
-		// assignment with named step, unlike signed spin_delta (af904f).
+		++i;
+		angle += RIKAKO_RENDER_MAIN_ANGLE_STEP;
 	}
 }
 
@@ -573,9 +579,10 @@ void near rikako_render_intro(void)
 	// -angle changed native CODE again in independent af862d.
 	angle = (0 - angle);
 
-	// The second 16-sprite signed-step for loop and named +0x10
-	// angle mutation preserve all original original TC4 instructions.
-	for(register int i = 0; i < RIKAKO_INTRO_SPRITE_COUNT; ++i, angle += RIKAKO_RENDER_INTRO_ANGLE_STEP) {
+	// The intro's 16-sprite pre-tested loop preserves its signed
+	// index and separate byte +0x10 angle advance after each draw.
+	register int i = 0;
+	while(i < RIKAKO_INTRO_SPRITE_COUNT) {
 		register screen_x_t left = polar(
 			boss_center_x,
 			radius,
@@ -597,6 +604,8 @@ void near rikako_render_intro(void)
 		// instead changes TC4 CODE (af763c).
 		top = static_cast<screen_y_t>((top >> RIKAKO_RENDER_INTRO_TOP_SHIFT) - RIKAKO_RENDER_INTRO_TOP_BIAS);
 		sprite16_put(left, top, sprite_offset);
+		++i;
+		angle += RIKAKO_RENDER_INTRO_ANGLE_STEP;
 	}
 }
 

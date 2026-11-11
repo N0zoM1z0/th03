@@ -43,3 +43,32 @@ Read-only current-source verification:
 ```
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1345e af1345f
 ```
+
+## Pre-tested attack and renderer loops (2026-11-11)
+
+The maintained Rikako BOSS now spells five originally equivalent loop
+bodies as pre-tested `while` statements: orbit-spread bullets, entity
+Extra Attack spawns, four independently randomized pellet volleys,
+the orbiting sprites in the main renderer, and the sixteen-sprite
+intro. Each retains its original register-qualified signed index,
+which advances only **after** the `bullets_add()`, `rikako_extra_add()`
+or `sprite16_put()` call. Both render loops then advance the mutable
+byte angle, retaining original wraparound. The orbit/entity ring angle
+still multiplies the signed index by 256 *before* integer division.
+The otherwise overwritten RNG draw before entity spawning and the
+main renderer's unsigned `%4` promotion are unchanged.
+
+Stages `af1361a` through `af1361e` tested the five source edits
+independently. Final current-source `af1361f` rebuilds the complete
+**1,677 CODE bytes, 215 ordered native fields, 8 PUBLICs** with two
+independent original TC4 rounds and normal Japanese MAIN links.
+Consumer stage `af1361g` recompiles Rikako, Bullet, both shared BOSS
+objects, Rikako Extra Attack, Polar and SE service: **6,159 CODE
+bytes, 581 fields, 44 PUBLICs**, full normal MAIN image and ordered
+MZ relocations original-exact. Only these physical objects were
+recompiled; previously source-owned bytes are not counted again.
+
+Current proof: `.analysis/work/exatt-layout-af1361f/report.json`, SHA-256
+`0f4a7e12f7e7f735cdd4fb94c96891cd5b269d2a43ffc8191673193f9a7d901c`.
+Joint proof: `.analysis/work/exatt-layout-af1361g/report.json`, SHA-256
+`81708170e883acc21bbd5b7d5da02f25316c10e734ec19064ee5647dc955cadd`.
