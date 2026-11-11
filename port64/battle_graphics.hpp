@@ -13,6 +13,8 @@ public:
     void pattern(Canvas& dest,unsigned index,int left,int top) const;
     const Palette& palette() const {return palette_;}
 private:
+    void bombs(Canvas& graphics,const Round& round) const;
+    void effects(Canvas& graphics,const Round& round) const;
     void charges(Canvas& graphics,const Round& round) const;
     void bullets(Canvas& graphics,const Round& round) const;
     void intro(Canvas& graphics,const Round& round,const Resident& resident) const;
@@ -21,6 +23,7 @@ private:
     Canvas atlas_;
     Palette palette_{};
     std::vector<Bfnt> patterns_;
+    std::vector<Mrs> bomb_images_,portraits_;
     Bytes font_;
 };
 }

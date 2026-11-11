@@ -4,6 +4,7 @@
 #include "round.hpp"
 #include "collision.hpp"
 #include "battle_graphics.hpp"
+#include "raster.hpp"
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
@@ -46,7 +47,48 @@ void tap(th03::Menu& menu,std::uint16_t key) { menu.tick(0); menu.tick(key); }
 }
 int main(int argc,char** argv) {
     try {
-        if(argc==6&&(std::string(argv[1])=="--charge-picture"||std::string(argv[1])=="--loss-picture")) {
+        if(argc==8&&std::string(argv[1])=="--mrs") {
+            th03::Canvas canvas;
+            for(unsigned i=0;i<640*200;++i) {
+                const unsigned shift=7-(i&7);
+                canvas.pixels[i]=std::uint8_t(((0xaa>>shift)&1)|(((0x33>>shift)&1)<<1)|(((0x55>>shift)&1)<<2)|8);
+            }
+            th03::Mrs image(read_file(argv[2]),std::stoi(argv[7]));image.put(canvas,std::stoi(argv[3]),std::stoi(argv[4]),std::stoi(argv[5]),std::stoi(argv[6]));
+            std::cout.write(reinterpret_cast<const char*>(canvas.pixels.data()),640*200);return 0;
+        }
+        if(argc==6&&std::string(argv[1])=="--bomb-run") {
+            const auto character=unsigned(std::stoul(argv[2])),pid=unsigned(std::stoul(argv[3])),ticks=unsigned(std::stoul(argv[4]));
+            const auto stack=std::uint8_t(std::stoul(argv[5]));
+            if(character>8||pid>1)throw std::runtime_error("unknown Bomb fixture");
+            th03::Round round;round.players[pid].paletted=std::uint8_t(character*2+1);round.bomb_flags[pid]=1;
+            th03::Palette palette{};for(unsigned i=0;i<48;++i)palette[i]=std::uint8_t(i*5+7);round.set_palette(palette);
+            round.random.cursor=254;for(unsigned i=0;i<256;++i)round.random.bytes[i]=std::uint8_t(i*13+7);
+            for(unsigned tick=0;tick<ticks;++tick) {
+                round.bombs.update(round,pid);round.update_effects();round.bombs.prepare_render(round,pid,stack);round.prepare_effects_render();
+            }
+            std::cout<<unsigned(round.bomb_flags[pid])<<' '<<unsigned(round.bombs.frame[pid])<<' '<<round.fg_shift[pid]<<' '
+                <<round.palette_tone<<' '<<unsigned(round.random.cursor)<<' '<<unsigned(round.effect_cursor)<<' ';
+            for(auto c:round.palette)std::cout<<unsigned(c)<<' ';
+            for(const auto& p:round.bombs.reimu[pid])std::cout<<unsigned(p.active)<<' '<<p.center.x<<' '<<p.center.y<<' '<<p.velocity_y<<' ';
+            for(const auto& p:round.bombs.mima[pid])std::cout<<p.x<<' '<<p.sprite<<' ';
+            for(const auto& p:round.bombs.ellen[pid])std::cout<<p.center.x<<' '<<p.center.y<<' '<<p.velocity.x<<' '<<p.velocity.y<<' ';
+            std::cout<<round.bombs.ellen_spawn_count<<' '<<round.bombs.kotohime_y<<' '<<unsigned(round.bombs.kana_angle)<<' '
+                <<round.bombs.rikako_line_offset<<' '<<round.bombs.marisa_point.x<<' '<<round.bombs.marisa_point.y<<' ';
+            for(const auto& e:round.effects)std::cout<<unsigned(e.kind)<<' '<<unsigned(e.age)<<' '<<e.center.x<<' '<<e.center.y<<' '
+                <<unsigned(e.radius)<<' '<<int(e.radius_delta)<<' '<<unsigned(e.angle)<<' ';
+            std::cout<<round.sounds.size()<<' ';for(auto sound:round.sounds)std::cout<<unsigned(sound)<<' ';
+            std::cout<<'\n';return 0;
+        }
+        if(argc>=3&&std::string(argv[1])=="--raster") {
+            th03::Canvas canvas;const std::string kind=argv[2];const th03::Clip clip{16,8,303,191};
+            const auto number=[&](int i) {return std::int16_t(std::stoi(argv[i]));};
+            if(kind=="circle"&&argc==6)th03::grcg_circle(canvas,{number(3),number(4)},unsigned(std::stoul(argv[5])),13,clip);
+            else if(kind=="line"&&argc==7)th03::grcg_line(canvas,{number(3),number(4)},{number(5),number(6)},13,clip);
+            else if(kind=="triangle"&&argc==9)th03::grcg_triangle(canvas,{{{number(3),number(4)},{number(5),number(6)},{number(7),number(8)}}},13,clip);
+            else throw std::runtime_error("invalid raster fixture");
+            std::cout.write(reinterpret_cast<const char*>(canvas.pixels.data()),640*200);return 0;
+        }
+        if(argc==6&&(std::string(argv[1])=="--charge-picture"||std::string(argv[1])=="--loss-picture"||std::string(argv[1])=="--bomb-picture")) {
             const auto disk=read_file(argv[2]);
             const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
             const auto character=unsigned(std::stoul(argv[3])),ticks=unsigned(std::stoul(argv[4]));
@@ -55,12 +97,20 @@ int main(int argc,char** argv) {
             resident.paletted={{std::uint8_t(character*2+1),std::uint8_t(character*2+2)}};
             th03::Round round;round.begin(resident,main.read("ENEDAT.DAT"));round.intro.flag=0;
             th03::BattleGraphics graphics(op,main,resident);
-            const bool loss=std::string(argv[1])=="--loss-picture";
+            round.set_palette(graphics.palette());
+            const bool loss=std::string(argv[1])=="--loss-picture",bomb=std::string(argv[1])=="--bomb-picture";
             if(loss) {round.players[0].lose_time=48;round.defeated_player=0;}
+            else if(bomb)for(unsigned p=0;p<2;++p)round.player_bomb(p,resident);
             else for(unsigned p=0;p<2;++p)round.charge_shots.add(round,round.players[p].center,p);
             for(unsigned i=0;i<ticks;++i) {
                 round.result_frame=std::uint16_t(i);
                 if(loss) {if(round.players[0].lose_time!=255)round.player_lose_update(0,resident);}
+                else if(bomb) {
+                    for(unsigned p=0;p<2;++p)round.bombs.update(round,p);
+                    round.update_effects();
+                    for(unsigned p=0;p<2;++p)round.bombs.prepare_render(round,p,90);
+                    round.prepare_effects_render();
+                }
                 else for(unsigned p=0;p<2;++p)round.charge_shots.update(round,p);
             }
             write_file(argv[5],th03::ppm(graphics.render(round,resident)));return 0;
@@ -481,7 +531,8 @@ int main(int argc,char** argv) {
         th03::PlayerServices services;
         services.hyper=[](th03::Round& round,unsigned pid){round.hyper_update(pid);};
         services.cpu=[](th03::Round& round,unsigned){round.player_velocity={};round.target_formation_marker=255;};
-        services.bomb=[&](th03::Round&,unsigned){++bombs;};services.lose=[&](th03::Round& round,unsigned pid){++losses;round.player_lose_update(pid,game);};
+        services.bomb=[&](th03::Round& round,unsigned pid){++bombs;round.player_bomb(pid,game);};
+        services.lose=[&](th03::Round& round,unsigned pid){++losses;round.player_lose_update(pid,game);};
         services.charge=[&](th03::Round& round,th03::Point at,unsigned pid){++charges;round.charge_shots.add(round,at,pid);};
         th03::Round control;th03::CollisionMap collision;
         auto& human=control.players[0];human.center={144*16,336*16};human.speeds={{64,64,48,48,28}};human.gauge_avail=1024;
@@ -538,6 +589,20 @@ int main(int argc,char** argv) {
         hyper.add_shots(0);
         check(hyper.charge_shots.reimu[0][0].state==2&&hyper.charge_shots.reimu[0][1].state==2&&
               hyper.shots[0].alive&&hyper.shots[0].top_left.y==human.center.y-16,"Reimu Hyper joins two history shots and the shifted ordinary pair");
+        th03::Round bomb_control;th03::Resident bomb_game;
+        auto& bomber=bomb_control.players[0];bomber.bombs=2;bomber.gauge_avail=4080;bomber.center=human.center;
+        bomb_control.player_bomb(0,bomb_game);
+        check(bomb_control.bomb_flags[0]==1&&bomber.bombs==1&&bomber.invincibility==180&&bomb_game.skill==69,"Bomb consumes a stock and starts invincibility");
+        bomb_control.player_bomb(0,bomb_game);
+        check(bomber.bombs==1&&bomb_game.skill==69,"active Bomb blocks repeated input");
+        bomb_control.bomb_flags[0]=0;bomber.bombs=0;bomb_control.player_bomb(0,bomb_game);
+        check(bomber.hyper_active==1&&bomb_control.damage_all[0]==1&&bomb_control.effects[1].radius==8&&bomb_game.skill==68,"empty Bomb stock spends full gauge on Hyper and its real explosion effect");
+        const auto sounds=bomb_control.sounds.size();bomb_control.player_bomb(0,bomb_game);
+        check(bomb_control.sounds.size()==sounds&&bomb_game.skill==68,"active Hyper blocks another Bomb");
+        th03::Round kotohime_fade;kotohime_fade.players[0].paletted=9;kotohime_fade.bomb_flags[0]=2;kotohime_fade.bombs.frame[0]=128;
+        rejects([&]{kotohime_fade.bombs.prepare_render(kotohime_fade,0);});
+        kotohime_fade.bombs.prepare_render(kotohime_fade,0,0x5a);
+        check(kotohime_fade.palette[0]==0xb4&&kotohime_fade.palette[2]==255,"Kotohime fade reads the supplied stack color with byte wrap");
         std::cout<<"Portable resources, menus, movement, formations and player-state checks passed\n";
         return 0;
     } catch (const std::exception& error) { std::cerr<<error.what()<<'\n'; return 1; }

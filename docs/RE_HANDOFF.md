@@ -49,7 +49,11 @@ see the portable notes for stack aliases and generation/frame quirks. All nine
 Charge Shot families and their Hyper helpers now agree with original MAIN on
 Linux/Windows; their fixture pictures also agree across platforms. Hyper
 handlers and the 48-frame loss animation are implemented, with common player
-contracts. Continue with CPU/Bomb owners, backgrounds and the real round loop,
+contracts. All nine Bomb controllers and the shared effect pool now have original
+instruction comparisons; MRS and GRCG rasters agree in all pixels. Linux/Windows
+Bomb fixture pictures agree. Kotohime's fade still needs its actual incoming
+stack color when the round renderer joins. Continue with CPU, backgrounds and
+the real round loop,
 then Extra/Gauge/Boss attacks and result/MAINL routes.
 Resolve wide CPU collision scans' aliased DATA reads when joining that path; the native
 program still stops before gameplay. Preserve the live Windows DOSBox disk

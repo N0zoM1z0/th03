@@ -40,6 +40,26 @@ Palette read_palette(const Bytes& bytes) {
     for(unsigned i=0;i<48;++i)out[i]=std::uint8_t(bytes[i]|(bytes[i]<<4));
     return out;
 }
+Mrs::Mrs(Bytes bytes,bool flip):bytes_(std::move(bytes)),flip_(flip) {need(bytes_.size()==33120,"MRS requires five 288x184 planes");}
+void Mrs::put(Canvas& dest,int left,int top,bool alpha,bool altered) const {
+    left=left>=0 ? left/8*8 : -((-left+7)/8)*8;
+    top=top>=0 ? top/2 : -((-top+1)/2);
+    for(unsigned y=0;y<184;++y)for(unsigned x=0;x<288;++x) {
+        const auto source_x=flip_ ? 287-x : x;
+        const unsigned at=(183-y)*36+source_x/8,mask=0x80u>>(source_x&7);
+        const bool opaque=bytes_[at]&mask;
+        unsigned color=0;
+        for(unsigned plane=0;plane<4;++plane)if(bytes_[at+(plane+1)*6624]&mask)color|=1u<<plane;
+        if(!alpha&&altered&&!opaque)color|=1;
+        const int dx=left+int(x),dy=top+int(y);
+        if(alpha) {
+            const unsigned group=at&~3u;
+            if(!(bytes_[group]|bytes_[group+1]|bytes_[group+2]|bytes_[group+3]))continue;
+            if(!opaque&&dx>=0&&dx<640&&dy>=0&&dy<400)color|=dest.pixels[unsigned(dy)*640+unsigned(dx)];
+        }
+        dest.put(dx,dy,std::uint8_t(color));
+    }
+}
 Cdg::Cdg(Bytes bytes):bytes_(std::move(bytes)) {
     need(bytes_.size()>=16,"short CDG header");
     plane_size=word(bytes_,0);width=word(bytes_,2);height=word(bytes_,4);count=bytes_[10];

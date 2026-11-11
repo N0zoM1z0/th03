@@ -16,7 +16,7 @@ void Application::start_stage_intro() {
 void Application::start_main() {
     if(!main_assets_)throw std::runtime_error("MAIN setup requires the second original PF archive");
     round.emplace();round->begin(resident,main_assets_->read("ENEDAT.DAT"));
-    battle_graphics_.emplace(assets_,*main_assets_,resident);phase=Phase::mainl_handoff;
+    battle_graphics_.emplace(assets_,*main_assets_,resident);round->set_palette(battle_graphics_->palette());phase=Phase::mainl_handoff;
 }
 void Application::return_to_title() {
     menu=Menu{};menu.options=resident.options;menu.resident_seed=resident.seed;

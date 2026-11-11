@@ -5,6 +5,8 @@
 #include "combat.hpp"
 #include "player.hpp"
 #include "charge.hpp"
+#include "bomb.hpp"
+#include "graphics.hpp"
 #include <array>
 #include <vector>
 
@@ -96,6 +98,16 @@ public:
     HudIntro intro;
     Bullets bullets;
     ChargeShots charge_shots;
+    Bombs bombs;
+    Palette palette{},palette_backup{};
+    bool palette_initialized=false;
+    void set_palette(const Palette& colors);
+    void player_bomb(unsigned pid,Resident& resident);
+    std::array<PlayerEffect,12> effects{};
+    std::uint8_t effect_cursor=0;
+    void effect_add(Point center,unsigned pid,Effect type);
+    void update_effects();
+    void prepare_effects_render();
     std::array<std::int16_t,2> fg_shift{};
     std::array<std::uint8_t,2> bomb_flags{},damage_all{},gauge_flags{};
     std::array<Player,2> players{};

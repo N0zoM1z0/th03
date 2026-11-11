@@ -5,9 +5,10 @@ Title, menus, character selection and MAINL stage introduction join through
 explicit resident state into MAIN round initialization. Enemy scripts, battle
 resources/HUD, round-introduction animation, collision primitives, bullets,
 explosion chains, fireballs, all nine Charge Shot families, Hyper handlers
-and the common player/loss state machines are also ported and checked separately.
+the common player/loss state machines, all nine Bomb controllers and shared
+effects are also ported and checked separately.
 The program stops at initialized battle state;
-it is not yet a playable full-game port. CPU and Bomb combat, Extra/Gauge/Boss attacks,
+it is not yet a playable full-game port. CPU combat, Extra/Gauge/Boss attacks,
 backgrounds, results/dialogues/endings, Music Room/HiScore, audio and persistence
 still need integration and campaign testing.
 
@@ -99,6 +100,9 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_bullet.py` | Same arguments as `check_selection.py` | Group vectors, full bullet/trail pools, motion/transfer/cloud/clearing, collision maps and complete pellet rasters |
 | `check_combat.py` | Same arguments as `check_selection.py` | Explosion/chain scoring, enemy/fireball hits, derived fireballs, movement/collision, coupled bullet pipelines and known stack aliases |
 | `check_charge.py` | Same arguments as `check_selection.py` | All nine Charge Shot lifecycles, full physical pools/history, hit circles and RNG, sound events and four projectile Hyper helpers |
+| `check_bomb.py` | Same arguments as `check_selection.py` | Nine Bomb controllers coupled to complete effect pools, palette/foreground state, RNG and sound events |
+| `check_raster.py` | Same arguments as `check_selection.py` | Complete original GRCG circle, clipped DDA line and filled-triangle rasters |
+| `check_mrs.py` | Same arguments as `check_round.py` | Original MRS opaque/altered/alpha blits, alignment and horizontal flip in all pixels |
 
 Linux and native Windows x64 state checks pass; menu, selection and isolated
 introduction PPMs agree between platforms. Private SDL window checks exercised
@@ -145,8 +149,7 @@ Native Windows x64 transfer/trail states and collision maps agree with Linux.
 order, including score carry, combo saturation, Boss/Panic state and derived
 fireballs. Its Charge Shot callback can now use `ChargeShots::hit`; Extra Attack
 callbacks still need their character owners. Fireball allocation retains a reused
-slot's frame;
-charged red fireballs can read the previous destroyed fireball's generation.
+slot's frame; charged red fireballs can read the previous destroyed fireball's generation.
 The ordinary fireball-hit stack slot is supplied as `0x0f`. Known out-of-range
 slots retain the original cross-player charge, score-digit and extends aliases,
 including clearing those bytes when firing an Extra Attack. Unknown aliases
@@ -159,7 +162,7 @@ fixture, separate from the game loop.
 
 `player.cpp` now supplies the common movement/charge/fire/hit/knockback
 state machine. Hyper, Charge Shot and loss owners are implemented separately;
-bind them with the remaining CPU and Bomb owners when joining the game loop.
+bind them with Bomb and the remaining CPU owner when joining the game loop.
 Native contracts exercise held-charge/release/tap timing, one-halfheart survival,
 final defeat, CPU shot cadence and locked-player banking/glow. They pass on
 Linux and native Windows x64. The movement velocity is a signed byte shared
@@ -183,10 +186,26 @@ also drawn; the round scheduler must use the loss owner's two-VBlank wait.
 `--charge-picture HDI CHARACTER TICKS FILE.ppm` and `--loss-picture` on the checks
 binary produce isolated rendering fixtures; CHARACTER is zero-based 0..8.
 
-Continue with Bomb/CPU owners, backgrounds and the real round loop, then join
+`bomb.cpp` implements stock/Hyper activation, all nine 180-frame Bomb
+controllers and the twelve shared circle/quad effects. The controller state,
+complete effect pools, palette channels, RNG and sound events agree with original
+MAIN on Linux and Windows x64. MRS rendering and the three GRCG primitives also
+match original instructions in all pixels. Nine complete Bomb fixture pictures
+agree between platforms. `--bomb-picture HDI CHARACTER TICKS FILE.ppm` renders
+these isolated effects with both players; it does not advance the battle loop.
+
+Run `Bombs::prepare_render` and `Round::prepare_effects_render` only on scheduled
+render frames: they consume RNG, emit effects/sounds, change palette/foreground
+state and rotate quads. Keep Marisa's per-player draw position before the next
+player overwrites the shared point. Ellen's spawn count, Kotohime's row Y and
+Kana's angle are also genuinely shared. Kotohime's final palette phase reads
+an uninitialized stack byte. The API requires that context explicitly; the
+controller comparison supplies the same byte to both implementations. Recover
+the real round-render caller's context before enabling this fade in gameplay.
+
+Continue with the CPU owner, backgrounds and the real round loop, then join
 Extra/Gauge/Boss attack families and result/MAINL routes. Wide CPU scans near the
-left edge can read
-outside the bitmap through wrapped DGROUP addressing. Recover those aliased
+left edge can read outside the bitmap through wrapped DGROUP addressing. Recover those aliased
 DATA owners before joining that path; the isolated collision module currently
 reports an unresolved owner instead of treating the memory as empty. The
 original ENEDAT does not use its broken loop opcodes; custom loop scripts would

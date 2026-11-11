@@ -32,6 +32,15 @@ private:
     Bytes bytes_;
     unsigned data_offset{};
 };
+// Headerless TH03 portrait/Bomb image: five bottom-up 288x184 planes.
+class Mrs {
+public:
+    explicit Mrs(Bytes bytes,bool flip=false);
+    void put(Canvas& dest,int left,int top,bool alpha,bool altered=false) const;
+private:
+    Bytes bytes_;
+    bool flip_;
+};
 void pellet(Canvas& dest,int left,int top,unsigned cel);
 void picture(Canvas& dest,const PiImage& image,int left=0,int top=0);
 void gaiji(Canvas& dest,const Bytes& font,unsigned code,int left,int top,std::uint8_t color);

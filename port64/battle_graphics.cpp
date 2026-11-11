@@ -1,6 +1,7 @@
 #include "battle_graphics.hpp"
 #include "score_font.hpp"
 #include "motion.hpp"
+#include "raster.hpp"
 #include <algorithm>
 #include <cstdio>
 #include <stdexcept>
@@ -31,6 +32,10 @@ BattleGraphics::BattleGraphics(const PfArchive& op,const PfArchive& main,const R
         interlace(atlas_,decode_pi(op.read(name)),p*320,8);
         std::snprintf(name,sizeof(name),"%02uCH.BF2",unsigned(resident.paletted[p])-1);
         patterns_.emplace_back(main.read(name));
+        std::snprintf(name,sizeof(name),"%02uBM.MRS",unsigned(resident.paletted[p])-1);
+        bomb_images_.emplace_back(main.read(name),p!=0);
+        std::snprintf(name,sizeof(name),"%02uEX.MRS",unsigned(resident.paletted[p])-1);
+        portraits_.emplace_back(main.read(name),p!=0);
     }
     interlace(atlas_,decode_pi(op.read("EN2.PI")),0,80);
     constexpr unsigned enemy_image[9]={0,0,1,2,1,2,0,3,4};
@@ -257,9 +262,80 @@ void BattleGraphics::charges(Canvas& graphics,const Round& round) const {
         }
     }
 }
+void BattleGraphics::bombs(Canvas& graphics,const Round& round) const {
+    const auto& bombs=round.bombs;
+    for(unsigned pid=0;pid<2;++pid)if(round.bomb_flags[pid]) {
+        const unsigned character=character_id(round.players[pid].paletted),frame=bombs.frame[pid];
+        const int left=int(pid)*320+16;
+        const Clip clip{left,8,left+287,191};
+        const auto x=[&](int q4) {return left+pixels(q4)+round.fg_shift[pid];};
+        bool portrait=false;int portrait_left=left;
+        switch(character) {
+        case 0:
+            portrait=frame>=64&&frame<=96;
+            if(frame<96)for(const auto& p:bombs.reimu[pid])if(p.active)
+                sprite(graphics,x(p.center.x)-8,pixels(p.center.y)+8,pid*40+0x18,16,8);
+            break;
+        case 1:
+            portrait=frame>80&&frame<144;portrait_left+=round.fg_shift[pid];
+            if(frame<=80)for(const auto& p:bombs.mima[pid]) {
+                if(!p.sprite)break;
+                for(int y=16;y<400;y+=16)sprite(graphics,x(p.x),y,p.sprite,16,8);
+            }
+            break;
+        case 2:portrait=frame>=64&&frame<128;portrait_left=(frame&3)<2 ? left : left-8;break;
+        case 3:case 4:case 5:case 6:portrait=frame>=64&&frame<128;break;
+        case 7:portrait=frame>=64&&frame<144;break;
+        case 8:
+            portrait=frame>64&&frame<144;
+            if(frame<=64) {
+                constexpr std::uint8_t angles[6]={192,21,107,64,235,149};
+                const auto triangle=[&](unsigned start,int radius,std::uint8_t color) {
+                    std::array<Point,3> points{};
+                    for(unsigned i=0;i<3;++i) {
+                        const auto v=motion::polar(angles[start+i],std::int16_t(radius));
+                        points[i]={std::int16_t(144+v.x+left),std::int16_t((200+v.y)/2)};
+                    }
+                    grcg_triangle(graphics,points,color,clip);
+                };
+                triangle(0,frame<32 ? 224-int(frame)*3 : 128,frame<32 ? 8 : 7);
+                if(frame>32)triangle(3,320-int(frame)*3,8);
+            }
+            break;
+        }
+        if(portrait)bomb_images_[pid].put(graphics,portrait_left,16,false,pid!=0);
+        if(character==2&&portrait) {
+            const auto at=bombs.marisa_draw_point[pid];
+            sprite(graphics,at.x-24,at.y-24,pid*40+0xf16+((frame&3)<2 ? 6 : 0),48,24);
+        } else if(character==3&&portrait) {
+            for(const auto& p:bombs.ellen[pid])if(p.center.x!=19999&&p.center.x!=9999)
+                sprite(graphics,left+pixels(p.center.x)-32,pixels(p.center.y)-16,pid*40+0x29c,64,32,pid ? 320 : 0,pid ? 639 : 319);
+        } else if(character==6&&portrait) {
+            const int offset=bombs.rikako_draw_offset[pid];
+            for(int factor:{-1,1,-2,2})graphics.fill(x(2304+offset*factor),8,x(2304+offset*factor),192,15);
+        }
+    }
+}
+void BattleGraphics::effects(Canvas& graphics,const Round& round) const {
+    for(const auto& effect:round.effects)if(effect.kind) {
+        const Clip clip=effect.center.x<320 ? Clip{16,8,303,191} : Clip{336,8,623,191};
+        if(effect.kind==1) {
+            const int y=effect.center.y>=0 ? effect.center.y/2 : -((-int(effect.center.y)+1)/2);
+            grcg_circle(graphics,{effect.center.x,std::int16_t(y)},effect.radius,13,clip);
+        } else {
+            std::array<Point,4> points{};
+            for(unsigned i=0;i<4;++i) {
+                const auto v=motion::polar(std::uint8_t(effect.angle+i*64),effect.radius);
+                points[i]={std::int16_t(effect.center.x+v.x),std::int16_t((effect.center.y+v.y)/2)};
+            }
+            for(unsigned i=0;i<4;++i)grcg_line(graphics,points[i],points[(i+1)%4],13,clip);
+        }
+    }
+}
 Frame BattleGraphics::render(const Round& round,const Resident& resident) const {
     Canvas graphics;
     graphics.fill(16,8,303,191,0);graphics.fill(336,8,623,191,1);
+    bombs(graphics,round);
     for(const auto& shot:round.shots)if(shot.alive) {
         const int left=16+shot.pid*320+pixels(shot.top_left.x)+round.fg_shift[shot.pid],top=16+pixels(shot.top_left.y);
         sprite(graphics,left,top,shot.animation+shot.pid*40,16,8);
@@ -312,6 +388,7 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
             pattern(graphics,base+((round.result_frame>>2)&3),left,p.center.y/32-15);
         }
     }
+    effects(graphics,round);
     bullets(graphics,round);
     if(round.defeat==2) {
         const auto loser=round.defeated_player;const auto winner=loser^1;
@@ -354,7 +431,7 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
     intro(graphics,round,resident);
     Canvas display;
     for(unsigned y=0;y<400;++y)std::copy_n(graphics.pixels.begin()+(y/2)*640,640,display.pixels.begin()+y*640);
-    auto frame=display.frame(palette_,round.palette_tone);
+    auto frame=display.frame(round.palette_initialized ? round.palette : palette_,round.palette_tone);
     // hud_wipe leaves opaque reversed-black TRAM cells around the two
     // white playfield rectangles. Their color is independent of Palettes[0].
     for(unsigned y=0;y<400;++y)for(unsigned x=0;x<640;++x)
