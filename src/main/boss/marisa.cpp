@@ -172,28 +172,26 @@ void near marisa_pattern_spread(void)
 		marisa_bullet_angle = 0;
 	}
 	if(boss_frame < MARISA_SPREAD_FINISH) {
-		// After the warm-up, the original four-frame unsigned-word clock
-		// is the only gate before firing both speed layers.
-		if(boss_frame % MARISA_SPREAD_PERIOD) {
-			return;
+		// After the warm-up, only a zero-remainder four-frame tick
+		// fires the two speed layers and advances the shared byte angle.
+		if((boss_frame % MARISA_SPREAD_PERIOD) == 0) {
+			bullet_template.angle = marisa_bullet_angle;
+			bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
+			bullet_template.center.x.v = boss_center_x;
+			bullet_template.center.y.v = boss_center_y;
+			bullet_template.speed.v = marisa_bullet_speed;
+			bullet_template.type = BT_BULLET16_DEFAULT;
+			bullet_template.pid = (1 - pid_current);
+			bullets_add();
+
+			bullet_template.speed.v = (marisa_bullet_speed / 2);
+			bullets_add();
+
+			// Original TC4 rejects `angle += ENUM` (historical af830b)
+			// but DOES compile the natural `angle = angle + ENUM` to exactly
+			// the original byte-memory instructions (fresh af881e/f/g).
+			marisa_bullet_angle = marisa_bullet_angle + MARISA_SPREAD_ANGLE_STEP;
 		}
-
-		bullet_template.angle = marisa_bullet_angle;
-		bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
-		bullet_template.center.x.v = boss_center_x;
-		bullet_template.center.y.v = boss_center_y;
-		bullet_template.speed.v = marisa_bullet_speed;
-		bullet_template.type = BT_BULLET16_DEFAULT;
-		bullet_template.pid = (1 - pid_current);
-		bullets_add();
-
-		bullet_template.speed.v = (marisa_bullet_speed / 2);
-		bullets_add();
-
-		// Original TC4 rejects `angle += ENUM` (historical af830b)
-		// but DOES compile the natural `angle = angle + ENUM` to exactly
-		// the original byte-memory instructions (fresh af881e/f/g).
-		marisa_bullet_angle = marisa_bullet_angle + MARISA_SPREAD_ANGLE_STEP;
 		return;
 	}
 	boss_render_mode = MARISA_RENDER_MODE_NORMAL;
@@ -258,12 +256,11 @@ void near marisa_pattern_columns_wide(void)
 		marisa_exatt_add(MARISA_COLUMN_PAIR_3_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(boss_frame != MARISA_COLUMN_WIDE_FINISH) {
-		return;
+	if(boss_frame == MARISA_COLUMN_WIDE_FINISH) {
+		boss_render_mode = MARISA_RENDER_MODE_NORMAL;
+		boss_mode = MARISA_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_render_mode = MARISA_RENDER_MODE_NORMAL;
-	boss_mode = MARISA_MODE_SELECT;
-	boss_frame = 0;
 }
 
 // Regular 32-frame volley, ending at the original 0x82 timer.
@@ -278,7 +275,7 @@ void near marisa_pattern_ring(void)
 
 	// The 32-frame ring cadence uses natural unsigned-word remainder,
 	// independent of the mutable byte angle.
-	if(!(boss_frame % MARISA_RING_PERIOD)) {
+	if((boss_frame % MARISA_RING_PERIOD) == 0) {
 		bullet_template.angle = randring_far_next16();
 		bullet_template.group = BG_RING;
 		bullet_template.center.x.v = boss_center_x;
@@ -305,11 +302,10 @@ void near marisa_pattern_ring(void)
 		bullets_add();
 	}
 
-	if(boss_frame < MARISA_RING_FINISH) {
-		return;
+	if(boss_frame >= MARISA_RING_FINISH) {
+		boss_mode = MARISA_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_mode = MARISA_MODE_SELECT;
-	boss_frame = 0;
 }
 
 void near marisa_pattern_columns_narrow(void)
@@ -453,26 +449,27 @@ void near marisa_render_main(void)
 	}
 	// Only an active spread/column attack enters this alternate strip
 	// renderer; a hit sprite above returns immediately.
-	if(boss_render_mode == MARISA_RENDER_MODE_ATTACK) {
-		if(
-			(round_or_result_frame % MARISA_MAIN_FLICKER_PERIOD) <
-			MARISA_MAIN_FLICKER_FIRST_HALF
-		) {
-			sprite16_put_size.set(MARISA_RENDER_DAMAGE_WIDTH, MARISA_RENDER_DAMAGE_HEIGHT);
-			left += 64;
-			top += 16;
-			sprite16_put(left, top, (boss_sprite_offset + MARISA_RENDER_FLICKER_SPRITE_OFFSET));
-			left -= 32;
-			top += 32;
-			sprite_offset = (boss_sprite_offset + MARISA_RENDER_FLICKER_STRIP_OFFSET);
-		} else {
-			left += 32;
-			top += 48;
-			sprite_offset = (boss_sprite_offset + MARISA_RENDER_ALTERNATE_STRIP_OFFSET);
-		}
-		sprite16_put_size.set(MARISA_RENDER_STRIP_WIDTH, MARISA_RENDER_STRIP_HEIGHT);
-		sprite16_put(left, top, sprite_offset);
+	if(boss_render_mode != MARISA_RENDER_MODE_ATTACK) {
+		return;
 	}
+	if(
+		(round_or_result_frame % MARISA_MAIN_FLICKER_PERIOD) <
+		MARISA_MAIN_FLICKER_FIRST_HALF
+	) {
+		sprite16_put_size.set(MARISA_RENDER_DAMAGE_WIDTH, MARISA_RENDER_DAMAGE_HEIGHT);
+		left += 64;
+		top += 16;
+		sprite16_put(left, top, (boss_sprite_offset + MARISA_RENDER_FLICKER_SPRITE_OFFSET));
+		left -= 32;
+		top += 32;
+		sprite_offset = (boss_sprite_offset + MARISA_RENDER_FLICKER_STRIP_OFFSET);
+	} else {
+		left += 32;
+		top += 48;
+		sprite_offset = (boss_sprite_offset + MARISA_RENDER_ALTERNATE_STRIP_OFFSET);
+	}
+	sprite16_put_size.set(MARISA_RENDER_STRIP_WIDTH, MARISA_RENDER_STRIP_HEIGHT);
+	sprite16_put(left, top, sprite_offset);
 }
 
 void near pascal marisa_render_split(int offset)
