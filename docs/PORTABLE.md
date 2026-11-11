@@ -5,11 +5,12 @@ Title, menus, character selection and MAINL stage introduction join through
 explicit resident state into MAIN round initialization. Enemy scripts, battle
 resources/HUD, round-introduction animation, collision primitives, bullets,
 explosion chains, fireballs, all nine Charge Shot/Bomb families, Hyper handlers,
-shared effects, both background chains, player/loss state machines and CPU decisions are ported and
-checked separately.
+shared effects, both background chains, nine Gauge patterns, Kotohime Extra
+Attacks, player/loss state machines and CPU decisions are ported and checked
+separately.
 The program stops at initialized battle state;
-it is not yet a playable full-game port. CPU edge-scan data, Extra/Gauge/Boss attacks,
-backgrounds, results/dialogues/endings, Music Room/HiScore, audio and persistence
+it is not yet a playable full-game port. CPU edge-scan data, the other eight Extra families, Boss attacks,
+results/dialogues/endings, Music Room/HiScore, audio and persistence
 still need integration and campaign testing.
 
 The DOS reconstruction stays on `main`. The live Windows DOSBox session and
@@ -102,6 +103,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_charge.py` | Same arguments as `check_selection.py` | All nine Charge Shot lifecycles, full physical pools/history, hit circles and RNG, sound events and four projectile Hyper helpers |
 | `check_bomb.py` | Same arguments as `check_selection.py` | Nine Bomb controllers coupled to complete effect pools, palette/foreground state, RNG and sound events |
 | `check_cpu.py` | Same arguments as `check_selection.py` | Offensive/defensive CPU, target selection, collision/retry grids, shared velocity/RNG and real Bomb activation |
+| `check_gauge.py` | Same arguments as `check_selection.py` | Nine Gauge patterns and ordinary/special Kotohime Extra, coupled to full bullet/effect/entity pools, shot consumption, palette/RNG and collision maps |
 | `check_background.py` | Same arguments as `check_selection.py` | Both particle chains, all80 slots, LCG, acceleration/phase transitions, reset and both indeterminate-byte branches |
 | `check_raster.py` | Same arguments as `check_selection.py` | Complete original GRCG circle, clipped DDA line and filled-triangle rasters |
 | `check_mrs.py` | Same arguments as `check_round.py` | Original MRS opaque/altered/alpha blits, alignment and horizontal flip in all pixels |
@@ -230,7 +232,17 @@ run before the frame-skip branch; a skipped frame can leave background pixels
 in the pending back page. Preserve that page when joining the scheduler. Bomb
 first-phase fills erase the selected playfield's background as in DOS.
 
-Continue with the real round loop, then join Extra/Gauge/Boss attacks and
+`gauge_attacks.cpp` implements all nine pellet/bullet Gauge patterns. Kotohime's
+Gauge uses the same timing bytes as her ordinary Extra Attack; `extra.cpp`
+supplies their shared flight, falling charges and delayed bullet rings. The
+special allocator uses slot8 or overwrites slot9 when slot8 is occupied, as in
+MAIN. Extra hitboxes skip explosions while retaining real charge/shot and
+hit-circle effects. Collision dimensions convert pixels to two-pixel tiles.
+`--gauge-picture HDI CHARACTER TICKS FILE.ppm` and
+`--extra-picture HDI 4 TICKS FILE.ppm` render coupled fixtures. Linux/Windows
+state and complete picture comparisons agree.
+
+Continue with the other Extra families, Boss attacks, the real round loop and
 result/MAINL routes. Wide CPU scans near the left edge still need
 their aliased DGROUP owners. With an empty bitmap and initialized target DATA,
 P0 at (8,336) pixels with a 32-tile scan reads `02D0..02D4` and collides with

@@ -87,6 +87,7 @@ void Round::begin(const Resident& resident,const Bytes& enedat) {
 }
 void Round::prepare(const Resident& resident,std::uint8_t formation_previous) {
     charge_shots.reset();
+    extra_attacks.reset();
     for(auto& shot:shots)shot.alive=false;
     frame=result_frame=0;intro.flag=1;enemy_speed=0;reset_frames=1;
     for(auto& enemy:enemies)enemy.flag=0;

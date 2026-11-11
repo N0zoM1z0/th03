@@ -167,7 +167,7 @@ void Round::player_circle(Point center,std::uint8_t pid) {
 void Round::update_circles() {
     for(auto& circle:circles)if(circle.age) {++circle.age;if(circle.age>16)circle.age=0;}
 }
-std::uint8_t Round::hitbox_hits(Hitbox box,std::int16_t center_y,const ChargeQuery& charge,Against against) {
+std::uint8_t Round::hitbox_hits(Hitbox box,std::int16_t center_y,const ChargeQuery& charge,Against against,bool skip_explosions) {
     if(center_y<0||defeat==2)return 0;
     one_hit=false;
     std::uint8_t damage=0;
@@ -177,7 +177,7 @@ std::uint8_t Round::hitbox_hits(Hitbox box,std::int16_t center_y,const ChargeQue
         if(motion::wrap(x-256)>box.right_bottom.x||motion::wrap(x+256)<box.left_top.x||y<box.left_top.y||y>box.right_bottom.y)continue;
         shot.alive=false;damage=std::uint8_t(damage+2);enemy_circle({x,y},box.pid);
     }
-    damage=std::uint8_t(damage+explosion_hit(box,against));
+    if(!skip_explosions)damage=std::uint8_t(damage+explosion_hit(box,against));
     const auto charged=charge(box);damage=std::uint8_t(damage+charged.damage);one_hit=charged.one_hit;
     if(bomb_flags[box.pid]&&!(result_frame%2))++damage;
     return damage;

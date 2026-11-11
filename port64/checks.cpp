@@ -44,9 +44,64 @@ Bytes pi(const std::string& bits) {
     return raw;
 }
 void tap(th03::Menu& menu,std::uint16_t key) { menu.tick(0); menu.tick(key); }
+void attack_pools(const th03::Round& r,const th03::CollisionMap& collision) {
+    for(auto f:r.gauge_flags)std::cout<<unsigned(f)<<' ';
+    std::cout<<unsigned(r.random.cursor)<<' '<<unsigned(r.bullets.trail_cursor)<<' '<<unsigned(r.effect_cursor)<<' ';
+    for(const auto& frames:r.gauges.frame)for(auto f:frames)std::cout<<unsigned(f)<<' ';
+    for(const auto& centers:r.gauges.center)for(auto p:centers)std::cout<<p.x<<' '<<p.y<<' ';
+    for(auto a:r.gauges.mima_angle)std::cout<<unsigned(a)<<' ';
+    for(auto a:r.gauges.mima_step)std::cout<<unsigned(a)<<' ';
+    for(const auto& time:r.gauges.timing)for(auto b:time)std::cout<<unsigned(b)<<' ';
+    for(auto b:r.palette)std::cout<<unsigned(b)<<' ';
+    const auto& t=r.bullets.model;
+    std::cout<<t.center.x<<' '<<t.center.y<<' '<<unsigned(t.speed)<<' '<<unsigned(t.angle)<<' '<<unsigned(t.pid)<<' '
+        <<unsigned(t.group)<<' '<<unsigned(t.acceleration)<<' '<<unsigned(t.count)<<' '<<t.velocity.x<<' '<<t.velocity.y<<' '
+        <<t.sprite<<' '<<unsigned(t.type)<<' '<<t.collidable<<' '<<t.animated<<' '<<t.has_trail<<' '<<unsigned(r.bullets.group_angle)<<' ';
+    for(const auto& b:r.bullets.items)std::cout<<unsigned(b.flag)<<' '<<unsigned(b.age)<<' '<<b.center.x<<' '<<b.center.y<<' '
+        <<b.target_x<<' '<<b.target_x_origin<<' '<<b.velocity.x<<' '<<b.velocity.y<<' '<<unsigned(b.speed_next)<<' '
+        <<unsigned(b.angle_next)<<' '<<unsigned(b.pid)<<' '<<unsigned(b.group_next)<<' '<<b.sprite<<' '<<unsigned(b.acceleration)<<' '
+        <<b.collidable<<' '<<b.animated<<' '<<b.has_trail<<' '<<unsigned(b.has_trail ? b.trail : 0)<<' ';
+    for(const auto& pool:r.extra_attacks.items)for(const auto& e:pool)std::cout<<unsigned(e.state)<<' '<<unsigned(e.frame)<<' '
+        <<e.center.x<<' '<<e.center.y<<' '<<e.velocity.x<<' '<<e.velocity.y<<' '<<e.target_x<<' '<<e.boundary_x<<' '
+        <<e.duration<<' '<<unsigned(e.pid)<<' '<<unsigned(e.mode)<<' '<<unsigned(e.angle)<<' '<<unsigned(e.speed)<<' '<<e.radius<<' ';
+    for(const auto& e:r.effects)std::cout<<unsigned(e.kind)<<' '<<unsigned(e.age)<<' '<<e.center.x<<' '<<e.center.y<<' '
+        <<unsigned(e.radius)<<' '<<int(e.radius_delta)<<' '<<unsigned(e.angle)<<' ';
+    std::cout<<r.one_hit<<' '<<unsigned(r.circle_cursor)<<' ';
+    for(const auto& c:r.circles)std::cout<<unsigned(c.age)<<' '<<unsigned(c.pid)<<' '<<c.left<<' '<<c.top<<' ';
+    for(const auto& shot:r.shots)std::cout<<shot.alive<<' ';
+    for(auto b:collision.bytes)std::cout<<unsigned(b)<<' ';
+    std::cout<<r.sounds.size()<<' ';for(auto sound:r.sounds)std::cout<<unsigned(sound)<<' ';
+    std::cout<<'\n';
+}
 }
 int main(int argc,char** argv) {
     try {
+        if((argc==7&&std::string(argv[1])=="--gauge")||(argc==5&&std::string(argv[1])=="--koto-extra")) {
+            const bool extra=std::string(argv[1])=="--koto-extra";
+            const auto character=extra ? 4u : unsigned(std::stoul(argv[2])),pid=unsigned(std::stoul(argv[extra ? 2 : 3]));
+            const auto ticks=unsigned(std::stoul(argv[extra ? 3 : 6]));
+            if(character>8||pid>1)throw std::runtime_error("unknown attack fixture");
+            th03::Round r;th03::CollisionMap collision;r.speed=64;r.bullet_base_speed=8;r.fg_shift={{3,-4}};
+            r.players[0].center={3600,4800};r.players[1].center={800,5200};
+            r.players[0].paletted=r.players[1].paletted=std::uint8_t(character*2+1);
+            r.random.cursor=254;for(unsigned i=0;i<256;++i)r.random.bytes[i]=std::uint8_t(i*13+7);
+            th03::Palette palette{};for(unsigned i=0;i<48;++i)palette[i]=std::uint8_t(i*5+7);r.set_palette(palette);
+            r.bullets.model.acceleration=128;
+            if(extra) {
+                r.gauges.timing[pid]={{6,1,2,0}};
+                if(std::stoi(argv[4]))r.extra_attacks.kotohime_gauge(r,{2048,0},pid);
+                else r.extra_attacks.add_kotohime(r,r.players[pid].center,pid);
+                const auto& e=r.extra_attacks.items[pid][std::stoi(argv[4]) ? 8 : 0];
+                r.shots[0].alive=true;r.shots[0].pid=std::uint8_t(pid^1);r.shots[0].top_left={std::int16_t(e.target_x-256),1920};
+            } else {r.gauge_flags[pid]=std::uint8_t(std::stoi(argv[4])==1 ? 1 : 3);r.gauge_levels[pid]=std::uint8_t(std::stoul(argv[5]));}
+            for(unsigned tick=0;tick<ticks;++tick) {
+                r.result_frame=std::uint16_t(tick);collision.clear();r.bullets.model.reset();
+                if(extra)r.extra_attacks.update_kotohime(r,pid,collision,[&](const th03::Hitbox& box){return r.charge_shots.hit(r,box);});
+                else r.gauges.update(r,pid);
+                r.update_effects();r.prepare_effects_render();
+            }
+            attack_pools(r,collision);return 0;
+        }
         if(argc==7&&std::string(argv[1])=="--background") {
             const auto chain=unsigned(std::stoul(argv[2])),accel=unsigned(std::stoul(argv[3])),first=unsigned(std::stoul(argv[4])),count=unsigned(std::stoul(argv[5]));
             if(chain<1||chain>2)throw std::runtime_error("unknown background chain");
@@ -119,7 +174,7 @@ int main(int argc,char** argv) {
             else throw std::runtime_error("invalid raster fixture");
             std::cout.write(reinterpret_cast<const char*>(canvas.pixels.data()),640*200);return 0;
         }
-        if(argc==6&&(std::string(argv[1])=="--charge-picture"||std::string(argv[1])=="--loss-picture"||std::string(argv[1])=="--bomb-picture"||std::string(argv[1])=="--background-picture")) {
+        if(argc==6&&(std::string(argv[1])=="--charge-picture"||std::string(argv[1])=="--loss-picture"||std::string(argv[1])=="--bomb-picture"||std::string(argv[1])=="--background-picture"||std::string(argv[1])=="--gauge-picture"||std::string(argv[1])=="--extra-picture")) {
             const auto disk=read_file(argv[2]);
             const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
             const auto character=unsigned(std::stoul(argv[3])),ticks=unsigned(std::stoul(argv[4]));
@@ -129,14 +184,30 @@ int main(int argc,char** argv) {
             th03::Round round;round.begin(resident,main.read("ENEDAT.DAT"));round.intro.flag=0;
             th03::BattleGraphics graphics(op,main,resident);
             round.set_palette(graphics.palette());
-            const bool loss=std::string(argv[1])=="--loss-picture",bomb=std::string(argv[1])=="--bomb-picture",background=std::string(argv[1])=="--background-picture";
-            if(background)round.background.begin(round.random,character);
+            const bool loss=std::string(argv[1])=="--loss-picture",bomb=std::string(argv[1])=="--bomb-picture",background=std::string(argv[1])=="--background-picture",
+                gauge=std::string(argv[1])=="--gauge-picture",extra=std::string(argv[1])=="--extra-picture";
+            th03::CollisionMap collision;
+            if(gauge)for(unsigned p=0;p<2;++p) {round.gauge_flags[p]=3;round.gauge_levels[p]=15;}
+            else if(extra)for(unsigned p=0;p<2;++p) {round.gauges.timing[p]={{6,1,2,0}};round.extra_attacks.kotohime_gauge(round,{2048,0},p);}
+            else if(background)round.background.begin(round.random,character);
             else if(loss) {round.players[0].lose_time=48;round.defeated_player=0;}
             else if(bomb)for(unsigned p=0;p<2;++p)round.player_bomb(p,resident);
             else for(unsigned p=0;p<2;++p)round.charge_shots.add(round,round.players[p].center,p);
             for(unsigned i=0;i<ticks;++i) {
                 round.result_frame=std::uint16_t(i);
-                if(background)round.background.update(round.random,i,std::uint16_t(i));
+                if(gauge||extra) {
+                    collision.clear();round.bullets.model.reset();
+                    for(unsigned p=0;p<2;++p) {
+                        if(gauge)round.gauges.update(round,p);
+                        if(character==4)round.extra_attacks.update_kotohime(round,p,collision,[&](const th03::Hitbox& box){return round.charge_shots.hit(round,box);});
+                    }
+                    round.bullets.update(round,collision,[&](th03::Point center,std::uint8_t pid) {
+                        const th03::Hitbox box{center,center,pid,{0,0}};
+                        return round.explosion_hit(box,th03::Against::pellet)!=0;
+                    });
+                    round.update_effects();round.prepare_effects_render();
+                }
+                else if(background)round.background.update(round.random,i,std::uint16_t(i));
                 else if(loss) {if(round.players[0].lose_time!=255)round.player_lose_update(0,resident);}
                 else if(bomb) {
                     for(unsigned p=0;p<2;++p)round.bombs.update(round,p);

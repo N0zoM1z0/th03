@@ -164,9 +164,9 @@ void BattleGraphics::hud(Canvas& display,const Round& round,const Resident& resi
     }
     if(resident.mode==Mode::story)for(unsigned i=0;i<resident.lives;++i)gaiji(display,font_,2,288-int(i)*16,32,15);
 }
-void BattleGraphics::charges(Canvas& graphics,const Round& round) const {
+void BattleGraphics::charges(Canvas& graphics,const Round& round,unsigned pid) const {
     const auto& charges=round.charge_shots;
-    for(unsigned pid=0;pid<2;++pid) {
+    {
         const int left_clip=pid ? 320 : 0,right_clip=pid ? 639 : 319;
         const auto screen_x=[&](int x) {return 16+int(pid)*320+pixels(x)+round.fg_shift[pid];};
         switch(character_id(round.players[pid].paletted)) {
@@ -260,6 +260,21 @@ void BattleGraphics::charges(Canvas& graphics,const Round& round) const {
             break;
         }
         }
+    }
+}
+void BattleGraphics::extras(Canvas& graphics,const Round& round,unsigned pid) const {
+    if(character_id(round.players[pid].paletted)!=4)return;
+    for(unsigned i=0;i<10;++i) {
+        const auto& e=round.extra_attacks.items[pid][i];if(!e.state)continue;
+        const int left=16+e.pid*320+pixels(e.center.x)+round.fg_shift[e.pid],top=pixels(e.center.y)+16;
+        if(e.state==1) {
+            unsigned so=pid*40+0x280;
+            if(motion::wrap(int(e.duration)-e.center.y)<=1536&&e.frame%4<2)so+=0xa00;
+            if(!e.mode)sprite(graphics,left-16,top-16,so+0x282,32,16);
+            else sprite(graphics,left-32,top-32,so,64,32);
+        } else if(e.state==2) {
+            if(!(e.frame&1))sprite(graphics,left-16,top-16,0x1928+((e.frame&7)<=3 ? 4 : 0),32,16);
+        } else sprite(graphics,left-24,top-24,0x1930+((e.frame/4)%3)*6,48,24);
     }
 }
 void BattleGraphics::background(Canvas& graphics,const Round& round) const {
@@ -394,7 +409,7 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
         const unsigned so=80*80+16+((c.age-1)/4)*6;
         sprite(graphics,c.left,c.top,so,48,24,c.pid ? 320 : 0,c.pid ? 639 : 319,true,i==12 ? 15 : 11+(round.result_frame&1));
     }
-    charges(graphics,round);
+    for(unsigned pid=0;pid<2;++pid) {extras(graphics,round,pid);charges(graphics,round,pid);}
     for(unsigned pid=0;pid<2;++pid) {
         const auto& p=round.players[pid];
         if(p.lose_time) {

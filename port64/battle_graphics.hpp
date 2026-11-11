@@ -16,7 +16,8 @@ private:
     void background(Canvas& graphics,const Round& round) const;
     void bombs(Canvas& graphics,const Round& round) const;
     void effects(Canvas& graphics,const Round& round) const;
-    void charges(Canvas& graphics,const Round& round) const;
+    void charges(Canvas& graphics,const Round& round,unsigned pid) const;
+    void extras(Canvas& graphics,const Round& round,unsigned pid) const;
     void bullets(Canvas& graphics,const Round& round) const;
     void intro(Canvas& graphics,const Round& round,const Resident& resident) const;
     std::uint8_t pattern_pixel(unsigned index,unsigned x,unsigned y) const;

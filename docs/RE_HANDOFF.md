@@ -58,8 +58,10 @@ in-map cases; common player contracts bind all five actual service owners.
 Both background chains now match original state/RNG instructions; native
 Linux/Windows pictures agree. The indeterminate periodic byte is redundant
 under the established velocity invariant (PORTABLE.md). Preserve skipped-frame
-background pixels when joining the scheduler. Continue with the real round loop,
-then Extra/Gauge/Boss attacks and result/MAINL routes.
+background pixels when joining the scheduler. All nine Gauge patterns and
+Kotohime ordinary/special Extra now match original MAIN with full pools and
+collision; Linux/Windows state and pictures agree. Continue with the other eight
+Extra families, Boss attacks, the real round loop and result/MAINL routes.
 Resolve wide CPU collision scans' aliased DATA reads when joining that path;
 observed aliases include palette tone, sine tables and CRT tables (PORTABLE.md).
 The native program still stops before gameplay. Preserve the live Windows DOSBox disk

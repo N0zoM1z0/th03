@@ -8,6 +8,8 @@
 #include "bomb.hpp"
 #include "graphics.hpp"
 #include "background.hpp"
+#include "extra.hpp"
+#include "gauge_attacks.hpp"
 #include <array>
 #include <vector>
 
@@ -104,6 +106,8 @@ public:
     Bullets bullets;
     ChargeShots charge_shots;
     Bombs bombs;
+    ExtraAttacks extra_attacks;
+    GaugeAttacks gauges;
     Palette palette{},palette_backup{};
     bool palette_initialized=false;
     void set_palette(const Palette& colors);
@@ -140,7 +144,7 @@ public:
     std::uint8_t explosion_hit(const Hitbox& hitbox,Against against);
     void charged_fireball(unsigned pid,const Efe& origin);
     void charged_extra(unsigned pid,unsigned slot,const Efe& origin,const ExtraAdd& add);
-    std::uint8_t hitbox_hits(Hitbox box,std::int16_t center_y,const ChargeQuery& charge,Against against);
+    std::uint8_t hitbox_hits(Hitbox box,std::int16_t center_y,const ChargeQuery& charge,Against against,bool skip_explosions=false);
     void hit_enemies(const ChargeQuery& charge,const ExtraAdd& extra);
     void hit_fireballs(const ChargeQuery& charge,const ExtraAdd& extra,std::uint8_t stack_chain_slot);
     std::array<std::uint8_t,2> enemies_alive{};
