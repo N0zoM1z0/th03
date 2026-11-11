@@ -82,7 +82,10 @@ and [startup review](SHARED_STARTUP_AFTER548_NATIVE_REVIEW.md). Keep their
 actual current dependencies. The current four-file package freshly assembles
 shared C0 and compares its entire physical scope without replaying that
 historical runtime chain. Its stored outputs all match the Japanese targets;
-whole-product source ownership remains open.
+whole-product source ownership remains open. The direct `af1395r` runtime
+build now covers all displayed CL contributors in the current three MAPs;
+`af1397l` composes it with the current projects and source C0. These links omit
+unused EMU/MATHL libraries and retain complete target EXE/MZ equality.
 MAINL's complete held-key function is now accepted through the independent
 no-trailer TC4 proof. Its alternative ASM carrier still has the historical
 trailing-byte/layout question described in the

@@ -23,7 +23,8 @@ The coverage includes original ReC98 `master.lib` CODE; storage
 and zero-length segment carriers add no executable bytes.
 
 OP, MAINL (the ending) and ZUN retain decoded publications. All four products
-still have whole-product source ownership work. The current four-file package matches all stored Japanese targets; see
+still have whole-product source ownership work. The current four-file package
+matches all stored Japanese targets; see
 the [composition review](CURRENT_LINKED_BUILD_REVIEW.md) for its scope and command.
 Tracked extents, accepted decoded bytes and stored-file sizes
 have different denominators, so there is no whole-game completion percentage.
@@ -47,8 +48,10 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
    exactly in `af1377o`; both raw OBJ/EXE/MAP vectors repeat. Every tracked OP
    range is covered. The old selection aggregate references its accepted
    unlock/tail owners without duplicate credit. The package additionally replaces
-   compiler startup with fresh source C0;
-   runtime library inputs remain contextual in this project composition.
+   compiler startup with fresh source C0. The source CL contributors now compose
+   across MAIN/OP/MAINL in `af1397l`, using the fresh runtime pair `af1395r`.
+   The `setvbuf` MOV field-order gap remains explicit. The composition review
+   documents the six alias swaps and three zero-length MAP row changes.
 4. For new OP/MAINL/ZUN ownership, consult `config/units.csv`,
    `config/evidence.csv` and their decoded publications. An unaccepted module
    may contain accepted smaller scopes; inventory rows are not a missing-function

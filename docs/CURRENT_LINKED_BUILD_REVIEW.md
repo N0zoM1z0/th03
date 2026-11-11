@@ -45,9 +45,60 @@ independent review and bounded negative controls for command, target-byte and
 startup-byte changes.
 
 This closes local four-file artifact reproduction with the current composition.
-Whole-product source ownership remains open: vendor runtime inputs, ZUN's
-reserved spans and the deferred MAIN carrier are still present. Build and
+The package route retains its reviewed runtime inputs. The source-runtime
+composition below replaces all displayed CL contributors; ZUN's reserved
+spans and the deferred MAIN carrier remain open. Build and
 acceptance run directly through the local repository scripts.
+
+## Current source runtime composes across all three MZ programs
+
+`build_th03_runtime_current.py --stage af1395r` derives the union of CL
+contributors from all three current detailed MAPs. It freshly assembles 76
+maintained providers in two rounds and reuses the independently compiled
+current BCC4.5 `xx` pair. These 77 members cover every CL contributor displayed
+in the three MAPs. Native TLIB preserves the original 893-member order and the
+complete program records of all 816 other supplier members. Both complete
+78-file OBJ/library output vectors repeat byte for byte.
+
+Every provider reproduces the original initialized bytes, true holes, segment
+sizes/attributes, group/entry metadata, imports, PUBLIC ownership and ALIAS
+records. The complete literal ordered fields match for 76 members. The remaining
+`setvbuf` stream retains exactly its two previously documented MOV operand-pair
+swaps, including all original per-site attributes. Its original-order scope
+remains unaccepted. PUBLIC emission order is recorded independently.
+
+The complete check found two missing C++ overload aliases in
+`src/mainl/crt/strrchr.asm`. Their ordinary ALIAS declarations now match both
+original records; instruction bytes and the existing C entry are unchanged.
+The bounded controls reject that actual old alias-incomplete object, a changed
+native field and an archive that disagrees with its actual source producer.
+See `.analysis/work/runtime-current-controls.log`.
+
+`build_th03_runtime_linked_current.py --stage af1397l` composes each current
+project pair with this new library and the already verified source C0 pair.
+All six complete EXEs equal the preceding Japanese-target links, including
+all loaded bytes and ordered MZ relocations. EMU.LIB and MATHL.LIB are removed
+from these responses; neither is needed by the three current links. The same
+raw EXEs are the inputs to the verified four-file package above, so its packing
+proof remains applicable without another unchanged DIET run.
+
+The full MAP comparison permits only six exact same-address alias-order swaps
+(two in MAIN, one in OP and three in MAINL), plus three zero-length MAINL BSS
+carrier rows: add `ioerror`/`setblock` and remove `fbrk`. These reflect the
+original CL segment declarations instead of the older 29-provider carrier.
+Every other MAP byte remains identical. All three EXEs and both repeatable
+OP/MAINL MAPs agree across rounds; MAIN retains its original round-path names.
+The source runtime and link receipts are under `TH03RT/af1395r` and
+`TH03PKG/af1397l` in this game's Wine drive. Both commands default to read-only
+review; use `--build` and a fresh stage for native production.
+
+TH04 supplied a useful comparison method rather than missing implementation:
+its `TH04_ZUN_RUNTIME_INVENTORY_V537.md` likewise removes unused float libraries,
+and `TH04_ZUN_FILE_STATE_V535.md` records a bounded same-address PUBLIC swap.
+The inspected local TH04 revision is `d21200a`. Its referenced sprite16 ASM is
+identical to this repository's candidate, and that file's input MD5 is the
+actual TH03 `-4` payload MD5. Its TH04 filename comment therefore supplies no
+independent evidence for the nine terminal bytes.
 
 ## OP: maintained IRAND and selection state compose together
 
@@ -209,7 +260,8 @@ fields; it is not adopted. `-1-` and `-2-` disable the default 286 instruction
 selection and produce the same 8086 result with `-O -r-`; `-0` is invalid in
 this TC4 compiler. The source-startup `/ml` case-sensitivity trial in
 `TH03OP/probe/af1389s` preserves storage and all ordered fields but leaves the
-PUBLIC order different, just as `/mx` does. The maintained shared ASM's two field-order mismatches
+PUBLIC order different, just as `/mx` does. Forward/backward EQU aliases in `af1391f` leave TASM's operand-field order
+unchanged. The maintained shared ASM's two field-order mismatches
 remain open. These small source trials and their logs remain in the local
 probe directories; `.analysis/work/bounded-next.py` reproduces the latter two
 trials in fresh stages after changing their stage names. The older installed

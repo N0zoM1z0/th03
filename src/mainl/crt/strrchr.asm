@@ -2,6 +2,9 @@
 ; Seek from the NUL terminator backwards, including the terminator
 ; itself. The far cursor stays in the original BP-4/BP-2 stack slots.
 .8086
+; Both original C++ overloads resolve to the C runtime entry.
+alias <@strrchr$qnxci> = <_strrchr>
+alias <@strrchr$qnci> = <_strrchr>
 extrn _strlen:far
 _TEXT segment byte public 'CODE'
 assume cs:_TEXT

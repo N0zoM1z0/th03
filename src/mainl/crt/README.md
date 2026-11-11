@@ -1,31 +1,27 @@
 # MAINL CRT reconstruction
 
-Current MAINL decoded publication is restored through the `af1055m` Staff/root
-refresh and revalidated retained ancestry. The provider chronology below remains
-historical. Use [generated progress](../../../docs/PROGRESS.md) for current
-accepted scopes and independent source-native owner checks.
+Current MAINL coverage is described by the [generated progress](../../../docs/PROGRESS.md)
+and [current composition review](../../../docs/CURRENT_LINKED_BUILD_REVIEW.md).
+The current project route has 29 source providers in its original-order
+893-member library; the other members retain their compiler-supplier context.
 
-The historical accepted normal893-member library has28 source providers. Natural
-`new.cpp`,`xalloc.cpp` and `xmsg.cpp` are accepted through the scoped BCC4.5 -O1
-route;their six owners total2258 bytes. See the
-[C++ native review](../../../docs/MAINL_EXCEPTION_CPP_REVIEW.md),
-[current handoff](../../../docs/RE_HANDOFF.md) and current publication in
-`config/mainl_work/scoped_acceptance.json` for authoritative scope and limits.
-Earlier unmatched C++ trials are historical controls.
+Natural `new.cpp`, `xalloc.cpp` and `xmsg.cpp` use the reviewed BCC4.5 `-O1`
+route. `xx.cpp` now provides the complete DOS exception/RTTI graph in one TU:
+all 50 functions, complete CODE/DATA and ordered fields have independent native
+proofs and participate in the current MAINL rebuild. It is the accepted 29th
+provider, replacing the earlier unmatched working-source candidate. See the
+[C++ native review](../../../docs/MAINL_EXCEPTION_CPP_REVIEW.md) and
+[xx product review](../../../docs/MAINL_XX_PRODUCT_REVIEW.md).
 
-`xx.cpp` composes the complete DOS exception/RTTI graph in one TU. It is a
-separate,unaccepted29th provider in the normal-library candidate. That route
-uses actual native BCC `-c -y` output followed by TLIB/TLINK;separate `-S` output
-supplies names only. The retained S/TASM miniatures have their own codegen and
-field order. See the [xx product review](../../../docs/MAINL_XX_PRODUCT_REVIEW.md).
-The native xx working-source OBJ and all 50 linked xx functions are now original-byte-exact; formal accepted ownership and complete MAINL source ownership remain open. The **after520 working-source CRT** now has **728 of 893 original
-CL.LIB members source-linked** and **194,292 original-equal CODE bytes**.
-Both complete Japanese MAINL EXE/MAP rounds match the originals.
-This is separate from the smaller, independently accepted normal-library
-provider baseline. Exact final EXE/MAP does not mean every original raw
-Borland OBJ or FIXUPP frame/order record is identical to TASM output,
-or that Factory canonical packed-game acceptance has increased.
-See the [current handoff](../../../docs/RE_HANDOFF.md).
+The current shared runtime route freshly assembles all displayed CL contributors
+across MAIN/OP/MAINL and composes them with the current project objects. It
+retains the known `setvbuf` operand-field order gap; the composition review
+contains its current commands and complete comparison scope.
+
+Historical source-linked library totals describe earlier experiments, not the
+current accepted owner inventory. Native OBJ identity also includes record
+packing and field order; a target-equal final EXE alone cannot establish those
+properties for an individual library member.
 
 The accepted provider chain includes
 [buffered I/O](../../../docs/MAINL_STDIO_NATIVE_REVIEW.md),
