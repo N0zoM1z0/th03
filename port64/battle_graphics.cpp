@@ -45,7 +45,7 @@ BattleGraphics::BattleGraphics(const PfArchive& op,const PfArchive& main,const R
     patterns_.emplace_back(main.read("ROUND.BF2"));
     patterns_.emplace_back(main.read("ZIKICW.BF2"));
 }
-void BattleGraphics::sprite(Canvas& dest,int left,int top,unsigned offset,unsigned width,unsigned height,int clip_left,int clip_right,bool clipped,int monochrome) const {
+void BattleGraphics::sprite(Canvas& dest,int left,int top,unsigned offset,unsigned width,unsigned height,int clip_left,int clip_right,bool clipped,int monochrome,bool overlap_clear) const {
     // The TH03 wrapper clips whole 16-pixel columns before invoking
     // SPRITE16. The latter reads physical 200-line rows; color0 is alpha.
     int right=left+int(width);
@@ -61,7 +61,11 @@ void BattleGraphics::sprite(Canvas& dest,int left,int top,unsigned offset,unsign
         const auto address=(std::size_t(offset)+y*80)*8+x;
         if(address>=640*200)throw std::runtime_error("sprite source outside original atlas");
         const auto color=atlas_.pixels[address];
-        if(color)dest.put(left+int(x),physical_top+int(y),monochrome<0 ? color : std::uint8_t(monochrome));
+        if(color) {
+            const auto px=left+int(x),py=physical_top+int(y);
+            const auto under=px>=0&&px<640&&py>=0&&py<400 ? dest.pixels[unsigned(py)*640+unsigned(px)] : 0;
+            dest.put(px,py,monochrome>=0 ? std::uint8_t(monochrome) : overlap_clear ? color : std::uint8_t(under|color));
+        }
     }
 }
 void BattleGraphics::pattern(Canvas& dest,unsigned index,int left,int top) const {
@@ -155,6 +159,104 @@ void BattleGraphics::hud(Canvas& display,const Round& round,const Resident& resi
     }
     if(resident.mode==Mode::story)for(unsigned i=0;i<resident.lives;++i)gaiji(display,font_,2,288-int(i)*16,32,15);
 }
+void BattleGraphics::charges(Canvas& graphics,const Round& round) const {
+    const auto& charges=round.charge_shots;
+    for(unsigned pid=0;pid<2;++pid) {
+        const int left_clip=pid ? 320 : 0,right_clip=pid ? 639 : 319;
+        const auto screen_x=[&](int x) {return 16+int(pid)*320+pixels(x)+round.fg_shift[pid];};
+        switch(character_id(round.players[pid].paletted)) {
+        case 0:
+            for(const auto& shot:charges.reimu[pid])if(shot.state) {
+                constexpr int colors[4]={2,5,6,-1};
+                for(unsigned pass=0;pass<4;++pass) {
+                    const auto at=shot.history[6-pass*2];
+                    const unsigned so=0x1180+pid*40+((3-pass+round.result_frame)&3)*6;
+                    sprite(graphics,screen_x(at.x)-24,pixels(at.y)-8,so,48,24,left_clip,right_clip,true,colors[pass]);
+                }
+            }
+            break;
+        case 1:
+            if(charges.mima_active[pid])for(unsigned i=0;i<15;++i) {
+                const auto& shot=charges.mima[pid][i];if(!shot.active)continue;
+                sprite(graphics,screen_x(shot.center.x)-16,pixels(shot.center.y)+8,0x10+pid*40+(i%3)*4,32,8,left_clip,right_clip);
+            }
+            break;
+        case 2: {
+            const auto& shot=charges.marisa[pid];if(!shot.active)break;
+            const auto box=[&](Point at,std::uint32_t tile) {
+                const int x=screen_x(at.x),bottom=(at.y>=0 ? at.y/32 : -((-int(at.y)+31)/32))+8;
+                for(int y=8;y<=bottom;++y)for(int px=x-2;px<=x+1;++px) {
+                    const unsigned mask=0x80u>>(unsigned(px)&7);unsigned color=0;
+                    for(unsigned plane=0;plane<4;++plane)if((tile>>(plane*8))&mask)color|=1u<<plane;
+                    graphics.put(px,y,std::uint8_t(color));
+                }
+            };
+            constexpr unsigned ends[3]={6,3,0},starts[3]={11,6,3};
+            constexpr std::uint32_t tiles[3]={0xaa0055aa,0xff00aa55,0xff55ff55};
+            for(unsigned band=0;band<3;++band) {
+                int previous_x=0;
+                for(unsigned i=starts[band];i>ends[band];--i) {
+                    const auto at=shot.history[i];const auto x=screen_x(at.x);
+                    if(previous_x!=x)box(at,tiles[band]);
+                    previous_x=x;
+                }
+            }
+            box(shot.history[0],0xffffffff);break;
+        }
+        case 3:
+            for(const auto& shot:charges.ellen[pid])if(shot.state==1) {
+                const auto cel=(std::uint8_t(shot.angle+16)>>5)*2;
+                sprite(graphics,screen_x(shot.center.x)-8,pixels(shot.center.y)+8,0x10+pid*40+cel,16,8,left_clip,right_clip);
+            }
+            break;
+        case 4: {
+            const auto& shot=charges.kotohime[pid];if(shot.active)
+                sprite(graphics,screen_x(shot.center.x)-48,pixels(shot.center.y)+8,0x1188+pid*40,96,16,left_clip,right_clip);
+            break;
+        }
+        case 5:
+            if(charges.kana_active[pid])for(const auto& shot:charges.kana[pid])for(int i=12,so=0x1180;i>=0;i-=4,so-=0x500) {
+                const auto at=shot.history[unsigned(i)];
+                sprite(graphics,screen_x(at.x)-16,pixels(at.y),unsigned(so)+pid*40,32,16,left_clip,right_clip,true,-1,false);
+            }
+            break;
+        case 6:
+            if(charges.rikako_active[pid])for(const auto& shot:charges.rikako[pid])
+                sprite(graphics,screen_x(shot.center.x)-16,pixels(shot.center.y),0x280+pid*40,32,16,left_clip,right_clip);
+            break;
+        case 7:
+            for(int i=7;i>=0;--i) {
+                const auto& shot=charges.chiyuri[pid][unsigned(i)];if(!shot.age)break;if(shot.age!=1)continue;
+                sprite(graphics,screen_x(shot.center.x)-16,pixels(shot.center.y)-8,0x280+pid*40+(shot.animation&1)*4,32,24,left_clip,right_clip);
+            }
+            break;
+        case 8: {
+            const auto& shot=charges.yumemi[pid];if(!shot.state)break;
+            const unsigned frame=shot.frame,so=0xc80+pid*40+(frame&1)*4;
+            if(shot.state==1) {sprite(graphics,screen_x(shot.center.x)-16,pixels(shot.center.y),so,32,16,left_clip,right_clip);break;}
+            const auto ring=[&](int radius,unsigned phase) {
+                for(unsigned i=0;i<16;++i) {
+                    const auto angle=std::uint8_t(frame*2+i*16);
+                    const auto x=motion::wrap(int(shot.center.x)-256+motion::polar(angle,std::int16_t(radius)).x);
+                    const auto y=motion::wrap(int(shot.center.y)-256+motion::polar(std::uint8_t(angle+phase),std::int16_t(radius)).y);
+                    sprite(graphics,screen_x(x),pixels(y)+16,so+0x500,32,16,left_clip,right_clip);
+                }
+            };
+            if(frame<8)ring(int(frame)*128,0);
+            else if(frame<16)ring((int(frame)-7)*128,32);
+            else if(frame<24)ring((int(frame)-15)*128,224);
+            else if(frame<32)ring((int(frame)-24)*128,0);
+            else if(frame<40)ring((int(frame)-31)*128,32);
+            else if(frame<48)ring((int(frame)-39)*128,224);
+            else if(frame<64) {
+                if(frame<56) {ring((int(frame)-47)*128,32);ring((int(frame)-47)*128,224);}
+                ring((int(frame)-48)*128,0);
+            }
+            break;
+        }
+        }
+    }
+}
 Frame BattleGraphics::render(const Round& round,const Resident& resident) const {
     Canvas graphics;
     graphics.fill(16,8,303,191,0);graphics.fill(336,8,623,191,1);
@@ -189,9 +291,19 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
         const unsigned so=80*80+16+((c.age-1)/4)*6;
         sprite(graphics,c.left,c.top,so,48,24,c.pid ? 320 : 0,c.pid ? 639 : 319,true,i==12 ? 15 : 11+(round.result_frame&1));
     }
+    charges(graphics,round);
     for(unsigned pid=0;pid<2;++pid) {
         const auto& p=round.players[pid];
-        if(p.lose_time)continue;
+        if(p.lose_time) {
+            if(p.lose_time!=255)for(unsigned ring=0;ring<3;++ring)for(unsigned i=0;i<16;++i) {
+                const auto angle=std::uint8_t((ring==1 ? -round.lose_radius/4 : round.lose_radius/4)+int(i)*16);
+                const auto phase=ring==0 ? 32 : ring==1 ? -32 : 0;
+                const auto x=motion::polar(angle,round.lose_radius).x;
+                const auto y=motion::polar(std::uint8_t(angle+phase),round.lose_radius).y;
+                sprite(graphics,round.lose_left+x+round.fg_shift[pid],round.lose_top+y,0x34b4,48,24,pid ? 320 : 0,pid ? 639 : 319);
+            }
+            continue;
+        }
         const int left=16+int(pid)*320+pixels(p.center.x)+round.fg_shift[pid]-16,top=pixels(p.center.y)-16;
         if(p.pattern_glow)pattern(graphics,p.pattern_glow+pid*9+p.pattern_movement*3,left,top/2);
         else sprite(graphics,left,top,0x2844+p.pattern_movement*4+pid*0xa00,32,32);
@@ -201,6 +313,12 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
         }
     }
     bullets(graphics,round);
+    if(round.defeat==2) {
+        const auto loser=round.defeated_player;const auto winner=loser^1;
+        const int frame=round.result_frame%32,top=frame<16 ? frame+32 : 64-frame;
+        pattern(graphics,18,loser*320+96,40);pattern(graphics,19,loser*320+160,40);
+        pattern(graphics,20,winner*320+96,top);pattern(graphics,21,winner*320+160,top);
+    }
     // Gauge highlight strip resides in ENEMYxx's final eight atlas rows.
     for(unsigned pid=0;pid<2;++pid)for(unsigned y=0;y<8;++y)for(unsigned x=0;x<288;++x)
         graphics.put(16+int(pid)*320+int(x),192+int(y),atlas_.pixels[(192+y)*640+320+x]);
@@ -236,7 +354,7 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
     intro(graphics,round,resident);
     Canvas display;
     for(unsigned y=0;y<400;++y)std::copy_n(graphics.pixels.begin()+(y/2)*640,640,display.pixels.begin()+y*640);
-    auto frame=display.frame(palette_);
+    auto frame=display.frame(palette_,round.palette_tone);
     // hud_wipe leaves opaque reversed-black TRAM cells around the two
     // white playfield rectangles. Their color is independent of Palettes[0].
     for(unsigned y=0;y<400;++y)for(unsigned x=0;x<640;++x)

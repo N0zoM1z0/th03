@@ -4,9 +4,10 @@
 Title, menus, character selection and MAINL stage introduction join through
 explicit resident state into MAIN round initialization. Enemy scripts, battle
 resources/HUD, round-introduction animation, collision primitives, bullets,
-explosion chains and fireballs are also
-ported and checked separately. The program stops at initialized battle state;
-it is not yet a playable full-game port. Player/CPU combat, all attack families,
+explosion chains, fireballs, all nine Charge Shot families, Hyper handlers
+and the common player/loss state machines are also ported and checked separately.
+The program stops at initialized battle state;
+it is not yet a playable full-game port. CPU and Bomb combat, Extra/Gauge/Boss attacks,
 backgrounds, results/dialogues/endings, Music Room/HiScore, audio and persistence
 still need integration and campaign testing.
 
@@ -97,6 +98,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_collision.py` | Same arguments as `check_selection.py` | Six complete 6,624-byte bitmaps and their player hit scans |
 | `check_bullet.py` | Same arguments as `check_selection.py` | Group vectors, full bullet/trail pools, motion/transfer/cloud/clearing, collision maps and complete pellet rasters |
 | `check_combat.py` | Same arguments as `check_selection.py` | Explosion/chain scoring, enemy/fireball hits, derived fireballs, movement/collision, coupled bullet pipelines and known stack aliases |
+| `check_charge.py` | Same arguments as `check_selection.py` | All nine Charge Shot lifecycles, full physical pools/history, hit circles and RNG, sound events and four projectile Hyper helpers |
 
 Linux and native Windows x64 state checks pass; menu, selection and isolated
 introduction PPMs agree between platforms. Private SDL window checks exercised
@@ -141,8 +143,9 @@ Native Windows x64 transfer/trail states and collision maps agree with Linux.
 
 `combat.cpp` joins shot, explosion and charge-shot collision in the original
 order, including score carry, combo saturation, Boss/Panic state and derived
-fireballs. Charge Shot and Extra Attack callbacks remain explicit while their
-character owners are ported. Fireball allocation retains a reused slot's frame;
+fireballs. Its Charge Shot callback can now use `ChargeShots::hit`; Extra Attack
+callbacks still need their character owners. Fireball allocation retains a reused
+slot's frame;
 charged red fireballs can read the previous destroyed fireball's generation.
 The ordinary fireball-hit stack slot is supplied as `0x0f`. Known out-of-range
 slots retain the original cross-player charge, score-digit and extends aliases,
@@ -155,16 +158,34 @@ fireball/explosion/circle/bullet states for a visual smoke. It is a graphics
 fixture, separate from the game loop.
 
 `player.cpp` now supplies the common movement/charge/fire/hit/knockback
-state machine. Required callbacks retain the original Hyper, CPU, Charge Shot,
-Bomb and loss owners; bind those implementations when joining the game loop.
+state machine. Hyper, Charge Shot and loss owners are implemented separately;
+bind them with the remaining CPU and Bomb owners when joining the game loop.
 Native contracts exercise held-charge/release/tap timing, one-halfheart survival,
 final defeat, CPU shot cadence and locked-player banking/glow. They pass on
 Linux and native Windows x64. The movement velocity is a signed byte shared
 across player calls: locked paths can retain the preceding player's velocity
 for sprite banking. Audio calls are queued in order for the later sound owner.
 
-Continue with backgrounds and the player/CPU combat loop, then join attack
-families and result/MAINL routes. Wide CPU scans near the left edge can read
+`charge.cpp` implements all nine characters' add/update/hit paths and projectile
+Hyper helpers. Linux and Windows x64 agree with original MAIN instructions on
+the full pools and history, collision effects, RNG cursor and queued sound events.
+`BattleGraphics` draws each family from its original atlas; all nine fixture
+pictures agree between platforms. Kana uses bitplane OR for its trails. Ellen's
+normal allocator leaves slot0 inactive and retains old velocity until update.
+Round preparation resets only the four charge families called by the original;
+in particular it retains Mima's controller bytes and the other families' state.
+
+Hyper dispatch retains its one-frame standby transition and signed-byte speed
+adjustments. The common loss owner now runs the 48-frame shake/flash, changes to
+the defeat banner and records the winner. Native contracts exercise these paths
+through the common player update. Loss particles and winner/loser banners are
+also drawn; the round scheduler must use the loss owner's two-VBlank wait.
+`--charge-picture HDI CHARACTER TICKS FILE.ppm` and `--loss-picture` on the checks
+binary produce isolated rendering fixtures; CHARACTER is zero-based 0..8.
+
+Continue with Bomb/CPU owners, backgrounds and the real round loop, then join
+Extra/Gauge/Boss attack families and result/MAINL routes. Wide CPU scans near the
+left edge can read
 outside the bitmap through wrapped DGROUP addressing. Recover those aliased
 DATA owners before joining that path; the isolated collision module currently
 reports an unresolved owner instead of treating the memory as empty. The

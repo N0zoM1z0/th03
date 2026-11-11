@@ -154,6 +154,13 @@ void Round::enemy_circle(Point center,std::uint8_t pid) {
     circle_cursor=std::uint8_t((circle_cursor+1)%12);
     circles[circle_cursor]={1,pid,std::int16_t(16+pid*320+pixel(center.x)+fg_shift[pid]-24),std::int16_t(pixel(center.y)-8)};
 }
+void Round::charge_circle(const Hitbox& box) {
+    const auto width=std::uint16_t(int(box.radius.x)*2),height=std::uint16_t(int(box.radius.y)*2);
+    if(!width||!height)throw std::domain_error("hitcircle random center divide error");
+    const auto x=motion::wrap(int(box.left_top.x)+random.ring()%width);
+    const auto y=motion::wrap(int(box.left_top.y)+random.ring()%height);
+    enemy_circle({x,y},box.pid);
+}
 void Round::player_circle(Point center,std::uint8_t pid) {
     circles[12]={1,pid,std::int16_t(16+pid*320+pixel(center.x)+fg_shift[pid]-24),std::int16_t(pixel(center.y)-8)};
 }
@@ -181,7 +188,7 @@ void Round::hit_enemies(const ChargeQuery& charge,const ExtraAdd& extra) {
         if(damage_all[e.pid]) {e.hp=0;e.flag=9;chains.start(e);e.frame=0;continue;}
         const int radius=e.size_pixels==16 ? 160 : e.size_pixels*7;
         const Hitbox box{{motion::wrap(e.center.x-radius),motion::wrap(e.center.y-radius)},
-                         {motion::wrap(e.center.x+radius),motion::wrap(e.center.y+radius)},e.pid};
+                         {motion::wrap(e.center.x+radius),motion::wrap(e.center.y+radius)},e.pid,{std::int16_t(radius),std::int16_t(radius)}};
         if(!hitbox_hits(box,e.center.y,charge,Against::enemy))continue;
         if(!e.hp||one_hit) {
             e.flag=9;enemy_killed=true;
@@ -216,7 +223,7 @@ void Round::hit_fireballs(const ChargeQuery& charge,const ExtraAdd& extra,std::u
         const auto pid=f.pid;
         const Against against=Against(f.size_words);
         const Hitbox box{{motion::wrap(f.center.x-192),motion::wrap(f.center.y+48-160)},
-                         {motion::wrap(f.center.x+192),motion::wrap(f.center.y+48+160)},pid};
+                         {motion::wrap(f.center.x+192),motion::wrap(f.center.y+48+160)},pid,{192,160}};
         if(!hitbox_hits(box,motion::wrap(f.center.y+48),charge,against))continue;
         if(!f.hp||last_explosion_hit||one_hit) {
             generation_previous=f.generation;

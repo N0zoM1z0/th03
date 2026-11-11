@@ -9,6 +9,51 @@ std::int16_t byte(int value) {
     const auto bits=std::uint8_t(value);return std::int16_t(bits<128 ? int(bits) : int(bits)-256);
 }
 }
+void Round::find_target(unsigned pid) {
+    if(boss_active[pid]) {target_formation_marker=254;target=boss_target;return;}
+    const Enemy* selected=nullptr;std::uint8_t formation=255;
+    for(const auto& e:enemies)if(e.flag==1&&e.pid==pid&&e.center.x>=0&&e.center.x<=4608&&e.center.y>=0&&e.center.y<=6144&&e.formation_i<formation) {
+        formation=e.formation_i;selected=&e;if(!formation)break;
+    }
+    target_formation_marker=formation;
+    if(!selected) {target={2304,4800};return;}
+    target={motion::wrap(int(selected->center.x)-256),motion::wrap(int(selected->center.y)+1760)};
+    if(target.x<=0||target.x>=4608||target.y<=0||target.y>=6144)target={2304,4800};
+}
+void Round::hyper_update(unsigned pid) {
+    auto& p=players[pid];
+    if(!p.hyper_handler) {p.shot_mode=1;if(p.hyper_active)p.hyper_handler=true;return;}
+    const auto character=character_id(p.paletted);
+    if(!p.hyper_active) {p.hyper_handler=false;if(character==6)charge_shots.rikako_active[pid]=0;return;}
+    switch(character) {
+    case 0:p.shot_mode=4;break;
+    case 1:p.shot_mode=2;p.shot_active=2;break;
+    case 2:p.shot_mode=0;charge_shots.marisa_hyper(*this,pid);break;
+    case 3:p.shot_mode=1;if(!(frame&3))charge_shots.ellen_hyper(*this,p.center,pid);return;
+    case 4:case 5:case 7:case 8:p.shot_mode=3;break;
+    case 6:
+        if(p.gauge_avail>4000) {charge_shots.add(*this,p.center,pid);charge_shots.rikako_active[pid]=2;}
+        break;
+    }
+    const bool slow=character==2||character==6;
+    for(unsigned axis=0;axis<4;++axis) {
+        const int adjustment=axis<2 ? (slow ? -16 : 32) : (slow ? (character==2 ? -12 : -8) : 24);
+        movement_speed[axis]=std::uint8_t(movement_speed[axis]+adjustment);
+    }
+}
+void Round::player_lose_update(unsigned pid,Resident& resident) {
+    auto& p=players[pid];
+    const auto pixel=[](int q4) {return q4>=0 ? q4/16 : -((-q4+15)/16);};
+    if(p.lose_time==48) {
+        lose_left=std::int16_t(16+int(pid)*320+pixel(p.center.x)+fg_shift[pid]-24);
+        lose_top=std::int16_t(pixel(p.center.y)-8);defeat=1;sounds.push_back(14);damage_all[pid^1]=1;lose_radius=0;
+    } else lose_radius=motion::wrap(int(lose_radius)+9);
+    fg_shift[pid]=(p.lose_time&3)<2 ? 6 : -6;reset_frames=2;
+    if(!--p.lose_time) {
+        lose_left=lose_top=lose_radius=0;fg_shift[pid]=0;p.lose_time=255;palette_tone=100;defeat=2;
+        ++players[pid^1].rounds_won;resident.winner=std::uint8_t(pid^1);result_frame=0;
+    } else palette_tone=std::int16_t(100+(result_frame%2)*30);
+}
 MoveResult movement(std::uint16_t input,const std::array<std::uint8_t,4>& speed,Point& velocity) {
     velocity={};int x=0,y=0;
     switch(input) {

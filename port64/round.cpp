@@ -86,8 +86,9 @@ void Round::begin(const Resident& resident,const Bytes& enedat) {
     if(resident.demo) {speed=64;bullet_base_speed=0;boss_level=8;gauge_levels.fill(9);}
 }
 void Round::prepare(const Resident& resident,std::uint8_t formation_previous) {
+    charge_shots.reset();
     for(auto& shot:shots)shot.alive=false;
-    frame=result_frame=0;intro.flag=1;enemy_speed=0;
+    frame=result_frame=0;intro.flag=1;enemy_speed=0;reset_frames=1;
     for(auto& enemy:enemies)enemy.flag=0;
     for(auto& fireball:fireballs)fireball.flag=0;
     enemies_alive={};
@@ -113,7 +114,7 @@ void Round::prepare(const Resident& resident,std::uint8_t formation_previous) {
     if(resident.mode!=Mode::story)for(auto& level:gauge_levels)level=std::uint8_t(level+(rank==0 ? 1 : rank==3 ? 4 : 2));
     speed=std::min<std::uint8_t>(speed,127);boss_level=std::min<std::uint8_t>(boss_level,16);
     for(auto& level:gauge_levels)level=std::min<std::uint8_t>(level,16);
-    combo_points_for_boss_attack=5120;boss_launched_by=255;defeat=0;
+    combo_points_for_boss_attack=5120;boss_launched_by=255;defeat=0;boss_active={};
     for(unsigned p=0;p<2;++p) {
         auto& player=players[p];
         player.paletted=resident.paletted[p];player.cpu=resident.cpu[p];player.is_hit=false;
@@ -140,13 +141,19 @@ bool Player::move(std::uint16_t input) {
 void Round::add_shots(unsigned pid) {
     const auto& player=players.at(pid);
     if(!player.shot_mode)return;
-    if(player.shot_mode>3)throw std::runtime_error("Reimu hyper shot family is not joined yet");
+    if(player.shot_mode>4)throw std::runtime_error("unrecovered invalid shot mode");
+    auto top=player.center.y;
+    if(player.shot_mode==4) {
+        top=motion::wrap(int(top)-16);
+        charge_shots.reimu_hyper({motion::wrap(int(player.center.x)-384),top},pid);
+        charge_shots.reimu_hyper({motion::wrap(int(player.center.x)+384),top},pid);
+    }
     sounds.push_back(1);
     int pair=player.shot_mode==3 ? 0 : player.shot_mode==2 ? 2 : 3;
     auto left=motion::wrap(int(player.center.x)-(4-pair)*256);
     for(;left<=-512;left=motion::wrap(int(left)+512),++pair){}
     for(auto& shot:shots)if(!shot.alive) {
-        shot.alive=true;shot.top_left={left,player.center.y};shot.velocity_y=-192;
+        shot.alive=true;shot.top_left={left,top};shot.velocity_y=-192;
         shot.pid=std::uint8_t(pid);shot.animation=0;
         if(++pair>=4)break;
         left=motion::wrap(int(left)+512);if(left>=288<<4)break;

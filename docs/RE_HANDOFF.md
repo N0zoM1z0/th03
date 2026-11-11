@@ -45,9 +45,12 @@ resource/HUD rendering, round intro, collision primitives and bullet
 generation/update/rendering are ported separately. Bullet pools, trails and
 transfers agree with bounded original-instruction checks. Explosion/chain
 scoring, enemy/fireball hits and fireballs now join the real bullet pipeline;
-see the portable notes for stack aliases and generation/frame quirks. Continue
-with the remaining player callbacks (Hyper, CPU, Charge Shot, Bomb, loss) and
-background. The common player update now has Linux/Windows native contracts.
+see the portable notes for stack aliases and generation/frame quirks. All nine
+Charge Shot families and their Hyper helpers now agree with original MAIN on
+Linux/Windows; their fixture pictures also agree across platforms. Hyper
+handlers and the 48-frame loss animation are implemented, with common player
+contracts. Continue with CPU/Bomb owners, backgrounds and the real round loop,
+then Extra/Gauge/Boss attacks and result/MAINL routes.
 Resolve wide CPU collision scans' aliased DATA reads when joining that path; the native
 program still stops before gameplay. Preserve the live Windows DOSBox disk
 and do not send inputs to its window.

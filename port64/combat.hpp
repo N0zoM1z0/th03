@@ -30,6 +30,7 @@ enum class Against:std::uint8_t {enemy=0,pellet=1,fireball_blue=2,fireball_red=3
 struct Hitbox {
     Point left_top,right_bottom;
     std::uint8_t pid=0;
+    Point radius{};
 };
 struct ChargeHit {std::uint8_t damage=0;bool one_hit=false;};
 using ChargeQuery=std::function<ChargeHit(const Hitbox&)>;

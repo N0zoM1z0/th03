@@ -46,6 +46,75 @@ void tap(th03::Menu& menu,std::uint16_t key) { menu.tick(0); menu.tick(key); }
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==6&&(std::string(argv[1])=="--charge-picture"||std::string(argv[1])=="--loss-picture")) {
+            const auto disk=read_file(argv[2]);
+            const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            const auto character=unsigned(std::stoul(argv[3])),ticks=unsigned(std::stoul(argv[4]));
+            if(character>8)throw std::runtime_error("unknown charge picture character");
+            th03::Resident resident;resident.mode=th03::Mode::story;
+            resident.paletted={{std::uint8_t(character*2+1),std::uint8_t(character*2+2)}};
+            th03::Round round;round.begin(resident,main.read("ENEDAT.DAT"));round.intro.flag=0;
+            th03::BattleGraphics graphics(op,main,resident);
+            const bool loss=std::string(argv[1])=="--loss-picture";
+            if(loss) {round.players[0].lose_time=48;round.defeated_player=0;}
+            else for(unsigned p=0;p<2;++p)round.charge_shots.add(round,round.players[p].center,p);
+            for(unsigned i=0;i<ticks;++i) {
+                round.result_frame=std::uint16_t(i);
+                if(loss) {if(round.players[0].lose_time!=255)round.player_lose_update(0,resident);}
+                else for(unsigned p=0;p<2;++p)round.charge_shots.update(round,p);
+            }
+            write_file(argv[5],th03::ppm(graphics.render(round,resident)));return 0;
+        }
+        if(argc==6&&std::string(argv[1])=="--charge-run") {
+            const auto character=unsigned(std::stoul(argv[2])),pid=unsigned(std::stoul(argv[3])),ticks=unsigned(std::stoul(argv[4]));
+            const bool hyper=std::stoi(argv[5]);
+            if(character>8||pid>1)throw std::runtime_error("unknown charge fixture");
+            th03::Round round;auto& player=round.players[pid];player.paletted=std::uint8_t(character*2+1);
+            player.center={1200,5000};player.gauge_charged=1234;round.fg_shift={{6,-6}};
+            round.random.cursor=254;for(unsigned i=0;i<256;++i)round.random.bytes[i]=std::uint8_t(i*13+7);
+            if(hyper&&character==0)round.charge_shots.reimu_hyper(player.center,pid);
+            else if(hyper&&character==2)round.charge_shots.marisa_hyper(round,pid);
+            else if(hyper&&character==3)round.charge_shots.ellen_hyper(round,player.center,pid);
+            else round.charge_shots.add(round,player.center,pid);
+            if(hyper&&character==6)round.charge_shots.rikako_active[pid]=2;
+            for(unsigned tick=0;tick<ticks;++tick) {
+                player.center={std::int16_t(1200+(tick%32)*28),std::int16_t(5000-(tick%17)*16)};
+                round.result_frame=std::uint16_t(tick);
+                if(hyper&&character==2&&tick<40)round.charge_shots.marisa_hyper(round,pid);
+                if(hyper&&character==1&&tick==25)round.charge_shots.add(round,player.center,pid);
+                round.charge_shots.update(round,pid);
+            }
+            const th03::Hitbox box{{900,3000},{2300,5100},std::uint8_t(pid),{700,1050}};
+            const auto hit=round.charge_shots.hit(round,box);
+            std::cout<<player.gauge_charged<<' '<<unsigned(player.shot_active)<<' '<<unsigned(round.charge_shots.reimu_alternate_hit)<<' '
+                <<unsigned(round.charge_shots.mima_active[pid])<<' '<<unsigned(round.charge_shots.mima_frame[pid])<<' '
+                <<unsigned(round.random.cursor)<<' '<<unsigned(round.circle_cursor)<<' '<<unsigned(hit.damage)<<' '<<hit.one_hit<<' ';
+            for(const auto& shot:round.charge_shots.reimu[pid]) {
+                std::cout<<unsigned(shot.state)<<' '<<unsigned(shot.frame)<<' '<<unsigned(shot.angle)<<' '<<unsigned(shot.speed)<<' ';
+                for(const auto& point:shot.history)std::cout<<point.x<<' '<<point.y<<' ';
+            }
+            for(const auto& shot:round.charge_shots.mima[pid])std::cout<<unsigned(shot.active)<<' '<<unsigned(shot.unused)<<' '
+                <<shot.center.x<<' '<<shot.center.y<<' '<<shot.velocity.x<<' '<<shot.velocity.y<<' ';
+            const auto& beam=round.charge_shots.marisa[pid];std::cout<<unsigned(beam.active)<<' '<<unsigned(beam.frame)<<' ';
+            for(const auto& point:beam.history)std::cout<<point.x<<' '<<point.y<<' ';
+            for(const auto& shot:round.charge_shots.ellen[pid])std::cout<<unsigned(shot.state)<<' '<<unsigned(shot.phase)<<' '
+                <<unsigned(shot.angle)<<' '<<unsigned(shot.length)<<' '<<shot.center.x<<' '<<shot.center.y<<' '<<shot.velocity.x<<' '<<shot.velocity.y<<' ';
+            const auto& koto=round.charge_shots.kotohime[pid];std::cout<<unsigned(koto.active)<<' '<<unsigned(koto.animation)<<' '
+                <<koto.center.x<<' '<<koto.center.y<<' '<<koto.velocity_y<<' ';
+            std::cout<<unsigned(round.charge_shots.kana_active[pid])<<' '<<unsigned(round.charge_shots.kana_frame[pid])<<' ';
+            for(const auto& shot:round.charge_shots.kana[pid]) {
+                std::cout<<unsigned(shot.angle)<<' '<<unsigned(shot.length)<<' ';
+                for(const auto& at:shot.history)std::cout<<at.x<<' '<<at.y<<' ';
+            }
+            std::cout<<unsigned(round.charge_shots.rikako_active[pid])<<' '<<unsigned(round.charge_shots.rikako_frame[pid])<<' '
+                <<round.charge_shots.rikako_radius[pid]<<' '<<round.charge_shots.rikako_center[pid].x<<' '<<round.charge_shots.rikako_center[pid].y<<' ';
+            for(const auto& shot:round.charge_shots.rikako[pid])std::cout<<shot.center.x<<' '<<shot.center.y<<' '<<unsigned(shot.angle)<<' '<<unsigned(shot.unused)<<' ';
+            for(const auto& shot:round.charge_shots.chiyuri[pid])std::cout<<unsigned(shot.age)<<' '<<unsigned(shot.animation)<<' '<<shot.center.x<<' '<<shot.center.y<<' ';
+            const auto& yume=round.charge_shots.yumemi[pid];std::cout<<unsigned(yume.state)<<' '<<unsigned(yume.frame)<<' '<<yume.center.x<<' '<<yume.center.y<<' ';
+            for(const auto& circle:round.circles)std::cout<<unsigned(circle.age)<<' '<<unsigned(circle.pid)<<' '<<circle.left<<' '<<circle.top<<' ';
+            std::cout<<round.sounds.size()<<' ';for(auto sound:round.sounds)std::cout<<unsigned(sound)<<' ';
+            std::cout<<'\n';return 0;
+        }
         if((argc==3&&(std::string(argv[1])=="--explosion"||std::string(argv[1])=="--enemy-hit"||std::string(argv[1])=="--fireball-hit"||std::string(argv[1])=="--combat-pipeline"))||
            (argc==4&&std::string(argv[1])=="--fireball-hit")||
            (argc==5&&std::string(argv[1])=="--fireball-run")) {
@@ -408,13 +477,13 @@ int main(int argc,char** argv) {
         check(formation.enemy_speed==0,"existing formations retain previous enemy speed band");
         formation.enemies_alive[1]=0;formation.update_formations();
         check(formation.enemy_speed==3&&formation.enemies[0].pid==1,"either player's new formation refreshes shared enemy speed");
-        unsigned charges=0,bombs=0,losses=0;
+        unsigned charges=0,bombs=0,losses=0;th03::Resident game;
         th03::PlayerServices services;
-        services.hyper=[](th03::Round& round,unsigned pid){round.players[pid].shot_mode=1;};
+        services.hyper=[](th03::Round& round,unsigned pid){round.hyper_update(pid);};
         services.cpu=[](th03::Round& round,unsigned){round.player_velocity={};round.target_formation_marker=255;};
-        services.bomb=[&](th03::Round&,unsigned){++bombs;};services.lose=[&](th03::Round&,unsigned){++losses;};
-        services.charge=[&](th03::Round&,th03::Point,unsigned){++charges;};
-        th03::Round control;th03::Resident game;th03::CollisionMap collision;
+        services.bomb=[&](th03::Round&,unsigned){++bombs;};services.lose=[&](th03::Round& round,unsigned pid){++losses;round.player_lose_update(pid,game);};
+        services.charge=[&](th03::Round& round,th03::Point at,unsigned pid){++charges;round.charge_shots.add(round,at,pid);};
+        th03::Round control;th03::CollisionMap collision;
         auto& human=control.players[0];human.center={144*16,336*16};human.speeds={{64,64,48,48,28}};human.gauge_avail=1024;
         for(unsigned i=0;i<37;++i)control.player_update(0,th03::shot,collision,game,services);
         check(human.gauge_charged==1024&&!charges&&!control.shots[0].alive,"held shot reaches charge without autofiring");
@@ -429,6 +498,14 @@ int main(int argc,char** argv) {
         th03::Round fatal;fatal.players[0].center=human.center;fatal.players[0].halfhearts=1;fatal.shot_release[0]=8;
         fatal.player_update(0,0,collision,game,services);
         check(fatal.players[0].halfhearts==0&&fatal.players[0].lose_time==48&&fatal.defeated_player==0&&fatal.circles[12].age==1,"last halfheart starts actual defeat");
+        fatal.player_update(0,0,collision,game,services);
+        check(fatal.defeat==1&&fatal.players[0].lose_time==47&&fatal.lose_radius==0&&fatal.fg_shift[0]==6&&fatal.sounds.back()==14,
+              "loss starts the particle origin, field shake and explosion sound");
+        fatal.result_frame=1;fatal.player_update(0,0,collision,game,services);
+        check(fatal.lose_radius==9&&fatal.fg_shift[0]==-6&&fatal.palette_tone==130&&fatal.reset_frames==2,"loss flash and radius follow countdown parity");
+        for(unsigned i=2;i<48;++i) {fatal.result_frame=std::uint16_t(i);fatal.player_update(0,0,collision,game,services);}
+        check(fatal.defeat==2&&fatal.players[0].lose_time==255&&fatal.players[1].rounds_won==1&&game.winner==1&&
+              fatal.result_frame==0&&fatal.lose_radius==0&&fatal.fg_shift[0]==0&&fatal.palette_tone==100,"loss completes the round and records its winner");
         th03::Round computer;collision.clear();computer.result_frame=32;
         computer.players[0].center=human.center;computer.players[0].cpu=true;computer.players[0].gauge_avail=1024;
         computer.players[0].charge_thresholds.fill(255);computer.player_update(0,0,collision,game,services);
@@ -438,6 +515,29 @@ int main(int argc,char** argv) {
         locked.player_update(1,0,collision,game,services);
         check(locked.players[1].center.x==human.center.x&&locked.players[1].pattern_movement==1&&locked.players[1].pattern_glow==1,
               "locked player retains shared velocity for banking and back-page glow");
+        th03::Round targeting;
+        targeting.enemies[0].flag=1;targeting.enemies[0].center={1200,1000};targeting.enemies[0].formation_i=5;
+        targeting.enemies[1]=targeting.enemies[0];targeting.enemies[1].center={200,5000};targeting.enemies[1].formation_i=2;
+        targeting.find_target(0);
+        check(targeting.target.x==2304&&targeting.target.y==4800&&targeting.target_formation_marker==2,"target fallback retains selected formation marker");
+        targeting.boss_active[0]=1;targeting.boss_target={800,900};targeting.find_target(0);
+        check(targeting.target.x==800&&targeting.target.y==900&&targeting.target_formation_marker==254,"boss target takes priority over formations");
+        th03::Round hyper;
+        constexpr unsigned modes[9]={4,2,0,1,3,3,1,3,3};
+        for(unsigned character=0;character<9;++character) {
+            auto& p=hyper.players[0];p={};p.paletted=std::uint8_t(character*2+1);p.hyper_active=p.paletted;p.center=human.center;p.gauge_avail=4080;
+            hyper.movement_speed={{64,64,48,48}};hyper.hyper_update(0);
+            check(p.shot_mode==1&&hyper.movement_speed[0]==64,"Hyper standby delays its character callback until next frame");
+            hyper.hyper_update(0);
+            const unsigned expected=character==3 ? 64 : character==2||character==6 ? 48 : 96;
+            check(p.shot_mode==modes[character]&&hyper.movement_speed[0]==expected,"character Hyper mode and movement speeds");
+            p.hyper_active=0;hyper.hyper_update(0);hyper.hyper_update(0);
+            check(!p.hyper_handler&&p.shot_mode==1,"Hyper returns through standby after expiry");
+        }
+        hyper.players[0].shot_mode=4;hyper.players[0].center=human.center;
+        hyper.add_shots(0);
+        check(hyper.charge_shots.reimu[0][0].state==2&&hyper.charge_shots.reimu[0][1].state==2&&
+              hyper.shots[0].alive&&hyper.shots[0].top_left.y==human.center.y-16,"Reimu Hyper joins two history shots and the shifted ordinary pair");
         std::cout<<"Portable resources, menus, movement, formations and player-state checks passed\n";
         return 0;
     } catch (const std::exception& error) { std::cerr<<error.what()<<'\n'; return 1; }

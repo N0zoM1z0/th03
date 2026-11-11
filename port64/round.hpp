@@ -4,6 +4,7 @@
 #include "bullet.hpp"
 #include "combat.hpp"
 #include "player.hpp"
+#include "charge.hpp"
 #include <array>
 #include <vector>
 
@@ -23,7 +24,7 @@ std::vector<Formation> read_formations(const Bytes& file);
 struct Player {
     Point center;
     std::uint8_t paletted=1;
-    bool cpu=false,is_hit=false,knockback_active=false;
+    bool cpu=false,is_hit=false,knockback_active=false,hyper_handler=false;
     std::uint8_t invincibility=0,knockback_time=0,move_lock=0,shot_mode=1,shot_active=1;
     std::uint8_t knockback_angle=0,knockback_length=0,spell_ready_frames=0,cpu_dodge_strategy=0;
     std::int8_t halfhearts=10;
@@ -82,11 +83,19 @@ public:
     std::array<std::uint8_t,4> movement_speed{};
     std::array<std::uint8_t,2> shot_release{};
     std::uint8_t target_formation_marker=0,defeated_player=255;
+    Point target,boss_target;
+    std::array<std::uint16_t,2> boss_active{};
+    void find_target(unsigned pid);
+    void hyper_update(unsigned pid);
+    void player_lose_update(unsigned pid,Resident& resident);
+    std::int16_t lose_left=0,lose_top=0,lose_radius=0,palette_tone=100;
+    std::uint8_t reset_frames=1;
     bool page_back=false;
     std::vector<std::uint8_t> sounds;
     RandomRing random;
     HudIntro intro;
     Bullets bullets;
+    ChargeShots charge_shots;
     std::array<std::int16_t,2> fg_shift{};
     std::array<std::uint8_t,2> bomb_flags{},damage_all{},gauge_flags{};
     std::array<Player,2> players{};
@@ -97,6 +106,7 @@ public:
     std::array<HitCircle,13> circles{};
     std::uint8_t circle_cursor=0;
     void enemy_circle(Point center,std::uint8_t pid);
+    void charge_circle(const Hitbox& box);
     void player_circle(Point center,std::uint8_t pid);
     void update_circles();
     std::array<Combo,2> combos{};
