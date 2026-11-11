@@ -230,8 +230,8 @@ void near yumemi_pattern_ring(void)
 		snd_se_play(YUMEMI_SOUND_EXPLOSION);
 	}
 
-	// The unsigned 16-bit ring cadence is a natural remainder truth test.
-	if(!(boss_frame % YUMEMI_RING_FIRE_PERIOD)) {
+	// The unsigned-word ring cadence keeps the original zero remainder gate.
+	if((boss_frame % YUMEMI_RING_FIRE_PERIOD) == 0) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 		bullet_template.angle = yumemi_angle;
 		bullet_template.group = BG_RING;
@@ -333,7 +333,7 @@ void near yumemi_pattern_aimed_random(void)
 		boss_render_mode = YUMEMI_RENDER_MODE_ALTERNATE;
 	}
 
-	if(!(boss_frame % YUMEMI_AIMED_FIRE_PERIOD)) {
+	if((boss_frame % YUMEMI_AIMED_FIRE_PERIOD) == 0) {
 		snd_se_play(YUMEMI_SOUND_AIMED_SHOT);
 		bullet_template.center.x.v = yumemi_origin_x;
 		bullet_template.center.y.v = yumemi_origin_y;
@@ -359,7 +359,7 @@ void near yumemi_pattern_cross_rings(void)
 {
 	boss_move_sine();
 
-	if(!(boss_frame % yumemi_cross_interval)) {
+	if((boss_frame % yumemi_cross_interval) == 0) {
 		bullet_template.group = BG_4_RING;
 		bullet_template.speed.v = TO_SP(2);
 		bullet_template.type = 1 + randring_far_next16_and(1);
@@ -392,13 +392,14 @@ void near yumemi_pattern_cross_rings(void)
 void near yumemi_pattern_chase(void)
 {
 	if(boss_move_phase == YUMEMI_MOVE_PHASE_SEEK) {
-		// Keep the two positive bounds in order before the sine move.
-		// Reversing to an early exit changes native branching (af848d).
-		if(boss_center_x > YUMEMI_CHASE_LEFT_BOUNDARY) {
-			if(boss_center_x < YUMEMI_CHASE_RIGHT_BOUNDARY) {
-				boss_move_sine();
-				return;
-			}
+		// Keep the two positive bounds in order in a short-circuit
+		// condition. Inverting the branch changes native CODE (af848d).
+		if(
+			(boss_center_x > YUMEMI_CHASE_LEFT_BOUNDARY) &&
+			(boss_center_x < YUMEMI_CHASE_RIGHT_BOUNDARY)
+		) {
+			boss_move_sine();
+			return;
 		}
 		boss_move_phase = YUMEMI_MOVE_PHASE_TRACK;
 		boss_frame = 0;
@@ -442,9 +443,9 @@ void near yumemi_pattern_rain(void)
 
 	boss_move_sine();
 
-	// The variable unsigned-word rain interval uses a natural
-	// remainder truth test.
-	if(!(boss_frame % yumemi_rain_interval)) {
+	// The variable unsigned-word rain interval uses the original
+	// positive zero-remainder gate.
+	if((boss_frame % yumemi_rain_interval) == 0) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 
 		if(boss_frame < YUMEMI_RAIN_SPREAD_END) {
@@ -620,10 +621,8 @@ void near yumemi_render_main(void)
 
 	// These are two independent original visual effect state values.
 	// Both animation clocks must be empty before exiting this renderer.
-	if(!boss_effect_radius) {
-		if(!boss_render_frame) {
-			return;
-		}
+	if(!boss_effect_radius && !boss_render_frame) {
+		return;
 	}
 
 	if(pid_current) {
