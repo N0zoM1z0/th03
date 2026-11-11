@@ -33,6 +33,7 @@ from lib.op_select_storage import verify as select_storage_scope, UNIT as SELECT
 from lib.op_music_state_layout import OBJECT as MUSIC_OBJECT, SOURCE as MUSIC_SOURCE, WRAPPER as MUSIC_WRAPPER
 from lib.op_helpers_layout import FORWARDING as HELPER_FORWARDING
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER, PUBLICS as CFG_PUBLICS
+from build_th03_op_linked_current import scope as linked_scope, UNIT as IRAND_UNIT
 
 
 PUBLICATION = "config/op_work/scoped_acceptance.json"
@@ -71,7 +72,9 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/lib/decoded_mainl_cdg_draw_layout.py", "scripts/lib/op_input_native.py",
                 "scripts/lib/op_asset_native.py", "scripts/lib/decoded_mainl_pi_layout.py",
                 "scripts/lib/op_leaf_native.py", "scripts/probe_th03_op_sound_bodies.py", "scripts/lib/op_title_storage.py",
-                "scripts/lib/op_select_storage.py", "scripts/build_th03_op_selection_work.py")
+                "scripts/lib/op_select_storage.py", "scripts/build_th03_op_selection_work.py",
+                "scripts/build_th03_op_linked_current.py", "scripts/probe_th03_op_irand_source.py",
+                "src/op/libs/random.asm")
 
 
 def need(value, message):
@@ -225,6 +228,10 @@ def audit(root):
     need(SELECT_DATA_UNIT not in {o['unit_id'] for o in owners}, 'separate complete selection initialized DATA')
     owners.extend(selection_storage['owners'])
     scope['selection_storage'] = selection_storage
+    linked = linked_scope()
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in linked['owners']}), 'separate original library IRAND owner')
+    owners.extend(linked['owners'])
+    scope['current_linked_native'] = linked
     configuration, music_state = scope['configuration'], scope['music_state']
     entry_owners = sorted((o for o in owners if o["object"] == CFG_OBJECT and o.get("procedure_count", 1)), key=lambda o: o["start"])
     entry_boundaries = [offset for offset, _ in CFG_PUBLICS] + [3094]
@@ -242,8 +249,12 @@ def audit(root):
         segment = o.get("segment", 0xBEB)
         need(u["artifact"] == "th03-op" and u["segment"].lower() == f"decoded:{segment:04x}"
              and int(u["offset"], 0) + segment * 16 == o["start"] and int(u["size"], 0) == int(u["compare_size"], 0) == o["size"]
-             and u["state"] == "source-present" and u["origin"] == "authored" and u["boundary_state"] == "reviewed"
+             and u["state"] == "source-present" and u["origin"] == o.get('origin', 'authored') and u["boundary_state"] == "reviewed"
              and not u["file_offset"] and u["source"] == o["source"], "current decoded ownership ledger")
+        if o['unit_id'] == IRAND_UNIT:
+            # The independently assembled containing object and composed links
+            # bind this include; the unchanged cold recipe keeps its old source.
+            continue
         producer, = [p for p in producers if p["output"] == o["object"]]
         if o["object"] == CFG_OBJECT:
             need(producer["source"] == CFG_WRAPPER and producer["maintained_owner_sources"] == [CFG_SOURCE, "src/op/menu/menu_state.inl"],
@@ -349,7 +360,9 @@ def oracle_rows(proof, now, policy, *, artifact="th03-op", publication_path=PUBL
                 extent_start="" if glob or artifact_wide else str(owner["start"]),
                 extent_size="" if glob or artifact_wide else str(owner["size"]), location=publication_path,
                 evidence_class=specs[gate]["accepts_evidence_classes"][0], result="pass",
-                tool="current source-only " + product.removeprefix("th03-").upper() + " cold pair and independent native owner/runtime audit",
+                tool=("current maintained IRAND/selection composition and complete original native owner audit"
+                      if owner['unit_id'] == IRAND_UNIT else
+                      "current source-only " + product.removeprefix("th03-").upper() + " cold pair and independent native owner/runtime audit"),
                 command=command,
                 input_sha256=owner["target_sha256"] if gate == "raw-bytes" else proof_digest,
                 output_sha256=owner["candidate_sha256"] if gate == "raw-bytes" else proof_digest, observed_utc=now)
@@ -379,12 +392,30 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     owners = proof["scope"]["owners"]
+    with (root / 'config/units.csv').open() as stream:
+        units = {u['id']: u for u in csv.DictReader(stream) if u['artifact'] == 'th03-op' and u['state'] != 'excluded'}
+    aggregate = units['th03-op-decoded-character-selection']
+    parts = sorted((o for o in owners if o['unit_id'] in
+                    {'th03-op-decoded-select-unlock', 'th03-op-decoded-select-tail'}), key=lambda o: o['start'])
+    start = int(aggregate['segment'].split(':')[1], 16)*16 + int(aggregate['offset'], 0)
+    cursor = start
+    for part in parts:
+        need(part['start'] == cursor and part.get('origin', 'authored') == aggregate['origin'],
+             'historical selection aggregate is covered without gaps or overlap')
+        cursor += part['size']
+    need(len(parts) == 2 and cursor == start + int(aggregate['size']) == start + int(aggregate['compare_size']),
+         'complete original selection aggregate boundary')
+    covered = {o['unit_id'] for o in owners} | {aggregate['id']}
+    need(covered <= set(units), 'covered ranges belong to the current inventory')
     return dict(repository_local=True, decoded_accepted=True, current_cold_source_scopes=True,
                 reviewed_proof_ready=True, decoded_exact_units=len(owners),
                 decoded_authored_procedures=sum(o.get("procedure_count",1) for o in owners),
                 decoded_authored_code_bytes=sum(o.get("code_bytes",o["size"]) for o in owners),
                 decoded_authored_initialized_data_bytes=sum(o.get("initialized_data_bytes",0) for o in owners),
                 decoded_authored_bytes=sum(o["size"] for o in owners),
+                decoded_library_bytes=sum(o['size'] for o in owners if o.get('origin') == 'library'),
+                decoded_covered_units=len(covered), decoded_covered_unit_ids=sorted(covered),
+                decoded_aggregate_coverage={aggregate['id']: [o['unit_id'] for o in parts]},
                 decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]), product_exact=False,
                 mixed_physical_exact_bytes=0, canonical_credit_changed=False, factory_accepted=False,
                 whole_game_percentage=None)

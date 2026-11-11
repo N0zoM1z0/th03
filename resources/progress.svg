@@ -13,11 +13,11 @@
   <rect x="488" y="137" width="270" height="12" rx="4" fill="#353b52"/>
   <rect x="200" y="137" width="250.00" height="5" fill="#9b6de3"/>
   <rect x="200" y="144" width="250.00" height="5" fill="#e0af68"/>
-  <rect x="488" y="137" width="261.29" height="12" fill="#55c7a6"/>
+  <rect x="488" y="137" width="270.00" height="12" fill="#55c7a6"/>
   <text x="200" y="166" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed 62 · Source 62/62</text>
-  <text x="488" y="166" fill="#c8cad2" font-family="sans-serif" font-size="12">Decoded extents 60/62</text>
+  <text x="488" y="166" fill="#c8cad2" font-family="sans-serif" font-size="12">Tracked coverage 62/62</text>
   </g>
-<desc>Published decoded scopes: 14,985 B · canonical exact 0 · product acceptance open</desc>
+<desc>Published decoded scopes: 15,027 B · canonical exact 0 · product acceptance open</desc>
   <g aria-label="MAIN.EXE bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="220" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">MAIN.EXE</text>
   <text x="24" y="240" fill="#c8cad2" font-family="sans-serif" font-size="12">106 tracked unit extents</text>

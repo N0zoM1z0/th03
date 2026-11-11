@@ -4,7 +4,7 @@ All counts describe repository-local tracked scopes. The whole-game completion p
 
 | Product | Source-present / tracked extents | Current accepted scope | Stored target bytes |
 | --- | ---: | --- | ---: |
-| th03-op | 62/62 | Decoded: 60 extents / 14,985 bytes | 36,041 |
+| th03-op | 62/62 | Decoded: 61 extents / 15,027 bytes; 62/62 tracked ranges covered | 36,041 |
 | th03-main | 106/106 | Ledger: 106 extents / 78,737 bytes | 130,882 |
 | th03-mainl | 259/259 | Decoded: 249 extents / 51,320 bytes; 259/259 tracked ranges covered | 37,975 |
 | th03-zun | 77/78 | Decoded: 77 extents / 8,635 bytes | 16,242 |
@@ -258,7 +258,7 @@ th03-mainl Root controller / 11 procedures: `.analysis/work/mainl-root-af944r-na
 
 ## Decoded publication status
 
-OP current decoded source acceptance: 60 extents / 92 procedures / 14,985 bytes (13,221 CODE + 1,764 initialized DATA). Validated source-only cold pair and complete native ownership/ABI pass; older runtime observations remain historical support. Canonical packed-file unit credit and whole-product source exactness remain unchanged; whole-game percentage is unknown.
+OP tracked coverage: 62/62; 61 independent accepted extents / 93 procedures / 15,027 bytes (13,263 CODE + 1,764 initialized DATA). Library bytes: 42. Validated cold inputs, current composition and native ownership/ABI pass; older runtime observations remain historical support. Canonical packed-file unit credit and whole-product source exactness remain unchanged; whole-game percentage is unknown.
 
 MAINL tracked range coverage: 259/259. The 10 historical aggregates reference accepted finer owners; they add no bytes, procedures or source-owner acceptance gates.
 

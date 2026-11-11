@@ -258,6 +258,7 @@ def audit(root, *, stage=None):
     need(previous['schema'] == 'mainl-current-source-acceptance-v1' and
          previous['state'] == 'repository-local-accepted', 'reviewed prior97 checkpoint')
     adapted = {'scripts/lib/decoded_mainl_acceptance.py', 'scripts/status.py',
+               'scripts/lib/op_work_acceptance.py',
                'scripts/publish_th03_mainl_work_scopes.py',
                'scripts/lib/decoded_mainl_farheap_native.py', 'scripts/lib/decoded_mainl_stdio_native.py',
                *SOURCES.values()}
@@ -273,6 +274,8 @@ def audit(root, *, stage=None):
          prior['decoded_sha256'] == sha(decoded) and prior['stored_sha256'] == sha(stored),
          'complete unchanged prior source/tool/output/library/packing graph')
     policy = tomllib.loads((root / 'config/oracles.toml').read_text())
+    # OP adds a library owner to its own audit. The shared Oracle formatter's
+    # complete historical MAINL result is still compared verbatim below.
     need(previous['owner_oracles'] == oracle_rows(prior, previous['observed_utc'], policy),
          'complete previous scoped gate evidence remains intact')
     scope = json.loads(json.dumps(prior['scope']))

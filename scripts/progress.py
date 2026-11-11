@@ -618,10 +618,11 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             decoded_op = artifact == 'th03-op' and op_status['decoded_accepted']
             decoded_zun = artifact == 'th03-zun' and zun_status.get('decoded_accepted', False)
             if decoded_op:
-                exact = op_status['decoded_exact_units']
+                exact = op_status.get('decoded_covered_units', op_status['decoded_exact_units'])
             if decoded_zun:
                 exact = zun_status['decoded_exact_units']
             acceptance_label = ('Ledger exact extents' if artifact == 'th03-main' else
+                                'Tracked coverage' if decoded_op and 'decoded_covered_units' in op_status else
                                 'Decoded extents' if decoded_op or decoded_zun else 'Unit acceptance: exact')
             rows.append(f'''  <g aria-label="{label} bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">{label}</text>
@@ -692,7 +693,7 @@ def render_markdown(units, functions, targets, op_status, mainl_status, zun_stat
             if result.get('decoded_accepted') or result.get('current_cold_source_scopes'):
                 size = result.get('decoded_source_bytes', result.get('decoded_authored_bytes', 0))
                 accepted = f"Decoded: {result['decoded_exact_units']} extents / {size:,} bytes"
-                if artifact == 'th03-mainl' and 'decoded_covered_units' in result:
+                if 'decoded_covered_units' in result:
                     accepted += f"; {result['decoded_covered_units']}/{len(rows)} tracked ranges covered"
             else:
                 accepted = '**Pending revalidation**'

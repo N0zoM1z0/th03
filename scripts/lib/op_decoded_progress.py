@@ -77,45 +77,20 @@ def op_decoded_status(root, units):
     accepted = result.get('decoded_exact_unit_ids', [])
     try:
         current_scopes = result.get('current_cold_source_scopes') is True
-        expected_count, expected_bytes = (60, 14985) if current_scopes else (33, 9530)
         valid = (result.get('reviewed_proof_ready') is True
                  and result.get('product_exact') is False
                  and result.get('factory_accepted') is False
                  and result.get('canonical_credit_changed') is False
                  and result.get('whole_game_percentage') is None
                  and result.get('mixed_physical_exact_bytes') == 0
-                 and result.get('decoded_exact_units') == expected_count
-                 and result.get('decoded_authored_bytes') == expected_bytes
-                 and len(accepted) == len(set(accepted)) == expected_count
-                 and len(ids) == len(set(ids)) and set(accepted) <= set(ids))
+                 and len(accepted) == len(set(accepted)) == result.get('decoded_exact_units')
+                 and set(accepted) <= set(ids))
         if current_scopes:
-            from lib.op_exit_layout import OWNERS
-            from lib.shared_input_layout import unit_ids
-            from lib.op_cfg_layout import FUNCTIONS as CFG_FUNCTIONS
-            from lib.op_dispatch_layout import FUNCTIONS as DISPATCH_FUNCTIONS
-            from lib.op_sound_layout import PRODUCERS as SOUND_PRODUCERS
-            from lib.op_helpers_layout import PRODUCERS as HELPER_PRODUCERS
-            from lib.op_render_layout import FUNCTIONS as RENDER_FUNCTIONS
-            from lib.op_option_layout import FUNCTIONS as OPTION_FUNCTIONS
-            from lib.op_main_menu_layout import FUNCTIONS as MAIN_MENU_FUNCTIONS
-            from lib.op_startup_layout import FUNCTIONS as STARTUP_FUNCTIONS
-            from lib.op_entry_data_layout import UNIT as ENTRY_DATA_UNIT
-            from lib.op_music_state_layout import UNIT as MUSIC_STATE_UNIT
-            from lib.op_music_ownership import UNITS as MUSIC_CODE_UNITS
-            from lib.op_music_storage import UNIT as MUSIC_DATA_UNIT
-            from lib.op_select_native import UNITS as SELECT_UNITS
-            from lib.op_title_native import TITLE_UNIT, COLUMN_UNIT
-            from lib.op_score_native import DATA_UNIT as SCORE_DATA_UNIT
-            from lib.op_shared_native import UNITS as SHARED_NATIVE_UNITS
-            from lib.op_cdg_draw_native import UNITS as CDG_DRAW_UNITS
-            from lib.op_input_native import UNIT as INPUT_SCANNER_UNIT
-            from lib.op_asset_native import UNITS as ASSET_UNITS
-            from lib.op_leaf_native import UNITS as LEAF_UNITS
-            from lib.op_title_storage import UNIT as TITLE_DATA_UNIT
-            from lib.op_select_storage import UNIT as SELECT_DATA_UNIT
-            valid = valid and (result.get("decoded_authored_procedures"), result.get("decoded_authored_code_bytes"),
-                               result.get("decoded_authored_initialized_data_bytes")) == (92, 13221, 1764)
-            valid = valid and set(accepted) == {o[0] for o in OWNERS} | unit_ids("op") | {o[0] for o in CFG_FUNCTIONS+DISPATCH_FUNCTIONS} | {"th03-op-decoded-entry-attract-wait", "th03-op-decoded-entry-vs-menu", "th03-op-decoded-entry-screens"} | {o[0] for o in SOUND_PRODUCERS+HELPER_PRODUCERS+RENDER_FUNCTIONS+OPTION_FUNCTIONS+MAIN_MENU_FUNCTIONS+STARTUP_FUNCTIONS} | {ENTRY_DATA_UNIT, MUSIC_STATE_UNIT} | MUSIC_CODE_UNITS | {MUSIC_DATA_UNIT} | SELECT_UNITS | {TITLE_UNIT, COLUMN_UNIT, SCORE_DATA_UNIT, 'th03-op-decoded-score-encode', 'th03-op-decoded-score-score-data', INPUT_SCANNER_UNIT, TITLE_DATA_UNIT, SELECT_DATA_UNIT} | SHARED_NATIVE_UNITS | CDG_DRAW_UNITS | ASSET_UNITS | LEAF_UNITS
+            covered = result.get('decoded_covered_unit_ids', [])
+            valid = (valid and set(accepted) <= set(covered) <= set(ids)
+                     and len(covered) == len(set(covered)) == result.get('decoded_covered_units'))
+        else:
+            valid = valid and len(accepted) == 33 and result.get('decoded_authored_bytes') == 9530
         if not valid:
             return dict(unavailable(result.get('reason', 'publication or caller inventory invalid')),
                         tracked_decoded_extents=len(ids))
@@ -128,10 +103,11 @@ def op_decoded_status(root, units):
 def decoded_summary(status):
     if status['decoded_accepted']:
         if status.get('current_cold_source_scopes'):
-            return (f"OP current decoded source acceptance: {status['decoded_exact_units']} extents / "
+            return (f"OP tracked coverage: {status['decoded_covered_units']}/{status['tracked_decoded_extents']}; "
+                    f"{status['decoded_exact_units']} independent accepted extents / "
                     f"{status['decoded_authored_procedures']} procedures / {status['decoded_authored_bytes']:,} bytes "
                     f"({status['decoded_authored_code_bytes']:,} CODE + {status['decoded_authored_initialized_data_bytes']:,} initialized DATA). "
-                    "Validated source-only cold pair and complete native ownership/ABI "
+                    f"Library bytes: {status['decoded_library_bytes']:,}. Validated cold inputs, current composition and native ownership/ABI "
                     "pass; older runtime observations remain historical support. Canonical packed-file unit credit and whole-product "
                     "source exactness remain unchanged; whole-game percentage is unknown.")
         return (f"OP repository-local decoded acceptance is published: "

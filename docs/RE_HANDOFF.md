@@ -41,12 +41,17 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
    or procedure credit. See the [current linked-build review](CURRENT_LINKED_BUILD_REVIEW.md)
    for commands, evidence and the aggregate mapping. Whole-product ownership
    outside the tracked inventory and canonical stored-file acceptance remain open.
-3. For new OP/MAINL/ZUN ownership, consult `config/units.csv`,
+3. OP's current maintained IRAND and natural selection-state object compose
+   exactly in `af1377o`; both raw OBJ/EXE/MAP vectors repeat. Every tracked OP
+   range is covered. The old selection aggregate references its accepted
+   unlock/tail owners without duplicate credit. Compiler startup and runtime
+   inputs remain contextual in this project composition.
+4. For new OP/MAINL/ZUN ownership, consult `config/units.csv`,
    `config/evidence.csv` and their decoded publications. An unaccepted module
    may contain accepted smaller scopes; inventory rows are not a missing-function
    list. ZUN's enclosing sprite16 driver remains unaccepted despite accepted
    procedure/DATA subscopes; twelve reserved DATA bytes remain unowned.
-4. Further natural C/C++ simplification is useful when analysis supports it,
+5. Further natural C/C++ simplification is useful when analysis supports it,
    but is not the same as new exact coverage. Inspect the actual source and
    use small positive/negative TC4 trials for a specific codegen question.
    Preserve byte/word signedness, local lifetime, far-pointer ABI, register

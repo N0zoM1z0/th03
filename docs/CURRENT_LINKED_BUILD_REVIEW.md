@@ -1,9 +1,33 @@
-# Current MAIN and MAINL composition (2026-11-11)
+# Current project composition (2026-11-11)
 
 Both products now have two target-equal links composed from current source
 outputs. MAIN's deferred input carrier remains unchanged. MAINL's decoded
 publication gains 29 disjoint owners; historical aggregate ranges are explained
 below. [Generated progress](PROGRESS.md) supplies the current totals.
+
+## OP: maintained IRAND and selection state compose together
+
+`build_th03_op_linked_current.py --stage af1377o` assembles the complete
+physical OP ASM owner with `src/op/libs/random.asm`, then links it together
+with the independently verified natural selection-state TC4 object. The other
+28 project objects, compiler startup and libraries retain their current cold
+bindings. The original cold source graph and outputs are unchanged.
+
+Both rounds reproduce the complete 63,866-byte Japanese decoded EXE and its
+607 literal ordered MZ relocations. The containing ASM object's entire native
+program records match the baseline, including initialized storage, segment
+attributes, groups, PUBLICs, imports and all 367 ordered fields. Only its module
+filename and dependency comments differ. All three raw OBJ/EXE/MAP outputs
+repeat. The complete MAP differs solely in the three diagnostic ASM module
+filenames; the comparison retains every address, attribute and symbol row.
+
+The 42-byte far IRAND function has five original native seed-reference fields
+and no MZ relocation. Its source implements the original 32-bit LCG through
+8086 WORD operations. It adds library ownership, not authored-game bytes.
+The historical character-selection aggregate is covered by its existing
+48-byte unlock and 2,858-byte tail owners, adding no duplicate bytes or gates.
+The publication now covers every tracked OP range. Whole-product source
+ownership outside that inventory remains open.
 
 ## MAIN: current owners compose together
 
