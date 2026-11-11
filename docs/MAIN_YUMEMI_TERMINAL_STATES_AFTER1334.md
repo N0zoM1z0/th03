@@ -130,3 +130,31 @@ Current BOSS proof: `.analysis/work/exatt-layout-af1358l/report.json`,
 SHA-256 `0127b48a578226662b37efbe9001c491397708f7b8a5f2d6a979048b49e7b3e2`.
 Joint proof: `.analysis/work/exatt-layout-af1358o/report.json`,
 SHA-256 `fc11fa573456b79b4ff40c42914cb085414637c47ad0598095a7e1a5a256b5ca`.
+
+## Native rain and entrance raster traversals (2026-11-11)
+
+`yumemi_pattern_rain()` now uses a pre-tested signed-index loop for
+all twelve droplets per wave. Each iteration consumes exactly the
+original random X word and angle word, launches one bullet, and only
+then advances the index. The enclosing word-frame cadence, the two
+opening spreads, and the terminal SELECT transition remain separate.
+
+`yumemi_render_arrival()` also uses four independent pre-tested loops.
+The first two sweep rightward, and the last two leftward, preserving
+each phase's inclusive pixel bounds and the original 8-pixel step
+only after `sprite16_put()`. The third phase's extra fixed sprite,
+two-stage coordinate scaling, clipping and PC-98 overlap interrupts
+remain in their original order.
+
+Stages `af1366a`–`af1366e` proved each change. Current source stage
+`af1366f` rebuilds all **2,358 CODE bytes, 343 ordered native fields
+and 10 PUBLICs** in two original TC4 rounds with exact normal MAIN
+links. Joint `af1366g` compiles Yumemi BOSS, Yumemi Extra Attack,
+Bullet, both shared BOSS objects, PI loader, Polar and SE: **7,904
+CODE bytes, 756 fields, 47 PUBLICs**, with identical normal Japanese
+MAIN images and ordered MZ relocations in both rounds.
+
+Owner proof: `.analysis/work/exatt-layout-af1366f/report.json`, SHA-256
+`b3fcbdd0e29d5726ed5a012ffe0bf75d54deb5c50e07e428c860b3ea601377ca`.
+Joint proof: `.analysis/work/exatt-layout-af1366g/report.json`, SHA-256
+`99455e961b85be95bffaa0eedeee928e2c9940a599304c6832dd90c509f4bcb2`.

@@ -50,7 +50,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Mima BOSS | af1359d | Verified | 1 | 1,922 | — |
 | th03-main / Marisa BOSS | af1356f | Verified | 1 | 1,431 | — |
 | th03-main / Ellen BOSS | af1360k | Verified | 1 | 1,675 | — |
-| th03-main / Yumemi BOSS | af1358l | Verified | 1 | 2,358 | — |
+| th03-main / Yumemi BOSS | af1366f | Verified | 1 | 2,358 | — |
 | th03-main / Bullet engine | af1351j | Verified | 1 | 2,685 | — |
 | th03-main / Fireball engine | af1361j | Verified | 1 | 1,555 | — |
 | th03-main / Enemy engine | af1358g | Verified | 4 | 3,325 | — |
@@ -158,7 +158,7 @@ th03-main Marisa BOSS: `.analysis/work/exatt-layout-af1356f/report.json`.
 
 th03-main Ellen BOSS: `.analysis/work/exatt-layout-af1360k/report.json`.
 
-th03-main Yumemi BOSS: `.analysis/work/exatt-layout-af1358l/report.json`.
+th03-main Yumemi BOSS: `.analysis/work/exatt-layout-af1366f/report.json`.
 
 th03-main Bullet engine: `.analysis/work/exatt-layout-af1351j/report.json`.
 
