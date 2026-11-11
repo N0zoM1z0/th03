@@ -45,7 +45,7 @@ list. The full selection lives in the generated progress table.
 | Shared BOSS controller and ring | `af1351g` | Two physical owners, 949 bytes; exact HP terminal short-circuit, active target tracking, edge turns, descent and retained native RNG rejection loop; Mima joint `af1351f` |
 | MAIN entry + frame scheduler | `af1314c` | Full 3,050-byte scheduler; explicit render/VSYNC phase gates and independent victory checks, with original PC-98 page OUT order |
 | Reimu BOSS | `af1352h` | 2,020-byte owner; three orbit phases, explicit cloud cadence, independent spread-window returns and positive maintenance-ring gate; mirror ending and signed radial arithmetic retained |
-| Rikako BOSS | `af1345e` | Complete 1,677-byte owner; three orbit phases, four entity/pellet phases and terminating alternating volley use exact mutually exclusive branch gates |
+| Rikako BOSS | `af1352l` | Complete 1,677-byte owner; signed positive/negative/neutral spin clocks use ordered short circuits, intro flicker gate remains exact; orbit/entity/burst dispatch and Bullet/Extra Attack join `af1352n` |
 | Kana BOSS | `af1323f` | Complete 1,874-byte owner; staged and rotating emission windows, two cadence gates, byte-angle/speed increments, and intro flicker |
 | Chiyuri BOSS | `af1349a` | Full 2,654-byte owner; positive four-way/ring cadence gates, 48-shot release, mutually exclusive horizontal/vertical fans; native joint `af1347h` |
 | Marisa BOSS | `af1325h` | Complete 1,431-byte owner; positive active-attack renderer, narrow-column completion, original high-level ring branch |

@@ -210,10 +210,11 @@ void near rikako_pattern_orbit_spread(void)
 	// distinct from the signed byte spin delta.
 	// A signed-byte spin limit and unsigned 16-bit eight-frame cadence are
 	// independent gates; only the second condition may advance the byte.
-	if(boss_spin_delta <= RIKAKO_SPIN_POSITIVE_LIMIT) {
-		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
-			boss_spin_delta++;
-		}
+	if(
+		(boss_spin_delta <= RIKAKO_SPIN_POSITIVE_LIMIT) &&
+		((boss_frame % RIKAKO_SPIN_TICK_PERIOD) == 0)
+	) {
+		boss_spin_delta++;
 	}
 
 	// These phases are mutually exclusive. The warning has no RNG draw;
@@ -277,10 +278,11 @@ void near rikako_pattern_entities_and_pellets(void)
 	unsigned char angle;
 
 	// Keep the negative signed-byte limit before checking the same clock.
-	if(boss_spin_delta >= RIKAKO_SPIN_NEGATIVE_LIMIT) {
-		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
-			boss_spin_delta--;
-		}
+	if(
+		(boss_spin_delta >= RIKAKO_SPIN_NEGATIVE_LIMIT) &&
+		((boss_frame % RIKAKO_SPIN_TICK_PERIOD) == 0)
+	) {
+		boss_spin_delta--;
 	}
 
 	// The warning, entity ring, and four-angle pellet volley are three
@@ -350,10 +352,11 @@ void near rikako_pattern_alternating_burst(void)
 
 	// The conditional signed delta expression matters: splitting it into
 	// prefix/postfix byte increments changes original TC4 CODE (af1321e).
-	if(boss_spin_delta != RIKAKO_SPIN_NEUTRAL) {
-		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
-			boss_spin_delta += ((boss_spin_delta > RIKAKO_SPIN_NEUTRAL) ? -1 : 1);
-		}
+	if(
+		(boss_spin_delta != RIKAKO_SPIN_NEUTRAL) &&
+		((boss_frame % RIKAKO_SPIN_TICK_PERIOD) == 0)
+	) {
+		boss_spin_delta += ((boss_spin_delta > RIKAKO_SPIN_NEUTRAL) ? -1 : 1);
 	}
 
 	unsigned char remainder = (boss_frame % rikako_burst_interval);
@@ -553,10 +556,11 @@ void near rikako_render_intro(void)
 
 	// Flicker suppresses the arrival sprites only in the first 0x40
 	// frames and on the original odd global-frame phase.
-	if(boss_frame < RIKAKO_INTRO_FLICKER_END) {
-		if(round_or_result_frame & (RIKAKO_INTRO_BLINK_PERIOD - 1)) {
-			return;
-		}
+	if(
+		(boss_frame < RIKAKO_INTRO_FLICKER_END) &&
+		(round_or_result_frame & (RIKAKO_INTRO_BLINK_PERIOD - 1))
+	) {
+		return;
 	}
 
 	sprite_offset = (pid.so_attack + RIKAKO_RENDER_INTRO_SPRITE_BASE);
