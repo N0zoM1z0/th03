@@ -46,3 +46,33 @@ PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py -
 The physical owners were already tracked; this is a source-control and
 ABI exactness improvement, not 120 newly recovered bytes or canonical
 Factory packed-file acceptance.
+
+## 2026-11-11: native early exits and original priority selection
+
+The current `snd_se_play()` now rejects an inactive driver immediately,
+installs the first selected sound and exits, and explicitly rejects
+replacements whose previous sound has strictly greater priority. Only
+an accepted replacement resets the effect frame. The original two
+priority-table reads remain in their original order: swapping their
+operands is not supported by old TC4 even for an equivalent comparison.
+
+`snd_se_update()` now exits before any state change when the PMD driver
+is inactive or no sound is selected. The first frame still issues
+`INT 60h` with AH and AL in their original registers; a natural
+`if(!snd_se_frame)` detects that frame without changing native output.
+The byte-memory postfix frame increment, strictly greater expiration
+and original reset order are unchanged.
+
+Isolated complete-owner stages `af1354i` through `af1354m` proved the
+incremental source changes in two original Turbo C++ 4.02 rounds.
+Current two-owner `af1354n` (SE and Kaja dispatcher) reproduces
+**150 CODE bytes, 20 ordered native fields and 3 PUBLICs**. Consumer
+stage `af1354o` recompiles the two audio owners with the complete
+Kotohime BOSS: **1,990 CODE bytes, 282 fields and 14 PUBLICs**, both
+normal Japanese MAIN links and ordered MZ relocations original-exact.
+No full cold replay or target-byte adjustment was used.
+
+Current proof: `.analysis/work/exatt-layout-af1354n/report.json`, SHA-256
+`ced87e4fe330687139d911a7e9947dc8aabe8aae1955338ec9db005d2df577f1`.
+Joint proof: `.analysis/work/exatt-layout-af1354o/report.json`, SHA-256
+`91a1f21152262ca34b6c08c37839b2192050e53718877ce259e9baad6c40408a`.

@@ -67,7 +67,7 @@
 <text x="24" y="634" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Resident CFG loader (af1182a): 1 physical owners / 49 CODE B</text>
 <text x="24" y="658" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main PC-98 shutdown (af1184d): 1 physical owners / 67 CODE B</text>
 <text x="24" y="682" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Input modes and keyboard wait (af1353i): 1 physical owners / 367 CODE B</text>
-<text x="24" y="706" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main PMD/MIDI audio services (af1346g): 2 physical owners / 150 CODE B</text>
+<text x="24" y="706" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main PMD/MIDI audio services (af1354n): 2 physical owners / 150 CODE B</text>
 <text x="24" y="730" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Signed Q8 polar geometry (af1322h): 1 physical owners / 26 CODE B</text>
 <text x="24" y="754" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Volatile VSYNC frame delay (af1352i): 1 physical owners / 21 CODE B</text>
 <text x="24" y="778" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main DOS MAIN initializer (af1316f): 1 physical owners / 62 CODE B</text>
