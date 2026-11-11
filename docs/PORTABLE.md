@@ -1,265 +1,134 @@
 # TH03 semantic and 64-bit port
 
-`port/modern-64` contains native C++17 HDI/PF assets, PI/CDG/BFNT graphics,
-title/menu/Option state, story/versus character selection and MAINL stage introductions. Linux
-uses SDL2; Windows x64 uses Win32/GDI. No DOS executable is executed by this
-program. Game data remains external.
+`port/modern-64` builds native C++17 for Linux/SDL2 and Windows x64/Win32-GDI.
+Title, menus, character selection and MAINL stage introduction join through
+explicit resident state into MAIN round initialization. Enemy scripts, battle
+resources/HUD, round-introduction animation and collision primitives are also
+ported and checked separately. The program stops at initialized battle state;
+it is not yet a playable full-game port. Player/CPU combat, all attack families,
+backgrounds, results/dialogues/endings, Music Room/HiScore, audio and persistence
+still need integration and campaign testing.
 
-The DOS reconstruction stays on `main`. The user's Windows DOSBox session and
-its `D:\Entertainment\Game\Touhou\th03-reconstruct\play.hdi` are separate
-from this work. Do not replace that disk, send it input, restart its emulator
-or publish a portable preview into its directory while the user is playing.
+The DOS reconstruction stays on `main`. The live Windows DOSBox session and
+`D:\Entertainment\Game\Touhou\th03-reconstruct\play.hdi` are independent.
+Do not replace that disk, send input to its window or restart its emulator.
+The native program reads external original data; it executes no DOS code and
+writes no saves yet. Add a separate save directory before implementing writes.
 
-## Build and run
+## Build and inspect
 
-From this branch's checkout, with CMake, Ninja, a C++17 compiler and SDL2:
+The local port checkout is `.analysis/native/port64/` inside the DOS checkout.
+Use one CPU at nice10 for builds. Its ignored `build/` and runtime state remain
+separate from DOS/Wine/analyzer state.
 
 ```sh
 cmake -S port64 -B build/linux-x64 -G Ninja -DCMAKE_BUILD_TYPE=Debug
-cmake --build build/linux-x64 --target th03-port64 th03-port64-checks --parallel 1
+cmake --build build/linux-x64 --parallel 1
 ctest --test-dir build/linux-x64 --output-on-failure
-build/linux-x64/th03-port64 --hdi /path/to/original/zun.hdi --scene menu
+build/linux-x64/th03-port64 --hdi /path/to/original/zun.hdi \
+  --font-bmp /path/to/FREECG98.BMP --scene menu
 ```
 
-Use one CPU at nice10 for builds and private Xvfb for GUI checks. The active
-local checkout is `.analysis/native/port64/` in the DOS worktree. Its own
-`build/` directory is ignored. It reads the DOS worktree's original HDI using
-an explicit absolute `--hdi` path; mutable Wine/analyzer state is not shared.
-
+The font is an external 2048x2048 monochrome Anex86-format PC-98 BMP, also
+accepted by DOSBox-X. MAINL introductions require it; menu/selection do not.
 Windows cross-build:
 
 ```sh
 cmake -S port64 -B build/windows-x64 -G Ninja -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_TOOLCHAIN_FILE="$PWD/port64/mingw64-toolchain.cmake"
-cmake --build build/windows-x64 --target th03-port64 --parallel 1
+cmake --build build/windows-x64 --parallel 1
 ```
 
-`th03-port64.exe` links MinGW runtime libraries statically. For background
-checks, use `--headless`; this creates no Windows window and takes no keyboard
-input. Do not start a portable window on the user's active desktop during DOS
-playtesting.
+MinGW runtime libraries are linked statically. Use `--headless` for native
+Windows background checks; it opens no window and takes no keyboard input.
+GUI checks belong on private Xvfb, not the user's active DOS desktop.
 
-The title starts with hidden labels. A direction opens the menu. Arrows move,
-Z/Enter confirms and Escape returns/quits. Option changes rank, sound-mode
-state and key-mode state in memory. There is no sound synthesis or save writer
-yet. Start enters story selection; VS opens the three original match modes and
-then selection. Completion prepares the resident characters, opponent order
-and CPU flags, then displays the original MAINL stage introduction before
-stopping at the MAIN handoff. Gameplay, Music Room, HiScore and attract
-playback remain to be joined. The goal is a
-complete playable port; this intermediate build is not a full game preview.
+Arrows move through single-player menus; Z/Enter confirms and Escape returns.
+The original title initially hides menu labels; a direction reveals them.
+Two-player P1 uses T/F/H/B with Z/X; P2 uses keypad movement with Left/Right
+for Shot/Bomb. Option changes rank, sound-mode and key-mode state in memory.
 
-Headless examples:
+Useful headless scenes:
 
 ```sh
-build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
-  --scene menu --screenshot menu.ppm
-build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
-  --scene options --inputs 8,0,4096 --screenshot options-return.ppm
-build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --list
-build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --pi TL02.PI --packed title.pixels
 build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
   --scene story-select --screenshot selection.ppm
+build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
+  --font-bmp /path/to/FREECG98.BMP --scene stage-intro \
+  --characters 5,13 --frames 20 --screenshot intro.ppm
+build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
+  --scene battle-ready --characters 5,13 --screenshot ready.ppm
 ```
 
-`--inputs` supplies original hexadecimal or decimal WORD input masks, one per
-VBlank; use zero between separate presses. A tuple `SP:P1:P2` supplies the
-interface and both independent player words. Selection samples once per three
-VBlanks after its initial 30-frame loading wait; held/released samples must
-span that cadence. `--frames` advances idle headless frames or limits a window
-run. `--archive` can replace `--hdi` for
-an extracted original PF. `--extract NAME --output FILE` exports one decoded
-resource for focused comparisons. Outputs must stay outside original media
-and the user's playable disk.
+`--characters` supplies two paletted IDs 1..18; `--stage` is zero-based.
+`--frames` advances idle headless VBlanks or limits a window run. `--inputs`
+accepts comma-separated original WORD masks, or tuples `SP:P1:P2`, one per
+VBlank. Use release samples between presses. Selection samples every three
+VBlanks after its initial 30-frame wait. `--help` lists supported scenes.
 
-## Semantic contracts and checks
+`--list`, `--extract NAME --output FILE` and `--pi NAME --packed FILE` inspect
+OP/MAINL resources. `--main-assets --list` or `--main-assets --extract ...`
+selects the second PF for resource inspection. `--archive` accepts an extracted
+PF instead of the HDI. Keep output files outside original media and the user's
+playable disk.
 
-The FAT/PF reader and PI decoder adapt TH04 `port/modern-64` revision `1ba7107`
-(`port64/main.cpp` and `pi_image.*`, MIT). TH03's original CP932 8.3 archive
-name and `YUMEZIKU` directory select its own resources. Source contracts are
-`src/mainl/archive_io/pfint21.asm`, `src/shared/formats/pfopen.asm` and
-`src/mainl/formats/pi_decode.asm`; the 32-byte directory entries, byte-wrapped
-directory key, member XOR, equal-byte RLE and logical-length truncation agree
-with TH04. PI retains its two history rows and high-nibble-first packed pixels.
+## Comparisons
 
-`src/op/entry.cpp` and `src/op/menu/menu_state.inl` supply the menu semantics:
-520 idle frames remain title; frame 521 requests attract. The title key cannot
-also select Start until release. Menu Up and Down are separate ordered tests.
-Option wraps rank/key bytes, toggles sound Off/FM, and returns with Option
-selected. `src/op/libs/random.asm` supplies the explicit 32-bit LCG recurrence.
+The FAT/PF reader, PI decoder, font bitmap reader and master.lib motion adapt
+TH04 `port/modern-64` revision `1ba7107` (MIT). TH03 owns its CP932 archive names,
+resident/OP flow and graphics/gameplay semantics. The original Japanese targets
+pinned in `config/targets.toml` remain the baseline. These native checks do not
+add source-exact credit to DOS ledgers.
 
-Menu rendering uses the original `MIKOFT.BFT` glyphs, `OPWIN.BFT` sprites and
-`TL02.PI`. Each overlapping right-edge sprite first restores its full column
-from the untouched background, as the original animation does. Simply drawing
-overlapping transparent sprites leaves vertical stripes. Original gaiji
-centering rounds to 8-pixel columns and uses the per-label shift values.
+Run the original-instruction checks with the DOS checkout's Python environment
+(Unicorn/Capstone). Set `DOS` to that checkout and `NATIVE` to this branch's
+`build/linux-x64` directory. Image comparisons also need ImageMagick `convert`.
 
-Observed on 2026-11-11:
+| Check | Command arguments after the script | Evidence compared |
+|---|---|---|
+| `check_title.py` | `--native "$NATIVE/th03-port64" --dos-root "$DOS" --dos-frame "$DOS/.analysis/runtime/candidates/dos-replay-rebuilt/menu.png" --output /new/private/output` | All128,000 decoded PI bytes and the complete DOS menu RGB frame |
+| `check_selection.py` | `--native-checks "$NATIVE/th03-port64-checks" --dos-root "$DOS"` | OP selection/lock/palette state, complete curve rasters and story opponent/seed policy |
+| `check_intro.py` | `--native "$NATIVE/th03-port64" --dos-root "$DOS"` | Complete Marisa/Rikako Stage1 DOS frame, minimum wait and fade handoff |
+| `check_round.py` | `--native "$NATIVE/th03-port64" --native-checks "$NATIVE/th03-port64-checks" --dos-root "$DOS"` | Six MAIN initializers, including LCG, backward ring fill, player thresholds and both formation rings |
+| `check_enemy.py` | Same arguments as `check_round.py` | Six enemy scripts over 1,237 ticks, including real movement/vector callees |
+| `check_battle_graphics.py` | Same arguments as `check_intro.py` | Unchanged DOS borders, P1 gauge/score and TRAM glyph ink |
+| `check_hud_intro.py` | Same arguments as `check_selection.py` | 520 story/versus frames: slide/banner state, all128 particles, seed and ring cursor |
+| `check_collision.py` | Same arguments as `check_selection.py` | Six complete 6,624-byte bitmaps and their player hit scans |
 
-- Linux title decoding matches all 128,000 packed pixel bytes produced by the
-  original TH03 MAINL PI decoder instructions, with explicit file-I/O replies.
-  The existing `DecoderProbe` ran the real decoder and native allocator; it
-  did not substitute a host PI decoder.
-- The complete initial 640x400 main menu is pixel-identical to the retained
-  original DOSBox-X menu capture, including palette conversion and text.
-- An SDL2 window on private Xvfb accepted menu navigation, Option rank change,
-  return to main and quit. No user desktop input was sent.
-- The MinGW Windows x64 executable ran headlessly on Windows and emitted the
-  same complete menu PPM as Linux. The Win32 window backend is compiled;
-  interactive Windows rendering/input remains to be exercised privately.
-- Focused checks cover PF stored/RLE/XOR and malformed lengths, PI history/run
-  bounds, menu release/wrap/input order, Option transitions, idle timing and
-  the LCG carry/wrap vector. Linux and Windows use explicit fixed-width state.
+Linux and native Windows x64 state checks pass; menu, selection and isolated
+introduction PPMs agree between platforms. Private SDL window checks exercised
+menu/Option/selection on Xvfb. Original captures and local evidence live in the
+DOS checkout's `.analysis/work/` and `.analysis/runtime/candidates/`.
+`th03-port64-checks --hud-picture HDI 100 FILE.ppm` renders an isolated round
+introduction without running the surrounding battle loop.
 
-Private evidence remains in the DOS worktree's `.analysis/work/`:
-`port-pi-original.py`, `port-pi-original.log`, `TL02.original-packed`,
-`th03-port64-menu.ppm`, `native-window-options.png`, `native-window-menu.png`
-and `native-window.log`. The DOS comparison is
-`.analysis/runtime/candidates/dos-replay-rebuilt/menu.png`.
-These are focused runtime/port checks; canonical exact ledgers are unchanged.
+## Integration findings and next work
 
-Repeat the original decoder/frame comparison with the DOS checkout's Python:
+Keep the original draw/call order and explicit integer widths. The current
+source preserves these consequential details:
 
-```sh
-PYTHONPATH=/path/to/dos/scripts /path/to/dos/.venv/bin/python port64/check_title.py \
-  --native build/linux-x64/th03-port64 --dos-root /path/to/dos \
-  --dos-frame /path/to/dos/.analysis/runtime/candidates/dos-replay-rebuilt/menu.png \
-  --output /path/to/dos/.analysis/work/new-title-check
-```
+- OP's opponent generator uses a local LCG copy; MAIN seeds anew from the
+  resident frame counter. Random-ring fill runs backward and retains its
+  cursor. Its WORD getter increments the cursor before loading, so index255
+  reads the wrapped cursor as its high byte.
+- Stage setup assigns initial versus gauge levels after round preparation,
+  replacing the preparation's rank increment. The round counter is DWORD;
+  the round/result counter is WORD.
+- The first formation randomizer reads an uninitialized stack byte, attested
+  as `0x5e` from C0's saved InitStart. `Round::prepare` takes that context
+  explicitly. Recover later-round stack context before joining restarts.
+- TH03's C++ graphics-font renderer uses alternate JIS-row ANK and WORD-truncated
+  bold weight. TH04's ASM renderer differs. SPRITE16 uses physical 200-line
+  graphics and whole-column clipping; TRAM stays at 400 lines with fixed text
+  colors. Graphics score digit5 differs by one dot from `NUM8.BF2`.
+- The round-introduction slide destination aliases particle15.x. Collision Y
+  reports the scan rectangle's top, not the occupied row; X reports the
+  containing eight-tile column. Preserve these coarse values for CPU decisions.
 
-The check pins the original media and decoded MAINL against the DOS checkout's
-existing target configuration. It supplies real PI file bytes to the original
-instructions using the existing bounded native probe; no DOS emulator or new
-full-game machine model is added.
-
-## Next integration
-
-Character selection now uses original CD2 portraits, BFNT names, gaiji cursors,
-ability stars, spell cards and RGB palette. CDG drawing preserves bottom-up
-planes, masked clear/OR, no-alpha overwrite and horizontal flip. Curve math
-preserves byte-angle and signed-WORD multiplication wraps before division.
-The selection locks/curve cycle survive cancellation within the OP process;
-normal and alternate Shot/Bomb confirmations are independent ordered tests.
-
-`check_selection.py` compares actual OP instructions against the native helper
-for selection state/palette collisions, complete curve rasters and story
-opponent generation. It verifies that OP's local LCG does not publish its last
-draw into the resident counter used to seed MAIN. Run with the DOS Python:
-
-```sh
-/path/to/dos/.venv/bin/python port64/check_selection.py \
-  --native-checks build/linux-x64/th03-port64-checks --dos-root /path/to/dos
-```
-
-The source is `src/op/menu/character_selection.inl` and the story/VS procedures
-in `src/op/entry.cpp`. An SDL window entered story selection from Start,
-selected Marisa and completed the handoff. A two-player headless route confirmed
-Mima on both sides and resolved their palette collision. Linux and native Windows
-selection PPMs agree. Windows state checks also pass. Evidence is in the DOS
-worktree's `.analysis/work/port64-selection-*` files. Two-player controls follow
-the DOS mappings: P1 uses T/F/H/B with Z/X; P2 uses keypad movement with Left/Right
-for Shot/Bomb. Ordinary single-player menus/movement also accept arrows.
-
-Next, join MAIN's resident/round setup
-through explicit C++ state. Preserve 16-bit arithmetic, two-player ownership
-and random draw order. Add a save directory separate from
-both DOS media and the user's DOSBox package before implementing persistence.
-Use the original DOS behavior as the comparison baseline, and clarify another
-semantic owner when it blocks that integration.
-
-MAINL introductions require `--font-bmp /path/to/FREECG98.BMP`, the external
-2048x2048 monochrome Anex86-format PC-98 font also accepted by DOSBox-X. Font
-rendering follows TH03's C++ `graph_putsa_fx`, including alternate JIS-row ANK
-glyphs and WORD-truncated bold weight. TH04's ASM renderer is different.
-`STNX0.PI`, the selected stage background, portraits and optional `ST.CD2`
-stage number compose directly from original assets. Fade steps are six tone
-units; input cannot dismiss the first 33 introduction VBlanks.
-
-The full Marisa/Rikako Stage 1 frame agrees pixel-for-pixel with the retained
-DOS frame, including text and palette. Repeat with:
-
-```sh
-python3 port64/check_intro.py --native build/linux-x64/th03-port64 --dos-root /path/to/dos
-```
-
-Use `--scene stage-intro --characters 5,13 --frames 20` with the HDI and font
-for the same frame. The two IDs are paletted character IDs 1..18; `--stage`
-accepts the original zero-based stage. No original disk or font is written.
-
-MAIN round initialization now runs after the introduction, reading
-`ENEDAT.DAT` from the second PF. The typed state includes original CPU safety,
-rank/round difficulty, player positions/hearts/bombs, gauge state, character
-speeds, CPU charge thresholds and formation rings. MAIN's process-local LCG is
-seeded anew from the resident counter. The backward random-ring fill retains
-its cursor; the WORD getter increments that cursor before reading, so index255
-reads the wrapped cursor as its high byte. Stage setup assigns initial versus
-gauge levels *after* round preparation; keeping the earlier rank increment
-would change the first round.
-
-`round.cpp` also contains ordinary player movement and shot-pair allocation/
-update. They are not connected to a running battle yet. Next, implement the
-original battle resources/rendering, formation/enemy VM and player state loop,
-then the remaining attack families and result/MAINL routes. Audio, persistence
-and campaign acceptance still remain.
-
-Run the focused MAIN comparison with:
-
-```sh
-/path/to/dos/.venv/bin/python port64/check_round.py \
-  --native build/linux-x64/th03-port64 \
-  --native-checks build/linux-x64/th03-port64-checks --dos-root /path/to/dos
-```
-
-Six normal/versus/later-stage fixtures run the actual MAIN initializer, LCG,
-ring fill and formation randomizer instructions. Scalar state, both players'
-threshold arrays, the final seed and both complete formation rings agree.
-Unrelated object-pool resetters are foreign services in this bounded check.
-The first formation randomizer reads an uninitialized stack byte, attested as
-`0x5e` from C0's saved InitStart. `Round::prepare` takes that context explicitly;
-recover later-round stack context before connecting the round restart path.
-The original instruction baseline comes from the pinned Japanese MAIN target,
-not the user's no-hit executable.
-
-`--main-assets --list` and `--main-assets --extract NAME --output FILE` inspect
-the second PF in the original HDI. Both Linux and Windows x64 build; native
-Windows headless state checks pass and its full introduction frame agrees with
-Linux. The independent Windows DOSBox session remains untouched.
-
-The enemy VM now runs original ENEDAT movement/spawn/wait/clip opcodes with
-signed-WORD arithmetic, byte speed bands and the original independent duration
-divisions. Six scripts agree with actual MAIN instructions for 1,237 ticks,
-including the vector/movement callees. Run `port64/check_enemy.py` with the
-same three arguments as `check_round.py`. The original data does not use its
-broken loop instructions; custom loop scripts still need the DOS stack context.
-
-`--scene battle-ready --characters 5,13` renders the initialized battlefield.
-The atlas is assembled from MAINL's interlaced PI loads and MAIN's BF2 pose
-copies. Drawing preserves SPRITE16's whole-column clipping and physical
-200-line graphics; TRAM remains at 400 lines and uses fixed text colors.
-The graphics score font comes from the maintained ReC98 score bitmap. Its
-digit5 differs by one dot from `NUM8.BF2`, so the fonts are not interchangeable.
-`check_battle_graphics.py --native build/linux-x64/th03-port64 --dos-root /path/to/dos`
-compares the unchanged DOS borders, P1 gauge, score and TRAM glyph ink. The DOS
-capture contains moving objects behind text and additional CPU gauge charge;
-those pixels are not initial-state fixtures. This is a rendering checkpoint,
-not a complete battle comparison. The running player/combat/intro/background
-loop still needs joining before native playtesting.
-
-The round HUD introduction is now ported as a separate update/render owner.
-`check_hud_intro.py --native-checks build/linux-x64/th03-port64-checks --dos-root /path/to/dos`
-compares 520 story/versus frames with actual MAIN updates and render-side state
-changes. All128 particle records, phase/banner state, seed and ring cursor
-agree. The slide destination word aliases particle15.x; it is not separate
-storage. `--hud-picture HDI 100 FILE.ppm` on the checks executable renders an
-isolated original-resource introduction. Linux and native Windows x64 rasters
-agree. This diagnostic does not run the surrounding battle loop.
-
-`collision.cpp` ports the rectangle stripes, vertical line, sloped stripes
-and ordinary player scan. `check_collision.py` takes the same two arguments
-as the HUD check and compares six full 6,624-byte bitmaps plus their hit scans
-with original instructions. Collision Y reports the scan rectangle's top,
-not the occupied row; X reports the containing eight-tile column. Keep these
-coarse values for CPU decisions. Wide CPU scans near the left edge can read
-outside the bitmap through wrapped DGROUP addressing. Recover the aliased
-DATA owners before joining those CPU paths; the current isolated module
-reports the unresolved owner instead of treating that memory as empty.
+Continue with backgrounds and the player/CPU combat loop, then join attack
+families and result/MAINL routes. Wide CPU scans near the left edge can read
+outside the bitmap through wrapped DGROUP addressing. Recover those aliased
+DATA owners before joining that path; the isolated collision module currently
+reports an unresolved owner instead of treating the memory as empty. The
+original ENEDAT does not use its broken loop opcodes; custom loop scripts would
+also need the original indeterminate stack context.

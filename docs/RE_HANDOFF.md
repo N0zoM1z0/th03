@@ -43,8 +43,8 @@ bounded original-instruction checks. Original enemy scripts and battle
 resource/HUD rendering, round intro and collision primitives are ported
 separately. Continue with background and the player/combat loop. Resolve wide
 CPU collision scans' aliased DATA reads when joining that path; the native
-program still stops before gameplay. Preserve
-the live Windows DOSBox disk and do not send inputs to its window.
+program still stops before gameplay. Preserve the live Windows DOSBox disk
+and do not send inputs to its window.
 
 The four-file DOS package has been played using the TH04-style
 isolated HDI process. [DOS runtime notes](RUNTIME.md) contain the replay
