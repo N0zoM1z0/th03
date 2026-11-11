@@ -96,13 +96,11 @@ input_t near pascal player_cpu_direction_for_collision(
     }
     // Near the playfield floor, only a straight-down choice needs
     // replacing; diagonal/upward moves retain the collision lookup.
-    if(player_y >= CPU_DODGE_FLOOR) {
-        if(direction == INPUT_DOWN) {
-            if(player_x >= CPU_BOTTOM_ESCAPE_X) {
-                direction = INPUT_LEFT;
-            } else {
-                direction = INPUT_RIGHT;
-            }
+    if((player_y >= CPU_DODGE_FLOOR) && (direction == INPUT_DOWN)) {
+        if(player_x >= CPU_BOTTOM_ESCAPE_X) {
+            direction = INPUT_LEFT;
+        } else {
+            direction = INPUT_RIGHT;
         }
     }
     return direction;
@@ -145,13 +143,16 @@ void near pascal player_cpu_approach_target(player_stuff_t near *player)
         player_pos_update_and_clamp(player->center);
     }
     player_hittest(CPU_HITTEST_CLOSE_RADIUS);
-    if(player->is_hit == false) {
+    if(!player->is_hit) {
         return;
     }
     player->is_hit = false;
     // Preserve the original mutable byte postincrement and RNG draw.
     attempt++;
-    if(player->gauge_charged <= CPU_HIT_BOMB_CHARGE_LIMIT && (!(randring1_next16() % CPU_HIT_BOMB_RANDOM_PERIOD))) {
+    if(
+        (player->gauge_charged <= CPU_HIT_BOMB_CHARGE_LIMIT) &&
+        ((randring1_next16() % CPU_HIT_BOMB_RANDOM_PERIOD) == 0)
+    ) {
         player_bomb(player);
     } else {
         player->is_hit = true;
@@ -184,7 +185,7 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
 
     // This is the original unsigned-word four-frame collision scan,
     // not the signed-byte radius; `if(!remainder)` is TC4-exact.
-    if(!(round_or_result_frame % CPU_COLLISION_SCAN_PERIOD)) {
+    if((round_or_result_frame % CPU_COLLISION_SCAN_PERIOD) == 0) {
         // Keep the original signed-byte probe loop literals: equivalent
         // enum bounds changed native TC4 output (after646e).
         // Sweep the four original signed-byte collision radii until
@@ -201,7 +202,7 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
             }
         }
     }
-    if(player->is_hit == false) {
+    if(!player->is_hit) {
         direction = INPUT_NONE;
         ellen_target_set(pid.current);
         attempt = ((ellen_target_x + CPU_TARGET_X_MARGIN) < x);
@@ -252,14 +253,14 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
         }
         // Keep the distinct original hit-test call paths. Collapsing
         // these into a ternary argument changed native CODE (af838b).
-        if(radius_or_retry == 0) {
+        if(!radius_or_retry) {
             player_hittest(CPU_HITTEST_RETRY_RADIUS);
         } else {
             player_hittest(CPU_HITTEST_CLOSE_RADIUS);
         }
         // The clear hit flag naturally leaves the retry loop before
         // any additional movement, radius probe or random draw.
-        if(player->is_hit == false) {
+        if(!player->is_hit) {
             break;
         }
         player->is_hit = false;

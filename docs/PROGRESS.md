@@ -87,7 +87,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Player effects | af1133a | Verified | 1 | 628 | — |
 | th03-main / Warning and Gauge HUD | af1160e | Verified | 1 | 1,560 | — |
 | th03-main / Character callback setup | af1161f | Verified | 1 | 3,888 | — |
-| th03-main / CPU controller | af1327h | Verified | 1 | 1,077 | — |
+| th03-main / CPU controller | af1357k | Verified | 1 | 1,077 | — |
 | th03-main / Shared sound assembler leaves | af1328b | Verified | 3 | 100 | — |
 | th03-main / Graphics and asset assembler leaves | af1330f | Verified | 6 | 1,622 | — |
 | th03-main / Vector, playfield and collision ASM | af1332c | Verified | 3 | 710 | — |
@@ -232,7 +232,7 @@ th03-main Warning and Gauge HUD: `.analysis/work/exatt-layout-af1160e/report.jso
 
 th03-main Character callback setup: `.analysis/work/exatt-layout-af1161f/report.json`.
 
-th03-main CPU controller: `.analysis/work/exatt-layout-af1327h/report.json`.
+th03-main CPU controller: `.analysis/work/exatt-layout-af1357k/report.json`.
 
 th03-main Shared sound assembler leaves: `.analysis/work/main-sound-asm-af1328b/report.json`.
 
