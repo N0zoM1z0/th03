@@ -92,7 +92,7 @@ is a fast, standard-library-only syntax/whitespace check, not a full test or
 native-verification gate. It need not be repeated after every commit.
 Documentation-only changes need only diff inspection and whitespace checking.
 Run relevant tests or native comparisons explicitly when the change needs them.
-Commit substantial progress using `gpt-web: xxx` (current user-required format).
+Commit substantial progress using `gpt-6.1-sol: xxx` (current user-required format).
 
 ## Shared Factory runtime
 

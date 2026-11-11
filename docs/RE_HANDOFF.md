@@ -10,15 +10,16 @@ retain compiler findings. Git history holds earlier chronology.
 
 Work in the existing `main` worktree. Inspect `git status -sb` and
 `git log -8 --oneline`; preserve dirty and untracked work. Commit substantial
-progress with `gpt-web: xxx`. Local commits are not pushes.
+progress with `gpt-6.1-sol: xxx`. Local commits are not pushes.
 
 MAIN's tracked extent and function ledgers are fully exact within their
 inventories. Its current source-native coverage consists of independently
 verified physical owners, each compiled in two original TC4/TASM rounds and
 linked with retained unchanged inputs. These checks include complete owned
 CODE/initialized DATA, ordered OMF fields, PUBLICs, segment layout, the full
-Japanese image and ordered MZ relocations. They are not a single all-source
-cold build. The coverage includes original ReC98 `master.lib` CODE; storage
+Japanese image and ordered MZ relocations. The selected outputs now compose
+together exactly in `af1373m`; this reuses their independent compiler rounds.
+The coverage includes original ReC98 `master.lib` CODE; storage
 and zero-length segment carriers add no executable bytes.
 
 OP, MAINL (the ending) and ZUN retain decoded publications. All four products
@@ -29,16 +30,21 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
 
 ## Remaining work and next useful actions
 
-1. Resolve MAIN's original `input_s` link discrepancy described below, then
-   establish a normal link composed from the current maintained owners.
-   Review the original CRT `c0l.obj` separately. Independent owner proofs do
-   not by themselves establish that all current objects compose exactly.
-2. For new OP/MAINL/ZUN ownership, consult `config/units.csv`,
+1. MAIN's original `input_s` one-byte discrepancy is deferred at the user's
+   request. Its current owners already compose exactly with the historical
+   input carrier. Original CRT `c0l.obj` source ownership remains open.
+2. MAINL's complete current project rebuild is `af1369m`; independent natural
+   input/sound function bodies are `af1371f`. The remaining tracked inventory
+   consists of ten overlapping historical aggregates and four explicit sound
+   trailer bytes. Resolve their natural producer/layout origin before giving
+   those bytes credit. See the [current linked-build review](CURRENT_LINKED_BUILD_REVIEW.md)
+   for exact commands, evidence and the aggregate mapping.
+3. For new OP/MAINL/ZUN ownership, consult `config/units.csv`,
    `config/evidence.csv` and their decoded publications. An unaccepted module
    may contain accepted smaller scopes; inventory rows are not a missing-function
    list. ZUN's enclosing sprite16 driver remains unaccepted despite accepted
    procedure/DATA subscopes; twelve reserved DATA bytes remain unowned.
-3. Further natural C/C++ simplification is useful when analysis supports it,
+4. Further natural C/C++ simplification is useful when analysis supports it,
    but is not the same as new exact coverage. Inspect the actual source and
    use small positive/negative TC4 trials for a specific codegen question.
    Preserve byte/word signedness, local lifetime, far-pointer ABI, register

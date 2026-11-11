@@ -730,8 +730,9 @@ def render_markdown(units, functions, targets, op_status, mainl_status, zun_stat
         if mainl_status.get('native_refresh_stage'):
             lines.extend([f"Current native refresh `{mainl_status['native_refresh_stage']}` recompiles the complete Staff/root owners "
                           "in two original TC4 rounds, with target-equal complete decoded EXE/MAP and ordered relocations. "
-                          "The unchanged 938-output cold pair and other selected native providers are revalidated and reused. "
-                          "No full cold rebuild or ancestor runtime replay was performed.", ''])
+                          "The unchanged 938-output cold pair remains a verified dependency. "
+                          "Additional current project builds and combined links are documented in the "
+                          "[composition review](CURRENT_LINKED_BUILD_REVIEW.md).", ''])
     else:
         lines.extend(['MAINL broad decoded acceptance is **pending**, rather than zero reconstruction. '
                       'The retained publication does not bind the current complete source graph. '

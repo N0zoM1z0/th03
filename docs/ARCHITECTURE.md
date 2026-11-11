@@ -68,9 +68,11 @@ be overwritten with current source.
 MAINL and OP retain a source-bound 893-slot library and shared startup/CRT
 ancestry. The after554 MAINL link supplies root, picture and text-bank context;
 current MAINL publication additionally uses the `af1055m` Staff/root refresh.
-Native TLIB/TLINK preserve library member order. The separate BCC4.5 full-xx
-candidate is raw-different and unaccepted; see the
-[xx product review](MAINL_XX_PRODUCT_REVIEW.md).
+Native TLIB/TLINK preserve library member order. The current `af1369m` route
+recompiles all 36 MAINL project objects and the complete maintained BCC4.5 xx
+object in two rounds, reproducing the full decoded EXE and MAP with the
+29-source-provider library. See the [current composition review](CURRENT_LINKED_BUILD_REVIEW.md)
+and [xx source recovery](MAINL_XX_PRODUCT_REVIEW.md).
 
 The shared startup still has a PUBLIC packet-order gap, and
 `src/shared/crt/stdio_buffer.asm` retains two MOV operand pairs in the wrong
@@ -79,8 +81,10 @@ are recorded in the [DOS exec review](SHARED_EXEC_OP_RUNTIME_AFTER537_NATIVE_REV
 and [startup review](SHARED_STARTUP_AFTER548_NATIVE_REVIEW.md). Keep their
 actual current dependencies, including the historical exec ancestor, rather
 than replacing snapshots or rerunning the entire chain for a local edit.
-The MAINL held-key scanner has its own unaccepted trailing-byte/layout
-candidate; see the [MAINL input review](MAINL_INPUT_SCAN_AFTER549_NATIVE_REVIEW.md).
+MAINL's complete held-key function is now accepted through the independent
+no-trailer TC4 proof. Its alternative ASM carrier still has the historical
+trailing-byte/layout question described in the
+[MAINL input review](MAINL_INPUT_SCAN_AFTER549_NATIVE_REVIEW.md).
 This is separate from MAIN's original-object link discrepancy below.
 
 OP's current-source adapter supplies the original menu Git blob only while

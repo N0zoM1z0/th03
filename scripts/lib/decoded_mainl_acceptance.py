@@ -115,6 +115,8 @@ PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03
                 "scripts/lib/decoded_mainl_staff_roll_runtime.py", "scripts/lib/decoded_mainl_staff_roll_proofs.py")
 
 PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATION_INPUTS, *SCOREDAT_INPUTS, *ROOT_ORCHESTRATION_INPUTS, *TEXT_INPUTS,
+    "scripts/build_th03_mainl_linked_current.py", "scripts/lib/decoded_mainl_linked_current.py",
+    "scripts/build_th03_mainl_function_bodies.py",
     "scripts/build_th03_mainl_current.py", "scripts/stage_th03_mainl_fullcold.py",
     "scripts/lib/decoded_mainl_pi_decoder_native.py", "scripts/lib/op_asset_native.py", "scripts/lib/op_shared_native.py",
     "scripts/lib/decoded_mainl_resources_native.py", "scripts/build_th03_mainl_resources_work.py",
@@ -159,9 +161,12 @@ def oracle_rows(proof, now, policy):
     rows = shared_oracle_rows(proof, now, policy, artifact="th03-mainl", publication_path=PUBLICATION,
                               prefix="ev-mainl-current-", command=COMMAND)
     if 'current_native_refresh' in proof['scope']:
-        for owner_rows in rows.values():
+        linked_units = {o['unit_id'] for o in proof['scope'].get('current_linked_native', {}).get('owners', [])}
+        for unit_id, owner_rows in rows.items():
             for row in owner_rows.values():
-                row['tool'] = 'retained MAINL cold pair plus two current physical-owner builds and complete native links'
+                row['tool'] = ('two current 36-object MAINL builds, source xx and bounded natural function bodies'
+                               if unit_id in linked_units else
+                               'retained MAINL cold pair plus two current physical-owner builds and complete native links')
                 row['command'] = COMMAND + ' --stage ' + proof['scope']['current_native_refresh']['stage']
     return rows
 
@@ -377,6 +382,15 @@ def audit(root, *, stage=None):
              for o in text_banks['owners']), 'complete maintained text/state banks; no table, instruction or linker-gap credit')
     owners.extend(text_banks['owners'])
     scope['text_banks_native'] = text_banks
+    from lib.decoded_mainl_linked_current import verify as linked_scope
+    linked = linked_scope(root)
+    occupied = {site for o in owners for site in range(o['start'], o['start'] + o['size'])}
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in linked['owners']}) and
+         all(not (set(range(o['start'], o['start'] + o['size'])) & occupied)
+             for o in linked['owners']), 'disjoint complete xx, functions and natural producer ownership')
+    owners.extend(linked['owners'])
+    scope['current_linked_native'] = linked
+    linked_units = {o['unit_id'] for o in linked['owners']}
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -393,6 +407,10 @@ def audit(root, *, stage=None):
              and int(u["offset"], 0) + segment*16 == o["start"] and int(u["size"], 0) == int(u["compare_size"], 0) == o["size"]
              and u["state"] == "source-present" and u["origin"] == o.get("origin", "authored") and u["boundary_state"] == "reviewed"
              and not u["file_offset"] and u["source"] == o["source"], "current decoded ownership ledger")
+        if o['unit_id'] in linked_units:
+            # The complete current linked build binds these actual fresh
+            # objects, source snapshots and all original fields independently.
+            continue
         if o['unit_id'] in TEXT_BANKS_SOURCE_MAP:
             name = 'registration' if o['unit_id'].endswith('registration-initialized-bank') else 'ending'
             need((o['source'], o['object']) == TEXT_BANKS_SOURCE_MAP[o['unit_id']] and

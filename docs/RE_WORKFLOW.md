@@ -27,7 +27,7 @@
    that chain, not at every turn.
 6. Record useful findings and exactness limits, run affected checks plus
    `git diff --check`, and commit substantial progress locally with
-   `gpt-web: xxx`. Do not push without authorization.
+   `gpt-6.1-sol: xxx`. Do not push without authorization.
 
 ## Scoped current-source native check (MAIN)
 
@@ -55,6 +55,11 @@ A composite report is current only while every input it compiled still
 matches. Reuse unchanged native inputs; do not repeat a full cold chain for
 an ordinary source edit.
 
+`build_th03_main_linked_current.py --stage af1373m` reviews the current
+97-object composition. Add `--build` with a fresh stage to repeat both links
+from the independently compiled selected pairs. The deferred historical input
+carrier remains explicit. See the [composition review](CURRENT_LINKED_BUILD_REVIEW.md).
+
 ## Scoped current-source native check (MAINL)
 
 The current Staff/root route uses `build_th03_mainl_current.py`. It recompiles
@@ -71,6 +76,13 @@ Omit `--build` to review an existing stage without native execution. The
 publisher checks the specified stage against current source before adoption.
 Changes outside these two producers need their affected native scope handled
 explicitly; do not run the old cold builder in place over protected evidence.
+
+The full current project route is `build_th03_mainl_linked_current.py`:
+`--stage af1369m` reviews all 36 project objects and source xx; `--build` with
+a fresh stage recompiles them in two rounds. The separate function-body route
+uses `build_th03_mainl_function_bodies.py --stage af1371f`. Their current
+publication selections and remaining trailer boundaries are recorded in the
+[composition review](CURRENT_LINKED_BUILD_REVIEW.md).
 
 ## Storage
 

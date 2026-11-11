@@ -38,7 +38,10 @@ gives current acceptance and open work. Detailed historical witnesses belong in
 | MAINL current Staff/root | `build_th03_mainl_current.py --stage NEW --build`, or omit `--build` for a read-only review | Two complete affected physical owners and full normal links in two original TC4 rounds. Current publication selects `af1055m`. |
 | MAINL cold ancestor | `build_th03_mainl_work.py` | Retained full project/CRT recipe. Its current source composer now transports maintained C++; use the incremental entry point above to preserve the protected cold worktree. |
 | MAINL | `build_th03_mainl_exception_work.py` | Scoped historical new/xalloc/xmsg producer; composes the reviewed 28-provider CRT baseline with retained project inputs, not a current Factory acceptance declaration. |
-| MAINL | `build_th03_mainl_xx_work.py`, `review_th03_mainl_xx_work.py` | Native full-xx object,normal893-member library and actual product candidate;raw-different and unaccepted. Reuse unchanged cold inputs. |
+| MAIN current composition | `build_th03_main_linked_current.py --stage af1373m` | Read-only review of both complete links with all 97 selected current objects together. Use a fresh stage and `--build` for native TLINK. Historical input carrier remains explicit. |
+| MAINL current full project | `build_th03_mainl_linked_current.py --stage af1369m` | Two fresh 36-object project builds plus complete source xx, with full decoded EXE/MAP equality. Use a fresh stage and `--build` to repeat. |
+| MAINL input/sound bodies | `build_th03_mainl_function_bodies.py --stage af1371f` | Two TC4 rounds prove five complete functions without legacy trailer directives. Trailer bytes remain unaccepted. |
+| MAINL historical xx route | `build_th03_mainl_xx_work.py`, `review_th03_mainl_xx_work.py` | Earlier full-xx construction helper; the current source-bound exact route is the full-project builder above. |
 | MAINL | `review_th03_mainl_staff_roll_work.py` | Full MAINL cold/resource/ending/staff/DATA/roll chain, including actual owned nested calls, input waits, fade and cleanup. |
 | Shared | `review_th03_shared_input_work.py` | Bind both OP/MAINL cold pairs to input policy and MAINL ending-wait contracts. |
 | ZUN | `build_th03_zun_work.py` | Native launcher/directory/payload cold pair and complete stored/decoded comparison. |
