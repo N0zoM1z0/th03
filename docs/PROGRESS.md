@@ -45,7 +45,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Rikako BOSS | af1352l | Verified | 1 | 1,677 | — |
 | th03-main / Kana BOSS | af1323f | Verified | 1 | 1,874 | — |
 | th03-main / Chiyuri BOSS | af1349a | Verified | 1 | 2,654 | — |
-| th03-main / Kotohime BOSS | af1343i | Verified | 1 | 1,840 | — |
+| th03-main / Kotohime BOSS | af1354g | Verified | 1 | 1,840 | — |
 | th03-main / Reimu BOSS | af1352h | Verified | 1 | 2,020 | — |
 | th03-main / Mima BOSS | af1351b | Verified | 1 | 1,922 | — |
 | th03-main / Marisa BOSS | af1325h | Verified | 1 | 1,431 | — |
@@ -148,7 +148,7 @@ th03-main Kana BOSS: `.analysis/work/exatt-layout-af1323f/report.json`.
 
 th03-main Chiyuri BOSS: `.analysis/work/exatt-layout-af1349a/report.json`.
 
-th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1343i/report.json`.
+th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1354g/report.json`.
 
 th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1352h/report.json`.
 

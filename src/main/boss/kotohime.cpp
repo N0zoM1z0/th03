@@ -176,9 +176,9 @@ void near pascal kotohime_ring_emit(int randomize_angle)
 		int x;
 		int y;
 
-		// Original signed-word nonzero RNG selector is exact with an
-		// explicit `!=0` (genuine TC4 native test af910d).
-		if(randomize_angle != 0) {
+		// The original signed-word nonzero test accepts natural truthiness;
+		// it draws one RNG value only when this ring randomizes angles.
+		if(randomize_angle) {
 			bullet_template.angle = randring_far_next16();
 		}
 		unsigned char angle = (
@@ -236,15 +236,16 @@ void near kotohime_pattern_random_ring(void)
 		// three to prefix altered native CODE (negative af910c).
 		boss_render_frame++;
 		// Only an expired ring warning triggers this single randomized volley.
-		if(boss_render_frame > KOTOHIME_RING_RELEASE_AFTER) {
-			bullet_template.group = BG_16_RING;
-			bullet_template.speed.v = kotohime_random_ring_speed;
-			kotohime_ring_emit(1);
-			snd_se_play(KOTOHIME_SOUND_ATTACK);
-			boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
-			boss_mode = KOTOHIME_MODE_SELECT;
-			boss_frame = 0;
+		if(boss_render_frame <= KOTOHIME_RING_RELEASE_AFTER) {
+			return;
 		}
+		bullet_template.group = BG_16_RING;
+		bullet_template.speed.v = kotohime_random_ring_speed;
+		kotohime_ring_emit(1);
+		snd_se_play(KOTOHIME_SOUND_ATTACK);
+		boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
+		boss_mode = KOTOHIME_MODE_SELECT;
+		boss_frame = 0;
 	} else {
 		boss_move_sine();
 		boss_effect_radius += KOTOHIME_EFFECT_RADIUS_EXPAND_STEP;
@@ -272,22 +273,23 @@ void near kotohime_pattern_aimed_ring(void)
 		// three to prefix altered native CODE (negative af910c).
 		boss_render_frame++;
 		// The two aimed ring velocities emit together after the warning frame.
-		if(boss_render_frame > KOTOHIME_RING_RELEASE_AFTER) {
-			bullet_template.group = BG_2_SPREAD_NARROW_AIMED;
-			bullet_template.angle = 0;
-			bullet_template.speed.v = kotohime_aimed_speed_fast;
-			kotohime_ring_emit(0);
-
-			bullet_template.group = BG_5_SPREAD_MEDIUM_AIMED;
-			bullet_template.angle = 0;
-			bullet_template.speed.v = kotohime_aimed_speed_slow;
-			kotohime_ring_emit(0);
-
-			snd_se_play(KOTOHIME_SOUND_ATTACK);
-			boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
-			boss_mode = KOTOHIME_MODE_SELECT;
-			boss_frame = 0;
+		if(boss_render_frame <= KOTOHIME_RING_RELEASE_AFTER) {
+			return;
 		}
+		bullet_template.group = BG_2_SPREAD_NARROW_AIMED;
+		bullet_template.angle = 0;
+		bullet_template.speed.v = kotohime_aimed_speed_fast;
+		kotohime_ring_emit(0);
+
+		bullet_template.group = BG_5_SPREAD_MEDIUM_AIMED;
+		bullet_template.angle = 0;
+		bullet_template.speed.v = kotohime_aimed_speed_slow;
+		kotohime_ring_emit(0);
+
+		snd_se_play(KOTOHIME_SOUND_ATTACK);
+		boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
+		boss_mode = KOTOHIME_MODE_SELECT;
+		boss_frame = 0;
 	} else {
 		boss_move_sine();
 		boss_effect_radius += KOTOHIME_EFFECT_RADIUS_EXPAND_STEP;
@@ -363,55 +365,56 @@ void near kotohime_pattern_radial_burst(void)
 		// three to prefix altered native CODE (negative af910c).
 		boss_render_frame++;
 		// Nested signed-angle loops launch only after the ring warning expires.
-		if(boss_render_frame > KOTOHIME_RING_RELEASE_AFTER) {
-			bullet_template.group = BG_1;
-			bullet_template.type = BT_BULLET16_DEFAULT;
-
-			// The nested O(center_count * burst_count) traversal declares
-			// DI/SI indices in outer-to-inner for headers. x/y/angle scratch
-			// lives for one center, and the inner SI index resets each time.
-			// Both loops are pre-tested. Index times the full/half-turn
-			// or speed step is signed 16-bit before the native division, and the
-			// final angle is then truncated to a byte (af1319b).
-			for(register int center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
-				register int x;
-				register int y;
-				register unsigned char center_angle = (
-					boss_move_phase +
-					((center_i * KOTOHIME_FULL_TURN_STEPS) / kotohime_orbit_count)
-				);
-				x = polar(
-					boss_center_x,
-					boss_effect_radius,
-					CosTable8[center_angle]
-				);
-				y = polar(
-					boss_center_y,
-					boss_effect_radius,
-					SinTable8[center_angle]
-				);
-				bullet_template.center.x.v = x;
-				bullet_template.center.y.v = y;
-
-				for(register int bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
-					bullet_template.angle = (
-						KOTOHIME_BURST_CENTER_ANGLE_OFFSET +
-						center_angle +
-						((bullet_i * KOTOHIME_BURST_HALF_TURN_STEPS) / kotohime_burst_count)
-					);
-					bullet_template.speed.v = (
-						KOTOHIME_BURST_SPEED_BASE +
-						((bullet_i * KOTOHIME_BURST_SPEED_SCALE) / kotohime_burst_count)
-					);
-					bullets_add();
-				}
-			}
-
-			snd_se_play(KOTOHIME_SOUND_ATTACK);
-			boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
-			boss_mode = KOTOHIME_MODE_SELECT;
-			boss_frame = 0;
+		if(boss_render_frame <= KOTOHIME_RING_RELEASE_AFTER) {
+			return;
 		}
+		bullet_template.group = BG_1;
+		bullet_template.type = BT_BULLET16_DEFAULT;
+
+		// The nested O(center_count * burst_count) traversal declares
+		// DI/SI indices in outer-to-inner for headers. x/y/angle scratch
+		// lives for one center, and the inner SI index resets each time.
+		// Both loops are pre-tested. Index times the full/half-turn
+		// or speed step is signed 16-bit before the native division, and the
+		// final angle is then truncated to a byte (af1319b).
+		for(register int center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
+			register int x;
+			register int y;
+			register unsigned char center_angle = (
+				boss_move_phase +
+				((center_i * KOTOHIME_FULL_TURN_STEPS) / kotohime_orbit_count)
+			);
+			x = polar(
+				boss_center_x,
+				boss_effect_radius,
+				CosTable8[center_angle]
+			);
+			y = polar(
+				boss_center_y,
+				boss_effect_radius,
+				SinTable8[center_angle]
+			);
+			bullet_template.center.x.v = x;
+			bullet_template.center.y.v = y;
+
+			for(register int bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
+				bullet_template.angle = (
+					KOTOHIME_BURST_CENTER_ANGLE_OFFSET +
+					center_angle +
+					((bullet_i * KOTOHIME_BURST_HALF_TURN_STEPS) / kotohime_burst_count)
+				);
+				bullet_template.speed.v = (
+					KOTOHIME_BURST_SPEED_BASE +
+					((bullet_i * KOTOHIME_BURST_SPEED_SCALE) / kotohime_burst_count)
+				);
+				bullets_add();
+			}
+		}
+
+		snd_se_play(KOTOHIME_SOUND_ATTACK);
+		boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
+		boss_mode = KOTOHIME_MODE_SELECT;
+		boss_frame = 0;
 	} else {
 		boss_move_sine();
 		boss_effect_radius += KOTOHIME_EFFECT_RADIUS_EXPAND_STEP;
@@ -517,10 +520,11 @@ void near pascal kotohime_render_ring(int count)
 	sprite_offset = (pid.so_attack + KOTOHIME_RING_SPRITE_OFFSET);
 	// Both warning mode and the four-frame flicker must permit the
 	// alternate sprite. No alternate offset is used outside warning mode.
-	if(boss_render_mode == KOTOHIME_RENDER_MODE_WARNING) {
-		if((boss_frame % KOTOHIME_RENDER_FLICKER_PERIOD) < KOTOHIME_RENDER_ALT_FRAMES) {
-			sprite_offset += KOTOHIME_RING_SPRITE_ALTERNATE_OFFSET;
-		}
+	if(
+		(boss_render_mode == KOTOHIME_RENDER_MODE_WARNING) &&
+		((boss_frame % KOTOHIME_RENDER_FLICKER_PERIOD) < KOTOHIME_RENDER_ALT_FRAMES)
+	) {
+		sprite_offset += KOTOHIME_RING_SPRITE_ALTERNATE_OFFSET;
 	}
 
 	sprite16_put_size.w = KOTOHIME_RING_SPRITE_WIDTH;
@@ -587,10 +591,8 @@ void near kotohime_render_main(void)
 void near pascal kotohime_render_intro(int radius)
 {
 	// An odd global frame skips the ring only during the intro window.
-	if(round_frame_mod2) {
-		if(boss_frame < KOTOHIME_INTRO_BLINK_END_FRAME) {
-			return;
-		}
+	if(round_frame_mod2 && (boss_frame < KOTOHIME_INTRO_BLINK_END_FRAME)) {
+		return;
 	}
 
 	sprite16_put_size.w = KOTOHIME_RING_SPRITE_WIDTH;

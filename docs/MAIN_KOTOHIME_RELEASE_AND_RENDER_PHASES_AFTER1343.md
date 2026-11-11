@@ -45,3 +45,40 @@ Current source and dependent owner review:
 ```
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1343i af1343j
 ```
+
+## 2026-11-11: exact warning-period exits and native ring predicates
+
+The current Kotohime BOSS exposes the release gate in all three large
+ring attacks as a direct `<= KOTOHIME_RING_RELEASE_AFTER` early return.
+A warning frame still updates `boss_render_frame`, `boss_move_phase`,
+and the expanding radius where applicable; neither a random ring nor
+an aimed ring nor the nested O(orbit_count * burst_count) radial launch
+runs before the original warning deadline. Once elapsed, the same
+bullet type/group, signed 16-bit polar divisions, speed calculations,
+RNG draws, sound and SELECT transition execute in their original order.
+The gate's negative form leaves the large radial loop's original DI/SI
+index allocation and per-projectile division behavior intact.
+
+`kotohime_render_ring()` now combines warning-render mode and the
+four-frame animation phase with ordered `&&`, and the intro renderer
+combines its odd-global-frame and introduction deadline in the same
+way. The `kotohime_ring_emit()` signed 16-bit optional RNG argument
+also accepts natural `if(randomize_angle)` without changing how many
+random words are consumed.
+
+Stages `af1354a` (warning sprite), `af1354b` (intro), `af1354c`
+(random release), `af1354d` (aimed release), `af1354e` (nested radial
+release), and `af1354f` (ring emitter RNG flag) each proved the
+entire owner in two genuine original Turbo C++ 4.02 rounds. Current
+source-bound `af1354g` proves **1,840 CODE bytes, 262 ordered native
+fields, 11 PUBLICs**, normal Japanese MAIN images and ordered MZ
+relocations. Its joint `af1354h` builds Kotohime BOSS, Bullet, both
+shared BOSS owners and Kotohime Extra Attack together: **6,528 CODE
+bytes, 664 ordered fields, 47 PUBLICs**, with both normal MAIN links
+exact. This is improved natural source for existing ownership, not
+new packed Factory acceptance.
+
+Current receipt: `.analysis/work/exatt-layout-af1354g/report.json`, SHA-256
+`a1b5ccc8eaca87248e471859387b9a86960dbd3647a71e65fbb70a575c4ca7e6`.
+Joint receipt: `.analysis/work/exatt-layout-af1354h/report.json`, SHA-256
+`13c8c56f1d2c5f3f928caf837a954f7d99d12dcb6b0c223dbd0c8241c74467d0`.
