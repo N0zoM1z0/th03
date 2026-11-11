@@ -2,6 +2,7 @@
 #include "selection.hpp"
 #include "stage_intro.hpp"
 #include "round.hpp"
+#include "battle_graphics.hpp"
 #include <optional>
 
 namespace th03 {
@@ -15,6 +16,7 @@ public:
     void start_selection(SelectKind kind);
     void return_to_title();
     void start_stage_intro();
+    void start_main();
     Phase phase=Phase::op;
     Menu menu;
     Resident resident;
@@ -26,6 +28,7 @@ private:
     PiImage background_;
     Font graphic_font_;
     std::optional<StageIntro> intro_;
+    std::optional<BattleGraphics> battle_graphics_;
     Bytes font_,window_;
     std::optional<SelectionAssets> selection_assets_;
     unsigned available_=7,transition_wait_=0;

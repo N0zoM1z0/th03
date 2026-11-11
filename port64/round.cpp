@@ -88,6 +88,8 @@ void Round::begin(const Resident& resident,const Bytes& enedat) {
 void Round::prepare(const Resident& resident,std::uint8_t formation_previous) {
     for(auto& shot:shots)shot.alive=false;
     frame=result_frame=0;
+    for(auto& enemy:enemies)enemy.flag=0;
+    enemies_alive={};
     random.fill();
     if(resident.mode==Mode::story) {
         const int column=std::min(int(id)-resident.credits+3,5);

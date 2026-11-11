@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
             if (arg=="--main-assets") {main_assets=true;continue;}
             if (arg=="--list") { list=true; continue; }
             if (arg=="--help") {
-                std::cout<<"th03-port64 (--hdi FILE | --archive FILE) [--headless] [--scene title|menu|options|story-select|versus-select|two-select|stage-intro]\n"
+                std::cout<<"th03-port64 (--hdi FILE | --archive FILE) [--headless] [--scene title|menu|options|story-select|versus-select|two-select|stage-intro|battle-ready]\n"
                          <<"  [--font-bmp FILE] [--characters P1,P2] [--stage N]\n"
                          <<"  [--screenshot FILE.ppm] [--frames N] [--inputs SP[:P1:P2],...]\n"
                          <<"  [--main-assets] [--list] [--extract NAME --output FILE] [--pi NAME --packed FILE]\n";
@@ -82,7 +82,7 @@ int main(int argc, char** argv) {
         } else if(scene=="versus-select"||scene=="two-select") {
             app.resident.begin_versus(scene=="two-select" ? 1 : 0);
             app.start_selection(scene=="two-select" ? th03::SelectKind::two_player : th03::SelectKind::versus_cpu);
-        } else if(scene=="stage-intro") {
+        } else if((scene=="stage-intro"||scene=="battle-ready")) {
             std::istringstream chars(characters);std::string value;unsigned at=0;
             app.resident.begin_story();
             while(std::getline(chars,value,',')) {
@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
             }
             if(at!=2||stage>8)throw std::runtime_error("stage introduction needs two characters and stage 0 to 8");
             app.resident.stage=std::uint8_t(stage);app.resident.opponents[stage]=app.resident.paletted[1];
-            app.start_stage_intro();
+            if(scene=="battle-ready")app.start_main();else app.start_stage_intro();
         } else if (scene!="menu" && scene!="title") throw std::runtime_error("unknown scene");
         if (!inputs.empty()) {
             std::istringstream stream(inputs); std::string word;

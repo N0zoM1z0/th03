@@ -38,6 +38,16 @@ struct ShotPair {
     std::int16_t velocity_y=0;
     std::uint8_t pid=0,animation=0;
 };
+class Round;
+struct Enemy {
+    std::uint8_t flag=0,frame=0,size_words=0,hp=0,pid=0,size_pixels=0;
+    Point center,velocity;
+    std::uint16_t ip=0,op_frame=0,angle=0;
+    std::int8_t angle_speed=0;
+    std::uint8_t chain_slot=0,formation=0,formation_i=0,speed=0,loop_i=0,pos_type=0;
+    const Bytes* script=nullptr;
+    bool run(const Round& round,std::uint8_t enemy_speed);
+};
 class Round {
 public:
     void begin(const Resident& resident,const Bytes& enedat);
@@ -50,12 +60,17 @@ public:
     RandomRing random;
     std::array<Player,2> players{};
     std::array<ShotPair,32> shots{};
+    std::array<Enemy,40> enemies{};
+    std::array<std::uint8_t,2> enemies_alive{};
+    void update_formations();
+    void update_enemy_scripts();
     std::vector<Formation> formations;
     std::array<std::uint8_t,256> formation_types{},formation_positions{};
     std::array<std::uint8_t,2> formation_cursors{},gauge_levels{};
     std::array<std::array<std::uint8_t,8>,2> scores{};
     std::uint8_t id=0,speed=0,bullet_base_speed=0,boss_level=0,cpu_damage_additional=0,extends_gained=0;
     std::uint16_t result_wait=0,combo_points_for_boss_attack=5120;
-    std::uint16_t frame=0,result_frame=0;
+    std::uint32_t frame=0;
+    std::uint16_t result_frame=0;
 };
 }

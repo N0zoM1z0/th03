@@ -44,6 +44,23 @@ void tap(th03::Menu& menu,std::uint16_t key) { menu.tick(0); menu.tick(key); }
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==9&&std::string(argv[1])=="--enemy") {
+            th03::Round round;round.formations=th03::read_formations(read_file(argv[2]));
+            const auto formation=unsigned(std::stoul(argv[3])),index=unsigned(std::stoul(argv[4]));
+            const auto band=std::uint8_t(std::stoul(argv[5])),mirror=std::uint8_t(std::stoul(argv[6]));
+            const auto ticks=unsigned(std::stoul(argv[7])),player_y=unsigned(std::stoul(argv[8]));
+            round.players[0].center={144<<4,std::int16_t(player_y)};
+            th03::Enemy enemy;enemy.flag=3;enemy.pos_type=mirror;enemy.script=&round.formations.at(formation).scripts.at(index);
+            for(unsigned frame=0;frame<ticks&&enemy.flag;++frame) {
+                enemy.run(round,band);
+                std::cout<<unsigned(enemy.flag)<<' '<<enemy.center.x<<' '<<enemy.center.y<<' '
+                         <<unsigned(enemy.size_words)<<' '<<unsigned(enemy.hp)<<' '<<unsigned(enemy.pid)<<' '
+                         <<unsigned(enemy.size_pixels)<<' '<<enemy.ip<<' '<<enemy.op_frame<<' '
+                         <<enemy.velocity.x<<' '<<enemy.velocity.y<<' '<<enemy.angle<<' '
+                         <<int(enemy.angle_speed)<<' '<<unsigned(enemy.speed)<<' '<<unsigned(enemy.pos_type)<<'\n';
+            }
+            return 0;
+        }
         if(argc==9&&std::string(argv[1])=="--round") {
             th03::Round round;th03::Resident resident;
             round.formations=th03::read_formations(read_file(argv[2]));

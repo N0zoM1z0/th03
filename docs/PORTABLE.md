@@ -224,3 +224,23 @@ not the user's no-hit executable.
 the second PF in the original HDI. Both Linux and Windows x64 build; native
 Windows headless state checks pass and its full introduction frame agrees with
 Linux. The independent Windows DOSBox session remains untouched.
+
+The enemy VM now runs original ENEDAT movement/spawn/wait/clip opcodes with
+signed-WORD arithmetic, byte speed bands and the original independent duration
+divisions. Six scripts agree with actual MAIN instructions for 1,237 ticks,
+including the vector/movement callees. Run `port64/check_enemy.py` with the
+same three arguments as `check_round.py`. The original data does not use its
+broken loop instructions; custom loop scripts still need the DOS stack context.
+
+`--scene battle-ready --characters 5,13` renders the initialized battlefield.
+The atlas is assembled from MAINL's interlaced PI loads and MAIN's BF2 pose
+copies. Drawing preserves SPRITE16's whole-column clipping and physical
+200-line graphics; TRAM remains at 400 lines and uses fixed text colors.
+The graphics score font comes from the maintained ReC98 score bitmap. Its
+digit5 differs by one dot from `NUM8.BF2`, so the fonts are not interchangeable.
+`check_battle_graphics.py --native build/linux-x64/th03-port64 --dos-root /path/to/dos`
+compares the unchanged DOS borders, P1 gauge, score and TRAM glyph ink. The DOS
+capture contains moving objects behind text and additional CPU gauge charge;
+those pixels are not initial-state fixtures. This is a rendering checkpoint,
+not a complete battle comparison. The running player/combat/intro/background
+loop still needs joining before native playtesting.
