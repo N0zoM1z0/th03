@@ -248,6 +248,10 @@ trial changes the maintained driver or grants the enclosing scope ownership.
 The directory's `decoded_file_offset` must select this payload; its runtime
 address includes the COM 100h bias. The corrected complete-prefix check is
 `.analysis/work/zun-paragraph-check.log`.
+Linking that same object as a normal MZ in `af1398z` also leaves a 4,215-byte
+image after the COM origin; it has no relocations and equals the tiny-link
+output completely. Current TLINK's MZ-to-COM route therefore does not explain
+the missing tail. See `.analysis/work/zun-mz-tail.log`.
 
 TC4's internal assembler naturally emits the reverse operand-field order
 needed by setvbuf's two callback MOVs. Both a minimal C pointer assignment and
