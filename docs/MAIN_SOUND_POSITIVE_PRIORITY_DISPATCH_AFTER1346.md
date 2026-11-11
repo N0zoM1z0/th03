@@ -76,3 +76,26 @@ Current proof: `.analysis/work/exatt-layout-af1354n/report.json`, SHA-256
 `ced87e4fe330687139d911a7e9947dc8aabe8aae1955338ec9db005d2df577f1`.
 Joint proof: `.analysis/work/exatt-layout-af1354o/report.json`, SHA-256
 `91a1f21152262ca34b6c08c37839b2192050e53718877ce259e9baad6c40408a`.
+
+## 2026-11-11: source-exact Kaja software-interrupt exits
+
+`snd_kaja_interrupt()` now directly returns the original AX when no
+hardware music driver is active. Once active, it loads the caller's
+16-bit AX value, selects PMD for every `snd_midi_active` byte other
+than 1, and returns after the original INT 60h. The MIDI INT 61h
+remains the final branch. A separate `af1364i` trial reversed the
+PMD/MIDI conditional to select MIDI first; TC4 emitted different CODE,
+so its original comparison and vector ordering were retained.
+
+`af1364h` proved the inactive return and `af1364j` the PMD return.
+Current source-bound `af1364k` recompiles **both** SE and Kaja objects:
+**150 CODE bytes, 20 ordered native fields, 3 PUBLICs**, exact normal
+MAIN links and relocations in both original TC4 rounds. Joint `af1364l`
+recompiles those sound leaves with Kana BOSS, Kana Extra Attack,
+Bullet, both shared BOSS owners and Polar: **6,347 CODE bytes,
+640 ordered fields, 46 PUBLICs**, both normal links exact.
+
+Current proof: `.analysis/work/exatt-layout-af1364k/report.json`, SHA-256
+`f033cf9cd326835bf173ac6133278e8e1faf58c97ec5acbdc8f730f3abdf58c6`.
+Joint proof: `.analysis/work/exatt-layout-af1364l/report.json`, SHA-256
+`9c4c585173e1e1ef0f06de6311545c2cd6db874563c96e079a01b157e3ed3b34`.

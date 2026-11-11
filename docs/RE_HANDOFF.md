@@ -68,7 +68,7 @@ list. The full selection lives in the generated progress table.
 | Vector/playfield/collision ASM | `af1332c` | Three newly source-bound TASM objects: 160-byte vectors, 118-byte playfield geometry, 432-byte collision-map generator |
 | Demo transition control | `af1333a` | 663-byte source-bound TC4 stage wipe, triangle mask, two phase callbacks and frame transitions |
 | Round RNG / collision reset | `af1333c` | 82-byte TASM carrier, source-bound RNG macros, fill loop, collision reset, three maintained includes |
-| PMD/MIDI audio services | `af1354n` | Two complete audio owners; SE selection and dispatch use exact early exits, ordered original priority reads and frame-zero PMD interrupt; Kotohime joint `af1354o` |
+| PMD/MIDI audio services | `af1364k` | Driver-inactive and PMD early returns retain AX and original interrupt vector order; SE priority/frame path unchanged; Kana combat/audio joint `af1364l` |
 | Input modes / wait | `af1353i` | Nine exact interfaces with explicit per-caller joystick merges, natural input truth tests, signed bounded wait; current CPU/VSYNC joint `af1353j` |
 | Warning / Gauge HUD | `af1362n` | Exact pause and key-release loops, signed 27-frame palette flash, six-row cleanup and word-frame low-bit tests; 7-owner joint `af1362o` |
 | Hitbox + HitCircle | `af1350h` | Whole 711-byte collision pair; short-circuited spawn/bomb gates, explicit DGROUP near-pointers, natural live-age sprite rendering and random-center guard; historical Chiyuri/Bullet join `af1348k` |

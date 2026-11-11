@@ -19,16 +19,19 @@ typedef char kaja_original_driver_flags[
 
 short far pascal snd_kaja_interrupt(short ax)
 {
-    // Only an active driver consumes AX and sends a software interrupt.
-    // Otherwise the original caller's AX is returned without modification.
-    if(snd_active) {
-        _AX = ax;
-        // Only the byte value 1 selects MIDI; every other flag selects PMD.
-        if(snd_midi_active != TH03_KAJA_MIDI_DRIVER_ACTIVE) {
-            geninterrupt(TH03_KAJA_PMD_VECTOR);
-        } else {
-            geninterrupt(TH03_KAJA_MIDI_VECTOR);
-        }
+    // Without an active driver, return the original AX unchanged.
+    // An active driver consumes the supplied word, then dispatches one
+    // of the original software vectors without touching other drivers.
+    if(!snd_active) {
+        return _AX;
     }
+    _AX = ax;
+    // MIDI is selected only by byte value 1; all other values use PMD.
+    // Return after the PMD call, leaving the MIDI call as the final path.
+    if(snd_midi_active != TH03_KAJA_MIDI_DRIVER_ACTIVE) {
+        geninterrupt(TH03_KAJA_PMD_VECTOR);
+        return _AX;
+    }
+    geninterrupt(TH03_KAJA_MIDI_VECTOR);
     return _AX;
 }
