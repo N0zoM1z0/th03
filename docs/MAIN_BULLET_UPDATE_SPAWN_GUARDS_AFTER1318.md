@@ -48,3 +48,32 @@ DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python \
 
 This establishes current source-bound physical-object and normal-link
 exactness, not newly gained whole-product or Factory packed-file acceptance.
+
+## 2026-11-11: current-source short-circuit spawn and frame update
+
+The original four `bullets_add()` bounds checks now form one ordered
+short-circuit OR: Y minimum, Y maximum, X minimum, X maximum. No out-of-
+bounds template can reach the allocator. The large register-sensitive
+`bullets_update()` loop similarly combines the free-slot and invalid-tag
+skips into one ordered OR and combines the non-transfer/collidable gates
+around the near collision-map call into one ordered AND. These predicates
+preserve the original invalid-tag semantics, register/FLAGS carriers,
+physical update phases, random draws, clipping and transfer behavior.
+
+Trials `af1351h` (collision-map gate), `af1351i` (active slot filter), and
+`af1351j` (spawn bounds) each rebuilt the entire **2,685-byte `bullet`
+object** in two original TC4 rounds. Current source-bound `af1351j`
+reproduces **196 ordered native fields, 20 PUBLICs**, the complete normal
+Japanese MAIN image and ordered MZ relocations. A negative test `af1351k`
+replaced the acceleration-type branch with a ternary assignment. Original
+TC4 emitted 2,683 rather than 2,685 CODE bytes, so that change was rejected.
+
+The four-object integration stage `af1351l` rebuilt the complete bullet,
+Mima and both shared BOSS owners: **5,556 CODE bytes, 579 ordered native
+fields, 37 PUBLICs** and both normal MAIN links match. No full cold replay
+or generated padding was used.
+
+Current proof: `.analysis/work/exatt-layout-af1351j/report.json`, SHA-256
+`60ad59b02966f070f5f8bc408f1543e0df2a3c4fcd9d5c75b8a6e73af0882b67`.
+Joint proof: `.analysis/work/exatt-layout-af1351l/report.json`, SHA-256
+`0ede9a1f9e0910ed75419b60277f9b3bb3cc2ea3b43499dada9e29e2f8718970`.
