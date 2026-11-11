@@ -44,7 +44,7 @@ list. The full selection lives in the generated progress table.
 | VRAM plane initializer | `af1326e` | Newly source-bound original TH01 shared 41-byte hardware owner; four far plane pointers, complete normal MAIN link |
 | Shared BOSS controller and ring | `af1351g` | Two physical owners, 949 bytes; exact HP terminal short-circuit, active target tracking, edge turns, descent and retained native RNG rejection loop; Mima joint `af1351f` |
 | MAIN entry + frame scheduler | `af1314c` | Full 3,050-byte scheduler; explicit render/VSYNC phase gates and independent victory checks, with original PC-98 page OUT order |
-| Reimu BOSS | `af1336i` | 2,020-byte owner; three true orbit phases, cadence-gated spreads and mirrored attack ending; original signed radial arithmetic retained |
+| Reimu BOSS | `af1352h` | 2,020-byte owner; three orbit phases, explicit cloud cadence, independent spread-window returns and positive maintenance-ring gate; mirror ending and signed radial arithmetic retained |
 | Rikako BOSS | `af1345e` | Complete 1,677-byte owner; three orbit phases, four entity/pellet phases and terminating alternating volley use exact mutually exclusive branch gates |
 | Kana BOSS | `af1323f` | Complete 1,874-byte owner; staged and rotating emission windows, two cadence gates, byte-angle/speed increments, and intro flicker |
 | Chiyuri BOSS | `af1349a` | Full 2,654-byte owner; positive four-way/ring cadence gates, 48-shot release, mutually exclusive horizontal/vertical fans; native joint `af1347h` |
@@ -62,7 +62,7 @@ list. The full selection lives in the generated progress table.
 | Master DATA/BSS tail | `af1340d` | Original `mst_tail` source carrier: 1,566 initialized DATA bytes, 1,606-byte DATA segment, 22,250-byte BSS segment, 414 PUBLICs and 0 CODE; generated sprite and vendor dependencies pinned |
 | MAIN aggregate root | `af1341b` | Original 32-segment `main.obj` bound: 896 executable CODE, 1,289 initialized DATA, 64 fixups and 127 PUBLICs; three repaired bounded includes pinned |
 | Native segment-order scaffolds | `af1342c` | Original `bo_shim` / `ex_ord` (19 + 11 zero-length SEGDEFs), exact raw OMF alignments and complete normal links; zero CODE/DATA/PUBLIC |
-| Native frame delay / DOS initializer | `af1316e` / `af1316f` | Volatile VSYNC polling and nonzero allocation failure; joint native proof `af1316d` |
+| Native frame delay / DOS initializer | `af1352i` / `af1316f` | Volatile VSYNC polling using reset-plus-while and nonzero allocation failure; historical joint native proof `af1316d`, Reimu/VSYNC joint `af1352g` |
 | Shared sound ASM leaves | `af1328b` | Three newly source-bound original TASM owners: PMD mode detection, resident probe and SE reset; 100 CODE bytes, native link/relocs exact |
 | Graphics/resource ASM leaves | `af1330f` | Six source-bound TASM owners, 1,622 CODE bytes; HUD score aliases, sprite16, MRS, palette, flip LUT and fill carrier; includes now bound |
 | Vector/playfield/collision ASM | `af1332c` | Three newly source-bound TASM objects: 160-byte vectors, 118-byte playfield geometry, 432-byte collision-map generator |

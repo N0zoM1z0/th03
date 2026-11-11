@@ -15,8 +15,9 @@ void far pascal frame_delay(int frames)
     // Reset the volatile 16-bit VSYNC counter exactly once. The loop
     // rereads the live counter on every pass, without sleeping or timing out.
     // Keep the original mixed signed/unsigned comparison order.
-    // Only the for initializer writes the volatile counter; the condition
-    // observes each interrupt-driven update without a software increment.
-    for(vsync_Count1 = 0; vsync_Count1 < frames;) {
+    // An explicit reset writes the volatile counter once; the while test
+    // reloads it on every interrupt-driven update without incrementing it.
+    vsync_Count1 = 0;
+    while(vsync_Count1 < frames) {
     }
 }

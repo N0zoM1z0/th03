@@ -169,7 +169,7 @@ void near reimu_pattern_orbit_cloud(void)
 
 		// The variable unsigned-word interval compares its remainder with
 		// zero; both projectile emissions and RNG order remain unchanged.
-		if(!(boss_frame % reimu_cloud_interval)) {
+		if((boss_frame % reimu_cloud_interval) == 0) {
 			bullet_template.type = BT_PELLET_CLOUD;
 			bullet_template.group = BG_1;
 			bullet_template.pid = (1 - pid_current);
@@ -195,7 +195,7 @@ void near reimu_pattern_orbit_cloud(void)
 		}
 	}
 
-	if(!(boss_frame % REIMU_CLOUD_ACCEL_PERIOD)) {
+	if((boss_frame % REIMU_CLOUD_ACCEL_PERIOD) == 0) {
 		// Keep postfix on this byte field: prefix, compound and explicit
 		// self-addition all changed the complete original owner.
 		reimu_cloud_speed++;
@@ -239,22 +239,24 @@ void near reimu_pattern_spreads(void)
 	// Each window has its own emission group but shares the real
 	// 16-frame global cadence. All off-cadence ticks still move the BOSS.
 	if(boss_frame < REIMU_SPREAD_NARROW_END) {
-		if(round_frame_mod16 == 0) {
-			bullet_template.angle = 0x20;
-			bullet_template.group = BG_3_SPREAD_NARROW;
-			bullets_add();
-			bullet_template.angle = 0x60;
-			bullets_add();
+		if(round_frame_mod16 != 0) {
+			return;
 		}
+		bullet_template.angle = 0x20;
+		bullet_template.group = BG_3_SPREAD_NARROW;
+		bullets_add();
+		bullet_template.angle = 0x60;
+		bullets_add();
 		return;
 	}
 
 	if(boss_frame < REIMU_SPREAD_MEDIUM_END) {
-		if(round_frame_mod16 == 0) {
-			bullet_template.group = BG_5_SPREAD_MEDIUM;
-			bullet_template.angle = 0x40;
-			bullets_add();
+		if(round_frame_mod16 != 0) {
+			return;
 		}
+		bullet_template.group = BG_5_SPREAD_MEDIUM;
+		bullet_template.angle = 0x40;
+		bullets_add();
 	} else {
 		boss_mode = REIMU_MODE_SELECT;
 		boss_frame = 0;
@@ -328,18 +330,19 @@ void near reimu_pattern_orbit_burst(void)
 		}
 		reimu_orbit_angle += REIMU_ORBIT_ANGLE_STEP;
 
-		if(round_frame_mod16) {
-			return;
+		// Only a global 16-frame tick launches the maintenance ring. The
+		// off-cadence path still updates every orbit point and byte angle.
+		if(round_frame_mod16 == 0) {
+			bullet_template.type = BT_BULLET16_DEFAULT;
+			bullet_template.speed.v = reimu_ring_speed;
+			bullet_template.pid = (1 - pid_current);
+			bullet_template.center.x.v = boss_center_x;
+			bullet_template.center.y.v = boss_center_y;
+			bullet_template.angle = randring_far_next16();
+			bullet_template.group = BG_RING;
+			bullet_template.count = reimu_ring_count;
+			bullets_add();
 		}
-		bullet_template.type = BT_BULLET16_DEFAULT;
-		bullet_template.speed.v = reimu_ring_speed;
-		bullet_template.pid = (1 - pid_current);
-		bullet_template.center.x.v = boss_center_x;
-		bullet_template.center.y.v = boss_center_y;
-		bullet_template.angle = randring_far_next16();
-		bullet_template.group = BG_RING;
-		bullet_template.count = reimu_ring_count;
-		bullets_add();
 	} else if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
 		for(int i = 0; i < reimu_orbit_count; ++i) {
 			unsigned char angle = static_cast<unsigned char>(

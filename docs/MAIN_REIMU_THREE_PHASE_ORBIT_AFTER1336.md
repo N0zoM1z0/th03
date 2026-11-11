@@ -35,3 +35,36 @@ PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py -
 
 These are source-bound physical native scopes, not newly owned CODE
 bytes or canonical Factory Oracle packed-file acceptance.
+
+## 2026-11-11: source-exact Reimu windows and stable-ring cadence
+
+Reimu's large spread controller now expresses the first two firing windows
+with their own direct off-cadence returns; the narrow two-volley pattern
+and medium five-way volley remain tied to the global 16-frame clock. In
+the stable-radius phase of `reimu_pattern_orbit_burst()`, each frame still
+recomputes all original orbit coordinates and advances the byte angle,
+while a positive `round_frame_mod16 == 0` condition controls the random
+ring release. No RNG is consumed on off-cadence frames. The cloud BOSS
+pattern also uses explicit zero-remainder gates for its variable launch
+interval and two-frame byte-speed increment. The original unsigned word
+modulo and signed polar math are unchanged.
+
+Individual whole-owner native trials `af1352a` (narrow window),
+`af1352b` (orbit maintenance), `af1352c` (cloud zero remainder) and
+`af1352f` (medium window) all reproduced the original. A negative
+`af1352d` trial inverted and lifted the mirrored spread terminal
+condition; it retained the same **2,020-byte total CODE length** but
+changed 62 actual code byte locations. The original mirror branch layout
+was restored rather than accepting merely equal length.
+
+Current source-rooted `af1352h` compiles the complete **2,020-byte** Reimu
+BOSS object twice in the original TC4 and reproduces all **270 ordered
+native fields, nine PUBLICs**, both normal Japanese MAIN links and the
+ordered MZ relocations. Joint current-source `af1352g` rebuilds Reimu
+and the independently owned VSYNC frame-delay leaf together (**2,041
+CODE bytes, 272 fields, ten PUBLICs**) with exact normal links.
+
+Reimu receipt: `.analysis/work/exatt-layout-af1352h/report.json`, SHA-256
+`bb173522c5f977217f5a3d588c79c9b0c76ac8427892940acf2c39c5bd275ce3`.
+Joint receipt: `.analysis/work/exatt-layout-af1352g/report.json`, SHA-256
+`5fb6bb72198312554484112c9a1528d3e9a61d2688ab5c56949603c2c80cefb1`.

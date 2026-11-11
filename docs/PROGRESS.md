@@ -31,7 +31,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Input modes and keyboard wait | af1344d | Verified | 1 | 367 | — |
 | th03-main / PMD/MIDI audio services | af1346g | Verified | 2 | 150 | — |
 | th03-main / Signed Q8 polar geometry | af1322h | Verified | 1 | 26 | — |
-| th03-main / Volatile VSYNC frame delay | af1316e | Verified | 1 | 21 | — |
+| th03-main / Volatile VSYNC frame delay | af1352i | Verified | 1 | 21 | — |
 | th03-main / DOS MAIN initializer | af1316f | Verified | 1 | 62 | — |
 | th03-main / Ellen Extra Attack | af1129e | Verified | 1 | 1,129 | — |
 | th03-main / Yumemi Extra Attack | af1200c | Verified | 1 | 1,696 | — |
@@ -46,7 +46,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Kana BOSS | af1323f | Verified | 1 | 1,874 | — |
 | th03-main / Chiyuri BOSS | af1349a | Verified | 1 | 2,654 | — |
 | th03-main / Kotohime BOSS | af1343i | Verified | 1 | 1,840 | — |
-| th03-main / Reimu BOSS | af1336i | Verified | 1 | 2,020 | — |
+| th03-main / Reimu BOSS | af1352h | Verified | 1 | 2,020 | — |
 | th03-main / Mima BOSS | af1351b | Verified | 1 | 1,922 | — |
 | th03-main / Marisa BOSS | af1325h | Verified | 1 | 1,431 | — |
 | th03-main / Ellen BOSS | af1331h | Verified | 1 | 1,675 | — |
@@ -120,7 +120,7 @@ th03-main PMD/MIDI audio services: `.analysis/work/exatt-layout-af1346g/report.j
 
 th03-main Signed Q8 polar geometry: `.analysis/work/exatt-layout-af1322h/report.json`.
 
-th03-main Volatile VSYNC frame delay: `.analysis/work/exatt-layout-af1316e/report.json`.
+th03-main Volatile VSYNC frame delay: `.analysis/work/exatt-layout-af1352i/report.json`.
 
 th03-main DOS MAIN initializer: `.analysis/work/exatt-layout-af1316f/report.json`.
 
@@ -150,7 +150,7 @@ th03-main Chiyuri BOSS: `.analysis/work/exatt-layout-af1349a/report.json`.
 
 th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1343i/report.json`.
 
-th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1336i/report.json`.
+th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1352h/report.json`.
 
 th03-main Mima BOSS: `.analysis/work/exatt-layout-af1351b/report.json`.
 
