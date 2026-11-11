@@ -144,7 +144,7 @@ def native_source_reviews(root, artifact):
             ('Static HUD', 'af1165h'),
             ('Player core', 'af1191e'),
             ('Player loss and defeat', 'af1163i'),
-            ('Gauge and shared Extra Attack', 'af1356l'),
+            ('Gauge and shared Extra Attack', 'af1363i'),
             ('Marisa Chargeshot', 'af1134f'),
             ('Chiyuri Chargeshot', 'af1135h'),
             ('Reimu Chargeshot', 'af1136f'),

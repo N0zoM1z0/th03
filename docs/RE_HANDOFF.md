@@ -73,7 +73,7 @@ list. The full selection lives in the generated progress table.
 | Warning / Gauge HUD | `af1362n` | Exact pause and key-release loops, signed 27-frame palette flash, six-row cleanup and word-frame low-bit tests; 7-owner joint `af1362o` |
 | Hitbox + HitCircle | `af1350h` | Whole 711-byte collision pair; short-circuited spawn/bomb gates, explicit DGROUP near-pointers, natural live-age sprite rendering and random-center guard; historical Chiyuri/Bullet join `af1348k` |
 | CPU movement/dodge controller | `af1357k` | Full 1,077-byte controller; short-circuit floor escape, exact collision scan/bomb clocks and nine-direction retry predicates; core/input/hitbox/VSYNC joint `af1357l` |
-| Gauge / shared Extra Attack | `af1356l` | Constant near player pointer, positive non-Hyper/not-full charge gate and exact saturation; Polar/Marisa/Bullet joint `af1356m` |
+| Gauge / shared Extra Attack | `af1363i` | Exact player-zero callback early return with two 16-bit locals and original far-Pascal ABI; Gauge gate unchanged; Kotohime/Extra/Polar joint `af1363j` |
 | MAINL Staff + root | `af942s` / `af944r` | Retained source scopes; decoded MAINL publication refreshed at `af1055m` |
 
 Other complete BOSS, Bullet, Chargeshot, Bomb, HUD and player owners are listed

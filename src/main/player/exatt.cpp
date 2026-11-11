@@ -18,12 +18,13 @@ void pascal exatt_add(Subpixel center_x_, Subpixel center_y_, pid_t pid)
 	const subpixel_t center_y = center_y_.v;
 
 	static_assert(PLAYER_COUNT == 2);
-	// Natural `pid == 0` also preserves the original zero-player
-	// branch (af858a). Reversing the branch and callbacks changed
-	// codegen at unchanged CODE size (af858d). Keep original call order.
+	// Preserve the original player-zero branch and callback order.
+	// The first call can return directly; the player-one call then
+	// occupies the remaining tail with the original far-Pascal ABI.
+	// Reversing this decision changed CODE at unchanged size (af858d).
 	if(!pid) {
 		exatt_funcs[0].add(center_x, center_y, 0);
-	} else {
-		exatt_funcs[1].add(center_x, center_y, 1);
+		return;
 	}
+	exatt_funcs[1].add(center_x, center_y, 1);
 }

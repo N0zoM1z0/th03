@@ -68,3 +68,27 @@ compiled twice, reusing 97 other objects and CRT,
 without a full cold replay. The original CODE
 was previously source-owned; no newly accepted
 Factory packed-game byte credit is implied.
+
+## Player-zero callback dispatch as an exact tail exit (2026-11-11)
+
+The 41-byte `exatt_add()` leaf can call the player-zero far-Pascal
+callback and return immediately, leaving the player-one callback as
+the only remaining tail. It still converts both original `Subpixel`
+wrappers into distinct 16-bit local words before branching, passes the
+original literal player arguments and retains each far function-pointer
+call's ABI. The native code and ordered fixups are unchanged. The
+historic inverse-branch trial `af858d` remains a meaningful compiler
+constraint; this new early return does not invert the tested branch.
+
+Stage `af1363h` proved the isolated 41-byte leaf. Current `af1363i`
+recompiles both original Gauge and shared Extra Attack objects:
+**96 CODE bytes, three ordered native fields, two PUBLICs**, with two
+exact original TC4/TLINK normal MAIN links. Consumer `af1363j` also
+recompiles Kotohime BOSS, Kotohime Extra Attack, Bullet, shared BOSS,
+Polar and SE: **6,770 CODE bytes, 685 fields and 52 PUBLICs**, both
+normal Japanese MAIN images and ordered MZ relocations exact.
+
+Current proof: `.analysis/work/exatt-layout-af1363i/report.json`, SHA-256
+`aa984ab2f33b85db1bd3fb6de142f10c4ab8d8cb79a2a65c0941bb05356cb094`.
+Joint proof: `.analysis/work/exatt-layout-af1363j/report.json`, SHA-256
+`26467348b4324384a4116c0983480751ab46ee5f97ac469d6bf69960bdb08d0e`.
