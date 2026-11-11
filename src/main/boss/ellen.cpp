@@ -166,7 +166,8 @@ enum ellen_spread_phase_t {
 
 // Both spread gates keep unsigned-word remainder in natural truth tests.
 // The original fire_single/done labels still preserve native branch
-// layout; merging the decrement and negative test in strip rendering
+// layout; after the done label, the completion clock is a direct exit.
+// Merging the decrement and negative test in strip rendering
 // changed original CODE (af678b).
 void near ellen_pattern_spread(void)
 {
@@ -209,10 +210,12 @@ void near ellen_pattern_spread(void)
 		// Eight native spread calls in original sound/angle order.
 		// A named mutable byte step is exact as C++ `angle=angle+enum`
 		// (af893k), unlike replacing literal `angle +=8` with enum.
-		for(register int i = 0; i < ELLEN_SPREAD_VOLLEY_COUNT; ++i) {
+		register int i = 0;
+		while(i < ELLEN_SPREAD_VOLLEY_COUNT) {
 			bullets_add();
 			ellen_spread_angle = ellen_spread_angle + ELLEN_SPREAD_ANGLE_STEP;
 			bullet_template.angle = ellen_spread_angle;
+			++i;
 		}
 		goto done;
 	}
@@ -229,11 +232,12 @@ fire_single:
 	ellen_spread_angle = ellen_spread_angle + ELLEN_SPREAD_ANGLE_STEP;
 
 done:
-	if(boss_frame >= ELLEN_SPREAD_FINISH) {
-		boss_render_mode = ELLEN_RENDER_MODE_NORMAL;
-		boss_mode = ELLEN_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < ELLEN_SPREAD_FINISH) {
+		return;
 	}
+	boss_render_mode = ELLEN_RENDER_MODE_NORMAL;
+	boss_mode = ELLEN_MODE_SELECT;
+	boss_frame = 0;
 }
 
 // Warning pulses and radial Extra Attack bursts happen at these
@@ -272,16 +276,19 @@ void near ellen_pattern_extra(void)
 		// Each burst independently draws its RNG angle and divides the
 		// 256-unit circle by the byte count at each iteration. In the
 		// current TC4 context, compound += preserves the original code.
-		// The byte-angle advance remains AFTER the Extra Attack call.
+		// The pre-tested loop retains the original post-call index,
+		// then the signed 16-bit division/byte-angle advance.
 		register int i = 0;
 		unsigned char angle = randring_far_next16();
-		for(; i < ellen_extra_count; ++i, angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count)) {
+		while(i < ellen_extra_count) {
 			ellen_extra_add(
 				boss_center_x,
 				boss_center_y,
 				angle,
 				ELLEN_EXTRA_FIRST_MODE
 			);
+			++i;
+			angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count);
 		}
 		return;
 	}
@@ -291,13 +298,15 @@ void near ellen_pattern_extra(void)
 		// Keep the original burst-local DI/SI lifetime in its own scope.
 		register int i = 0;
 		unsigned char angle = randring_far_next16();
-		for(; i < ellen_extra_count; ++i, angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count)) {
+		while(i < ellen_extra_count) {
 			ellen_extra_add(
 				boss_center_x,
 				boss_center_y,
 				angle,
 				ELLEN_EXTRA_LAST_MODE
 			);
+			++i;
+			angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count);
 		}
 		boss_mode = ELLEN_MODE_SELECT;
 		boss_frame = 0;
@@ -360,10 +369,11 @@ void near ellen_pattern_pellets(void)
 		ellen_pellet_angle += ELLEN_PELLET_ANGLE_STEP;
 	}
 
-	if(boss_frame >= ELLEN_PELLET_FINISH_FRAME) {
-		boss_mode = ELLEN_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < ELLEN_PELLET_FINISH_FRAME) {
+		return;
 	}
+	boss_mode = ELLEN_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void far gba_boss_update_ellen(void)
@@ -542,11 +552,13 @@ void near pascal ellen_render_intro(
 	sprite16_put_size.h = ELLEN_RENDER_INTRO_HEIGHT;
 	sprite16_offset_t sprite_offset = (pid.so_attack + ELLEN_RENDER_INTRO_SPRITE_OFF);
 
-	// Four families of eight genuine sprites. Two nested natural
-	// for loops keep both byte-angle steps and sprite-offset updates
-	// in the original post-render order (native af893c).
-	for(i = 0; i < ELLEN_INTRO_RADIAL_FAMILIES; ++i) {
-		for(int j = 0; j < ELLEN_INTRO_ARC_SPRITES; ++j) {
+	// Four families of eight genuine sprites. The nested pre-tested
+	// loops keep each signed index advance after the sprite call and
+	// both byte-angle and sprite-offset steps in their original order.
+	i = 0;
+	while(i < ELLEN_INTRO_RADIAL_FAMILIES) {
+		int j = 0;
+		while(j < ELLEN_INTRO_ARC_SPRITES) {
 			left = polar(
 				boss_center_x,
 				length,
@@ -568,11 +580,13 @@ void near pascal ellen_render_intro(
 			// Enum-valued `+=` changed code; ordinary byte assignment
 			// with named +0x20 restores original TC4 instructions (af893j).
 			angle = angle + ELLEN_INTRO_ARC_ANGLE_STEP;
+			++j;
 		}
 		// The next family's +3 byte angle has the same native-exact
 		// C++ assignment pattern (af893i), without changing wraparound.
 		angle = angle + ELLEN_INTRO_GROUP_ANGLE_STEP;
 		sprite_offset -= 4;
+		++i;
 	}
 }
 

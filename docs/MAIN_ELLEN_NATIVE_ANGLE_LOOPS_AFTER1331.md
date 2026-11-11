@@ -62,3 +62,38 @@ Current source receipt: `.analysis/work/exatt-layout-af1353e/report.json`,
 SHA-256 `fedf221acaab1f6011a0d992e862f475a6a71eb19be8b9d884371e944d797171`.
 Joint receipt: `.analysis/work/exatt-layout-af1353f/report.json`,
 SHA-256 `e51c8d102b876bed9dc8b8fdfde5bf47add5b1910fbc38c199ef7dc18f90525f`.
+
+## 2026-11-11: pre-tested loops across both large BOSS subsystems
+
+Five real loops in the maintained Ellen BOSS now use pre-tested `while`
+forms: the eight-shot spread volley; the first and last radial Extra
+Attack rings; and both levels of the four-by-eight intro sprite raster.
+Each loop retains the original counter initialization, the emitter call,
+then its signed-index increment and byte-angle update. The two Extra
+Attack loops still perform signed word division at every step, advance
+the angle after each far call and draw exactly one initial RNG value per
+burst. The intro's outer loop advances the separate group angle and
+sprite bank only after all eight sprites of that group.
+
+Both spread and pellet controllers also return directly on unfinished
+frames, allowing the original terminal state assignments to stand after
+the guard. The spread's `fire_single` and `done` labels remain: removing
+their control transfer by reversed tests (`af1360a`) or natural case
+fallthrough (`af1360b`) changed TC4's jump layout. Replacing Extra
+Attack's three warning comparisons with a `switch` (`af1360e`) likewise
+changed CODE and was reverted.
+
+Incremental native stages `af1360c` and `af1360d` proved terminal exits;
+`af1360f`, `af1360g`, `af1360h`, `af1360i` and `af1360j` proved each
+loop transformation. Current-source `af1360k` recompiles the complete
+**1,675-byte Ellen BOSS**, with 213 ordered native fields and nine
+PUBLICs, twice using the original Turbo C++ 4.02 toolchain. The
+seven-object consumer check `af1360l` recompiles Ellen BOSS, Ellen
+Extra Attack, Bullet, both shared BOSS objects, Polar and sound:
+**6,584 CODE bytes, 612 ordered fields and 46 PUBLICs**. Both normal
+Japanese MAIN links and ordered relocations match.
+
+Owner receipt: `.analysis/work/exatt-layout-af1360k/report.json`, SHA-256
+`ebeff3da0d49da0050974eca0bc0f0941ec67d9292bdee44a0bdc124f0e11069`.
+Joint receipt: `.analysis/work/exatt-layout-af1360l/report.json`, SHA-256
+`71f7463a11f195ce8da2aff747e2fc7bca92eb4cdef7a49ed4b91acc7f13db6d`.
