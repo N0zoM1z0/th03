@@ -168,6 +168,11 @@ OWNER_INLINE_PATHS = {
     'ex_reup': (
         'src/main/player/exatt_reimu_update.inl',
     ),
+    # Yumemi now uses the real player class. Root its physical definition,
+    # not an unverified old header in the frozen compiler work tree.
+    'ba_yumem': (
+        'src/main/player/stuff.hpp',
+    ),
 }
 
 # In addition to top-level core.cpp includes, state.inl itself includes the

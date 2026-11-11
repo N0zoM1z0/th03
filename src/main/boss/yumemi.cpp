@@ -8,7 +8,11 @@
 #include "compat/rec98/th03/main/player/cur.hpp"
 #include "compat/rec98/th03/main/player/gba.hpp"
 #include "compat/rec98/th03/main/bullet/bullet.hpp"
-#include "compat/rec98/th03/main/collmap.hpp"
+// Load the true 128-byte player layout before collision declarations.
+// Defer its external storage name to the original source declaration slot.
+#define players yumemi_header_unused_players
+#include "src/main/player/stuff.hpp"
+#undef players
 #include "compat/rec98/th03/main/hitbox.hpp"
 #include "compat/rec98/th03/main/sprite16.hpp"
 #include "compat/rec98/th03/main/playfld.hpp"
@@ -20,15 +24,9 @@
 
 #pragma option -a2
 
-// The target reads two center words from 128-byte player slots.
-// Native trials af1334a/b reconstructed identical CODE with the complete
-// player_stuff_t, but shifted OMF EXTDEF numbering and literal fixups;
-// preserve this exact bounded view until declaration order can be repaired.
-struct yumemi_player_view_t {
-	PlayfieldPoint center;
-	unsigned char rest[124];
-};
-extern yumemi_player_view_t players[PLAYER_COUNT];
+// The original compiler first emits `_players` after the full imported
+// collision, graphics and sound declarations, not inside the player header.
+extern player_stuff_t players[PLAYER_COUNT];
 
 #include "src/main/boss/template_state.hpp"
 

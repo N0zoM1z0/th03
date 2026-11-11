@@ -55,5 +55,47 @@ MAIN links and the ordered MZ relocations.
 
 Current proof: `.analysis/work/exatt-layout-af1350e/report.json`, SHA-256
 `d7c3b5bc3a767651d398ad1d0d2cb8b90c4935b7372bb406caf3a4f58709eb07`.
-The full-player-structure EXTDEF-order issue above remains unresolved and
-is not masked by these source simplifications.
+The full-player-structure EXTDEF-order issue described above was subsequently
+resolved in the source-bound stage `af1350l`, explained below.
+
+## Original complete player state without EXTDEF drift (2026-11-11)
+
+Yumemi's maintained boss source now uses the genuine 128-byte
+`player_stuff_t` from `src/main/player/stuff.hpp`, rather than the former
+handwritten center-plus-padding view. Original TC4 emits externals in
+source declaration order: importing the player header at the collision
+header's position moved `_players` from EXTDEF 38 to EXTDEF 22 even
+though the complete CODE matched. Ordered original fixups therefore
+referred to different external indices, and `af1334a` / `af1350j`
+correctly failed the strict OMF reviewer.
+
+The recovered source includes the full player header where its collmap
+and layout types are needed, temporarily renames *only the header's*
+`players` declaration, and then declares the genuine
+`extern player_stuff_t players[PLAYER_COUNT]` at the original slot after
+collision, graphics and sound imports. The renamed unused declaration
+creates no EXTDEF. Both independent TC4 rounds now place `_players` at
+original EXTDEF **38**, retain all **66 ordered external names**, and
+emit the exact original code and literal FIXUPPs. This scoped approach
+avoids changing shared player headers or every consumer's inputs.
+
+A naive late header include (`af1350i`) failed compilation because the
+original collmap declarations were included twice and the packing state
+had changed. Merely moving the header early (`af1350j`) compiled exact
+CODE but shifted the `_players` EXTDEF. `af1350k` first established full
+object and normal-link equality, but its new header still came from the
+unchanged historical compiler work tree. Stage **`af1350l`** explicitly
+roots the current maintained `src/main/player/stuff.hpp` in both compiler
+rounds, recording its SHA and confirming the compiler's OMF dependency
+COMENT. Its current source-native reviewer passes while the unbound
+`af1350k` report is correctly rejected by that reviewer.
+
+The final independent source-bound stage reproduces the complete
+**2,358 CODE bytes, 343 ordered native fields, 10 PUBLICs**, both normal
+Japanese MAIN images and ordered MZ relocations, without target padding,
+new product storage, object patches or full cold replay.
+
+Current proof: `.analysis/work/exatt-layout-af1350l/report.json`, SHA-256
+`abf8f76dbdab9ad04b3979fddab9fc28a3d76fba71b5d9894eab9b308c8196bc`.
+Current pinned layout header SHA-256:
+`204d1bf8db3ce39dbb3af8966ccfb521bc93f35445e305ab524f48bf026c4912`.
