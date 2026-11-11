@@ -247,24 +247,26 @@ void pascal near explosion_collision_chain_slot_fire_charged_fireball(
 )
 {
 	if(
-		chains.charge_fireball[pid][explosion_collision_chain_slot] >=
+		chains.charge_fireball[pid][explosion_collision_chain_slot] <
 		(COMBO_CHARGED_FIREBALL_BASE - (round_speed / to_sp(1.0f)))
 	) {
-		chains.charge_fireball[pid][explosion_collision_chain_slot] = 0;
-
-		// ZUN bloat: If only fireballs_add() took a parameter!
-		efe_t near *efe_p_prev = efe_p.efe;
-		efe_p.efe = efe;
-
-		/* TODO: Replace with the decompiled call
-		 * 	fireballs_add();
-		 * once that function is part of the same segment */
-		// A normal fireballs_add() emits CALL FAR 9A, rather than
-		// the exact target's NOP; PUSH CS; CALL near (af849f).
-		_asm { nop; push cs; call near ptr fireballs_add; }
-
-		efe_p.efe = efe_p_prev;
+		return;
 	}
+	chains.charge_fireball[pid][explosion_collision_chain_slot] = 0;
+
+	// Preserve the original near current-entity pointer across the
+	// same-segment fireball spawn, including its special call carrier.
+	efe_t near * const efe_p_prev = efe_p.efe;
+	efe_p.efe = efe;
+
+	/* TODO: Replace with the decompiled call
+	 * 	fireballs_add();
+	 * once that function is part of the same segment */
+	// A normal fireballs_add() emits CALL FAR 9A, rather than
+	// the exact target's NOP; PUSH CS; CALL near (af849f).
+	_asm { nop; push cs; call near ptr fireballs_add; }
+
+	efe_p.efe = efe_p_prev;
 }
 
 // ZUN bloat: On Turbo C++ 4.OJ, using an 8-bit index in subscript-heavy code

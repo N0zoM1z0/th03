@@ -76,8 +76,11 @@ list. The full selection lives in the generated progress table.
 | MAINL Staff + root | `af942s` / `af944r` | Retained source scopes; decoded MAINL publication refreshed at `af1055m` |
 
 Other complete BOSS, Bullet, Chargeshot, Bomb, HUD and player owners are listed
-in [PROGRESS.md](PROGRESS.md), not repeated here. When updating one, verify
-its **entire physical owner and consumers**, not only the changed function.
+in [PROGRESS.md](PROGRESS.md), not repeated here. The two-object Combo
+and charged-fireball helper now has current proof `af1360o`, with fireball,
+explosion and Ellen combat consumers checked together at `af1360p`.
+When updating an owner, verify its **entire physical extent and consumers**,
+not only the changed function.
 Successful C++ simplifications in one owner do not imply equal TC4 codegen in
 another: byte/word signedness, local lifetime, `goto` layout, far pointers,
 register effects and RNG consumption matter. Preserve proven original quirks

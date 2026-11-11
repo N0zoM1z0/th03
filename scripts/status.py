@@ -163,7 +163,7 @@ def native_source_reviews(root, artifact):
             ('Kana Bomb', 'af1155b'),
             ('Chiyuri Bomb', 'af1156b'),
             ('Marisa Bomb', 'af1159d'),
-            ('Combo HUD and chain', 'af1131a'),
+            ('Combo HUD and chain', 'af1360o'),
             ('Player shots', 'af1132b'),
             ('Player effects', 'af1133a'),
             ('Warning and Gauge HUD', 'af1160e'),

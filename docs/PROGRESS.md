@@ -82,7 +82,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Kana Bomb | af1155b | Verified | 1 | 526 | — |
 | th03-main / Chiyuri Bomb | af1156b | Verified | 1 | 490 | — |
 | th03-main / Marisa Bomb | af1159d | Verified | 1 | 449 | — |
-| th03-main / Combo HUD and chain | af1131a | Verified | 2 | 978 | — |
+| th03-main / Combo HUD and chain | af1360o | Verified | 2 | 978 | — |
 | th03-main / Player shots | af1132b | Verified | 1 | 449 | — |
 | th03-main / Player effects | af1133a | Verified | 1 | 628 | — |
 | th03-main / Warning and Gauge HUD | af1160e | Verified | 1 | 1,560 | — |
@@ -222,7 +222,7 @@ th03-main Chiyuri Bomb: `.analysis/work/exatt-layout-af1156b/report.json`.
 
 th03-main Marisa Bomb: `.analysis/work/exatt-layout-af1159d/report.json`.
 
-th03-main Combo HUD and chain: `.analysis/work/exatt-layout-af1131a/report.json`.
+th03-main Combo HUD and chain: `.analysis/work/exatt-layout-af1360o/report.json`.
 
 th03-main Player shots: `.analysis/work/exatt-layout-af1132b/report.json`.
 
