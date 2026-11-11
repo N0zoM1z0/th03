@@ -99,3 +99,34 @@ Current proof: `.analysis/work/exatt-layout-af1350l/report.json`, SHA-256
 `abf8f76dbdab9ad04b3979fddab9fc28a3d76fba71b5d9894eab9b308c8196bc`.
 Current pinned layout header SHA-256:
 `204d1bf8db3ce39dbb3af8966ccfb521bc93f35445e305ab524f48bf026c4912`.
+
+## 2026-11-11: mutually exclusive chase beams and direct completion exits
+
+`yumemi_pattern_chase()` now expresses the tracked beam firing and chase
+termination as one `if/else if` pair. A beam frame still draws the warning,
+emits the Extra Attack and suppresses terminal reset even after the chase
+clock expires. Otherwise the terminal path resets the beam animation,
+SELECT mode and seek phase in the original order. Both sine movement calls
+still precede this decision, with the original player position and RNG
+consumption unchanged.
+
+The expanding ring and aimed-random attack controllers now return on
+incomplete frames, committing their original `YUMEMI_MODE_SELECT` resets
+only *after* their inclusive terminal clocks. The cross-ring and rain
+attacks likewise return before their respective terminal frames, with
+all four random ring angles, twelve rain-drop positions/angles and the
+final-frame emissions kept before mode completion.
+
+Stages `af1358i` (chase), `af1358j` (ring finish), `af1358k` (aimed
+finish) and current `af1358l` (cross/rain finish) each reproduced the
+complete **2,358-byte** Yumemi BOSS object in two original TC4 rounds,
+including **343 ordered fields, ten PUBLICs** and exact normal Japanese
+MAIN links. Joint `af1358o` recompiles Yumemi BOSS, Yumemi Extra Attack,
+Bullet, both shared BOSS objects, PI loader, Polar and SE: **7,904 CODE
+bytes, 756 fields, 47 PUBLICs**, with complete original normal MAIN
+image and ordered MZ relocations in both rounds.
+
+Current BOSS proof: `.analysis/work/exatt-layout-af1358l/report.json`,
+SHA-256 `0127b48a578226662b37efbe9001c491397708f7b8a5f2d6a979048b49e7b3e2`.
+Joint proof: `.analysis/work/exatt-layout-af1358o/report.json`,
+SHA-256 `fc11fa573456b79b4ff40c42914cb085414637c47ad0598095a7e1a5a256b5ca`.

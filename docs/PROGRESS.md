@@ -24,7 +24,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / VRAM plane initializer | af1326e | Verified | 1 | 41 | — |
 | th03-main / Stage demo transition | af1333a | Verified | 1 | 663 | — |
 | th03-main / Shared BOSS | af1351g | Verified | 2 | 949 | — |
-| th03-main / PI image loader | af1322i | Verified | 1 | 70 | — |
+| th03-main / PI image loader | af1358n | Verified | 1 | 70 | — |
 | th03-main / DOS executable handoff | af1322j | Verified | 1 | 79 | — |
 | th03-main / Resident CFG loader | af1182a | Verified | 1 | 49 | — |
 | th03-main / PC-98 shutdown | af1184d | Verified | 1 | 67 | — |
@@ -50,7 +50,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Mima BOSS | af1351b | Verified | 1 | 1,922 | — |
 | th03-main / Marisa BOSS | af1356f | Verified | 1 | 1,431 | — |
 | th03-main / Ellen BOSS | af1353e | Verified | 1 | 1,675 | — |
-| th03-main / Yumemi BOSS | af1350l | Verified | 1 | 2,358 | — |
+| th03-main / Yumemi BOSS | af1358l | Verified | 1 | 2,358 | — |
 | th03-main / Bullet engine | af1351j | Verified | 1 | 2,685 | — |
 | th03-main / Fireball engine | af1325i | Verified | 1 | 1,555 | — |
 | th03-main / Enemy engine | af1358g | Verified | 4 | 3,325 | — |
@@ -106,7 +106,7 @@ th03-main Stage demo transition: `.analysis/work/exatt-layout-af1333a/report.jso
 
 th03-main Shared BOSS: `.analysis/work/exatt-layout-af1351g/report.json`.
 
-th03-main PI image loader: `.analysis/work/exatt-layout-af1322i/report.json`.
+th03-main PI image loader: `.analysis/work/exatt-layout-af1358n/report.json`.
 
 th03-main DOS executable handoff: `.analysis/work/exatt-layout-af1322j/report.json`.
 
@@ -158,7 +158,7 @@ th03-main Marisa BOSS: `.analysis/work/exatt-layout-af1356f/report.json`.
 
 th03-main Ellen BOSS: `.analysis/work/exatt-layout-af1353e/report.json`.
 
-th03-main Yumemi BOSS: `.analysis/work/exatt-layout-af1350l/report.json`.
+th03-main Yumemi BOSS: `.analysis/work/exatt-layout-af1358l/report.json`.
 
 th03-main Bullet engine: `.analysis/work/exatt-layout-af1351j/report.json`.
 

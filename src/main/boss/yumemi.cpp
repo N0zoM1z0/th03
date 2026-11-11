@@ -246,11 +246,12 @@ void near yumemi_pattern_ring(void)
 		yumemi_speed_add += YUMEMI_RING_SPEED_ADD_STEP;
 	}
 
-	if(boss_frame > YUMEMI_RING_FINISH_AFTER) {
-		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
-		boss_mode = YUMEMI_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame <= YUMEMI_RING_FINISH_AFTER) {
+		return;
 	}
+	boss_render_mode = YUMEMI_RENDER_MODE_NONE;
+	boss_mode = YUMEMI_MODE_SELECT;
+	boss_frame = 0;
 }
 
 // Timing gates for the long aimed, cross, chase and rain BOSS attacks.
@@ -346,11 +347,12 @@ void near yumemi_pattern_aimed_random(void)
 
 	// The aimed pattern releases its visual state only after the
 	// original inclusive terminal frame, not on that frame itself.
-	if(boss_frame > YUMEMI_AIMED_FINISH_AFTER) {
-		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
-		boss_mode = YUMEMI_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame <= YUMEMI_AIMED_FINISH_AFTER) {
+		return;
 	}
+	boss_render_mode = YUMEMI_RENDER_MODE_NONE;
+	boss_mode = YUMEMI_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void near yumemi_pattern_cross_rings(void)
@@ -381,10 +383,11 @@ void near yumemi_pattern_cross_rings(void)
 		bullets_add();
 	}
 
-	if(boss_frame >= YUMEMI_CROSS_FINISH_AT) {
-		boss_mode = YUMEMI_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < YUMEMI_CROSS_FINISH_AT) {
+		return;
 	}
+	boss_mode = YUMEMI_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void near yumemi_pattern_chase(void)
@@ -423,12 +426,9 @@ void near yumemi_pattern_chase(void)
 			bullet_template.pid
 		);
 		yumemi_extra_add(boss_aux_point.x.v, boss_aux_point.y.v);
-		return;
-	}
-
-	// The final clock gate only commits the mode transition after the
-	// tracked beam path and both sine movements have completed.
-	if(boss_frame > yumemi_chase_until) {
+	} else if(boss_frame > yumemi_chase_until) {
+		// The final clock gate commits the mode transition only when
+		// the tracked beam has not fired on this frame.
 		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
 		boss_mode = YUMEMI_MODE_SELECT;
 		boss_frame = 0;
@@ -477,10 +477,11 @@ void near yumemi_pattern_rain(void)
 
 	// Stop the rain only after its complete frame window; all RNG drops
 	// and the two spreads above retain their original call order.
-	if(boss_frame >= YUMEMI_RAIN_FINISH_AT) {
-		boss_mode = YUMEMI_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < YUMEMI_RAIN_FINISH_AT) {
+		return;
 	}
+	boss_mode = YUMEMI_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void far gba_boss_update_yumemi(void)
