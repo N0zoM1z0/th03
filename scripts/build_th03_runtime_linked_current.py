@@ -10,10 +10,11 @@ import subprocess
 
 import build_th03_package_current as package
 import build_th03_runtime_current as runtime
+import build_th03_startup_current as startup_source
 from lib.pc98 import parse_mz
 
 ROOT, DRIVE = package.ROOT, package.DRIVE
-STAGE = 'af1397l'
+STAGE = 'af1409l'
 DRIVER = 'scripts/build_th03_runtime_linked_current.py'
 need, pin, sha = package.need, package.pin, package.sha
 
@@ -21,16 +22,19 @@ need, pin, sha = package.need, package.pin, package.sha
 def context(stage, parent=None):
     parent = package.review() if parent is None else parent
     rebuilt = runtime.verify(reviewed=parent)
+    startup_proof = startup_source.review()
     base, _, _, inputs, responses, maps = package.context(stage, {})
     inputs[DRIVER] = sha((ROOT / DRIVER).read_bytes())
     inputs[runtime.DRIVER] = sha((ROOT / runtime.DRIVER).read_bytes())
     report = DRIVE / 'TH03RT' / runtime.STAGE / 'runtime-build.json'
     inputs[str(report.relative_to(ROOT))] = sha(report.read_bytes())
+    for path in (startup_source.DRIVER, startup_proof['report']):
+        inputs[path] = sha((ROOT / path).read_bytes())
     startups = []
     for n in (1, 2):
         library = ROOT / rebuilt['libraries'][n - 1]
         inputs[str(library.relative_to(ROOT))] = sha(library.read_bytes())
-        startup = DRIVE / 'TH03PKG' / package.STAGE / f'r{n}/c0l.obj'
+        startup = ROOT / startup_proof['objects'][n - 1]
         inputs[str(startup.relative_to(ROOT))] = sha(startup.read_bytes())
         startups.append(startup.read_bytes())
         for product in package.PRODUCTS:
@@ -43,8 +47,8 @@ def context(stage, parent=None):
             for token in unused:
                 raw = raw.replace(token, b'')
             responses[key] = raw
-    need(startups[0] == startups[1], 'unchanged source C0 pair')
-    return base, parent, rebuilt, inputs, responses, maps, startups[0]
+    need(startups[0] == startups[1], 'independent original-exact source C0 pair')
+    return base, parent, rebuilt, inputs, responses, maps, startup_proof, startups[0]
 
 
 def commands(base, number):
@@ -79,10 +83,11 @@ def expected_map(product, raw):
 
 
 def review(stage=STAGE, parent=None):
-    base, parent, rebuilt, inputs, responses, maps, startup = context(stage, parent)
+    base, parent, rebuilt, inputs, responses, maps, startup_proof, startup = context(stage, parent)
     report = json.loads((base / 'runtime-linked.json').read_bytes())
     need(report['complete'] and report['stage'] == stage and report['inputs'] == inputs and
-         report['parent'] == parent and report['runtime'] == rebuilt, 'complete actual source/runtime/link context')
+         report['parent'] == parent and report['runtime'] == rebuilt and report['startup'] == startup_proof,
+         'complete actual source/runtime/link context')
     need((base / 'startup/c0l.obj').read_bytes() == startup, 'actual consumed source C0 object')
     need(all((base / n).read_bytes() == raw for n, raw in responses.items()), 'all actual ordered linker responses')
     expected = [(f'r{n}-{product}', argv, str(cwd), 0) for n in (1, 2) for product, argv, cwd in commands(base, n)]
@@ -106,6 +111,7 @@ def review(stage=STAGE, parent=None):
     need(vectors[0] == vectors[1], 'all three complete EXEs and two repeatable MAPs repeat')
     return dict(stage=stage, complete_three_current_links_equal=True, native_rounds=2,
                 source_CL_contributors=rebuilt['selected_members'], source_startup_reused=True,
+                startup_stage=startup_proof['stage'], source_startup_original_OBJ_equal=True,
                 unused_EMU_MATHL_removed=True, exact_MAP_alias_swaps=6, exact_MAP_zero_extent_row_changes=3,
                 original_field_order_equal_members=rebuilt['original_field_order_equal_members'],
                 remaining_field_order_members=rebuilt['remaining_field_order_members'],
@@ -114,9 +120,10 @@ def review(stage=STAGE, parent=None):
 
 
 def build(stage):
-    base, parent, rebuilt, inputs, responses, maps, startup = context(stage)
+    base, parent, rebuilt, inputs, responses, maps, startup_proof, startup = context(stage)
     need(not base.exists(), 'unused current runtime link stage')
-    report = dict(complete=False, stage=stage, inputs=inputs, parent=parent, runtime=rebuilt, phases=[], rounds=[])
+    report = dict(complete=False, stage=stage, inputs=inputs, parent=parent, runtime=rebuilt,
+                  startup=startup_proof, phases=[], rounds=[])
     env = dict(os.environ, DISPLAY='', WAYLAND_DISPLAY='', WINEDEBUG='-all', MSDOS_PATH=r'C:\TC4\BIN')
     with (ROOT / '.analysis/borland-wine-writer.lock').open('ab') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)

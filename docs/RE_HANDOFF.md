@@ -23,7 +23,8 @@ The coverage includes original ReC98 `master.lib` CODE; storage
 and zero-length segment carriers add no executable bytes.
 
 OP, MAINL (the ending) and ZUN retain decoded publications. All four products
-still have whole-product source ownership work. The current four-file package
+still have whole-product source ownership work. The complete current build,
+including source runtime/startup and two fresh packing rounds (`af1410p`),
 matches all stored Japanese targets; see
 the [composition review](CURRENT_LINKED_BUILD_REVIEW.md) for its scope and command.
 Tracked extents, accepted decoded bytes and stored-file sizes
@@ -34,8 +35,8 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
 
 1. MAIN's original `input_s` one-byte discrepancy is deferred at the user's
    request. Its current owners already compose exactly with the historical
-   input carrier. The current package compiles shared C0 from maintained source;
-   its original PUBLIC packet-order gap remains open.
+   input carrier. Shared C0 now reproduces the entire original OBJ from supplier
+   source in two independent rounds (`af1408s`), including PUBLIC packet order.
 2. MAINL's complete current project rebuild is `af1369m`; independent natural
    input/sound function bodies are `af1371f`. The four natural sound ASM
    providers compose with that project in `af1375s`, including their EVEN
@@ -49,8 +50,10 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
    range is covered. The old selection aggregate references its accepted
    unlock/tail owners without duplicate credit. The package additionally replaces
    compiler startup with fresh source C0. The source CL contributors now compose
-   across MAIN/OP/MAINL in `af1397l`, using the fresh runtime pair `af1395r`.
-   The `setvbuf` MOV field-order gap remains explicit. The composition review
+   across MAIN/OP/MAINL in `af1409l`, using runtime pair `af1405r` and the
+   original-exact source C0 pair `af1408s`.
+   Natural C `setvbuf` closes its MOV field-order gap; all selected CL members
+   now reproduce their complete literal ordered fields. The composition review
    documents the six alias swaps and three zero-length MAP row changes.
 4. For new OP/MAINL/ZUN ownership, consult `config/units.csv`,
    `config/evidence.csv` and their decoded publications. An unaccepted module
@@ -58,9 +61,12 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
    list. ZUN's enclosing sprite16 driver remains unaccepted despite accepted
    procedure/DATA subscopes; twelve reserved DATA bytes remain unowned. The
    new isolated PARA trial explains three as a compatible linker gap but
-   leaves nine terminal bytes unexplained. TC4 internal MOV fixup ordering
-   is a useful next setvbuf lead; complete candidates still differ. Both
-   findings are in the composition review.
+   leaves nine terminal bytes unexplained. The user has deferred that tail;
+   the complete current build and package acceptance are finished (`af1410p`).
+   Ordinary MZ linking and DOS TLINK
+   7.1.30.1 produce the same short image. The next useful ZUN work needs source
+   or layout evidence for that tail; repeating these linker variants will not
+   resolve it. The composition review records the bounded trials.
 5. Further natural C/C++ simplification is useful when analysis supports it,
    but is not the same as new exact coverage. Inspect the actual source and
    use small positive/negative TC4 trials for a specific codegen question.
@@ -103,6 +109,9 @@ Preflight is for native work or target/runtime changes, not prose edits.
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
+# Verify the current complete links and four final Japanese files:
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python \
+  scripts/package_th03_runtime_current.py
 # Choose a fresh DOS-safe af<number><letter> stage and the affected physical TUs:
 DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python \
   scripts/probe_th03_main_exatt_layout.py --stage afNNNNx --units ba_mima

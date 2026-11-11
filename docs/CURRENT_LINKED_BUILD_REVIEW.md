@@ -1,11 +1,43 @@
 # Current project composition (2026-11-11)
 
 MAIN, OP and MAINL have two target-equal links composed from current source
-outputs. The four-file package also repeats with a freshly assembled shared
-startup. MAIN's deferred input carrier remains unchanged. MAINL's historical
+outputs, all displayed CL contributors and an original-exact supplier C0 OBJ.
+The final four-file package is freshly packed and restored in two rounds.
+MAIN's deferred input carrier remains unchanged. MAINL's historical
 aggregate ranges are explained below. [Generated progress](PROGRESS.md) supplies the current totals.
 
-## Four-file package with source startup
+## Complete current build and final package
+
+The current build uses the verified MAIN/OP/MAINL project pairs, freshly
+rebuilt CL contributors (`af1405r`), original-exact supplier startup (`af1408s`)
+and six complete native links (`af1409l`). ZUN retains its reviewed exact
+decoded output; the user has deferred its nine terminal bytes along with
+MAIN's earlier one-byte input-carrier question.
+
+`scripts/package_th03_runtime_current.py --stage af1410p` consumes those actual
+link outputs. Each round compactly serializes MAIN and runs the pinned DIET
+1.45f `-B` / `-ra` pair on OP, MAINL and ZUN. All four stored files equal the
+canonical Japanese targets byte for byte, and every restored file equals
+its complete current decoded input. All seven final outputs repeat exactly.
+The full EXE images and ordered MZ relocations were checked by the preceding
+link review. The file sizes are listed in the baseline table below.
+
+The final receipt is `TH03PKG/af1410p/runtime-package.json`; the ready files
+are under `r1/packed/` and `r2/packed/` in that directory. Review the complete
+current build with:
+
+```sh
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python \
+  scripts/package_th03_runtime_current.py
+```
+
+The command defaults to read-only verification, including its current linked
+parent. Use `--build --stage afNNNNp` with an unused DOS-safe stage for a fresh
+packing run. `.analysis/work/runtime-package-controls.log` records the complete
+positive review and rejects a changed DIET command, a changed stored target
+byte and a changed restored-input byte, including self-consistent output pins.
+
+## Retained four-file packing baseline
 
 `scripts/build_th03_package_current.py --stage af1386p` independently reviews
 those current object pairs and ZUN's unchanged source-bound cold pair, assembles
@@ -31,10 +63,11 @@ corresponding current parent. Thirteen of fourteen raw outputs repeat exactly;
 MAIN's MAP retains the independently compiled `r1`/`r2` module filenames and
 is checked verbatim against each parent instead of being normalized.
 
-The freshly assembled C0 object preserves all 17 original segments, 767
+That baseline's freshly assembled C0 object preserves all 17 original segments, 767
 initialized bytes, genuine cache holes, reserved stack and all 58 literal
 ordered fixup fields. All 32 PUBLIC packets match as a set; their emitted
-order still differs. The startup comparator reuses the complete physical scope
+order differs. The current supplier-source route below closes that gap.
+The baseline startup comparator reuses the complete physical scope
 from after548 without replaying the historical runtime build chain.
 
 The receipt and actual inputs, outputs, commands and logs are under
@@ -52,35 +85,36 @@ acceptance run directly through the local repository scripts.
 
 ## Current source runtime composes across all three MZ programs
 
-`build_th03_runtime_current.py --stage af1395r` derives the union of CL
-contributors from all three current detailed MAPs. It freshly assembles 76
-maintained providers in two rounds and reuses the independently compiled
-current BCC4.5 `xx` pair. These 77 members cover every CL contributor displayed
+`build_th03_runtime_current.py --stage af1405r` derives the union of CL
+contributors from all three current detailed MAPs. It freshly assembles 75
+maintained providers and compiles natural C `setvbuf` in two rounds, then
+reuses the independently compiled current BCC4.5 `xx` pair. These 77 members cover every CL contributor displayed
 in the three MAPs. Native TLIB preserves the original 893-member order and the
 complete program records of all 816 other supplier members. Both complete
 78-file OBJ/library output vectors repeat byte for byte.
 
 Every provider reproduces the original initialized bytes, true holes, segment
 sizes/attributes, group/entry metadata, imports, PUBLIC ownership and ALIAS
-records. The complete literal ordered fields match for 76 members. The remaining
-`setvbuf` stream retains exactly its two previously documented MOV operand-pair
-swaps, including all original per-site attributes. Its original-order scope
-remains unaccepted. PUBLIC emission order is recorded independently.
+records. The complete literal ordered fields now match for all 77 members,
+including both `setvbuf` MOV operand pairs. PUBLIC emission order is recorded
+independently; these checks add no duplicate canonical owner credit.
 
 The complete check found two missing C++ overload aliases in
 `src/mainl/crt/strrchr.asm`. Their ordinary ALIAS declarations now match both
 original records; instruction bytes and the existing C entry are unchanged.
 The bounded controls reject that actual old alias-incomplete object, a changed
 native field and an archive that disagrees with its actual source producer.
-See `.analysis/work/runtime-current-controls.log`.
+It also rejects the actual old `setvbuf` object with its two swapped operand
+pairs. See `.analysis/work/runtime-current-controls.log`.
 
-`build_th03_runtime_linked_current.py --stage af1397l` composes each current
-project pair with this new library and the already verified source C0 pair.
+`build_th03_runtime_linked_current.py --stage af1409l` composes each current
+project pair with this new library and the original-exact supplier C0 pair
+from `af1408s`.
 All six complete EXEs equal the preceding Japanese-target links, including
 all loaded bytes and ordered MZ relocations. EMU.LIB and MATHL.LIB are removed
 from these responses; neither is needed by the three current links. The same
-raw EXEs are the inputs to the verified four-file package above, so its packing
-proof remains applicable without another unchanged DIET run.
+raw EXEs also match the retained four-file baseline. The final package above
+freshly packs and restores these current outputs.
 
 The full MAP comparison permits only six exact same-address alias-order swaps
 (two in MAIN, one in OP and three in MAINL), plus three zero-length MAINL BSS
@@ -88,8 +122,8 @@ carrier rows: add `ioerror`/`setblock` and remove `fbrk`. These reflect the
 original CL segment declarations instead of the older 29-provider carrier.
 Every other MAP byte remains identical. All three EXEs and both repeatable
 OP/MAINL MAPs agree across rounds; MAIN retains its original round-path names.
-The source runtime and link receipts are under `TH03RT/af1395r` and
-`TH03PKG/af1397l` in this game's Wine drive. Both commands default to read-only
+The source runtime and link receipts are under `TH03RT/af1405r` and
+`TH03PKG/af1409l` in this game's Wine drive. Both commands default to read-only
 review; use `--build` and a fresh stage for native production.
 
 TH04 supplied a useful comparison method rather than missing implementation:
@@ -235,7 +269,44 @@ After changing their selection, run the publisher and regenerate progress.
 Whole-product source ownership remains open.
 The local stored-file comparison is covered by the four-file package above.
 
-## Remaining source questions: ZUN reserves and setvbuf
+## Natural C closes setvbuf's ordered-field gap
+
+`src/shared/crt/stdio_buffer.c` follows the supplier's
+[SETVBUF.C](https://github.com/earthsiege2/borland-cpp-ide/blob/602b99a9fcd8429387d4c54cb1f455854e513886/SOURCE/RTL/CRTL/CLIB/SETVBUF.C)
+at the already inspected BCC4.0 candidate revision. Its original Git blob is
+`a11bc1eeaf3d9014697217b5363f05ab79a6d059`. The same tree supplies
+`CLIB/TURBOC.CFG`, `RULES.MAK` and `BUILD-C0.BAT`; each acquired file was
+checked against that tree's blob ID before use. These provide the original
+control flow and library compiler settings rather than guessed flag variants.
+
+The maintained provider uses the already pinned BCC4.5 compiler and TC4 headers.
+`BCC_FLAGS` in the current runtime builder records the complete native recipe,
+including `-a- -k- -O1 -2- -Vs -X` and the original segment-name options.
+All five transitively consumed headers and the compiler/extender binaries are
+bound as actual inputs. The provider reproduces all 289 CODE bytes, four DATA
+bytes, true holes, segment attributes, imports, PUBLIC ownership, group/entry
+metadata and all 13 literal ordered fields. Both callback MOV pairs now match
+without a comparator exception. The source preserves the supplier's unchecked
+behavior and original declaration structure.
+
+The bounded `af1404c` control keeps that C source unchanged and adds `-r-`:
+CODE shrinks to 285 bytes and the complete physical comparison rejects it.
+Removing only the `register` keyword retains the exact physical output, so
+that spelling alone is not the cause. See `.analysis/work/setvbuf-register-control.log`.
+
+The unmodified supplier source also passes the complete physical comparison
+with BCC4.0 and BCC4.5 in `af1403r`. Earlier hand-written C candidates used
+different control flow and compiler settings and emitted 285/286 bytes;
+the TC2.01 candidate emitted 291. The complete inline-ASM candidate duplicated
+register saves and selected different instruction encodings. None is adopted.
+TASM MASM51/IDEAL modes and JWasm `-Zg` leave the two MOV pairs ascending
+(`af1400f`). The DOS TASM/TASMX executables extracted from the pinned TASM5
+media identify as 4.1 and have the same operand ordering (`af1399t`).
+
+## Deferred source question: ZUN reserves
+
+The user has deferred the nine terminal bytes. Keep the maintained exact
+payload while building and accepting the complete package.
 
 The isolated ZUN trial `TH03ZUN/probe/af1387z` retains the actual tiny MODEL
 and instruction assumptions, separates the ON/OFF strings into a PARA
@@ -252,22 +323,37 @@ Linking that same object as a normal MZ in `af1398z` also leaves a 4,215-byte
 image after the COM origin; it has no relocations and equals the tiny-link
 output completely. Current TLINK's MZ-to-COM route therefore does not explain
 the missing tail. See `.analysis/work/zun-mz-tail.log`.
+The DOS TLINK 7.1.30.1 from the pinned TASM installation media also emits
+exactly that 4,215-byte prefix (`af1407z`); changing to this linker version
+does not supply the tail. See `.analysis/work/zun-dos-linker.log`.
 
-TC4's internal assembler naturally emits the reverse operand-field order
-needed by setvbuf's two callback MOVs. Both a minimal C pointer assignment and
-inline assembly demonstrate this in `TH03OP/probe/af1378c`. TASM emits the
-opposite order. This gives a concrete alternative to object-record rewriting.
-A complete inline-assembly function still differs in register-save handling
-and instruction encodings. The ordinary C reconstruction in `af1388c` emits
-286 CODE bytes versus the original 289, with different epilogues and operand
-fields; it is not adopted. `-1-` and `-2-` disable the default 286 instruction
-selection and produce the same 8086 result with `-O -r-`; `-0` is invalid in
-this TC4 compiler. The source-startup `/ml` case-sensitivity trial in
-`TH03OP/probe/af1389s` preserves storage and all ordered fields but leaves the
-PUBLIC order different, just as `/mx` does. Forward/backward EQU aliases in `af1391f` leave TASM's operand-field order
-unchanged. The maintained shared ASM's two field-order mismatches
-remain open. These small source trials and their logs remain in the local
-probe directories; `.analysis/work/bounded-next.py` reproduces the latter two
-trials in fresh stages after changing their stage names. The older installed
-TC2.01 candidate emits a different 291-byte C function with or without
-register allocation (`TH03OP/probe/af1390c`); it does not resolve setvbuf.
+## Supplier startup reproduces the entire original OBJ
+
+`src/shared/crt/startup/c0.asm` and `rules.asi` retain the pinned TC4 supplier
+sources, with text formatting normalized. The same supplier tree's
+[BUILD-C0.BAT](https://github.com/earthsiege2/borland-cpp-ide/blob/602b99a9fcd8429387d4c54cb1f455854e513886/SOURCE/RTL/CRTL/BUILD-C0.BAT)
+provides the original command: `TASM /m /mx /q /t /d__LARGE__ c0,c0l`.
+Use the DOS TASM 4.1 executable from `CMD16.PAK` in the already pinned
+TASM5.0 media, not TASM32. Its 136,018-byte executable has SHA-256
+`cafc42bbd1df39ab36e775be74ccb82c0a80da7d2a6dff4dcc2f16ba0e220f95`
+and is installed only in this game's `C:\TASM41` directory.
+
+`scripts/build_th03_startup_current.py --stage af1408s` checks both native
+rounds against the entire original 2,438-byte OBJ. They match byte for byte:
+all 17 segments, 767 initialized bytes, genuine holes, 58 ordered fields,
+32 PUBLIC packets in their literal order and every other OMF record. The
+builder binds both maintained source files, the original object, tools,
+actual command and logs. Its receipt is `TH03CRT/af1408s/startup-build.json`.
+The command defaults to read-only review; use `--build` with a fresh stage
+for native execution. The complete three-program links above consume this pair.
+The bounded controls reject a changed assembler command and the actual old
+PUBLIC-order-different object even with its consistent output hash; see
+`.analysis/work/startup-current-controls.log`.
+
+Source context, assembler version and the original flags all matter here.
+The earlier compact hand-maintained source retains a PUBLIC-order difference
+with `/ml` or `/mx`, including DOS TASM 4.1 (`af1389s`, `af1399t`). Supplier
+C0/RULES assembled with TASM32 preserve the physical scope but still change
+packet order. The DOS assembler with the original invocation reproduces the
+whole object (`.analysis/work/startup-supplier-recipe.log`). Keep the old
+`startup_large.asm` unchanged while the four-file packing baseline binds it.

@@ -74,18 +74,24 @@ object in two rounds, reproducing the full decoded EXE and MAP with the
 29-source-provider library. See the [current composition review](CURRENT_LINKED_BUILD_REVIEW.md)
 and [xx source recovery](MAINL_XX_PRODUCT_REVIEW.md).
 
-The shared startup still has a PUBLIC packet-order gap, and
-`src/shared/crt/stdio_buffer.asm` retains two MOV operand pairs in the wrong
-fixup order. The shared runtime's exact findings and these remaining limits
+The supplier startup in `src/shared/crt/startup/` now reproduces the entire
+original C0 OBJ, including PUBLIC packet order, with DOS TASM 4.1 and the
+original `BUILD-C0.BAT` invocation (`af1408s`).
+`src/shared/crt/stdio_buffer.c` now reproduces natural C `setvbuf`, including
+both MOV operand pairs in their original literal field order. The shared runtime's findings
 are recorded in the [DOS exec review](SHARED_EXEC_OP_RUNTIME_AFTER537_NATIVE_REVIEW.md)
 and [startup review](SHARED_STARTUP_AFTER548_NATIVE_REVIEW.md). Keep their
-actual current dependencies. The current four-file package freshly assembles
-shared C0 and compares its entire physical scope without replaying that
-historical runtime chain. Its stored outputs all match the Japanese targets;
-whole-product source ownership remains open. The direct `af1395r` runtime
+actual current dependencies. The four-file package retains its earlier
+source-startup baseline; its stored outputs all match the Japanese targets.
+The current runtime composition replaces that C0 with the original-exact pair
+without replaying the historical runtime chain. Whole-product source ownership
+remains open. The direct `af1405r` runtime
 build now covers all displayed CL contributors in the current three MAPs;
-`af1397l` composes it with the current projects and source C0. These links omit
+`af1409l` composes it with the current projects and source C0. These links omit
 unused EMU/MATHL libraries and retain complete target EXE/MZ equality.
+`package_th03_runtime_current.py` packs those actual links and retained ZUN in
+two fresh rounds (`af1410p`), checks every stored Japanese target byte and
+restores each DIET output to its complete current input.
 MAINL's complete held-key function is now accepted through the independent
 no-trailer TC4 proof. Its alternative ASM carrier still has the historical
 trailing-byte/layout question described in the

@@ -13,9 +13,10 @@ provider, replacing the earlier unmatched working-source candidate. See the
 [C++ native review](../../../docs/MAINL_EXCEPTION_CPP_REVIEW.md) and
 [xx product review](../../../docs/MAINL_XX_PRODUCT_REVIEW.md).
 
-The current shared runtime route freshly assembles all displayed CL contributors
+The current shared runtime route rebuilds the displayed CL contributors
 across MAIN/OP/MAINL and composes them with the current project objects. It
-retains the known `setvbuf` operand-field order gap; the composition review
+uses natural C `setvbuf` with its original operand-field order; all selected
+members now pass the literal ordered-field comparison. The composition review
 contains its current commands and complete comparison scope.
 
 Historical source-linked library totals describe earlier experiments, not the

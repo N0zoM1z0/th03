@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import tomllib
 
 import build_th03_package_current as package
 from build_th03_mainl_after329_work import original_library_member
@@ -21,8 +22,12 @@ from lib.omf import parse_omf
 from probe_th03_main_bomb_rikako_cpp import segment_definitions
 
 ROOT, DRIVE = package.ROOT, package.DRIVE
-STAGE = 'af1395r'
+STAGE = 'af1405r'
 DRIVER = 'scripts/build_th03_runtime_current.py'
+BCC_CONFIG = 'config/mainl_work/exception_toolchain.toml'
+HEADERS = ('STDIO.H', 'STDLIB.H', '_DEFS.H', '_NFILE.H', '_NULL.H')
+BCC_FLAGS = ('-a-', '-c', '-k-', '-O1', '-2-', '-Vs', '-w', '-w-asm', '-X',
+             '-zC_TEXT', '-zR_DATA', '-zTDATA', r'-IC:\TC4\INCLUDE', '-ml')
 SUPPORT = ('scripts/build_th03_mainl_after329_work.py',
            'scripts/build_th03_mainl_after533_work.py',
            'scripts/build_th03_mainl_display_work.py',
@@ -58,7 +63,8 @@ def context(stage, reviewed=None):
     config = json.loads((ROOT / configs[0]).read_bytes())
     need(sha(original.read_bytes()) == config['original_compiler_library_sha256'], 'original CL supplier identity')
     need(set(recipe) | {'xx'} == union, 'source for every current MAP runtime contributor')
-    sources = {n + '.asm': (ROOT / row['source']).read_bytes() for n, row in recipe.items()}
+    recipe['setvbuf'] = dict(source='src/shared/crt/stdio_buffer.c', emitter='bcc45')
+    sources = {n + Path(row['source']).suffix: (ROOT / row['source']).read_bytes() for n, row in recipe.items()}
     includes = {}
     def include(path):
         for token in re.findall(rb'(?im)^\s*include\s+([^\s;]+)', path.read_bytes()):
@@ -73,9 +79,15 @@ def context(stage, reviewed=None):
     need(xx[0].read_bytes() == xx[1].read_bytes(), 'independently compiled current xx pair')
     tools = json.loads((ROOT / 'config/th03_runtime_after547.json').read_bytes())['native_tools']
     tools['tasm'] = json.loads((ROOT / package.STARTUP_CONFIG).read_bytes())['native_tools']['tasm']
+    bcc = tomllib.loads((ROOT / BCC_CONFIG).read_text())
+    for declaration in bcc['surfaces']:
+        tools[declaration['name']] = dict(path=declaration['active'], sha256=declaration['sha256'])
     for name, declaration in tools.items():
         need(sha((ROOT / declaration['path']).read_bytes()) == declaration['sha256'], 'pinned runtime tool: ' + name)
-    inputs = {n: sha((ROOT / n).read_bytes()) for n in (DRIVER, *SUPPORT, *configs, package.DRIVER)}
+    inputs = {n: sha((ROOT / n).read_bytes()) for n in (DRIVER, *SUPPORT, *configs, package.DRIVER, BCC_CONFIG)}
+    for name in HEADERS:
+        path = DRIVE / 'TC4/INCLUDE' / name
+        inputs[str(path.relative_to(ROOT))] = sha(path.read_bytes())
     inputs.update({row['source']: sha((ROOT / row['source']).read_bytes()) for row in recipe.values()})
     inputs.update({'src/mainl/crt/' + n: sha(raw) for n, raw in includes.items()})
     for path in (original, *xx):
@@ -99,11 +111,7 @@ def scope(original, native, name):
     for kind in ('GRPDEF', 'ALIAS', 'MODEND'):
         need(records(original, kind) == records(native, kind), 'literal native ' + kind + ': ' + name)
     aa, zz = literal_fields(original), literal_fields(native)
-    expected = aa
-    if name == 'setvbuf':
-        need(len(aa) == 13 and [f['site'] for f in aa[:5]] == [210, 196, 194, 190, 188], 'original setvbuf field scope')
-        expected = [aa[0], aa[2], aa[1], aa[4], aa[3], *aa[5:]]
-    need(expected == zz, 'entire literal ordered field stream: ' + name)
+    need(aa == zz, 'entire literal ordered field stream: ' + name)
     return dict(segments=a, initialized_bytes=len(y),
                 initialized_sha256=sha(bytes(v for _, v in sorted(y.items()))),
                 uninitialized={str(s['index']): [i for i in range(s['size']) if (s['index'], i) not in y] for s in z},
@@ -118,8 +126,11 @@ def commands(base, recipe, tools, number):
         if row['emitter'] == 'tasm':
             argv = package.native() + [str(ROOT / tools['tasm']['path']), '/m', '/mx', '/kh32768', '/t',
                                       f'{name}.asm,{name}.obj']
-        else:
+        elif row['emitter'] == 'jwasm':
             argv = [str(ROOT / tools['jwasm']['path']), '-nologo', '-Cp', '-omf', '-Fo' + name + '.obj', name + '.asm']
+        else:
+            need(name == 'setvbuf' and row['emitter'] == 'bcc45', 'bounded source C provider')
+            argv = package.dos() + [package.windows(ROOT / tools['bcc']['path']), *BCC_FLAGS, name + '.c']
         yield name, argv, base
     yield 'library', package.dos() + ['tlib', '@' + package.windows(base / f'r{number}/library.rsp')], base
 
@@ -166,7 +177,8 @@ def verify(stage=STAGE, reviewed=None):
         vectors.append({n: (rd / n).read_bytes() for n in names})
     need(vectors[0] == vectors[1], 'all raw runtime objects and native library repeat')
     remaining = sorted(n for n, s in report['rounds'][0]['scopes'].items() if not s['literal_ordered_fields_equal'])
-    return dict(stage=stage, selected_members=len(recipe) + 1, fresh_ASM_providers=len(recipe),
+    return dict(stage=stage, selected_members=len(recipe) + 1, fresh_ASM_providers=len(recipe) - 1,
+                fresh_C_providers=1,
                 reused_independent_CPP_providers=1, native_rounds=2, raw_repeat_equal=True,
                 original_field_order_equal_members=sum(s['literal_ordered_fields_equal'] for s in report['rounds'][0]['scopes'].values()),
                 remaining_field_order_members=remaining, canonical_source_credit_added=False,
@@ -214,7 +226,7 @@ def build(stage):
             for name, raw in fresh.items(): (rd / (name + '.obj')).write_bytes(raw)
             names = {n + '.obj' for n in fresh} | {'linked.lib'}
             report['rounds'].append(dict(round=number, scopes=scopes, outputs={n: pin(rd / n) for n in names}))
-            print(f'Runtime round {number}: {len(recipe)} fresh ASM providers plus current source xx; complete original storage/fields checked', flush=True)
+            print(f'Runtime round {number}: {len(recipe) - 1} fresh ASM providers, natural C setvbuf and current source xx; complete original storage/fields checked', flush=True)
         report['complete'] = True
         (base / 'runtime-build.json').write_text(json.dumps(report, indent=2) + '\n')
     return verify(stage, parent)
