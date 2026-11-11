@@ -46,6 +46,114 @@ void tap(th03::Menu& menu,std::uint16_t key) { menu.tick(0); menu.tick(key); }
 }
 int main(int argc,char** argv) {
     try {
+        if((argc==3&&(std::string(argv[1])=="--explosion"||std::string(argv[1])=="--enemy-hit"||std::string(argv[1])=="--fireball-hit"||std::string(argv[1])=="--combat-pipeline"))||
+           (argc==4&&std::string(argv[1])=="--fireball-hit")||
+           (argc==5&&std::string(argv[1])=="--fireball-run")) {
+            const auto fixture=unsigned(std::stoul(argv[2]));if(fixture>6)throw std::runtime_error("unknown combat fixture");
+            th03::Round round;
+            constexpr unsigned speeds[7]={0,0,96,64,127,32,0},against[7]={0,1,1,2,3,1,1};
+            const auto pid=std::uint8_t(fixture&1);round.speed=std::uint8_t(speeds[fixture]);round.last_chain_slot=9;
+            round.result_frame=fixture==3||fixture==4 ? 300 : 0;
+            round.random.cursor=255;for(unsigned i=0;i<256;++i)round.random.bytes[i]=std::uint8_t(i*13+7);
+            round.players[0].center={3600,4800};round.players[1].center={800,5200};
+            for(unsigned p=0;p<2;++p) {
+                round.players[p].gauge_avail=1024;round.gauge_levels[p]=15;
+                round.scores[p][0]=9;round.scores[p][1]=9;round.scores[p][2]=9;
+            }
+            const auto set=[&](th03::Efe& e,unsigned flag,unsigned frame,unsigned slot) {
+                e.flag=std::uint8_t(flag);e.frame=std::uint8_t(frame);e.center={1200,1800};
+                e.size_words=2;e.hp=0;e.pid=pid;e.size_pixels=32;e.chain_slot=std::uint8_t(slot);
+            };
+            set(round.enemies[0],9,0,3);
+            if(fixture==0||fixture==2)set(round.enemies[1],10,4,4);
+            if(fixture==2)set(round.fireballs[0],10,0,3);
+            if(fixture==3)round.fireballs[0].frame=37;
+            round.chains.hits[pid][3]=fixture==3 ? 10 : fixture==4 ? 12 : 1;
+            round.chains.hits[pid][4]=1;round.chains.value[pid][3]=fixture==3 ? 8 : fixture==4 ? 18 : 0;
+            round.chains.fireball[pid][3]=fixture==3 ? 7 : fixture==4 ? 6 : 0;
+            round.chains.extra[pid][3]=2;
+            if(fixture==2)round.players[pid].hyper_active=1;
+            if(fixture==4) {
+                round.boss_launched_by=pid;round.boss_level=15;round.combos[pid].bonus=29900;
+                round.fireball_variant=1;round.generation_previous=2;
+            }
+            if(fixture==5) {round.combos[pid].bonus=65530;round.combo_points_for_boss_attack=65000;round.scores[pid].fill(9);}
+            const th03::Hitbox box=fixture==6 ? th03::Hitbox{{4000,5000},{4200,5200},pid} : th03::Hitbox{{1100,1700},{1300,1900},pid};
+            th03::CollisionMap collision;
+            const std::string operation=argv[1];
+            std::vector<int> extra_events;
+            const auto extra=[&](th03::Point point,std::uint8_t pid) {extra_events.insert(extra_events.end(),{point.x,point.y,pid});};
+            std::uint8_t result=0;
+            if(operation=="--enemy-hit"||operation=="--fireball-hit") {
+                for(auto& e:round.enemies)e.flag=0;
+                for(auto& f:round.fireballs)f.flag=0;
+                round.bullets.model.reset();
+                round.shots[0].alive=fixture!=2&&fixture!=3;round.shots[0].pid=pid;
+                round.shots[0].top_left={944,std::int16_t(fixture==4&&operation=="--enemy-hit" ? -28 : 1672)};
+                if(operation=="--enemy-hit") {
+                    auto& e=round.enemies[0];set(e,1,20,0);e.hp=fixture==0 ? 1 : fixture==1 ? 3 : 0;
+                    e.center.y=fixture==4 ? 100 : fixture==6 ? 0 : 1800;
+                    if(fixture==2) {set(round.enemies[1],10,0,3);round.chains.extra[pid][round.speed/32]=3;}
+                    if(fixture==3)round.damage_all[pid]=1;
+                    if(fixture==5)round.defeat=2;
+                    round.hit_enemies([&](const th03::Hitbox&) {return th03::ChargeHit{std::uint8_t(fixture==1),fixture==1};},extra);
+                } else {
+                    auto& f=round.fireballs[0];set(f,1,20,0);f.hp=fixture==0 ? 1 : 0;f.size_words=2;f.size_pixels=48;
+                    f.generation=fixture==2 ? 3 : fixture==3 ? 4 : fixture==4 ? 2 : 0;
+                    if(fixture==2||fixture==3)set(round.enemies[0],9,0,3);
+                    if(fixture==5)round.defeat=2;
+                    if(fixture==6)f.center.y=-1000;
+                    if(argc==4)round.extends_gained=255;
+                    round.hit_fireballs([&](const th03::Hitbox&) {return th03::ChargeHit{std::uint8_t(fixture==1),false};},extra,
+                                       argc==4 ? std::uint8_t(std::stoul(argv[3])) : 15);
+                }
+            } else if(operation=="--combat-pipeline") {
+                auto& t=round.bullets.model;t.reset();t.center={1200,1800};t.speed=16;t.angle=64;t.pid=pid;t.group=0;t.type=1;
+                round.bullets.add(round,40);collision.clear();round.update_bullets(collision);round.update_fireballs(collision);
+            } else {
+                result=round.explosion_hit(box,th03::Against(against[fixture]));
+                if(operation=="--fireball-run") {
+                    const auto ticks=unsigned(std::stoul(argv[3]));const bool bomb=std::stoi(argv[4]);
+                    for(unsigned tick=0;tick<ticks;++tick) {
+                        collision.clear();round.bomb_flags[0]=round.bomb_flags[1]=bomb&&tick>=20;
+                        round.update_fireballs(collision);
+                    }
+                }
+            }
+            std::cout<<unsigned(result)<<' '<<unsigned(round.last_chain_slot)<<' '<<round.last_explosion_hit<<' '
+                     <<unsigned(round.fireball_variant)<<' '<<unsigned(round.generation_previous)<<' '
+                     <<unsigned(round.boss_launched_by)<<' '<<unsigned(round.boss_level)<<' '<<round.combo_points_for_boss_attack
+                     <<' '<<unsigned(round.random.cursor)<<' ';
+            for(unsigned p=0;p<2;++p)std::cout<<unsigned(round.gauge_flags[p])<<' '<<unsigned(round.gauge_next[p])<<' '
+                <<unsigned(round.warning[p])<<' '<<round.boss_panic[p]<<' '<<unsigned(round.gauge_levels[p])<<' ';
+            for(auto& digits:round.scores)for(auto value:digits)std::cout<<unsigned(value)<<' ';
+            const auto slots=[&](const auto& pool) {for(auto& row:pool)for(auto value:row)std::cout<<unsigned(value)<<' ';};
+            slots(round.chains.hits);slots(round.chains.value);slots(round.chains.fireball);slots(round.chains.extra);
+            for(auto value:round.chains.cursor)std::cout<<unsigned(value)<<' ';
+            for(auto& combo:round.combos)std::cout<<unsigned(combo.time)<<' '<<unsigned(combo.hits)<<' '<<combo.bonus<<' ';
+            for(auto& p:round.players)std::cout<<p.gauge_avail<<' '<<unsigned(p.combo_hits_max)<<' '<<p.combo_bonus_max<<' '
+                <<unsigned(p.boss_attacks)<<' '<<unsigned(p.boss_reversals)<<' '<<unsigned(p.boss_panics)<<' ';
+            const auto efe=[&](const th03::Efe& e) {std::cout<<unsigned(e.flag)<<' '<<unsigned(e.frame)<<' '<<e.center.x<<' '<<e.center.y
+                <<' '<<unsigned(e.size_words)<<' '<<unsigned(e.hp)<<' '<<unsigned(e.pid)<<' '<<unsigned(e.size_pixels)<<' '<<unsigned(e.chain_slot)<<' ';};
+            for(const auto& e:round.enemies)efe(e);
+            for(const auto& f:round.fireballs)efe(f);
+            for(const auto& f:round.fireballs)std::cout<<f.velocity.x<<' '<<f.velocity.y<<' '<<f.target_x<<' '<<f.target_x_origin<<' '
+                <<unsigned(f.fall_speed)<<' '<<unsigned(f.generation)<<' ';
+            if(operation=="--fireball-run"||operation=="--combat-pipeline")for(auto value:collision.bytes)std::cout<<unsigned(value)<<' ';
+            if(operation=="--enemy-hit"||operation=="--fireball-hit"||operation=="--combat-pipeline") {
+                std::cout<<round.one_hit<<' '<<round.enemy_killed<<' '<<round.fireball_hit<<' '<<unsigned(round.circle_cursor)<<' ';
+                for(const auto& circle:round.circles)std::cout<<unsigned(circle.age)<<' '<<unsigned(circle.pid)<<' '<<circle.left<<' '<<circle.top<<' ';
+                for(const auto& shot:round.shots)std::cout<<shot.alive<<' ';
+                const auto& t=round.bullets.model;
+                std::cout<<t.center.x<<' '<<t.center.y<<' '<<unsigned(t.speed)<<' '<<unsigned(t.angle)<<' '<<unsigned(t.pid)<<' '
+                    <<unsigned(t.group)<<' '<<unsigned(t.count)<<' '<<t.sprite<<' '<<unsigned(t.type)<<' ';
+                for(const auto& b:round.bullets.items)std::cout<<unsigned(b.flag)<<' '<<unsigned(b.age)<<' '<<b.center.x<<' '<<b.center.y<<' '
+                    <<b.target_x<<' '<<b.target_x_origin<<' '<<b.velocity.x<<' '<<b.velocity.y<<' '<<unsigned(b.speed_next)<<' '
+                    <<unsigned(b.angle_next)<<' '<<unsigned(b.pid)<<' '<<unsigned(b.group_next)<<' '<<b.sprite<<' ';
+                std::cout<<unsigned(round.extends_gained)<<' '<<extra_events.size()/3<<' ';for(auto value:extra_events)std::cout<<value<<' ';
+            }
+            std::cout<<'\n';return 0;
+        }
         if(argc==5&&std::string(argv[1])=="--pellet") {
             th03::Canvas canvas;th03::pellet(canvas,std::stoi(argv[2]),std::stoi(argv[3]),unsigned(std::stoul(argv[4])));
             std::cout.write(reinterpret_cast<const char*>(canvas.pixels.data()),640*200);return 0;
@@ -101,15 +209,29 @@ int main(int argc,char** argv) {
             std::cout<<done<<' '<<t.velocity.x<<' '<<t.velocity.y<<' '<<unsigned(round.bullets.group_angle)
                      <<' '<<unsigned(round.random.cursor)<<'\n';return 0;
         }
-        if(argc==5&&std::string(argv[1])=="--hud-picture") {
+        if(argc==5&&(std::string(argv[1])=="--hud-picture"||std::string(argv[1])=="--combat-picture")) {
             const auto disk=read_file(argv[2]);
             const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
             th03::Resident resident;resident.mode=th03::Mode::story;resident.paletted={{5,13}};
             th03::Round round;round.begin(resident,main.read("ENEDAT.DAT"));
             th03::BattleGraphics graphics(op,main,resident);
             const auto ticks=unsigned(std::stoul(argv[3]));
-            for(unsigned i=0;i<ticks;++i) {
+            if(std::string(argv[1])=="--hud-picture")for(unsigned i=0;i<ticks;++i) {
                 round.intro.update(round.random,resident.mode);round.intro.prepare_render(resident.mode);
+            } else {
+                const auto ef=[&](th03::Efe& e,unsigned flag,unsigned frame,unsigned size,unsigned pid,int x,int y) {
+                    e.flag=std::uint8_t(flag);e.frame=std::uint8_t(frame);e.size_words=std::uint8_t(size);
+                    e.pid=std::uint8_t(pid);e.size_pixels=std::uint8_t(size*16);e.center={std::int16_t(x*16),std::int16_t(y*16)};
+                };
+                ef(round.enemies[0],9,14,2,0,100,100);ef(round.enemies[1],10,18,4,0,180,160);
+                ef(round.fireballs[0],1,0,2,0,80,240);ef(round.fireballs[1],1,5,3,1,180,290);
+                ef(round.fireballs[2],2,3,2,1,220,100);ef(round.fireballs[3],9,16,2,1,180,80);
+                round.fireballs[3].size_pixels=48;
+                round.enemy_circle({144*16,200*16},0);round.player_circle({144*16,280*16},1);
+                auto& b=round.bullets.items;
+                b[0].flag=2;b[0].center={150*16,120*16};b[0].sprite=8;
+                b[1].flag=4;b[1].pid=1;b[1].center={100*16,160*16};b[1].sprite=0x1942;
+                b[2].flag=1;b[2].center={180*16,240*16};b[3].flag=3;b[3].pid=1;b[3].center={100*16,140*16};
             }
             write_file(argv[4],th03::ppm(graphics.render(round,resident)));return 0;
         }
@@ -279,6 +401,13 @@ int main(int argc,char** argv) {
         check(shots.shots[0].alive&&shots.shots[0].top_left.x==(128<<4)&&!shots.shots[1].alive,"single shot pair allocation");
         shots.update_shots();check(shots.shots[0].top_left.y==(324<<4),"shot Q4 velocity");
         shots.shots[0].top_left.y=0;shots.update_shots();check(!shots.shots[0].alive,"shot top-edge removal");
+        th03::Round formation;
+        formation.formations.resize(1);formation.formations[0].scripts.push_back(Bytes{0});formation.speed=96;
+        formation.update_formations();check(formation.enemy_speed==0&&!formation.enemies[0].flag,"intro gates formation spawn");
+        formation.intro.flag=0;formation.enemies_alive={{1,1}};formation.update_formations();
+        check(formation.enemy_speed==0,"existing formations retain previous enemy speed band");
+        formation.enemies_alive[1]=0;formation.update_formations();
+        check(formation.enemy_speed==3&&formation.enemies[0].pid==1,"either player's new formation refreshes shared enemy speed");
         std::cout<<"PF, PI, menu release/ordering/options and 32-bit RNG checks passed\n";
         return 0;
     } catch (const std::exception& error) { std::cerr<<error.what()<<'\n'; return 1; }

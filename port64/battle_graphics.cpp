@@ -173,6 +173,22 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
         const int left=16+enemy.pid*320+pixels(enemy.center.x)+round.fg_shift[enemy.pid]-int(size/2),top=16+pixels(enemy.center.y)-int(size/2);
         sprite(graphics,left,top,offset,size,size/2,enemy.pid ? 320 : 0,enemy.pid ? 639 : 319);
     }
+    for(const auto& f:round.fireballs)if(f.flag) {
+        unsigned offset,size;
+        if(f.flag>=9) {
+            const auto cel=f.frame<12 ? 0 : f.frame<32 ? 1+((f.frame/4)&1) : 3;
+            offset=explosion_sprites[2][cel];size=64;
+        } else if(f.flag==1) {offset=80*80-16+f.size_words*8+((f.frame&7)<=3 ? 4 : 0);size=32;}
+        else {offset=96*80-8+f.size_words*4+((f.frame&7)<=3 ? 2 : 0);size=16;}
+        const int left=16+f.pid*320+pixels(f.center.x)+round.fg_shift[f.pid]-int(size/2);
+        const int top=16+pixels(f.center.y)-(f.flag>=9 ? 24 : int(size/2));
+        sprite(graphics,left,top,offset,size,size/2);
+    }
+    for(unsigned i=0;i<round.circles.size();++i) {
+        const auto& c=round.circles[i];if(!c.age)continue;
+        const unsigned so=80*80+16+((c.age-1)/4)*6;
+        sprite(graphics,c.left,c.top,so,48,24,c.pid ? 320 : 0,c.pid ? 639 : 319,true,i==12 ? 15 : 11+(round.result_frame&1));
+    }
     for(unsigned pid=0;pid<2;++pid) {
         const auto& p=round.players[pid];
         if(p.lose_time)continue;

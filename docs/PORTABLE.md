@@ -3,7 +3,8 @@
 `port/modern-64` builds native C++17 for Linux/SDL2 and Windows x64/Win32-GDI.
 Title, menus, character selection and MAINL stage introduction join through
 explicit resident state into MAIN round initialization. Enemy scripts, battle
-resources/HUD, round-introduction animation, collision primitives and bullets are also
+resources/HUD, round-introduction animation, collision primitives, bullets,
+explosion chains and fireballs are also
 ported and checked separately. The program stops at initialized battle state;
 it is not yet a playable full-game port. Player/CPU combat, all attack families,
 backgrounds, results/dialogues/endings, Music Room/HiScore, audio and persistence
@@ -95,6 +96,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_hud_intro.py` | Same arguments as `check_selection.py` | 520 story/versus frames: slide/banner state, all128 particles, seed and ring cursor |
 | `check_collision.py` | Same arguments as `check_selection.py` | Six complete 6,624-byte bitmaps and their player hit scans |
 | `check_bullet.py` | Same arguments as `check_selection.py` | Group vectors, full bullet/trail pools, motion/transfer/cloud/clearing, collision maps and complete pellet rasters |
+| `check_combat.py` | Same arguments as `check_selection.py` | Explosion/chain scoring, enemy/fireball hits, derived fireballs, movement/collision, coupled bullet pipelines and known stack aliases |
 
 Linux and native Windows x64 state checks pass; menu, selection and isolated
 introduction PPMs agree between platforms. Private SDL window checks exercised
@@ -129,12 +131,28 @@ source preserves these consequential details:
 `bullet.cpp` retains the 320-slot pool, shared 48-slot trail ring, byte-wrapped
 speed tuning and ascending update order. Derived groups can occupy later slots
 and update on that same tick. The pellet explosion query is an explicit foreign
-service until the chain owner is joined. Six full spawn pools, nine update
+service for isolated checks; `Round::update_bullets` now supplies the real
+explosion/chain owner. Six full spawn pools, nine update
 fixtures, sixteen group vectors and five complete pellet rasters agree with
 original MAIN instructions. These include the transfer target's pixel rounding,
 independent X/Y trail updates and the narrow pellet-write path. The authored
 ReC98 pellet bitmap retains the distinct dots in transfer preshifts6/14.
 Native Windows x64 transfer/trail states and collision maps agree with Linux.
+
+`combat.cpp` joins shot, explosion and charge-shot collision in the original
+order, including score carry, combo saturation, Boss/Panic state and derived
+fireballs. Charge Shot and Extra Attack callbacks remain explicit while their
+character owners are ported. Fireball allocation retains a reused slot's frame;
+charged red fireballs can read the previous destroyed fireball's generation.
+The ordinary fireball-hit stack slot is supplied as `0x0f`. Known out-of-range
+slots retain the original cross-player charge, score-digit and extends aliases,
+including clearing those bytes when firing an Extra Attack. Unknown aliases
+still need their owning state. Enemy speed is shared by both players and only
+refreshes when either player spawns a formation, not on every speed increment.
+
+`th03-port64-checks --combat-picture HDI 0 FILE.ppm` renders controlled original
+fireball/explosion/circle/bullet states for a visual smoke. It is a graphics
+fixture, separate from the game loop.
 
 Continue with backgrounds and the player/CPU combat loop, then join attack
 families and result/MAINL routes. Wide CPU scans near the left edge can read

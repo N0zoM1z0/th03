@@ -2,6 +2,7 @@
 #include "resident.hpp"
 #include "game_types.hpp"
 #include "bullet.hpp"
+#include "combat.hpp"
 #include <array>
 #include <vector>
 
@@ -40,12 +41,11 @@ struct ShotPair {
     std::uint8_t pid=0,animation=0;
 };
 class Round;
-struct Enemy {
-    std::uint8_t flag=0,frame=0,size_words=0,hp=0,pid=0,size_pixels=0;
-    Point center,velocity;
+struct Enemy:Efe {
+    Point velocity;
     std::uint16_t ip=0,op_frame=0,angle=0;
     std::int8_t angle_speed=0;
-    std::uint8_t chain_slot=0,formation=0,formation_i=0,speed=0,loop_i=0,pos_type=0;
+    std::uint8_t formation=0,formation_i=0,speed=0,loop_i=0,pos_type=0;
     const Bytes* script=nullptr;
     bool run(const Round& round,std::uint8_t enemy_speed);
 };
@@ -79,14 +79,40 @@ public:
     std::array<Player,2> players{};
     std::array<ShotPair,32> shots{};
     std::array<Enemy,40> enemies{};
+    std::array<Fireball,24> fireballs{};
+    Chains chains;
+    std::array<HitCircle,13> circles{};
+    std::uint8_t circle_cursor=0;
+    void enemy_circle(Point center,std::uint8_t pid);
+    void player_circle(Point center,std::uint8_t pid);
+    void update_circles();
+    std::array<Combo,2> combos{};
+    std::array<std::uint8_t,2> gauge_next{},warning{};
+    std::array<bool,2> boss_panic{};
+    std::uint8_t boss_launched_by=255,defeat=0,fireball_variant=0,generation_previous=0,last_chain_slot=0;
+    bool last_explosion_hit=false,one_hit=false,enemy_killed=false,fireball_hit=false;
+    void score_add(unsigned pid,std::uint16_t value);
+    void gauge_add(unsigned pid,std::uint8_t value);
+    std::uint16_t combo_add(unsigned pid,unsigned slot,std::uint16_t value);
+    void point_attack(unsigned pid,std::uint16_t points);
+    void fireball_add(const Efe& origin);
+    void update_fireballs(CollisionMap& collision);
+    std::uint8_t explosion_hit(const Hitbox& hitbox,Against against);
+    void charged_fireball(unsigned pid,const Efe& origin);
+    void charged_extra(unsigned pid,unsigned slot,const Efe& origin,const ExtraAdd& add);
+    std::uint8_t hitbox_hits(Hitbox box,std::int16_t center_y,const ChargeQuery& charge,Against against);
+    void hit_enemies(const ChargeQuery& charge,const ExtraAdd& extra);
+    void hit_fireballs(const ChargeQuery& charge,const ExtraAdd& extra,std::uint8_t stack_chain_slot);
     std::array<std::uint8_t,2> enemies_alive{};
     void update_formations();
     void update_enemy_scripts();
+    void update_enemies(CollisionMap& collision,const ChargeQuery& charge,const ExtraAdd& extra);
+    void update_bullets(CollisionMap& collision);
     std::vector<Formation> formations;
     std::array<std::uint8_t,256> formation_types{},formation_positions{};
     std::array<std::uint8_t,2> formation_cursors{},gauge_levels{};
     std::array<std::array<std::uint8_t,8>,2> scores{};
-    std::uint8_t id=0,speed=0,bullet_base_speed=0,boss_level=0,cpu_damage_additional=0,extends_gained=0;
+    std::uint8_t id=0,speed=0,enemy_speed=0,bullet_base_speed=0,boss_level=0,cpu_damage_additional=0,extends_gained=0;
     std::uint16_t result_wait=0,combo_points_for_boss_attack=5120;
     std::uint32_t frame=0;
     std::uint16_t result_frame=0;

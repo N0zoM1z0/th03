@@ -8,8 +8,9 @@ retain compiler findings. Git history holds earlier chronology.
 
 ## State to inherit
 
-Work in the existing `main` worktree. Inspect `git status -sb` and
-`git log -8 --oneline`; preserve dirty and untracked work. Commit substantial
+This checkout is the existing `port/modern-64` worktree at
+`.analysis/native/port64/` inside the DOS checkout. Inspect `git status -sb`
+and `git log -8 --oneline`; preserve dirty and untracked work. Commit substantial
 progress with `gpt-6.1-sol: xxx`. Local commits are not pushes.
 
 MAIN's tracked extent and function ledgers are fully exact within their
@@ -42,8 +43,11 @@ frame. MAIN round initialization and its RNG/formation rings also agree with
 bounded original-instruction checks. Original enemy scripts and battle
 resource/HUD rendering, round intro, collision primitives and bullet
 generation/update/rendering are ported separately. Bullet pools, trails and
-transfers agree with bounded original-instruction checks. Continue with background and the player/combat loop. Resolve wide
-CPU collision scans' aliased DATA reads when joining that path; the native
+transfers agree with bounded original-instruction checks. Explosion/chain
+scoring, enemy/fireball hits and fireballs now join the real bullet pipeline;
+see the portable notes for stack aliases and generation/frame quirks. Continue
+with background and the player/CPU loop. Resolve wide CPU collision scans'
+aliased DATA reads when joining that path; the native
 program still stops before gameplay. Preserve the live Windows DOSBox disk
 and do not send inputs to its window.
 

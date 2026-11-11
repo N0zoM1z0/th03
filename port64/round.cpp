@@ -87,8 +87,9 @@ void Round::begin(const Resident& resident,const Bytes& enedat) {
 }
 void Round::prepare(const Resident& resident,std::uint8_t formation_previous) {
     for(auto& shot:shots)shot.alive=false;
-    frame=result_frame=0;intro.flag=1;
+    frame=result_frame=0;intro.flag=1;enemy_speed=0;
     for(auto& enemy:enemies)enemy.flag=0;
+    for(auto& fireball:fireballs)fireball.flag=0;
     enemies_alive={};
     random.fill();bullets.reset();
     if(resident.mode==Mode::story) {
@@ -112,7 +113,7 @@ void Round::prepare(const Resident& resident,std::uint8_t formation_previous) {
     if(resident.mode!=Mode::story)for(auto& level:gauge_levels)level=std::uint8_t(level+(rank==0 ? 1 : rank==3 ? 4 : 2));
     speed=std::min<std::uint8_t>(speed,127);boss_level=std::min<std::uint8_t>(boss_level,16);
     for(auto& level:gauge_levels)level=std::min<std::uint8_t>(level,16);
-    combo_points_for_boss_attack=5120;
+    combo_points_for_boss_attack=5120;boss_launched_by=255;defeat=0;
     for(unsigned p=0;p<2;++p) {
         auto& player=players[p];
         player.paletted=resident.paletted[p];player.cpu=resident.cpu[p];player.is_hit=false;
@@ -123,7 +124,7 @@ void Round::prepare(const Resident& resident,std::uint8_t formation_previous) {
         player.charge_cursor=0;player.bombs=2;player.lose_time=0;player.hyper_active=0;player.cpu_frame=0;
         player.gauge_attacks=0;player.boss_attacks=0;player.boss_reversals=0;player.boss_panics=0;
     }
-    fg_shift={};damage_all={};gauge_flags={};
+    fg_shift={};damage_all={};gauge_flags={};warning={};
     randomize_formations(formation_previous);
 }
 bool Player::move(std::uint16_t input) {

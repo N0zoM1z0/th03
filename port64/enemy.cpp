@@ -89,8 +89,10 @@ bool Enemy::run(const Round& round,std::uint8_t enemy_speed) {
     }
 }
 void Round::update_formations() {
+    if(intro.flag)return;
     for(unsigned p=0;p<2;++p) {
         if(enemies_alive[p])continue;
+        enemy_speed=speed/32;
         const auto cursor=formation_cursors[p]++;
         const auto type=formation_types[cursor];
         const auto& formation=formations.at(type);
@@ -111,7 +113,7 @@ void Round::update_enemy_scripts() {
             else if(enemy.frame>=36)enemy.flag=0;
             continue;
         }
-        if(!enemy.run(*this,speed/32))++enemies_alive[enemy.pid];
+        if(!enemy.run(*this,enemy_speed))++enemies_alive[enemy.pid];
     }
 }
 }
