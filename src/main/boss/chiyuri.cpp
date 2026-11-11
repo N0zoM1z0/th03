@@ -432,7 +432,10 @@ void near chiyuri_pattern_fans(void)
 			bullets_add();
 
 		}
-	} else if(boss_frame == CHIYURI_FAN_VERTICAL_FRAME) {
+		return;
+	}
+
+	if(boss_frame == CHIYURI_FAN_VERTICAL_FRAME) {
 		// After the horizontal release, only the exact vertical clock
 		// runs the second pair of signed-index velocity passes.
 		bomb_axis_add(
