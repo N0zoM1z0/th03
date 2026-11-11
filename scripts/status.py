@@ -107,7 +107,7 @@ def native_source_reviews(root, artifact):
             ('Shared BOSS', 'af1351g'),
             ('PI image loader', 'af1358n'),
             ('DOS executable handoff', 'af1359i'),
-            ('Resident CFG loader', 'af1182a'),
+            ('Resident CFG loader', 'af1367t'),
             ('PC-98 shutdown', 'af1184d'),
             ('Input modes and keyboard wait', 'af1366k'),
             ('PMD/MIDI audio services', 'af1364k'),

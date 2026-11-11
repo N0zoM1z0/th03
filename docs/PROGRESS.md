@@ -26,7 +26,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Shared BOSS | af1351g | Verified | 2 | 949 | — |
 | th03-main / PI image loader | af1358n | Verified | 1 | 70 | — |
 | th03-main / DOS executable handoff | af1359i | Verified | 1 | 79 | — |
-| th03-main / Resident CFG loader | af1182a | Verified | 1 | 49 | — |
+| th03-main / Resident CFG loader | af1367t | Verified | 1 | 49 | — |
 | th03-main / PC-98 shutdown | af1184d | Verified | 1 | 67 | — |
 | th03-main / Input modes and keyboard wait | af1366k | Verified | 1 | 367 | — |
 | th03-main / PMD/MIDI audio services | af1364k | Verified | 2 | 150 | — |
@@ -110,7 +110,7 @@ th03-main PI image loader: `.analysis/work/exatt-layout-af1358n/report.json`.
 
 th03-main DOS executable handoff: `.analysis/work/exatt-layout-af1359i/report.json`.
 
-th03-main Resident CFG loader: `.analysis/work/exatt-layout-af1182a/report.json`.
+th03-main Resident CFG loader: `.analysis/work/exatt-layout-af1367t/report.json`.
 
 th03-main PC-98 shutdown: `.analysis/work/exatt-layout-af1184d/report.json`.
 

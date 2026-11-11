@@ -67,6 +67,7 @@ list. The full selection lives in the generated progress table.
 | Graphics/resource ASM leaves | `af1330f` | Six source-bound TASM owners, 1,622 CODE bytes; HUD score aliases, sprite16, MRS, palette, flip LUT and fill carrier; includes now bound |
 | Vector/playfield/collision ASM | `af1332c` | Three newly source-bound TASM objects: 160-byte vectors, 118-byte playfield geometry, 432-byte collision-map generator |
 | Demo transition control | `af1367p` | Exact two-pass close/uncover while scans, signed playfield offset/frame gates and separate unsigned GRCG mask enums; entry/collision joint `af1367q` |
+| Resident CFG loader | `af1367t` | Original 49-byte leaf uses explicit near CFG filename byte address and stack-allocated scratch; entry/init/DOS/PI joint `af1367u` |
 | Round RNG / collision reset | `af1333c` | 82-byte TASM carrier, source-bound RNG macros, fill loop, collision reset, three maintained includes |
 | PMD/MIDI audio services | `af1364k` | Driver-inactive and PMD early returns retain AX and original interrupt vector order; SE priority/frame path unchanged; Kana combat/audio joint `af1364l` |
 | Input modes / wait | `af1366k` | No-joystick early exit in both asymmetric keyboard/joystick modes and at-least-once release poll; CPU/VSYNC/Warning/Sound joint `af1366l` |
