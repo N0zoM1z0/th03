@@ -10,8 +10,37 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from lib.decoded_mainl_acceptance import PUBLICATION, proof_inputs, verify
+from lib.decoded_mainl_acceptance import PUBLICATION, proof_inputs, verify, covered_inventory
 from status import mainl_product_status
+
+
+class MainlInventoryCoverage(unittest.TestCase):
+    def setUp(self):
+        self.owners = [dict(unit_id='first', origin='authored', start=0x100, size=2, ordered_relocations=[]),
+                       dict(unit_id='second', origin='authored', start=0x102, size=2, ordered_relocations=[])]
+        self.unit = dict(id='aggregate', artifact='th03-mainl', state='source-present',
+                         boundary_state='reviewed', origin='authored', segment='decoded:0010',
+                         offset='0', size='4', compare_size='4')
+
+    def test_complete_aggregate_references_existing_owners_without_mutating_them(self):
+        before = deepcopy(self.owners)
+        self.assertEqual(covered_inventory([self.unit], self.owners), {'aggregate': ['first', 'second']})
+        self.assertEqual(self.owners, before)
+
+    def test_one_unowned_byte_prevents_aggregate_coverage(self):
+        self.owners[1]['size'] = 1
+        self.assertEqual(covered_inventory([self.unit], self.owners), {})
+
+    def test_range_cannot_cut_a_complete_relocation_word(self):
+        self.owners[0].update(size=4, ordered_relocations=[[0x10, 1]])
+        self.owners.pop()
+        self.unit.update(offset='2', size='2', compare_size='2')
+        self.assertEqual(covered_inventory([self.unit], self.owners), {})
+
+    def test_overlapping_source_owners_are_rejected(self):
+        self.owners[1]['start'] = 0x101
+        with self.assertRaisesRegex(ValueError, 'disjoint accepted byte owners'):
+            covered_inventory([self.unit], self.owners)
 
 
 @unittest.skipUnless((ROOT / PUBLICATION).is_file()

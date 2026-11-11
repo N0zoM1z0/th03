@@ -2,7 +2,7 @@
 
 Both products now have two target-equal links composed from current source
 outputs. MAIN's deferred input carrier remains unchanged. MAINL's decoded
-publication gains 25 disjoint owners; its remaining inventory is explained
+publication gains 29 disjoint owners; historical aggregate ranges are explained
 below. [Generated progress](PROGRESS.md) supplies the current totals.
 
 ## MAIN: current owners compose together
@@ -56,6 +56,7 @@ context; their legacy trailer bytes receive no new source credit.
 
 ## Why the inventory is not 259 accepted independent owners
 
+All 259 tracked ranges are now covered by 249 independent source owners.
 Ten historical aggregate rows are fully covered by accepted smaller extents:
 
 | Historical row suffix | Accepted replacement scopes |
@@ -70,21 +71,46 @@ Ten historical aggregate rows are fully covered by accepted smaller extents:
 | `graph-putsa-fx` | Text renderer |
 | `math-lut` | Hflip LUT generator |
 
-These remain addressable historical rows, rather than receiving overlapping
-byte credit. The genuine uncovered tracked extents are four one-byte sound
-trailers at `0C7E:0049`, `0083`, `009F` and `0669`. The current carriers emit
-them through explicit `#pragma codestring "\x90"`. A matching full executable
-does not establish their natural source/layout origin. The next reconstruction
-question is their original producer or alignment context, not another function
-body or arbitrary added padding. The excluded PFGETC WORD-link alignment byte
-is already outside the source-present denominator.
+These remain addressable historical rows. The verifier derives each coverage
+reference from the canonical ledger and accepted byte ownership, rejecting any
+unowned byte, overlapping source owners or boundary cutting a relocation word.
+They receive no additional source-owner gates, byte credit or procedure count.
+The excluded PFGETC WORD-link alignment byte remains outside the source-present
+denominator.
+
+## Four natural sound alignment producers
+
+`build_th03_mainl_sound_current.py --stage af1375s` assembles the complete
+mode/PMD/volume/reset providers in two rounds and links them with the current
+project and library from `af1369m`. All four objects and the complete EXE/MAP
+repeat. The Japanese decoded target and its 677 ordered MZ relocations match.
+This adds natural source ownership for the four bytes at `0C7E:0049`, `0083`,
+`009F` and `0669`, emitted by the existing symbolic ASM bodies' `EVEN` directives.
+
+The [after570 investigation](MAINL_SOUND_NATURAL_AFTER570_NATIVE_REVIEW.md)
+already recovered these bodies. The current source corrects PMD and volume
+SHARED to BYTE alignment, and orders the empty DATA/BSS group declaration to
+match TC4's literal emitted GROUP membership. Complete SEGDEF, GRPDEF and
+EXTDEF records now agree with the retained compiler carriers. Full MAP
+comparison changes only the four module filenames; ACBP alignment attributes,
+group/layout rows and PUBLICs are compared exactly.
+
+Each actual TASM field stream is checked in its literal reviewed order, with
+all ten widths, sites, DGROUP frames and external indices intact. The retained
+TC4 streams are recorded separately: three use reverse field chronology.
+No sorting or packet rewriting conceals that compiler difference. These are
+reconstructed compiler carriers rather than shipped OMF; the linked Japanese
+MZ relocation vector is the target's ordered relocation evidence. The four
+new owners are alignment bytes containing no instruction or fixup. Their
+complete surrounding functions retain the independent TC4 body proofs above.
 
 ## Repeat or extend
 
-Omit `--build` for read-only reviews of the three stages above. For fresh
+Omit `--build` for read-only reviews of the stages above. For fresh
 native execution, pass `--build` and a new unused DOS-safe stage; do not
 overwrite a retained stage. The function-body builder records its complete-link
 parent explicitly. The decoded publisher uses the selected build stages in
-`lib/decoded_mainl_linked_current.py` and `build_th03_mainl_function_bodies.py`.
+`lib/decoded_mainl_linked_current.py`, `build_th03_mainl_function_bodies.py`
+and `build_th03_mainl_sound_current.py`.
 After changing their selection, run the publisher and regenerate progress.
 Whole-product source ownership and DIET stored-file acceptance remain open.

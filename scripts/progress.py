@@ -585,8 +585,9 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             reviewed = counts["reviewed"]
             source = counts["source"]
             decoded_mainl = product["product_exact"] or product.get("current_cold_source_scopes", False)
-            exact = product["decoded_exact_units"] if decoded_mainl else counts["exact"]
-            acceptance_text = (f"Decoded acceptance: exact {exact}/{total}" if decoded_mainl
+            exact = product.get('decoded_covered_units', product['decoded_exact_units']) if decoded_mainl else counts["exact"]
+            acceptance_text = (f"Tracked coverage: {exact}/{total}" if decoded_mainl and 'decoded_covered_units' in product
+                               else f"Decoded acceptance: exact {exact}/{total}" if decoded_mainl
                                else "Decoded acceptance: pending")
             y = 144 + index * 76
             rows.append(f"""  <g aria-label="MAINL bars count tracked unit extents, not functions; source-present is not exact">
@@ -602,6 +603,8 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <desc>Source-present: {counts['source_bytes']:,} B</desc>
   </g>""")
             if product.get("current_cold_source_scopes"):
+                if 'decoded_aggregate_coverage' in product:
+                    rows.append(f'<desc>Tracked coverage includes {len(product["decoded_aggregate_coverage"])} historical aggregates; their bytes and procedures are counted once through the independent source owners below.</desc>')
                 rows.append(f'<desc>Current decoded: {product["decoded_exact_units"]} extents / {product.get("decoded_procedures", product.get("decoded_authored_procedures", product["decoded_exact_units"]))} procedures / {product.get("decoded_source_bytes",product["decoded_authored_bytes"]):,} B · CODE {product.get("decoded_code_bytes",product.get("decoded_authored_code_bytes",product["decoded_authored_bytes"])):,} / DATA {product.get("decoded_initialized_data_bytes",product.get("decoded_authored_initialized_data_bytes",0))+product.get("decoded_uninitialized_file_data_bytes",0):,} · product open</desc>')
                 if product.get('native_refresh_stage'):
                     rows.append(f'<desc>Retained cold pair: 938 raw outputs · current native refresh {product["native_refresh_stage"]}: two physical owners / two rounds · complete original decoded links</desc>')
@@ -689,6 +692,8 @@ def render_markdown(units, functions, targets, op_status, mainl_status, zun_stat
             if result.get('decoded_accepted') or result.get('current_cold_source_scopes'):
                 size = result.get('decoded_source_bytes', result.get('decoded_authored_bytes', 0))
                 accepted = f"Decoded: {result['decoded_exact_units']} extents / {size:,} bytes"
+                if artifact == 'th03-mainl' and 'decoded_covered_units' in result:
+                    accepted += f"; {result['decoded_covered_units']}/{len(rows)} tracked ranges covered"
             else:
                 accepted = '**Pending revalidation**'
         lines.append(f"| {artifact} | {present}/{len(rows)} | {accepted} | {target['size']:,} |")
@@ -721,6 +726,11 @@ def render_markdown(units, functions, targets, op_status, mainl_status, zun_stat
     lines.extend(['', '## Decoded publication status', ''])
     lines.extend([decoded_summary(op_status), ''])
     if mainl_status.get('current_cold_source_scopes'):
+        if 'decoded_covered_units' in mainl_status:
+            count = sum(u['artifact'] == 'th03-mainl' and u['state'] != 'excluded' for u in units)
+            lines.extend([f"MAINL tracked range coverage: {mainl_status['decoded_covered_units']}/{count}. "
+                          f"The {len(mainl_status['decoded_aggregate_coverage'])} historical aggregates reference "
+                          "accepted finer owners; they add no bytes, procedures or source-owner acceptance gates.", ''])
         lines.extend([f"MAINL decoded source acceptance: {mainl_status['decoded_exact_units']} extents / "
                       f"{mainl_status['decoded_procedures']} procedures or entries / {mainl_status['decoded_source_bytes']:,} bytes "
                       f"({mainl_status['decoded_code_bytes']:,} CODE, {mainl_status['decoded_initialized_data_bytes']:,} initialized DATA "

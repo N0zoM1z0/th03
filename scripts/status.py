@@ -448,7 +448,8 @@ def main() -> int:
         print('MAINL repository-local mixed product: ' + ('accepted' if product['product_exact'] else 'pending'))
         mainl_total = sum(u['artifact']=='th03-mainl' and u['state']!='excluded' for u in units)
         if product.get('current_cold_source_scopes') or product.get('product_exact'):
-            print(f"MAINL decoded accepted units={product['decoded_exact_units']}/{mainl_total} "
+            print(f"MAINL decoded accepted owners={product['decoded_exact_units']} "
+                  f"tracked-covered={product.get('decoded_covered_units', product['decoded_exact_units'])}/{mainl_total} "
                   f"authored={product['decoded_authored_bytes']} B library={product['decoded_library_bytes']} B")
         else:
             print(f"MAINL broad decoded acceptance: PENDING ({mainl_total} tracked extents); "

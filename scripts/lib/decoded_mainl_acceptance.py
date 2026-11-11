@@ -117,6 +117,8 @@ PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03
 PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATION_INPUTS, *SCOREDAT_INPUTS, *ROOT_ORCHESTRATION_INPUTS, *TEXT_INPUTS,
     "scripts/build_th03_mainl_linked_current.py", "scripts/lib/decoded_mainl_linked_current.py",
     "scripts/build_th03_mainl_function_bodies.py",
+    "scripts/build_th03_mainl_sound_current.py", "src/mainl/sound/mode_detect.asm",
+    "src/mainl/sound/pmd_resident.asm", "src/mainl/sound/volume_wait.asm", "src/mainl/sound/se_reset.asm",
     "scripts/build_th03_mainl_current.py", "scripts/stage_th03_mainl_fullcold.py",
     "scripts/lib/decoded_mainl_pi_decoder_native.py", "scripts/lib/op_asset_native.py", "scripts/lib/op_shared_native.py",
     "scripts/lib/decoded_mainl_resources_native.py", "scripts/build_th03_mainl_resources_work.py",
@@ -164,7 +166,7 @@ def oracle_rows(proof, now, policy):
         linked_units = {o['unit_id'] for o in proof['scope'].get('current_linked_native', {}).get('owners', [])}
         for unit_id, owner_rows in rows.items():
             for row in owner_rows.values():
-                row['tool'] = ('two current 36-object MAINL builds, source xx and bounded natural function bodies'
+                row['tool'] = ('current MAINL project builds, source xx, natural functions and sound ASM composition'
                                if unit_id in linked_units else
                                'retained MAINL cold pair plus two current physical-owner builds and complete native links')
                 row['command'] = COMMAND + ' --stage ' + proof['scope']['current_native_refresh']['stage']
@@ -572,6 +574,38 @@ def audit(root, *, stage=None):
                 product_exact=False, canonical_unit_credit_changed=False)
 
 
+def covered_inventory(units, owners):
+    """Map fully covered tracked ranges to disjoint accepted byte owners.
+
+    Historical aggregate rows receive coverage references, not another source
+    owner, Oracle gate set, procedure count or byte contribution.
+    """
+    sites, origins, relocations = {}, {}, []
+    for owner in owners:
+        identity = owner['unit_id']
+        origins[identity] = owner.get('origin', 'authored')
+        for site in range(owner['start'], owner['start'] + owner['size']):
+            need(site not in sites, 'inventory coverage requires disjoint accepted byte owners')
+            sites[site] = identity
+        relocations.extend(segment*16 + offset for segment, offset in owner['ordered_relocations'])
+    coverage = {}
+    for unit in units:
+        if unit['artifact'] != 'th03-mainl' or unit['state'] != 'source-present':
+            continue
+        need(unit['boundary_state'] == 'reviewed' and unit['segment'].startswith('decoded:') and
+             unit['size'] == unit['compare_size'], 'complete reviewed decoded inventory extent')
+        start = int(unit['segment'].split(':')[1], 16)*16 + int(unit['offset'], 0)
+        end = start + int(unit['size'], 0)
+        members = {sites.get(site) for site in range(start, end)}
+        if not members or None in members:
+            continue
+        if any(site < start < site+2 or site < end < site+2 for site in relocations):
+            continue
+        need(all(origins[member] == unit['origin'] for member in members), 'covered inventory origin agrees')
+        coverage[unit['id']] = sorted(members)
+    return coverage
+
+
 def verify(root, publication):
     import validate_tracking as tracking
     root = Path(root)
@@ -603,6 +637,9 @@ def verify(root, publication):
     authored = [o for o in owners if o.get('origin', 'authored') == 'authored']
     libraries = [o for o in owners if o.get('origin') == 'library']
     need(len(authored) + len(libraries) == len(owners), 'every accepted owner has an explicit supported origin')
+    with (root / 'config/units.csv').open() as stream:
+        coverage = covered_inventory(list(csv.DictReader(stream)), owners)
+    owner_ids = {o['unit_id'] for o in owners}
     return dict(repository_local=True, current_cold_source_scopes=True, reviewed_proof_ready=True,
                 native_refresh_stage=proof['scope'].get('current_native_refresh', {}).get('stage'),
                 native_objects_rebuilt_per_round=2 if 'current_native_refresh' in proof['scope'] else 0,
@@ -617,6 +654,9 @@ def verify(root, publication):
                 decoded_initialized_data_bytes=sum(o.get('initialized_data_bytes',0) for o in owners),
                 decoded_uninitialized_file_data_bytes=sum(o.get('uninitialized_file_data_bytes',0) for o in owners),
                 decoded_exact_unit_ids=sorted(o["unit_id"] for o in owners),
+                decoded_covered_units=len(coverage), decoded_covered_unit_ids=sorted(coverage),
+                decoded_aggregate_coverage={identity: members for identity, members in coverage.items()
+                                            if identity not in owner_ids},
                 target_provenance="candidate-local-attested", product_exact=False, mixed_physical_exact_bytes=0,
                 mixed_authored_credit_bytes=0, canonical_file_backed_authored_credit_unchanged=True,
                 factory_accepted=False, whole_game_percentage=None, whole_game_code_denominator_known=False)

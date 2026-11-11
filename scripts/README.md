@@ -40,7 +40,8 @@ gives current acceptance and open work. Detailed historical witnesses belong in
 | MAINL | `build_th03_mainl_exception_work.py` | Scoped historical new/xalloc/xmsg producer; composes the reviewed 28-provider CRT baseline with retained project inputs, not a current Factory acceptance declaration. |
 | MAIN current composition | `build_th03_main_linked_current.py --stage af1373m` | Read-only review of both complete links with all 97 selected current objects together. Use a fresh stage and `--build` for native TLINK. Historical input carrier remains explicit. |
 | MAINL current full project | `build_th03_mainl_linked_current.py --stage af1369m` | Two fresh 36-object project builds plus complete source xx, with full decoded EXE/MAP equality. Use a fresh stage and `--build` to repeat. |
-| MAINL input/sound bodies | `build_th03_mainl_function_bodies.py --stage af1371f` | Two TC4 rounds prove five complete functions without legacy trailer directives. Trailer bytes remain unaccepted. |
+| MAINL input/sound bodies | `build_th03_mainl_function_bodies.py --stage af1371f` | Two TC4 rounds prove five complete functions without legacy trailer directives. |
+| MAINL natural sound providers | `build_th03_mainl_sound_current.py --stage af1375s` | Two complete TASM/link rounds prove the four natural EVEN bytes, exact segment/group attributes and full decoded EXE/MAP with ordered relocations. |
 | MAINL historical xx route | `build_th03_mainl_xx_work.py`, `review_th03_mainl_xx_work.py` | Earlier full-xx construction helper; the current source-bound exact route is the full-project builder above. |
 | MAINL | `review_th03_mainl_staff_roll_work.py` | Full MAINL cold/resource/ending/staff/DATA/roll chain, including actual owned nested calls, input waits, fade and cleanup. |
 | Shared | `review_th03_shared_input_work.py` | Bind both OP/MAINL cold pairs to input policy and MAINL ending-wait contracts. |

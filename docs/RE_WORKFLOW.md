@@ -81,7 +81,7 @@ The full current project route is `build_th03_mainl_linked_current.py`:
 `--stage af1369m` reviews all 36 project objects and source xx; `--build` with
 a fresh stage recompiles them in two rounds. The separate function-body route
 uses `build_th03_mainl_function_bodies.py --stage af1371f`. Their current
-publication selections and remaining trailer boundaries are recorded in the
+publication selections and natural sound ASM composition (`af1375s`) are recorded in the
 [composition review](CURRENT_LINKED_BUILD_REVIEW.md).
 
 ## Storage

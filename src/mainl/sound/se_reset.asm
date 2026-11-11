@@ -17,5 +17,6 @@ _DATA segment word public 'DATA'
 _DATA ends
 _BSS segment word public 'BSS'
 _BSS ends
-DGROUP group _DATA, _BSS
+; TASM serializes GROUP members in reverse declaration order.
+DGROUP group _BSS, _DATA
 end

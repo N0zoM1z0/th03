@@ -1,7 +1,7 @@
 ; Poll the PMD/MMD volume interrupt until AL matches the caller's volume.
 ; 27 original instruction bytes, one native assembler CODE alignment byte.
 .8086
-SHARED segment word public 'CODE'
+SHARED segment byte public 'CODE'
 assume cs:SHARED, ds:DGROUP
 extrn _snd_midi_active:byte
 public _snd_delay_until_volume
@@ -31,5 +31,6 @@ _DATA segment word public 'DATA'
 _DATA ends
 _BSS segment word public 'BSS'
 _BSS ends
-DGROUP group _DATA, _BSS
+; TASM serializes GROUP members in reverse declaration order.
+DGROUP group _BSS, _DATA
 end

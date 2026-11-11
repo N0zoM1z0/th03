@@ -4,6 +4,7 @@ import re
 
 from build_th03_mainl_linked_current import review, SOURCES
 from build_th03_mainl_function_bodies import review as function_review, FUNCTIONS
+from build_th03_mainl_sound_current import review as sound_review, SOUND
 from build_th03_mainl_display_work import payload, literal_fields
 from lib.decoded_mainl_xx_native import native_bodies
 from lib.omf import describe_omf
@@ -36,7 +37,9 @@ EXTRA = {
     'root-tail-root-zero-font': ('obj/th03/mainl.obj', 1, 0x272, 0xC71, 1, False),
     'root-tail-compare-align': ('obj/th03/mainl.obj', 1, 0x272, 0x2C2F, 1, False),
 }
-UNITS = {PREFIX + name for name in (*XX, *EXTRA, *FUNCTIONS, 'crt-xx-data')}
+SOUND_TAILS = {'linked-tail-producer-0049': 'snd_mode', 'linked-tail-producer-0083': 'snd_pmdr',
+               'linked-tail-producer-009f': 'snd_dlyv', 'linked-tail-producer-0669': 'snd_se_r'}
+UNITS = {PREFIX + name for name in (*XX, *EXTRA, *FUNCTIONS, *SOUND_TAILS, 'crt-xx-data')}
 
 
 def xx_procedures(raw, assembly, sources):
@@ -127,6 +130,18 @@ def verify(root, stage=STAGE):
              [p.replace('\\', '/') for p in describe_omf(raw)['dependency_paths']],
              'function owner binds its actually consumed maintained source')
         owner(name, obj, 0xC7E, offset, size, size, 1)
+    sound = sound_review()
+    need(sound['parent'] == proof, 'natural sound providers compose with this current complete project')
+    for name, stem in SOUND_TAILS.items():
+        source, _, offset, size, _ = SOUND[stem]
+        need(units[PREFIX+name]['source'] == f'src/mainl/sound/{source}.asm',
+             'alignment ownership binds the actual complete maintained ASM producer')
+        raw = (root / sound['work'] / (stem + '.obj')).read_bytes()
+        need(payload(raw)[1, size] == target.program_image[0xC7E0+offset+size] == 0x90 and
+             not any(f['site'] < size+1 and f['site']+f['width'] > size for f in literal_fields(raw)),
+             'complete emitted EVEN byte without an instruction or relocation straddling ownership')
+        owner(name, stem + '.obj', 0xC7E, offset+size, 1, 0, 0)
     return dict(build=proof, owners=owners, xx_procedures=procedures, natural_function_bodies=functions,
+                natural_sound=sound,
                 complete_current_combined_link=True, original_cold_rebuilt=False,
                 whole_product_source_accepted=False)

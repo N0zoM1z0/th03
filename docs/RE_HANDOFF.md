@@ -34,11 +34,13 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
    request. Its current owners already compose exactly with the historical
    input carrier. Original CRT `c0l.obj` source ownership remains open.
 2. MAINL's complete current project rebuild is `af1369m`; independent natural
-   input/sound function bodies are `af1371f`. The remaining tracked inventory
-   consists of ten overlapping historical aggregates and four explicit sound
-   trailer bytes. Resolve their natural producer/layout origin before giving
-   those bytes credit. See the [current linked-build review](CURRENT_LINKED_BUILD_REVIEW.md)
-   for exact commands, evidence and the aggregate mapping.
+   input/sound function bodies are `af1371f`. The four natural sound ASM
+   providers compose with that project in `af1375s`, including their EVEN
+   bytes and original layout attributes. Every tracked MAINL range is covered.
+   Historical aggregates reference accepted finer owners without adding byte
+   or procedure credit. See the [current linked-build review](CURRENT_LINKED_BUILD_REVIEW.md)
+   for commands, evidence and the aggregate mapping. Whole-product ownership
+   outside the tracked inventory and canonical stored-file acceptance remain open.
 3. For new OP/MAINL/ZUN ownership, consult `config/units.csv`,
    `config/evidence.csv` and their decoded publications. An unaccepted module
    may contain accepted smaller scopes; inventory rows are not a missing-function
