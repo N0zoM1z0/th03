@@ -104,3 +104,57 @@ No game-source change was needed. Full campaign completion, the ending,
 Extra and listening-based sound comparison remain to be
 played before a semantic or 64-bit port. Runtime play adds no source ownership
 credit.
+
+## Interactive human no-hit test variant
+
+```sh
+.venv/bin/python -B scripts/play_invincible_windows.py
+```
+
+The user plays through **native Windows DOSBox-X**, not a WSL GUI window.
+The command prepares `D:\Entertainment\Game\Touhou\th03-reconstruct` and
+opens its Windows executable. Subsequent launches preserve `play.hdi` and
+avoid opening a second process for that package. Double-click
+`start-th03.bat` in that directory to play without a WSL command.
+
+The executable, Japanese font and profile come from the user's
+`D:\Entertainment\Game\Touhou\东方旧作整合\dosbox-x` directory.
+The profile retains dynamic/Pentium, 15,000 cycles and 32 MiB. Use
+`scaler=normal2x forced`: plain normal2x did not enlarge this PC-98 mode.
+The live Video / Force scaler action enlarged the current window without a
+game restart; the persisted config uses forced scaling. F11+F toggles fullscreen.
+The collection stores literal `\r\n` in its configuration files;
+the exporter converts these to real CRLF lines. It substitutes only the
+independent playable disk. `package.json` records emulator/font/config and
+product identities. A live Windows process was observed executing OP with
+the `DOSBox-X 2023.05.01` title. All four installed products were read back
+and verified before launch. The collection's files and disk are unchanged.
+
+The first preparation compiles a private overlay of the current player core twice
+with TC4, replacing only its object slot in the current `af1409l` links.
+After `player_hittest(4)`, the overlay clears `is_hit` for a human player,
+before heart loss, knockback, blinking or death entry. CPU damage remains
+active, including lethal hits. Both human sides are protected in 2P mode.
+This is an intentionally modified DOS test product, separate from exact output;
+maintained gameplay sources and exact evidence are unchanged.
+
+Native outputs repeat in `TH03WORK/probe/af1411g/`. A bounded execution of
+the actual post-collision instructions with one half-heart and a pending hit
+kept both human sides alive without damage effects; the CPU control entered
+death with zero hearts. Foreign display/damage callees were stubbed in that
+focused check; `.analysis/work/nohit-native-controls.json` holds the results.
+The headless gameplay check kept Marisa at full hearts while the CPU lost
+health; screenshots are `test-combat-start.png` and `test-combat-later.png`.
+
+The Linux staging disk is
+`.analysis/runtime/candidates/th03-invincible-play/execution.hdi`; the Windows
+copy's own saves remain in its `play.hdi`. OP/MAINL/ZUN retain the
+current exact package files; MAIN is the ordinary, unpatched native TLINK MZ
+from the private source overlay. Neither disk is an exact-comparison target.
+For headless/Linux diagnostics, `play_invincible.py --prepare-only` builds the
+staging disk, while running that script without flags opens a Linux window;
+`--stop` stops only that Linux instance. Human play uses the Windows launcher
+above. There is no automatic timer or input replay.
+Use English input: arrows move, Z fires/charges, X bombs, Escape pauses.
+At the title, a direction reveals the menu. Close the window or press Ctrl-F9
+to finish.

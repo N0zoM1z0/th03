@@ -39,6 +39,12 @@ isolated HDI process. [DOS runtime notes](RUNTIME.md) contain the replay
 command, observed gameplay/save flow and remaining campaign, ending, Extra
 and sound checks. The title's initially hidden menu is normal;
 hold Left to reveal it and distinguish attract demos from manual play.
+The user is testing a human-only no-hit copy in native Windows DOSBox-X.
+`play_invincible_windows.py` launches the separate package at
+`D:\Entertainment\Game\Touhou\th03-reconstruct`; see the runtime notes.
+`play_invincible.py` supplies the private source-overlay build. Preserve both
+the staging disk and the Windows play disk/saves. Do not send automated inputs
+to the user's live window or substitute this modified MAIN into exact evidence.
 
 1. MAIN's original `input_s` one-byte discrepancy is deferred at the user's
    request. Its current owners already compose exactly with the historical
