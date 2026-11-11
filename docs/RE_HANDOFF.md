@@ -35,9 +35,9 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
 
 The user is playing the Windows DOS build while semantic and 64-bit work
 proceeds on the independent `port/modern-64` branch. Its local worktree is
-`.analysis/native/port64/`; see that checkout's `docs/PORTABLE.md`. The first
-native title/menu slice, read-only assets and input/Option state are implemented;
-character selection and MAIN setup are next. Keep the DOS worktree on `main`.
+`.analysis/native/port64/`; read that checkout's `docs/PORTABLE.md` for current
+implementation, verification and integration work. Keep the DOS worktree on
+`main`; portable status belongs to its own branch.
 Do not send inputs to, replace or restart the user's Windows game.
 
 The four-file package has been played using the TH04-style
