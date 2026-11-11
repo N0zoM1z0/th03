@@ -136,7 +136,7 @@ def native_source_reviews(root, artifact):
             ('Fireball engine', 'af1325i'),
             ('Enemy engine', 'af1349h'),
             ('Explosion collision', 'af1198g'),
-            ('Hitbox and HitCircle', 'af1348j'),
+            ('Hitbox and HitCircle', 'af1350h'),
             ('Background chains', 'af1115b'),
             ('MAIN entry and round', 'af1314c'),
             ('Round results and reset', 'af1164e'),

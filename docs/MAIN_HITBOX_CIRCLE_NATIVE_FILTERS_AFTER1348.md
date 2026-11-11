@@ -49,3 +49,27 @@ Read-only current-source evidence:
 ```
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1348j af1348k
 ```
+
+## Current-source HitCircle active and random-center gates (2026-11-11)
+
+The HitCircle render and thirteen-slot update loops now use direct
+nonzero byte-age tests. The expiry test keeps the strict sixteen-frame
+boundary as `HITCIRCLE_FRAMES < p->age`; inactive records remain dormant,
+and the original signed-index/near-pointer traversal is unchanged.
+`hitcircles_enemy_add()` uses a direct negated random-center suppression
+flag; the original two independent RNG draws, offset arithmetic and near
+record stores remain intact.
+
+The `HitCircle::cel()` arithmetic remains deliberately BX-based. A new
+negative `af1350f` trial changed its three-BX return addition into a
+compound `BX += BX + BX` followed by one base addition; the complete
+`hitcirc` CODE differed. This does not justify changing native arithmetic
+or register lifetimes. The valid `af1350g` trial confirmed the live-age
+conditions. The final `af1350h` stage additionally confirms the random
+center guard **with both original collision physical objects**.
+
+Two original TC4 compilation rounds reproduce **all 711 CODE bytes,
+complete ordered OMF native fields and PUBLICs**, normal Japanese MAIN
+links and ordered MZ relocations. Current proof:
+`.analysis/work/exatt-layout-af1350h/report.json`, SHA-256
+`7b532c3e99a085c7f420b102d7e70c0f5da65529c75ab6c03431bdc3d8444aa2`.

@@ -67,7 +67,7 @@ void pascal hitcircles_enemy_add(
 	p->age = 1;
 	p->pid = pid;
 
-	if(hitcircles_enemy_add_do_not_randomly_center_within_hitbox == false) {
+	if(!hitcircles_enemy_add_do_not_randomly_center_within_hitbox) {
 		center_x = (
 			randring_far_next16_mod(2 * hitbox.radius.x) +
 			hitbox.origin.topleft.x.v
@@ -110,9 +110,9 @@ void near hitcircles_update(void)
 	// Zero-age slots remain dormant. A live age advances once per frame
 	// and expires only after the sixteenth animation frame.
 	for(register int i = 0; i < HITCIRCLE_COUNT; (++i, ++p)) {
-		if(p->age != 0) {
+		if(p->age) {
 			p->age++;
-			if(p->age > HITCIRCLE_FRAMES) {
+			if(HITCIRCLE_FRAMES < p->age) {
 				p->age = 0;
 			}
 		}
@@ -142,7 +142,7 @@ void near hitcircles_render(void)
 	for(register int i = 0; i < HITCIRCLE_ENEMY_COUNT; (++i, ++p)) {
 		// Dormant slots skip sprite clipping, cel calculation and drawing;
 		// the cursor still advances through all twelve physical slots.
-		if(p->age != 0) {
+		if(p->age) {
 			sprite16_clip_set_for_pid(p->pid);
 			sprite16_offset_t so = p->cel();
 			sprite16_put(p->topleft.x, p->topleft.y, so);
@@ -153,7 +153,7 @@ void near hitcircles_render(void)
 	static_assert(HITCIRCLE_PLAYER_COUNT == 1);
 	_DX = V_WHITE;
 	sprite16_mono_color(_DX);
-	if(p->age != 0) {
+	if(p->age) {
 		sprite16_clip_set_for_pid(p->pid);
 		sprite16_offset_t so = p->cel();
 		sprite16_put(p->topleft.x, p->topleft.y, so);
