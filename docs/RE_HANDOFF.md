@@ -50,7 +50,7 @@ list. The full selection lives in the generated progress table.
 | Chiyuri BOSS | `af1349a` | Full 2,654-byte owner; positive four-way/ring cadence gates, 48-shot release, mutually exclusive horizontal/vertical fans; native joint `af1347h` |
 | Marisa BOSS | `af1325h` | Complete 1,431-byte owner; positive active-attack renderer, narrow-column completion, original high-level ring branch |
 | Kotohime / Yumemi / Mima BOSS | `af1343i` / `af1350l` / `af1351b` | Kotohime's random, aimed and nested radial releases now use original exact positive phase gates; Mima now uses exact short-circuit pellet timing and explicit attack clocks; Yumemi uses the full 128-byte player type with original EXTDEF order |
-| Ellen BOSS | `af1331h` | Complete 1,675-byte owner; original extra-attack/paired-pellet byte-angle advances, intro flicker, spread phase and renderer codegen constraints |
+| Ellen BOSS | `af1353e` | Complete 1,675-byte owner; positive final Extra Attack volley and spread/pellet exit phases, intro short-circuit flicker, original angle and renderer codegen; joint Bullet/shared/Extra `af1353f` |
 | Enemy formations / ENEDAT VM | `af1349h` | Four original objects, 3,325 CODE bytes; segmented formation-script block-first indexing and original unchecked interpreter behavior |
 | Bullet engine | `af1351j` | Complete 2,685-byte owner; ordered short-circuit spawn bounds, slot-state/clip guards, and collision-map eligibility; joint Mima/shared BOSS at `af1351l` |
 | Explosion collision / Fireball | `af1198g` / `af1325i` | Original hit-chain rules; Fireball free-slot filtering, three falling-removal gates and original transfer labels; retain uninitialized state |

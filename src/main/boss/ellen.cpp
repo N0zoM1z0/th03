@@ -199,7 +199,7 @@ void near ellen_pattern_spread(void)
 
 	// Both two-frame spread gates use the unsigned-word remainder.
 	if(boss_frame < ELLEN_SPREAD_SINGLE_END) {
-		if(!(boss_frame % ELLEN_SPREAD_PERIOD)) {
+		if((boss_frame % ELLEN_SPREAD_PERIOD) == 0) {
 			goto fire_single;
 		}
 		goto done;
@@ -219,7 +219,7 @@ void near ellen_pattern_spread(void)
 	// The post-volley window ends above 0x2C; odd frames do not fire.
 	// Keep the test order: it also preserves the two original exit branches.
 	if((boss_frame > ELLEN_SPREAD_FINISH) ||
-	   (boss_frame % ELLEN_SPREAD_PERIOD)) {
+	   ((boss_frame % ELLEN_SPREAD_PERIOD) != 0)) {
 		goto done;
 	}
 
@@ -229,12 +229,11 @@ fire_single:
 	ellen_spread_angle = ellen_spread_angle + ELLEN_SPREAD_ANGLE_STEP;
 
 done:
-	if(boss_frame < ELLEN_SPREAD_FINISH) {
-		return;
+	if(boss_frame >= ELLEN_SPREAD_FINISH) {
+		boss_render_mode = ELLEN_RENDER_MODE_NORMAL;
+		boss_mode = ELLEN_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_render_mode = ELLEN_RENDER_MODE_NORMAL;
-	boss_mode = ELLEN_MODE_SELECT;
-	boss_frame = 0;
 }
 
 // Warning pulses and radial Extra Attack bursts happen at these
@@ -288,11 +287,8 @@ void near ellen_pattern_extra(void)
 	}
 
 	// Byte-valued 0xFE is a signed -2 offset in this final volley.
-	if(boss_frame != ELLEN_EXTRA_LAST_BURST) {
-		return;
-	}
-	// Keep the original burst-local DI/SI lifetime in its own scope.
-	{
+	if(boss_frame == ELLEN_EXTRA_LAST_BURST) {
+		// Keep the original burst-local DI/SI lifetime in its own scope.
 		register int i = 0;
 		unsigned char angle = randring_far_next16();
 		for(; i < ellen_extra_count; ++i, angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count)) {
@@ -364,11 +360,10 @@ void near ellen_pattern_pellets(void)
 		ellen_pellet_angle += ELLEN_PELLET_ANGLE_STEP;
 	}
 
-	if(boss_frame < ELLEN_PELLET_FINISH_FRAME) {
-		return;
+	if(boss_frame >= ELLEN_PELLET_FINISH_FRAME) {
+		boss_mode = ELLEN_MODE_SELECT;
+		boss_frame = 0;
 	}
-	boss_mode = ELLEN_MODE_SELECT;
-	boss_frame = 0;
 }
 
 void far gba_boss_update_ellen(void)
@@ -538,10 +533,8 @@ void near pascal ellen_render_intro(
 	// Only odd global frames before the intro flicker cutoff skip
 	// the four families of eight intro sprites. Existing strip calls
 	// above this point still happen on every frame.
-	if(round_frame_mod2) {
-		if(boss_frame < ELLEN_INTRO_FLICKER_END) {
-			return;
-		}
+	if(round_frame_mod2 && (boss_frame < ELLEN_INTRO_FLICKER_END)) {
+		return;
 	}
 
 	register screen_x_t left;
