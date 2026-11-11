@@ -44,7 +44,7 @@ list. The full selection lives in the generated progress table.
 | VRAM plane initializer | `af1359g` | Four original TH01 shared VRAM segment pointers, now direct 16-bit C-style segment casts; DOS boot/exit joint `af1359k` |
 | Shared BOSS controller and ring | `af1351g` | Two physical owners, 949 bytes; exact HP terminal short-circuit, active target tracking, edge turns, descent and retained native RNG rejection loop; Mima joint `af1351f` |
 | MAIN entry + frame scheduler | `af1314c` | Full 3,050-byte scheduler; explicit render/VSYNC phase gates and independent victory checks, with original PC-98 page OUT order |
-| Reimu BOSS | `af1352h` | 2,020-byte owner; three orbit phases, explicit cloud cadence, independent spread-window returns and positive maintenance-ring gate; mirror ending and signed radial arithmetic retained |
+| Reimu BOSS | `af1362f` | Five native-exact pre-tested loops across three orbit phases, live ring sprites and arrival raster; original signed angle division and byte wrap retained; 8-owner consumer `af1362g` |
 | Rikako BOSS | `af1361f` | Five original 16-bit indexed fire/render loops recovered as pre-tested `while`, preserving RNG, signed angle divisions and sprite updates; joint Bullet/Extra/Polar/Sound `af1361g` |
 | Kana BOSS | `af1355d` | 1,874-byte owner; natural staged/rotating fire-window conjunctions, positive accel/cloud completion, explicit cloud/ring clocks and intro flicker; joint engine/audio `af1355e` |
 | Chiyuri BOSS | `af1357e` | Full 2,654-byte owner; cardinal/ring inactive-frame exits, original RNG/fire order, intro flicker and palette truth gates; 7-owner combat joint `af1357f` |

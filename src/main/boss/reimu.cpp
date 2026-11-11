@@ -275,9 +275,9 @@ enum reimu_orbit_phase_t {
     REIMU_ORBIT_ANGLE_STEP = 8,
 };
 
-// The three radial loops use signed i*256 BEFORE the original integer
-// division; independent natural for headers preserve the original ordered
-// polar stores and Extra Attack calls.
+// Three independent pre-tested radial loops multiply signed i by 256
+// before division. Each advances its index after the original polar
+// stores or far Extra Attack call.
 void near reimu_pattern_orbit_burst(void)
 {
 	boss_move_sine();
@@ -297,7 +297,8 @@ void near reimu_pattern_orbit_burst(void)
 		// before signed division; prefix advancement follows each phase's
 		// original polar and Extra Attack call order. A named signed
 		// multiply-by-256 preserves all three original arithmetic sequences.
-		for(int i = 0; i < reimu_orbit_count; ++i) {
+		int i = 0;
+		while(i < reimu_orbit_count) {
 			unsigned char angle = static_cast<unsigned char>(
 				((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle
 			);
@@ -311,12 +312,14 @@ void near reimu_pattern_orbit_burst(void)
 				(TO_SP(boss_frame) * 2),
 				SinTable8[angle]
 			);
+			++i;
 		}
 		// Original TC4 preserves the unsigned-byte wrap with compound +=
 		// in this owner; unlike other BOSS byte-angle variants (af1312b).
 		reimu_orbit_angle += REIMU_ORBIT_ANGLE_STEP;
 	} else if(boss_frame < REIMU_ORBIT_RELEASE_FRAME) {
-		for(int i = 0; i < reimu_orbit_count; ++i) {
+		int i = 0;
+		while(i < reimu_orbit_count) {
 			unsigned char angle = static_cast<unsigned char>(
 				((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle
 			);
@@ -326,7 +329,7 @@ void near reimu_pattern_orbit_burst(void)
 			reimu_orbit_y[i] = polar(
 				boss_center_y, TO_SP(48), SinTable8[angle]
 			);
-
+			++i;
 		}
 		reimu_orbit_angle += REIMU_ORBIT_ANGLE_STEP;
 
@@ -344,12 +347,13 @@ void near reimu_pattern_orbit_burst(void)
 			bullets_add();
 		}
 	} else if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
-		for(int i = 0; i < reimu_orbit_count; ++i) {
+		int i = 0;
+		while(i < reimu_orbit_count) {
 			unsigned char angle = static_cast<unsigned char>(
 				((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle
 			);
 			reimu_extra_add(reimu_orbit_x[i], reimu_orbit_y[i], angle);
-
+			++i;
 		}
 		boss_mode = REIMU_MODE_SELECT;
 		boss_frame = 0;
@@ -521,14 +525,16 @@ void near reimu_render_main(void)
 			sprite_offset += (((anim & 1) * 6) + 0x780);
 		}
 
-		// All live orbit sprites draw in signed-index order; the prefix
-		// for-header increment preserves the original register sequence.
-		for(register int i = 0; i < reimu_orbit_count; ++i) {
+		// The signed-index sprite loop advances only after each draw.
+		// This preserves the original register and clip-state sequence.
+		register int i = 0;
+		while(i < reimu_orbit_count) {
 			left = (
 				playfield_fg_x_to_screen(reimu_orbit_x[i], pid_other) - REIMU_RENDER_ORBIT_LEFT_MARGIN
 			);
 			top = ((reimu_orbit_y[i] >> 4) - REIMU_RENDER_ORBIT_TOP_MARGIN);
 			sprite16_put(left, top, sprite_offset);
+			++i;
 		}
 	}
 }
@@ -565,14 +571,17 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 	}
 
 	// Eight original polar-sprite calls with byte-angle advancement
-	// after rendering. The comma-expression increments the signed index
-	// first and the byte angle second (af985d).
-	for(i = 0; i < REIMU_INTRO_SPRITE_COUNT; ++i, angle += REIMU_INTRO_ANGLE_STEP) {
+	// after each draw: increment the signed index before the byte angle.
+	// The previous for-header comma order was proved in af985d.
+	i = 0;
+	while(i < REIMU_INTRO_SPRITE_COUNT) {
 		register screen_x_t left = polar(boss_center_x, length, CosTable8[angle]);
 		top = polar(boss_center_y, length, SinTable8[angle]);
 		left = (playfield_fg_x_to_screen(left, pid_other) - REIMU_RENDER_ORBIT_LEFT_MARGIN);
 		top = ((top >> 4) - REIMU_RENDER_ORBIT_TOP_MARGIN);
 		sprite16_put(left, top, sprite_offset);
+		++i;
+		angle += REIMU_INTRO_ANGLE_STEP;
 	}
 }
 
