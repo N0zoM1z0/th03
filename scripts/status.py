@@ -133,7 +133,7 @@ def native_source_reviews(root, artifact):
             ('Ellen BOSS', 'af1360k'),
             ('Yumemi BOSS', 'af1358l'),
             ('Bullet engine', 'af1351j'),
-            ('Fireball engine', 'af1325i'),
+            ('Fireball engine', 'af1361j'),
             ('Enemy engine', 'af1358g'),
             ('Explosion collision', 'af1198g'),
             ('Hitbox and HitCircle', 'af1350h'),

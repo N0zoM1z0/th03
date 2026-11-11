@@ -420,10 +420,13 @@ switch_to_fall:
 // fireballs_add() calls and thus have an even worse effect on code quality.
 void pascal near chain_fire_charged_exatt(pid_t pid, unsigned int slot)
 {
-	if(chains.charge_exatt[pid][slot] >= (FIREBALL_CHARGE_EXATT_THRESHOLD_BASE - (round_speed / to_sp(2.0f)))) {
-		chains.charge_exatt[pid][slot] = 0;
-		exatt_add(efe_p.efe->center.x, efe_p.efe->center.y, pid);
+	// Only a charged chain reaches the native far Extra Attack call. Keep
+	// the original indexed byte access and rounded 16-bit threshold math.
+	if(chains.charge_exatt[pid][slot] < (FIREBALL_CHARGE_EXATT_THRESHOLD_BASE - (round_speed / to_sp(2.0f)))) {
+		return;
 	}
+	chains.charge_exatt[pid][slot] = 0;
+	exatt_add(efe_p.efe->center.x, efe_p.efe->center.y, pid);
 }
 
 void near fireballs_hittest(void)

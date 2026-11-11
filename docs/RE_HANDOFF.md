@@ -53,7 +53,7 @@ list. The full selection lives in the generated progress table.
 | Ellen BOSS | `af1360k` | Five exact pre-tested `while` loops across radial volleys, spread and nested intro raster; original `goto` branch carrier retained; seven-owner combat/render joint `af1360l` |
 | Enemy formations / ENEDAT VM | `af1358g` | Four objects, 3,325 CODE bytes; uniform ES-typed opcode dispatch and exact enemy HP-zero chain gate; segmented script indexing, unusual loop behavior and RNG order retained |
 | Bullet engine | `af1351j` | Complete 2,685-byte owner; ordered short-circuit spawn bounds, slot-state/clip guards, and collision-map eligibility; joint Mima/shared BOSS at `af1351l` |
-| Explosion collision / Fireball | `af1198g` / `af1325i` | Original hit-chain rules; Fireball free-slot filtering, three falling-removal gates and original transfer labels; retain uninitialized state |
+| Explosion collision / Fireball | `af1198g` / `af1361j` | Exact chain Extra Attack charge early exit, original indexed byte stores and uninitialized collision slot retained; Rikako/Combo/Explosion joint `af1361k` |
 | Kotohime / Yumemi Extra Attack | `af1199e` / `af1200c` | Complete entity/render states |
 | Rikako / Kana / Mima Extra Attack | `af1301f` / `af1302f` / `af1306e` | Full allocators, updates and rendering; first-use locals tested independently |
 | Q8 polar / PI reload / DOS handoff | `af1322h` / `af1358n` / `af1359i` | Original signed Q8 geometry, PI far-Pascal return local initialized at first use, and original DOS filename `const_cast` with four-byte far-null argument; boot/VRAM/exit joint `af1359k` |
