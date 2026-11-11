@@ -33,6 +33,13 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
 
 ## Remaining work and next useful actions
 
+The user's current priority is actual DOS gameplay before any semantic or
+64-bit port. The four-file package has been played using the TH04-style
+isolated HDI process. [DOS runtime notes](RUNTIME.md) contain the replay
+command, observed gameplay/save flow and remaining campaign, ending, Extra
+and sound checks. The title's initially hidden menu is normal;
+hold Left to reveal it and distinguish attract demos from manual play.
+
 1. MAIN's original `input_s` one-byte discrepancy is deferred at the user's
    request. Its current owners already compose exactly with the historical
    input carrier. Shared C0 now reproduces the entire original OBJ from supplier

@@ -22,6 +22,11 @@ its complete current decoded input. All seven final outputs repeat exactly.
 The full EXE images and ordered MZ relocations were checked by the preceding
 link review. The file sizes are listed in the baseline table below.
 
+The actual packed outputs have also been installed and played in an isolated
+PC-98 DOS disk, including OP/MAIN/MAINL transitions and score saving. See
+[DOS runtime notes](RUNTIME.md) for the TH04-derived procedure, evidence and
+remaining gameplay coverage.
+
 The final receipt is `TH03PKG/af1410p/runtime-package.json`; the ready files
 are under `r1/packed/` and `r2/packed/` in that directory. Review the complete
 current build with:
