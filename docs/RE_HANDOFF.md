@@ -23,8 +23,9 @@ The coverage includes original ReC98 `master.lib` CODE; storage
 and zero-length segment carriers add no executable bytes.
 
 OP, MAINL (the ending) and ZUN retain decoded publications. All four products
-still have whole-product source ownership/composition or canonical Factory
-acceptance work. Tracked extents, accepted decoded bytes and stored-file sizes
+still have whole-product source ownership work. The current four-file package matches all stored Japanese targets; see
+the [composition review](CURRENT_LINKED_BUILD_REVIEW.md) for its scope and command.
+Tracked extents, accepted decoded bytes and stored-file sizes
 have different denominators, so there is no whole-game completion percentage.
 Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
 
@@ -32,7 +33,8 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
 
 1. MAIN's original `input_s` one-byte discrepancy is deferred at the user's
    request. Its current owners already compose exactly with the historical
-   input carrier. Original CRT `c0l.obj` source ownership remains open.
+   input carrier. The current package compiles shared C0 from maintained source;
+   its original PUBLIC packet-order gap remains open.
 2. MAINL's complete current project rebuild is `af1369m`; independent natural
    input/sound function bodies are `af1371f`. The four natural sound ASM
    providers compose with that project in `af1375s`, including their EVEN
@@ -40,17 +42,22 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
    Historical aggregates reference accepted finer owners without adding byte
    or procedure credit. See the [current linked-build review](CURRENT_LINKED_BUILD_REVIEW.md)
    for commands, evidence and the aggregate mapping. Whole-product ownership
-   outside the tracked inventory and canonical stored-file acceptance remain open.
+   outside the tracked inventory remains open.
 3. OP's current maintained IRAND and natural selection-state object compose
    exactly in `af1377o`; both raw OBJ/EXE/MAP vectors repeat. Every tracked OP
    range is covered. The old selection aggregate references its accepted
-   unlock/tail owners without duplicate credit. Compiler startup and runtime
-   inputs remain contextual in this project composition.
+   unlock/tail owners without duplicate credit. The package additionally replaces
+   compiler startup with fresh source C0;
+   runtime library inputs remain contextual in this project composition.
 4. For new OP/MAINL/ZUN ownership, consult `config/units.csv`,
    `config/evidence.csv` and their decoded publications. An unaccepted module
    may contain accepted smaller scopes; inventory rows are not a missing-function
    list. ZUN's enclosing sprite16 driver remains unaccepted despite accepted
-   procedure/DATA subscopes; twelve reserved DATA bytes remain unowned.
+   procedure/DATA subscopes; twelve reserved DATA bytes remain unowned. The
+   new isolated PARA trial explains three as a compatible linker gap but
+   leaves nine terminal bytes unexplained. TC4 internal MOV fixup ordering
+   is a useful next setvbuf lead; complete candidates still differ. Both
+   findings are in the composition review.
 5. Further natural C/C++ simplification is useful when analysis supports it,
    but is not the same as new exact coverage. Inspect the actual source and
    use small positive/negative TC4 trials for a specific codegen question.
@@ -85,7 +92,9 @@ for MAP coordinates, failed approaches and focused read-only checks.
 
 Follow [shared tools](SHARED_TOOLS.md): Factory supplies Ghidra/JDK/Wine;
 TH03 keeps its own prefix, analyzer project, compiler profile and targets.
-Use headless tools, one CPU at nice10 and serialized Borland writers.
+Invoke the local repository scripts and headless tools directly for
+reconstruction and acceptance; do not route this work through Factory MCP.
+Keep one CPU at nice10 and serialize Borland writers.
 Preflight is for native work or target/runtime changes, not prose edits.
 
 ```sh

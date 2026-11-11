@@ -79,8 +79,10 @@ The shared startup still has a PUBLIC packet-order gap, and
 fixup order. The shared runtime's exact findings and these remaining limits
 are recorded in the [DOS exec review](SHARED_EXEC_OP_RUNTIME_AFTER537_NATIVE_REVIEW.md)
 and [startup review](SHARED_STARTUP_AFTER548_NATIVE_REVIEW.md). Keep their
-actual current dependencies, including the historical exec ancestor, rather
-than replacing snapshots or rerunning the entire chain for a local edit.
+actual current dependencies. The current four-file package freshly assembles
+shared C0 and compares its entire physical scope without replaying that
+historical runtime chain. Its stored outputs all match the Japanese targets;
+whole-product source ownership remains open.
 MAINL's complete held-key function is now accepted through the independent
 no-trailer TC4 proof. Its alternative ASM carrier still has the historical
 trailing-byte/layout question described in the

@@ -1,9 +1,53 @@
 # Current project composition (2026-11-11)
 
-Both products now have two target-equal links composed from current source
-outputs. MAIN's deferred input carrier remains unchanged. MAINL's decoded
-publication gains 29 disjoint owners; historical aggregate ranges are explained
-below. [Generated progress](PROGRESS.md) supplies the current totals.
+MAIN, OP and MAINL have two target-equal links composed from current source
+outputs. The four-file package also repeats with a freshly assembled shared
+startup. MAIN's deferred input carrier remains unchanged. MAINL's historical
+aggregate ranges are explained below. [Generated progress](PROGRESS.md) supplies the current totals.
+
+## Four-file package with source startup
+
+`scripts/build_th03_package_current.py --stage af1386p` independently reviews
+those current object pairs and ZUN's unchanged source-bound cold pair, assembles
+`src/shared/crt/startup_large.asm`, and links MAIN, OP and MAINL with that fresh
+startup object. Project objects and runtime libraries retain their reviewed
+input bindings and original link order. ZUN reuses its current decoded output.
+MAIN uses the established compact MZ serialization; the other three programs
+use the pinned original DIET 1.45f `-B` command. Each is restored with `-ra` and
+compared with the entire decoded input. Both DIET operations return 1 on success.
+
+Both rounds reproduce all four canonical Japanese files byte for byte:
+
+| Stored program | Bytes |
+| --- | ---: |
+| MAIN.EXE | 130,882 |
+| OP.EXE | 36,041 |
+| MAINL.EXE | 37,975 |
+| ZUN.COM | 16,242 |
+
+All loaded MZ bytes and the original ordered relocation vectors are checked:
+1,553 for MAIN, 607 for OP and 677 for MAINL. Every complete MAP equals its
+corresponding current parent. Thirteen of fourteen raw outputs repeat exactly;
+MAIN's MAP retains the independently compiled `r1`/`r2` module filenames and
+is checked verbatim against each parent instead of being normalized.
+
+The freshly assembled C0 object preserves all 17 original segments, 767
+initialized bytes, genuine cache holes, reserved stack and all 58 literal
+ordered fixup fields. All 32 PUBLIC packets match as a set; their emitted
+order still differs. The startup comparator reuses the complete physical scope
+from after548 without replaying the historical runtime build chain.
+
+The receipt and actual inputs, outputs, commands and logs are under
+`.analysis/toolchain/wineprefix/drive_c/TH03PKG/af1386p/`. Run the command above
+without `--build` for a current read-only review; add `--build` and a fresh
+stage for native execution. `.analysis/work/package-controls.log` records the
+independent review and bounded negative controls for command, target-byte and
+startup-byte changes.
+
+This closes local four-file artifact reproduction with the current composition.
+Whole-product source ownership remains open: vendor runtime inputs, ZUN's
+reserved spans and the deferred MAIN carrier are still present. Build and
+acceptance run directly through the local repository scripts.
 
 ## OP: maintained IRAND and selection state compose together
 
@@ -137,4 +181,37 @@ parent explicitly. The decoded publisher uses the selected build stages in
 `lib/decoded_mainl_linked_current.py`, `build_th03_mainl_function_bodies.py`
 and `build_th03_mainl_sound_current.py`.
 After changing their selection, run the publisher and regenerate progress.
-Whole-product source ownership and DIET stored-file acceptance remain open.
+Whole-product source ownership remains open.
+The local stored-file comparison is covered by the four-file package above.
+
+## Remaining source questions: ZUN reserves and setvbuf
+
+The isolated ZUN trial `TH03ZUN/probe/af1387z` retains the actual tiny MODEL
+and instruction assumptions, separates the ON/OFF strings into a PARA
+contribution, and removes both explicit reserved declarations. Its 4,215-byte
+COM exactly equals the first 4,215 bytes of the original 4,224-byte `-4`
+payload. TLINK supplies the three-byte gap before ON/OFF, but an empty following
+segment does not write the nine terminal zero bytes. The earlier `af1380z`
+manual-MODEL trial changed instruction encoding and is superseded. Neither
+trial changes the maintained driver or grants the enclosing scope ownership.
+The directory's `decoded_file_offset` must select this payload; its runtime
+address includes the COM 100h bias. The corrected complete-prefix check is
+`.analysis/work/zun-paragraph-check.log`.
+
+TC4's internal assembler naturally emits the reverse operand-field order
+needed by setvbuf's two callback MOVs. Both a minimal C pointer assignment and
+inline assembly demonstrate this in `TH03OP/probe/af1378c`. TASM emits the
+opposite order. This gives a concrete alternative to object-record rewriting.
+A complete inline-assembly function still differs in register-save handling
+and instruction encodings. The ordinary C reconstruction in `af1388c` emits
+286 CODE bytes versus the original 289, with different epilogues and operand
+fields; it is not adopted. `-1-` and `-2-` disable the default 286 instruction
+selection and produce the same 8086 result with `-O -r-`; `-0` is invalid in
+this TC4 compiler. The source-startup `/ml` case-sensitivity trial in
+`TH03OP/probe/af1389s` preserves storage and all ordered fields but leaves the
+PUBLIC order different, just as `/mx` does. The maintained shared ASM's two field-order mismatches
+remain open. These small source trials and their logs remain in the local
+probe directories; `.analysis/work/bounded-next.py` reproduces the latter two
+trials in fresh stages after changing their stage names. The older installed
+TC2.01 candidate emits a different 291-byte C function with or without
+register allocation (`TH03OP/probe/af1390c`); it does not resolve setvbuf.
