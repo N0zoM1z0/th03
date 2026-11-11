@@ -46,7 +46,7 @@ list. The full selection lives in the generated progress table.
 | MAIN entry + frame scheduler | `af1314c` | Full 3,050-byte scheduler; explicit render/VSYNC phase gates and independent victory checks, with original PC-98 page OUT order |
 | Reimu BOSS | `af1352h` | 2,020-byte owner; three orbit phases, explicit cloud cadence, independent spread-window returns and positive maintenance-ring gate; mirror ending and signed radial arithmetic retained |
 | Rikako BOSS | `af1352l` | Complete 1,677-byte owner; signed positive/negative/neutral spin clocks use ordered short circuits, intro flicker gate remains exact; orbit/entity/burst dispatch and Bullet/Extra Attack join `af1352n` |
-| Kana BOSS | `af1323f` | Complete 1,874-byte owner; staged and rotating emission windows, two cadence gates, byte-angle/speed increments, and intro flicker |
+| Kana BOSS | `af1355d` | 1,874-byte owner; natural staged/rotating fire-window conjunctions, positive accel/cloud completion, explicit cloud/ring clocks and intro flicker; joint engine/audio `af1355e` |
 | Chiyuri BOSS | `af1349a` | Full 2,654-byte owner; positive four-way/ring cadence gates, 48-shot release, mutually exclusive horizontal/vertical fans; native joint `af1347h` |
 | Marisa BOSS | `af1325h` | Complete 1,431-byte owner; positive active-attack renderer, narrow-column completion, original high-level ring branch |
 | Kotohime / Yumemi / Mima BOSS | `af1354g` / `af1350l` / `af1351b` | Kotohime's random, aimed and nested radial releases now use exact early-exit warning gates; joint Bullet/shared/Extra `af1354h`; Mima now uses exact short-circuit pellet timing and explicit attack clocks; Yumemi uses the full 128-byte player type with original EXTDEF order |
