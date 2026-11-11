@@ -101,8 +101,9 @@ two execution disks are regenerable; their run records and screenshots
 retain the menu comparison.
 
 No game-source change was needed. Full campaign completion, the ending,
-Extra and listening-based sound comparison remain to be
-played before a semantic or 64-bit port. Runtime play adds no source ownership
+Extra and listening-based sound comparison remain to be played. The user is
+continuing DOS tests while semantic and 64-bit work proceeds separately.
+Runtime play adds no source ownership
 credit.
 
 ## Interactive human no-hit test variant
