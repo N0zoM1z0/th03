@@ -21,8 +21,15 @@ obsolete documentation references too. No new audit, manifest or archive is
 needed just to perform cleanup.
 
 The `input_s` linker discrepancy is a specific exception: retain the original
-417-byte object, the 418-byte frozen parent and the `af1305a` experiment while
-resolving the one-byte gap. See the [current handoff](RE_HANDOFF.md).
+417-byte object, the 418-byte frozen parent, the `af1305a` original-object link,
+the `af1320c`/`af1320d` C++ negative pair and the `af1335b` alternative ASM
+proof while resolving the one-byte gap. See the [current handoff](RE_HANDOFF.md).
+
+For MAIN overlays, both `.analysis/work/exatt-layout-STAGE/` and
+`TH03WORK/probe/STAGE/` are consumed by the current read-only reviewer. Keep
+both for selected stages and still-useful joint consumer checks. Superseded
+trial pairs can be removed together after checking current script/configuration
+dependencies. Preserve the frozen after596 parent and its original link inputs.
 
 `clean_generated.py --caches-only --apply` removes Python/test caches only.
 It leaves native build output and `.analysis` alone. Remove obsolete native

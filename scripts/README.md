@@ -90,7 +90,12 @@ continuing reconstruction work.
 | `probe_th03_sound_nop_layout.py` | OP/MAINL natural trailing-byte investigation; annotated assembly controls are not acceptance. |
 | `build_th03_mainl_after520_work.py`, `review_th03_mainl_after520_work.py` | **Historical after520 source stage**, retained as a native dependency, not a current entrypoint. The historical after554 selected source link and later after587 full-MAINL link are distinct evidence; current publication additionally requires its selected native refresh. |
 | `clean_generated.py` | Preview Python/test caches; `--caches-only --apply` removes them. Native output and `.analysis` stay outside its scope. |
-| `import_targets.py`, `bootstrap_toolchain.sh`, `bootstrap_analysis_toolchain.sh` | Initial private input/tool installation. |
+| `import_targets.py`, `bootstrap_toolchain.sh` | Initial private input and Borland compiler installation into an empty TH03 prefix. |
+| `shared_runtime.py` | Forward to Factory's shared Ghidra/JDK/Wine with TH03-owned mutable state; see [shared tools](../docs/SHARED_TOOLS.md). |
+
+`bootstrap_analysis_toolchain.sh` is a legacy standalone installer. Factory's
+shared-runtime procedure supersedes it; do not run it to duplicate Ghidra/JDK
+in an attached checkout.
 
 Historical replay/probe helpers can refer to deliberately deleted private runs.
 They remain provenance/diagnostics, not the current build entry points. Some old

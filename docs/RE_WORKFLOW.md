@@ -36,8 +36,10 @@ current source-bound stages are listed in [generated progress](PROGRESS.md);
 `status.py` checks them with the read-only native reviewer. Select the affected
 owners from that current list rather than copying historical stage numbers.
 
-Select **only the original physical TUs whose maintained C++ or actually
-consumed implementation .inl files changed**. Use a new unused DOS-safe
+For the C++ overlay, select **the original physical TUs whose maintained C++,
+consumed headers or implementation .inl files changed**. A shared header change
+requires checking its known consumers. ASM owners use their dedicated probes
+listed in `scripts/status.py`. Use a new unused DOS-safe
 stage, two independent original compiler rounds and two complete normal
 MAIN links:
 
@@ -133,5 +135,7 @@ owner reviews remain visible independently of a pending broad publication.
 Status and progress use the same source-native reviewers; neither rebuilds native
 inputs. Source presence and accepted ownership are separate; complete executable
 equality can still contain unowned vendor context.
-OP/MAINL/ZUN also compare canonical DIET storage. MAIN retains its documented
-CODE alignment/header differences.
+OP/MAINL/ZUN also compare canonical DIET storage. MAIN's scoped proofs compare
+the complete compact Japanese image and ordered relocations; normal TLINK
+header storage and the separate `input_s` alignment discrepancy are described
+in the [handoff](RE_HANDOFF.md).

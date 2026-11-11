@@ -48,11 +48,11 @@ Run `.venv/bin/python scripts/preflight.py` before target-dependent native
 work or after changing targets/tools. Ordinary documentation and CI edits do
 not need that private-tool check.
 
-For source edits, rebuild only the affected original physical translation
-units and compare the complete native scope in two original TC4 rounds and
-two normal MAIN links. Do not use historical composite stages as current
-proofs; the active handoff lists the current source-bound stages. Full cold
-replay and full CI are not routine per-edit requirements.
+For MAIN source edits, rebuild the affected original physical translation
+units and compare the complete native scope in two original TC4/TASM rounds
+and two normal MAIN links. Other products use their own affected native scopes.
+Use [generated progress](docs/PROGRESS.md) for current source-bound stages.
+Full cold replay and broad test suites are not routine per-edit requirements.
 
 ## Fresh installation
 
@@ -69,14 +69,20 @@ git -C _reference/ReC98 checkout --detach b6ba5b0a529edbb31efdf8c0e939263804f8ee
 .venv/bin/python scripts/import_targets.py /path/to/your/legal-copy.rar \
   --include-all-games-smoke --retain-runtime-image
 DISPLAY= WAYLAND_DISPLAY= bash scripts/bootstrap_toolchain.sh
-DISPLAY= WAYLAND_DISPLAY= bash scripts/bootstrap_analysis_toolchain.sh
-.venv/bin/python scripts/preflight.py
 ```
 
-Host dependencies include Python 3, a C compiler, Wine, archive utilities and
-mtools. Bootstrap verifies downloaded packages; manifests identify the exact
-installed versions. Use `.venv/bin/python` consistently for Capstone/Unicorn.
-The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
+The native compiler bootstrap above is for a fresh, empty TH03 toolchain;
+it refuses to overlay an existing prefix. Attach the checkout to Factory's
+shared Ghidra/JDK/Wine runtime as described in
+[shared tools](docs/SHARED_TOOLS.md), then run `.venv/bin/python scripts/preflight.py`.
+The legacy `bootstrap_analysis_toolchain.sh` installs separate Ghidra/JDK
+copies and is superseded by that shared-runtime procedure.
+
+Host dependencies include Python 3, a C compiler, the shared Wine runtime,
+archive utilities and mtools. Bootstrap verifies downloaded packages;
+manifests identify the exact installed versions. Use `.venv/bin/python`
+consistently for Capstone/Unicorn. The bounded ZUN emitter is installed through
+`scripts/bootstrap_jwasm.py`.
 
 ## Maintenance and handing off
 

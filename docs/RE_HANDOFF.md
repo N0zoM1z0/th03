@@ -1,154 +1,101 @@
 # TH03 — active agent handoff (2026-11-11)
 
-Start with [AGENTS.md](../AGENTS.md), then this page. Use
-[generated progress](PROGRESS.md) for the **complete current** per-owner
-stage list and product counts, [the workflow](RE_WORKFLOW.md) for native
-verification, and [storage policy](STORAGE_HANDOFF_CURRENT.md) before any
-cleanup. Focused `MAIN_*` reviews and source comments retain useful compiler
-findings; Git history holds older chronology.
+Read [AGENTS.md](../AGENTS.md), this page and the relevant
+[workflow](RE_WORKFLOW.md) section. [Generated progress](PROGRESS.md) is the
+current stage list and count authority; [architecture](ARCHITECTURE.md)
+explains the source/build graph. Focused review notes and source comments
+retain compiler findings. Git history holds earlier chronology.
 
 ## State to inherit
 
-- Work on the existing `main` worktree; inspect `git status -sb` and
-  `git log -8 --oneline` first. Do not discard dirty or untracked changes.
-  Every new commit subject starts `gpt-web: `. Local commits are not pushes.
-- All four products remain unfinished as **whole-game source reconstruction**.
-  OP, MAINL (ending) and ZUN have retained decoded acceptance/publications;
-  MAIN's separate ledger records 106 extents / 78,737 bytes and 459 exact
-  function entries. Neither a ledger entry nor source presence certifies
-  the current build, and the game's completion percentage is unknown.
-- As of this handoff, MAIN has **76 independently verified stages**, covering
-  **97 non-overlapping physical objects** and **89,269 executable CODE bytes**.
-  This includes **10,570 bytes of original ReC98 `master.lib` CODE**, not
-  newly recovered authored gameplay code. VSYNC storage, the master DATA/BSS carrier and
-  two segment-order scaffolds contribute no CODE bytes. The stage list and
-  counts are generated in [PROGRESS.md](PROGRESS.md); use that instead of
-  historical stage IDs from older notes.
-- Each selected owner is independently compiled in two original TC4/TASM
-  rounds and linked against retained unchanged inputs. This is **not** one
-  end-to-end cold all-source rebuild, and its physical CODE total is not a
-  whole-game completion percentage.
-- Native receipts compare complete owned CODE/initialized DATA, ordered OMF
-  fields/PUBLICs/segment layouts, and two original TC4/TASM + TLINK MAIN links,
-  including the Japanese program image and ordered MZ relocations.
-  Local evidence is separate from canonical Factory Oracle acceptance;
-  do not claim whole-product or packed-file acceptance from these scopes.
+Work in the existing `main` worktree. Inspect `git status -sb` and
+`git log -8 --oneline`; preserve dirty and untracked work. Commit substantial
+progress with `gpt-web: xxx`. Local commits are not pushes.
 
-## Current reconstruction checkpoints
+MAIN's tracked extent and function ledgers are fully exact within their
+inventories. Its current source-native coverage consists of independently
+verified physical owners, each compiled in two original TC4/TASM rounds and
+linked with retained unchanged inputs. These checks include complete owned
+CODE/initialized DATA, ordered OMF fields, PUBLICs, segment layout, the full
+Japanese image and ordered MZ relocations. They are not a single all-source
+cold build. The coverage includes original ReC98 `master.lib` CODE; storage
+and zero-length segment carriers add no executable bytes.
 
-These are **examples of current source-bound stages**, not another exhaustive
-list. The full selection lives in the generated progress table.
+OP, MAINL (the ending) and ZUN retain decoded publications. All four products
+still have whole-product source ownership/composition or canonical Factory
+acceptance work. Tracked extents, accepted decoded bytes and stored-file sizes
+have different denominators, so there is no whole-game completion percentage.
+Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
 
-| Owner / area | Stage | Focus |
-| --- | --- | --- |
-| VRAM plane initializer | `af1359g` | Four original TH01 shared VRAM segment pointers, now direct 16-bit C-style segment casts; DOS boot/exit joint `af1359k` |
-| Shared BOSS controller and ring | `af1351g` | Two physical owners, 949 bytes; exact HP terminal short-circuit, active target tracking, edge turns, descent and retained native RNG rejection loop; Mima joint `af1351f` |
-| MAIN entry + frame scheduler | `af1314c` | Full 3,050-byte scheduler; explicit render/VSYNC phase gates and independent victory checks, with original PC-98 page OUT order |
-| Reimu BOSS | `af1362f` | Five native-exact pre-tested loops across three orbit phases, live ring sprites and arrival raster; original signed angle division and byte wrap retained; 8-owner consumer `af1362g` |
-| Rikako BOSS | `af1361f` | Five original 16-bit indexed fire/render loops recovered as pre-tested `while`, preserving RNG, signed angle divisions and sprite updates; joint Bullet/Extra/Polar/Sound `af1361g` |
-| Kana BOSS | `af1364f` | Two exact pre-tested loops in 16-shot staged volley and 16-sprite arrival raster; original AL subtract and warning-render branches retained; 8-owner joint `af1364g` |
-| Chiyuri BOSS | `af1365f` | Five exact pre-tested loops across horizontal/vertical speed fans and 16-sprite ring; original signed angle quotients and shot/update ordering; 8-owner combat joint `af1365g` |
-| Marisa BOSS | `af1367f` | Exact wide/narrow column and ring incomplete-frame exits, main sprite flicker low-bit gate; dense-ring and spread compiler order retained; consumer `af1367g` |
-| Kotohime / Yumemi / Mima BOSS | `af1363f` / `af1366f` / `af1359d` | Kotohime's ring emitter, nested radial burst and sprite renderer use four exact pre-tested loops; joint Bullet/shared/Extra `af1363g`; Mima has exact incomplete-frame exits in all four attack families, joint combat `af1359f`; Yumemi preserves its true player state and now uses exact rain/RNG and four-phase entrance raster pre-tested loops; joint `af1366g` |
-| Ellen BOSS | `af1360k` | Five exact pre-tested `while` loops across radial volleys, spread and nested intro raster; original `goto` branch carrier retained; seven-owner combat/render joint `af1360l` |
-| Enemy formations / ENEDAT VM | `af1358g` | Four objects, 3,325 CODE bytes; uniform ES-typed opcode dispatch and exact enemy HP-zero chain gate; segmented script indexing, unusual loop behavior and RNG order retained |
-| Bullet engine | `af1351j` | Complete 2,685-byte owner; ordered short-circuit spawn bounds, slot-state/clip guards, and collision-map eligibility; joint Mima/shared BOSS at `af1351l` |
-| Explosion collision / Fireball | `af1198g` / `af1361j` | Exact chain Extra Attack charge early exit, original indexed byte stores and uninitialized collision slot retained; Rikako/Combo/Explosion joint `af1361k` |
-| Kotohime / Yumemi Extra Attack | `af1199e` / `af1200c` | Complete entity/render states |
-| Rikako / Kana / Mima Extra Attack | `af1301f` / `af1302f` / `af1306e` | Full allocators, updates and rendering; first-use locals tested independently |
-| Q8 polar / PI reload / DOS handoff | `af1322h` / `af1358n` / `af1359i` | Original signed Q8 geometry, PI far-Pascal return local initialized at first use, and original DOS filename `const_cast` with four-byte far-null argument; boot/VRAM/exit joint `af1359k` |
-| VSYNC storage-only ASM | `af1337i` | Original `VS.ASM`: 0 CODE, 8 initialized DATA, 8 BSS and 12 aliases; only one tied PUBLIC pair needs MAP-order normalization |
-| Original master.lib CODE | `af1338c` | Original external library carriers, 10,570 CODE bytes / 464 ordered fields / 103 PUBLICs; two exact native links and pinned vendor includes, not game-authored code |
-| Master DATA/BSS tail | `af1340d` | Original `mst_tail` source carrier: 1,566 initialized DATA bytes, 1,606-byte DATA segment, 22,250-byte BSS segment, 414 PUBLICs and 0 CODE; generated sprite and vendor dependencies pinned |
-| MAIN aggregate root | `af1341b` | Original 32-segment `main.obj` bound: 896 executable CODE, 1,289 initialized DATA, 64 fixups and 127 PUBLICs; three repaired bounded includes pinned |
-| Native segment-order scaffolds | `af1342c` | Original `bo_shim` / `ex_ord` (19 + 11 zero-length SEGDEFs), exact raw OMF alignments and complete normal links; zero CODE/DATA/PUBLIC |
-| Native frame delay / DOS initializer | `af1352i` / `af1316f` | Volatile VSYNC polling using reset-plus-while and nonzero allocation failure; historical joint native proof `af1316d`, Reimu/VSYNC joint `af1352g` |
-| Shared sound ASM leaves | `af1328b` | Three newly source-bound original TASM owners: PMD mode detection, resident probe and SE reset; 100 CODE bytes, native link/relocs exact |
-| Graphics/resource ASM leaves | `af1330f` | Six source-bound TASM owners, 1,622 CODE bytes; HUD score aliases, sprite16, MRS, palette, flip LUT and fill carrier; includes now bound |
-| Vector/playfield/collision ASM | `af1332c` | Three newly source-bound TASM objects: 160-byte vectors, 118-byte playfield geometry, 432-byte collision-map generator |
-| Demo transition control | `af1367p` | Exact two-pass close/uncover while scans, signed playfield offset/frame gates and separate unsigned GRCG mask enums; entry/collision joint `af1367q` |
-| Resident CFG loader | `af1367t` | Original 49-byte leaf uses explicit near CFG filename byte address and stack-allocated scratch; entry/init/DOS/PI joint `af1367u` |
-| Round RNG / collision reset | `af1333c` | 82-byte TASM carrier, source-bound RNG macros, fill loop, collision reset, three maintained includes |
-| PMD/MIDI audio services | `af1364k` | Driver-inactive and PMD early returns retain AX and original interrupt vector order; SE priority/frame path unchanged; Kana combat/audio joint `af1364l` |
-| Input modes / wait | `af1366k` | No-joystick early exit in both asymmetric keyboard/joystick modes and at-least-once release poll; CPU/VSYNC/Warning/Sound joint `af1366l` |
-| Warning / Gauge HUD | `af1362n` | Exact pause and key-release loops, signed 27-frame palette flash, six-row cleanup and word-frame low-bit tests; 7-owner joint `af1362o` |
-| Hitbox + HitCircle | `af1365j` | Two pre-tested indexed/near-pointer walks across 13 age slots and 12 enemy sprites, retaining the final player slot; Chiyuri combat joint `af1365k` |
-| CPU movement/dodge controller | `af1357k` | Full 1,077-byte controller; short-circuit floor escape, exact collision scan/bomb clocks and nine-direction retry predicates; core/input/hitbox/VSYNC joint `af1357l` |
-| Gauge / shared Extra Attack | `af1363i` | Exact player-zero callback early return with two 16-bit locals and original far-Pascal ABI; Gauge gate unchanged; Kotohime/Extra/Polar joint `af1363j` |
-| MAINL Staff + root | `af942s` / `af944r` | Retained source scopes; decoded MAINL publication refreshed at `af1055m` |
+## Remaining work and next useful actions
 
-Other complete BOSS, Bullet, Chargeshot, Bomb, HUD and player owners are listed
-in [PROGRESS.md](PROGRESS.md), not repeated here. The two-object Combo
-and charged-fireball helper now has current proof `af1360o`, with fireball,
-explosion and Ellen combat consumers checked together at `af1360p`.
-When updating an owner, verify its **entire physical extent and consumers**,
-not only the changed function.
-Successful C++ simplifications in one owner do not imply equal TC4 codegen in
-another: byte/word signedness, local lifetime, `goto` layout, far pointers,
-register effects and RNG consumption matter. Preserve proven original quirks
-rather than adding defensive product fixes or manufactured byte padding.
+1. Resolve MAIN's original `input_s` link discrepancy described below, then
+   establish a normal link composed from the current maintained owners.
+   Review the original CRT `c0l.obj` separately. Independent owner proofs do
+   not by themselves establish that all current objects compose exactly.
+2. For new OP/MAINL/ZUN ownership, consult `config/units.csv`,
+   `config/evidence.csv` and their decoded publications. An unaccepted module
+   may contain accepted smaller scopes; inventory rows are not a missing-function
+   list. ZUN's enclosing sprite16 driver remains unaccepted despite accepted
+   procedure/DATA subscopes; twelve reserved DATA bytes remain unowned.
+3. Further natural C/C++ simplification is useful when analysis supports it,
+   but is not the same as new exact coverage. Inspect the actual source and
+   use small positive/negative TC4 trials for a specific codegen question.
+   Preserve byte/word signedness, local lifetime, far-pointer ABI, register
+   effects, RNG consumption and original unchecked behavior.
 
-## Open blocker: original `input_s` source versus historical linker carrier
+The latest gameplay helper changes are the resident CFG loader (`af1367t`,
+entry/init/DOS/PI joint `af1367u`) and stage transition (`af1367p`,
+entry/collision joint `af1367q`). Other current owners are in the generated
+stage table. MAINL's Staff/root decoded refresh is `af1055m`; its standalone
+owner proofs are `af942s` and `af944r`. See the
+[MAINL refresh review](MAINL_CURRENT_SOURCE_REFRESH_AFTER1055_REVIEW.md).
 
-The original TC4 `input_s.obj` and the fresh maintained C++ object each have
-**417 CODE bytes**, **42 ordered OMF fixup fields**, and identical PUBLICs
-and segments (`af1320c`/`af1320d`). The frozen normal MAIN link instead
-used an older **418-byte assembler carrier**. When linked with the genuine
-417-byte TC4 object (`af1305a`), the result differs at only file offset
-**68,141** (`0x90` versus `0x00`), with the same ordered MZ relocations.
+## MAIN blocker: original input_s versus historical linker carrier
 
-The maintained `src/main/hardware/input_scan.asm` naturally emits the
-extra `0x90` through a TASM `EVEN` alignment. Independent stage `af1335b`
-proves the 418-byte carrier and both complete normal TLINK images. This
-**explains historical parent-link provenance** without a hand-inserted NOP,
-but does not prove that the original **417-byte TC4 source object** can
-reproduce that normal link. Keep those two claims separate; the alternative
-assembler carrier is intentionally absent from current original-OBJ source
-coverage. Full diagnostics: [input alignment review](MAIN_INPUT_S_LINK_GAP_AFTER744_REVIEW.md).
+The original TC4 `input_s.obj` and current maintained C++ each have 417 CODE
+bytes, 42 ordered fixup fields and identical PUBLICs/segments. Fresh negative
+rounds `af1320c`/`af1320d` retain that complete original-object equality. The
+frozen normal MAIN response instead uses an older 418-byte assembler carrier.
+Linking the genuine original object (`af1305a`) changes only file offset
+68,141: historical `0x90` becomes `0x00`, with identical ordered relocations.
 
-The original CRT `c0l.obj`, canonical packed-file/Factory acceptance and
-whole-product source composition remain separate unfinished gates.
+The maintained `src/main/hardware/input_scan.asm` naturally emits the extra
+`0x90` through TASM `EVEN`. Stage `af1335b` proves that alternative 418-byte
+carrier and two complete normal links. It explains the historical link but
+is excluded from current original-TC4-object coverage. Do not add padding,
+patch output or rewrite the already exact C++ scan body to conceal the gap.
+See the [input alignment review](MAIN_INPUT_S_LINK_GAP_AFTER744_REVIEW.md)
+for MAP coordinates, failed approaches and focused read-only checks.
 
-## Good next work
+## Working commands and retained context
 
-1. Investigate that one-byte `input_s` link gap without generating or
-   inserting target padding. The original C++ function body already matches
-   its OBJ; do not endlessly rewrite the two BIOS scan passes just to hide
-   a historical linker mismatch.
-2. Continue substantive natural C/C++ recovery in large BOSS and ENEDAT
-   controllers **and** small helpers, using isolated negative/positive TC4
-   trials. Review the actual source before assuming old comments were right.
-3. For truly new ownership in OP, MAINL, ZUN or uncovered library/ASM
-   contributions, consult `config/units.csv`, `config/evidence.csv` and
-   focused analysis. Decoded publication, scoped native evidence and
-   Factory acceptance remain separate.
-
-## Working commands and preservation
-
-Use an unused DOS-safe stage `afNNNNx` (digits, then a letter); substitute
-only the original physical `--units` actually affected:
+Follow [shared tools](SHARED_TOOLS.md): Factory supplies Ghidra/JDK/Wine;
+TH03 keeps its own prefix, analyzer project, compiler profile and targets.
+Use headless tools, one CPU at nice10 and serialized Borland writers.
+Preflight is for native work or target/runtime changes, not prose edits.
 
 ```sh
 git status -sb
-.venv/bin/python scripts/preflight.py   # before native work or tool/target change
+.venv/bin/python scripts/preflight.py
+# Choose a fresh DOS-safe af<number><letter> stage and the affected physical TUs:
 DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python \
   scripts/probe_th03_main_exatt_layout.py --stage afNNNNx --units ba_mima
 DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python \
   scripts/review_th03_main_source_overlay.py --stage afNNNNx
 git diff --check
-# After changing status/progress selection, not after ordinary prose edits:
+# When checking progress or changing its selections/publications:
 .venv/bin/python scripts/progress.py --check
 ```
 
-Use an actual fresh stage ID matching the probe's validation pattern; the
-placeholder is not executable verbatim. **Do not routinely replay the cold
-build or run every selected source reviewer for a small change.**
+`afNNNNx` is a placeholder, not an executable stage name. Use the workflow's
+CPU-limited wrapper for heavy native work. Verify the entire affected physical
+extent and known consumers. Reuse an unchanged cold pair; do not routinely
+replay every ancestor, reviewer or runtime model for a small edit.
 
-Keep original targets, tools, analyzer projects and current build/compare
-inputs. Record useful conclusions briefly. Old trial artifacts may be pruned.
-**Historical stage IDs in focused notes are observations, not a promise that
-an output directory still exists.** Use generated current selections for
-live rechecks and fresh stage IDs for new experiments. Documentation references
-alone do not make old output necessary. The `input_s` context above remains useful
-until its linker discrepancy is resolved. See the short
-[storage guidance](STORAGE_HANDOFF_CURRENT.md).
+Keep original targets, installed tools, analyzer projects, the current selected
+stage pairs, useful joint checks and the frozen native/linker inputs.
+The `input_s` exception retains `af1305a`, `af1320c`/`af1320d` and `af1335b`.
+Superseded overlay trial pairs have been pruned. Historical stage names in
+focused notes identify observations, not guaranteed live directories; use a
+fresh stage to repeat an experiment. See [storage guidance](STORAGE_HANDOFF_CURRENT.md).

@@ -56,57 +56,32 @@ now uses the narrower
 and its independent reviewer: recompile only affected physical
 translation units, compare their complete native OBJ/OMF, and reuse
 unchanged original objects in the full normal TLINK response.
-The unchanged after596 cold parent is retained, not repeated for
+The frozen after596 link parent is retained, not repeated for
 every source refactor.
 
-MAIN's cold builder additionally re-extracts its one explicitly pinned VS vendor module
-with native TLIB in each round;installed CRT/runtime remain vendor context.
-Current reports live in `.analysis/work/`. MAINL uses native TLIB extraction and
-rebuild without changing the893-member order. The historical cold normal-library
-pair had28 source providers; that is not the current source-bound library count.
-The separate historical full-xx candidate added provider29 and linked the actual
-product, but was raw-different and unaccepted. See [xx product review](MAINL_XX_PRODUCT_REVIEW.md);do not replace the
-accepted publication with that candidate.
+MAIN's cold builder re-extracts its pinned VS vendor module with native
+TLIB; installed CRT/runtime remain vendor context. Reports live in
+`.analysis/work/`. The retained after596 parent supplies unchanged original
+link inputs for current overlays. Its historical source snapshots must not
+be overwritten with current source.
 
-The full-xx candidate uses actual BCC4.5 `-c -y` objects. Separate `-S` output
-supplies mangled names only;native source-file/LINNUM records bind all50 bodies
-to transported definitions. Earlier S/TASM bank/full-TU miniatures stay separate.
-Named instruction intrinsics cover unsupported386 operations;all addresses keep
-compiler symbols and offsetof-derived member offsets. Normal TLIB/TLINK own the
-library and product layout;no object/ASM patch supplies product bytes.
+MAINL and OP retain a source-bound 893-slot library and shared startup/CRT
+ancestry. The after554 MAINL link supplies root, picture and text-bank context;
+current MAINL publication additionally uses the `af1055m` Staff/root refresh.
+Native TLIB/TLINK preserve library member order. The separate BCC4.5 full-xx
+candidate is raw-different and unaccepted; see the
+[xx product review](MAINL_XX_PRODUCT_REVIEW.md).
 
-The historical shared-runtime chain reaches after548. The retained after554
-MAINL selected link contains root552, picture table553 and both text banks554.
-Its 893-slot source-bound library and source-generated
-C0 link both MAINL and OP with complete original decoded-file equality;
-OP's original packed-file proof is retained from the earlier packing stage. Actual selected CRT material is
-75/76 members, respectively. The shared `src/shared/crt/dos_exec.asm` corrects
-the real original LIDATA initialization and four literal frames; historical
-`src/mainl/crt/exec.asm` stays as an unchanged ancestor input. See the
-[shared runtime proof](SHARED_EXEC_OP_RUNTIME_AFTER537_NATIVE_REVIEW.md).
-After538–548 retain that source DAG and refine selected frames, GROUP, PUBLIC
-and literal field order. The live shared startup `src/shared/crt/startup_large.asm`
-now reproduces all 58 ordered C0 fields, original raw entry/segment/import
-records, 623 initialized CODE/144 DATA bytes, two true CODE cache holes and
-128 reserved STACK bytes. Native TASM is retained; the tested compatible JWasm
-entry/frame changes are rejected. C0 PUBLIC packets agree as sets but remain
-unordered. See the [latest native review](SHARED_STARTUP_AFTER548_NATIVE_REVIEW.md).
-That chain uses after548's actual startup pair and the after554 report's actual
-root/picture/text-bank objects, retaining after535 as its frozen startup baseline.
-Its 893 library members stay unchanged from after547;
-C++ exception owners retain 2,117 CODE/296 DATA bytes and 89 ordered fields.
-Their reviewed PUBLIC packing differences and four BSS bytes remain explicit.
-`stdio_buffer.asm` still has two MOV operand pairs in the wrong fixup order,
-the sole order-only member among the 76 selected OP runtime streams. These
-refinements add no authored-function or whole-product acceptance credit.
-
-A separate MAINL input candidate in `src/mainl/hardware/input_scan.asm` reproduces
-all 417 instruction bytes and 42 ordered fields of the held-key scan. The
-following target 90 byte has no adopted source owner; its omission changes
-later addresses, so the input candidate remains unaccepted. The historical after554
-link retains the previous contextual input object. A read-only audit locates project allocations outside published
-decoded scopes without interpreting tables, alignment or BSS as missing code.
-See the [input candidate review](MAINL_INPUT_SCAN_AFTER549_NATIVE_REVIEW.md).
+The shared startup still has a PUBLIC packet-order gap, and
+`src/shared/crt/stdio_buffer.asm` retains two MOV operand pairs in the wrong
+fixup order. The shared runtime's exact findings and these remaining limits
+are recorded in the [DOS exec review](SHARED_EXEC_OP_RUNTIME_AFTER537_NATIVE_REVIEW.md)
+and [startup review](SHARED_STARTUP_AFTER548_NATIVE_REVIEW.md). Keep their
+actual current dependencies, including the historical exec ancestor, rather
+than replacing snapshots or rerunning the entire chain for a local edit.
+The MAINL held-key scanner has its own unaccepted trailing-byte/layout
+candidate; see the [MAINL input review](MAINL_INPUT_SCAN_AFTER549_NATIVE_REVIEW.md).
+This is separate from MAIN's original-object link discrepancy below.
 
 OP's current-source adapter supplies the original menu Git blob only while
 constructing its historical staging graph, then overlays the live maintained
@@ -141,7 +116,8 @@ cleanup reports are unnecessary. See the [storage guidance](STORAGE_HANDOFF_CURR
 `config/oracles.toml` defines the required gates. Current decoded publications
 are `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`; MAIN's detailed
 proofs live in `config/main_work/`. `docs/PROGRESS.md` and `resources/progress.svg`
-are generated by `scripts/progress.py`. The handoff gives a dated snapshot.
+are generated by `scripts/progress.py`. The handoff records current blockers
+and next work.
 
 MAINL's source composer preserves the historical ownership transformations and
 stages maintained Staff/root C++ verbatim. The `af1055m` refresh recompiles both
@@ -177,14 +153,16 @@ and linker gaps require native ownership review rather than runtime coverage.
 
 ## Local tools
 
-`config/toolchain.toml` pins the cold native tools,prefix and surfaces.
+`config/toolchain.toml` pins the cold native tools, prefix and surfaces.
 `config/mainl_work/exception_toolchain.toml` separately pins the optimizing
 BCC4.5 producer for natural C++ allocation/exception providers; native suitability
-is scoped by complete output comparison,with the existing TC4 SDK.
+is scoped by complete output comparison, with the existing TC4 SDK.
 
-`config/analysis_toolchain.toml` pins Ghidra/JDK, full installation trees and MZ
-loader behavior. Ghidra projects are under ignored `ghidra-project/`. Re-attest
-before using database observations; decompiler/function boundaries are hypotheses.
+`config/analysis_toolchain.toml` pins Ghidra/JDK identities, full installation
+trees and MZ loader behavior. Factory supplies the shared executable installations;
+[shared tools](SHARED_TOOLS.md) describes their local selectors and isolated
+state. Ghidra projects are under ignored `ghidra-project/`. Re-attest before
+using database observations; decompiler/function boundaries are hypotheses.
 
 Use headless tools with empty DISPLAY/WAYLAND_DISPLAY, one CPU at nice10, bounded
 Java heap and one serialized Borland/Wine writer. Preserve the local prefix,
