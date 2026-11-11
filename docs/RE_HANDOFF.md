@@ -33,8 +33,13 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
 
 ## Remaining work and next useful actions
 
-The user's current priority is actual DOS gameplay before any semantic or
-64-bit port. The four-file package has been played using the TH04-style
+The user has authorized semantic and 64-bit work while independently testing
+the DOS build. This checkout is the isolated `port/modern-64` worktree; see
+[portable status and commands](PORTABLE.md). The first native title/menu slice
+is implemented. Continue with character selection and MAIN setup. Preserve
+the live Windows DOSBox disk and do not send inputs to its window.
+
+The four-file DOS package has been played using the TH04-style
 isolated HDI process. [DOS runtime notes](RUNTIME.md) contain the replay
 command, observed gameplay/save flow and remaining campaign, ending, Extra
 and sound checks. The title's initially hidden menu is normal;
