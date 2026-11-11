@@ -81,7 +81,7 @@ MoveResult Round::move_player(unsigned pid,std::uint16_t input) {
     return result;
 }
 void Round::player_hit(unsigned pid,int tiles,const CollisionMap& collision) {
-    if(collision.hit(pid,players[pid],tiles))players[pid].is_hit=true;
+    if(const auto hit=collision.hit(pid,players[pid],tiles)) {players[pid].is_hit=true;collision_top=*hit;}
 }
 std::int8_t Round::hit_damage(unsigned pid,Resident& resident) {
     auto& p=players[pid];auto& other=players[pid^1];

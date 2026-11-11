@@ -4,11 +4,11 @@
 Title, menus, character selection and MAINL stage introduction join through
 explicit resident state into MAIN round initialization. Enemy scripts, battle
 resources/HUD, round-introduction animation, collision primitives, bullets,
-explosion chains, fireballs, all nine Charge Shot families, Hyper handlers
-the common player/loss state machines, all nine Bomb controllers and shared
-effects are also ported and checked separately.
+explosion chains, fireballs, all nine Charge Shot/Bomb families, Hyper handlers,
+shared effects, player/loss state machines and CPU decisions are ported and
+checked separately.
 The program stops at initialized battle state;
-it is not yet a playable full-game port. CPU combat, Extra/Gauge/Boss attacks,
+it is not yet a playable full-game port. CPU edge-scan data, Extra/Gauge/Boss attacks,
 backgrounds, results/dialogues/endings, Music Room/HiScore, audio and persistence
 still need integration and campaign testing.
 
@@ -101,6 +101,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_combat.py` | Same arguments as `check_selection.py` | Explosion/chain scoring, enemy/fireball hits, derived fireballs, movement/collision, coupled bullet pipelines and known stack aliases |
 | `check_charge.py` | Same arguments as `check_selection.py` | All nine Charge Shot lifecycles, full physical pools/history, hit circles and RNG, sound events and four projectile Hyper helpers |
 | `check_bomb.py` | Same arguments as `check_selection.py` | Nine Bomb controllers coupled to complete effect pools, palette/foreground state, RNG and sound events |
+| `check_cpu.py` | Same arguments as `check_selection.py` | Offensive/defensive CPU, target selection, collision/retry grids, shared velocity/RNG and real Bomb activation |
 | `check_raster.py` | Same arguments as `check_selection.py` | Complete original GRCG circle, clipped DDA line and filled-triangle rasters |
 | `check_mrs.py` | Same arguments as `check_round.py` | Original MRS opaque/altered/alpha blits, alignment and horizontal flip in all pixels |
 
@@ -162,7 +163,8 @@ fixture, separate from the game loop.
 
 `player.cpp` now supplies the common movement/charge/fire/hit/knockback
 state machine. Hyper, Charge Shot and loss owners are implemented separately;
-bind them with Bomb and the remaining CPU owner when joining the game loop.
+bind them with Bomb and CPU when joining the game loop. The native player
+contracts now use all five actual service implementations.
 Native contracts exercise held-charge/release/tap timing, one-halfheart survival,
 final defeat, CPU shot cadence and locked-player banking/glow. They pass on
 Linux and native Windows x64. The movement velocity is a signed byte shared
@@ -203,10 +205,20 @@ an uninitialized stack byte. The API requires that context explicitly; the
 controller comparison supplies the same byte to both implementations. Recover
 the real round-render caller's context before enabling this fade in gameplay.
 
-Continue with the CPU owner, backgrounds and the real round loop, then join
-Extra/Gauge/Boss attack families and result/MAINL routes. Wide CPU scans near the
-left edge can read outside the bitmap through wrapped DGROUP addressing. Recover those aliased
-DATA owners before joining that path; the isolated collision module currently
-reports an unresolved owner instead of treating the memory as empty. The
+`cpu.cpp` retains both offensive and defensive strategies, all twelve authored
+dodge grids, the three retry sequences, coarse shared collision coordinates and
+the real Bomb/Hyper entry. Ordinary in-map fixtures agree with original MAIN on
+Linux and Windows x64, including the unused RNG draw during approach, stuck-Bomb
+activation and preserving a charged attack by reporting a hit instead.
+
+Continue with backgrounds and the real round loop, then join Extra/Gauge/Boss
+attacks and result/MAINL routes. Wide CPU scans near the left edge still need
+their aliased DGROUP owners. With an empty bitmap and initialized target DATA,
+P0 at (8,336) pixels with a 32-tile scan reads `02D0..02D4` and collides with
+`PaletteTone`; at X16 it immediately reads `SinTable8` byte `0380`. P1's
+corresponding scans reach CRT C++/signal/string DATA around `0FC0..1128`.
+These reads can cause real false collisions. Recover those owners and their
+runtime state before joining this edge path; the collision module currently
+reports an unresolved owner instead of supplying empty memory. The
 original ENEDAT does not use its broken loop opcodes; custom loop scripts would
 also need the original indeterminate stack context.

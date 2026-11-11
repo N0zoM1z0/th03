@@ -47,6 +47,24 @@ void tap(th03::Menu& menu,std::uint16_t key) { menu.tick(0); menu.tick(key); }
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==3&&std::string(argv[1])=="--cpu") {
+            const unsigned fixture=unsigned(std::stoul(argv[2]));if(fixture>7)throw std::runtime_error("unknown CPU fixture");
+            const auto pid=fixture&1;th03::Round round;th03::Resident resident;th03::CollisionMap collision;
+            auto& p=round.players[pid];p.center={2304,5376};p.cpu_frame=1;p.cpu_safety=fixture==0||fixture==4||fixture==5 ? 0 : 1000;
+            p.bombs=2;p.gauge_charged=fixture==3||fixture==5 ? 2048 : 0;p.cpu_dodge_strategy=fixture==7;
+            round.movement_speed={{64,64,48,48}};round.result_frame=4;
+            for(unsigned i=0;i<256;++i)round.random.bytes[i]=std::uint8_t(i*13+7);
+            if(fixture==1||fixture==7)collision.bytes[pid*3312+9*184+144]=0x80;
+            if(fixture>=2&&fixture<=5)std::fill_n(collision.bytes.begin()+pid*3312,3312,0xff);
+            if(fixture==6) {round.boss_active[pid]=1;round.boss_target={3000,2000};}
+            round.cpu_update(pid,collision,resident);
+            std::cout<<p.center.x<<' '<<p.center.y<<' '<<p.is_hit<<' '<<round.player_velocity.x<<' '<<round.player_velocity.y<<' '
+                <<unsigned(p.cpu_dodge_strategy)<<' '<<round.collision_top.x<<' '<<round.collision_top.y<<' '
+                <<(round.cpu_pattern ? 0x67e +(round.cpu_pattern-1)*18 : 0)<<' '<<round.target.x<<' '<<round.target.y<<' '
+                <<unsigned(round.target_formation_marker)<<' '<<unsigned(round.random.cursor)<<' '<<unsigned(round.bomb_flags[pid])<<' '
+                <<unsigned(p.bombs)<<' '<<unsigned(p.invincibility)<<' '<<unsigned(p.hyper_active)<<' '<<unsigned(round.damage_all[pid])<<' '
+                <<unsigned(resident.skill)<<'\n';return 0;
+        }
         if(argc==8&&std::string(argv[1])=="--mrs") {
             th03::Canvas canvas;
             for(unsigned i=0;i<640*200;++i) {
@@ -527,14 +545,14 @@ int main(int argc,char** argv) {
         check(formation.enemy_speed==0,"existing formations retain previous enemy speed band");
         formation.enemies_alive[1]=0;formation.update_formations();
         check(formation.enemy_speed==3&&formation.enemies[0].pid==1,"either player's new formation refreshes shared enemy speed");
-        unsigned charges=0,bombs=0,losses=0;th03::Resident game;
+        unsigned charges=0,bombs=0,losses=0;th03::Resident game;th03::CollisionMap collision;
         th03::PlayerServices services;
         services.hyper=[](th03::Round& round,unsigned pid){round.hyper_update(pid);};
-        services.cpu=[](th03::Round& round,unsigned){round.player_velocity={};round.target_formation_marker=255;};
+        services.cpu=[&](th03::Round& round,unsigned pid){round.cpu_update(pid,collision,game);};
         services.bomb=[&](th03::Round& round,unsigned pid){++bombs;round.player_bomb(pid,game);};
         services.lose=[&](th03::Round& round,unsigned pid){++losses;round.player_lose_update(pid,game);};
         services.charge=[&](th03::Round& round,th03::Point at,unsigned pid){++charges;round.charge_shots.add(round,at,pid);};
-        th03::Round control;th03::CollisionMap collision;
+        th03::Round control;
         auto& human=control.players[0];human.center={144*16,336*16};human.speeds={{64,64,48,48,28}};human.gauge_avail=1024;
         for(unsigned i=0;i<37;++i)control.player_update(0,th03::shot,collision,game,services);
         check(human.gauge_charged==1024&&!charges&&!control.shots[0].alive,"held shot reaches charge without autofiring");

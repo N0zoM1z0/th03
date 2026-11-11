@@ -52,11 +52,14 @@ handlers and the 48-frame loss animation are implemented, with common player
 contracts. All nine Bomb controllers and the shared effect pool now have original
 instruction comparisons; MRS and GRCG rasters agree in all pixels. Linux/Windows
 Bomb fixture pictures agree. Kotohime's fade still needs its actual incoming
-stack color when the round renderer joins. Continue with CPU, backgrounds and
-the real round loop,
+stack color when the round renderer joins. Both CPU strategies, retry grids and
+real Bomb activation now agree with original instructions on Linux/Windows for
+in-map cases; common player contracts bind all five actual service owners.
+Continue with backgrounds and the real round loop,
 then Extra/Gauge/Boss attacks and result/MAINL routes.
-Resolve wide CPU collision scans' aliased DATA reads when joining that path; the native
-program still stops before gameplay. Preserve the live Windows DOSBox disk
+Resolve wide CPU collision scans' aliased DATA reads when joining that path;
+observed aliases include palette tone, sine tables and CRT tables (PORTABLE.md).
+The native program still stops before gameplay. Preserve the live Windows DOSBox disk
 and do not send inputs to its window.
 
 The four-file DOS package has been played using the TH04-style

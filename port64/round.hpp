@@ -89,6 +89,9 @@ public:
     std::array<std::uint16_t,2> boss_active{};
     void find_target(unsigned pid);
     void hyper_update(unsigned pid);
+    void cpu_update(unsigned pid,CollisionMap& collision,Resident& resident);
+    Point collision_top;
+    std::uint8_t cpu_pattern=0;
     void player_lose_update(unsigned pid,Resident& resident);
     std::int16_t lose_left=0,lose_top=0,lose_radius=0,palette_tone=100;
     std::uint8_t reset_frames=1;
