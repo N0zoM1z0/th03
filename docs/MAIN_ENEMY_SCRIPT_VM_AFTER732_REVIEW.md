@@ -54,3 +54,27 @@ retained. These bytes were previously owned; fresh current-source
 native codegen **does not** create additional canonical Factory packed
 acceptance, prove historical raw vendor OMF packet identity or close
 whole-game source ownership.
+
+## Explicit segmented opcode views and chain-speed leaf (2026-11-11)
+
+Current `enemy_run()` names its `__es` opcode structures directly at each
+access via a single `ENEDAT_AT(type)` view. This replaces eleven locally
+redefined `p` macros, notably the three separate circular-opcode views,
+without caching the original ES cursor or changing the interpreter's switch,
+wait/clip branches, stale-pointer loop quirks or script stepping. The packed
+opcode sizes are expressed by their actual types. The small
+`chain_pellet_speed()` leaf names its fixed-point scaling shift while
+retaining the original signed multiply-then-shift and saturation ordering.
+
+Two negative native trials constrained the recovery: `af1349d` replaced the
+sine opcode's macro view with a local typed pointer, reducing `efornb` to
+1,054 CODE bytes; `af1349e` reassociated the chain-speed multiplication
+into its initialization, reducing the same owner to 1,062 bytes. Both
+changes affected TC4 code generation and were rejected.
+
+The final source-rooted stage `af1349h` compiles **all four** enemy physical
+objects (`eforna`, `efornb`, `eupda`, `eupdb`) in two independent original
+TC4 rounds: all 3,325 CODE bytes, 222 ordered native fields, 19 PUBLICs,
+complete normal MAIN images and ordered MZ relocations match. Local proof:
+`.analysis/work/exatt-layout-af1349h/report.json`, SHA-256
+`682ad95ce733847bdf346f29d92f6ed9f5c59e9a732354b6b5b253fb5d06e919`.

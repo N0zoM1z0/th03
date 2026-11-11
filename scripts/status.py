@@ -134,7 +134,7 @@ def native_source_reviews(root, artifact):
             ('Yumemi BOSS', 'af1334f'),
             ('Bullet engine', 'af1318f'),
             ('Fireball engine', 'af1325i'),
-            ('Enemy engine', 'af1310h'),
+            ('Enemy engine', 'af1349h'),
             ('Explosion collision', 'af1198g'),
             ('Hitbox and HitCircle', 'af1348j'),
             ('Background chains', 'af1115b'),
