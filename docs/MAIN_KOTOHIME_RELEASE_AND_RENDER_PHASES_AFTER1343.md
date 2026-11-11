@@ -82,3 +82,35 @@ Current receipt: `.analysis/work/exatt-layout-af1354g/report.json`, SHA-256
 `a1b5ccc8eaca87248e471859387b9a86960dbd3647a71e65fbb70a575c4ca7e6`.
 Joint receipt: `.analysis/work/exatt-layout-af1354h/report.json`, SHA-256
 `13c8c56f1d2c5f3f928caf837a954f7d99d12dcb6b0c223dbd0c8241c74467d0`.
+
+## Four pre-tested rings and renderer loops (2026-11-11)
+
+The current Kotohime BOSS uses pre-tested `while` loops for its shared
+ring emitter, both the outer center and inner projectile traversals of
+the nested radial burst, and the orbiting sprite renderer. The emitter
+still draws an RNG angle only when requested, then calculates the
+original signed 256-unit polar angle and fires before incrementing its
+signed index. Within the radial burst, each center's coordinate and
+byte angle remain live across all inner projectiles; the inner index
+advances after `bullets_add()`, then the outer index advances after the
+entire center burst. The original signed half-turn and velocity
+quotients are not reassociated. Sprite indices advance after each
+original `sprite16_put()` call.
+
+Individual original TC4 trials `af1363a` through `af1363d` each proved
+one cumulative loop rewrite in the complete BOSS owner. Current-source
+`af1363f` proves **1,840 CODE bytes, 262 ordered native fields and
+11 PUBLICs** in two independent compiler rounds and exact normal MAIN
+links. Joint `af1363g` rebuilt Kotohime BOSS, Bullet, both shared BOSS
+objects, Kotohime Extra Attack, Polar and sound: **6,674 CODE bytes,
+682 ordered fields and 50 PUBLICs**, including ordered MZ relocations.
+
+A negative `af1363e` trial replaced the random ring's explicit AL reload,
+addition and write with a single volatile byte expression. TC4 emitted
+**1,838 rather than 1,840 CODE bytes**. The original AL carrier was
+restored; the four loop improvements remain independent of it.
+
+Current receipt: `.analysis/work/exatt-layout-af1363f/report.json`, SHA-256
+`d774939e76ca99f12ae702a4485a7272a96cdda1a8ce1ddd5a955bb289f1f689`.
+Joint receipt: `.analysis/work/exatt-layout-af1363g/report.json`, SHA-256
+`5e76503f678bebb2b9a53292942e79316fa4a27d4438890254c27daed1730715`.

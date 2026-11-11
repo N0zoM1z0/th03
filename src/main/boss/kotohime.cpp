@@ -171,8 +171,10 @@ void near pascal kotohime_ring_emit(int randomize_angle)
 	bullet_template.type = BT_BULLET16_DEFAULT;
 	// This original signed angle calculation and conditional RNG draw must
 	// run in the same order for every physical ring projectile. The natural
-	// for-header preserves the original signed-angle and RNG instruction order.
-	for(int i = 0; i < kotohime_orbit_count; ++i) {
+	// pre-tested loop preserves signed-angle and RNG instruction order;
+	// its signed index advances only after each emitted bullet.
+	int i = 0;
+	while(i < kotohime_orbit_count) {
 		int x;
 		int y;
 
@@ -198,6 +200,7 @@ void near pascal kotohime_ring_emit(int randomize_angle)
 		bullet_template.center.x.v = x;
 		bullet_template.center.y.v = y;
 		bullets_add();
+		++i;
 	}
 }
 
@@ -372,12 +375,14 @@ void near kotohime_pattern_radial_burst(void)
 		bullet_template.type = BT_BULLET16_DEFAULT;
 
 		// The nested O(center_count * burst_count) traversal declares
-		// DI/SI indices in outer-to-inner for headers. x/y/angle scratch
+		// DI/SI indices in nested pre-tested loops. x/y/angle scratch
 		// lives for one center, and the inner SI index resets each time.
-		// Both loops are pre-tested. Index times the full/half-turn
+		// Both indices advance after their original bullet calls. The
+		// signed index times the full/half-turn
 		// or speed step is signed 16-bit before the native division, and the
 		// final angle is then truncated to a byte (af1319b).
-		for(register int center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
+		register int center_i = 0;
+		while(center_i < kotohime_orbit_count) {
 			register int x;
 			register int y;
 			register unsigned char center_angle = (
@@ -397,7 +402,8 @@ void near kotohime_pattern_radial_burst(void)
 			bullet_template.center.x.v = x;
 			bullet_template.center.y.v = y;
 
-			for(register int bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
+			register int bullet_i = 0;
+			while(bullet_i < kotohime_burst_count) {
 				bullet_template.angle = (
 					KOTOHIME_BURST_CENTER_ANGLE_OFFSET +
 					center_angle +
@@ -408,7 +414,9 @@ void near kotohime_pattern_radial_burst(void)
 					((bullet_i * KOTOHIME_BURST_SPEED_SCALE) / kotohime_burst_count)
 				);
 				bullets_add();
+				++bullet_i;
 			}
+			++center_i;
 		}
 
 		snd_se_play(KOTOHIME_SOUND_ATTACK);
@@ -530,9 +538,11 @@ void near pascal kotohime_render_ring(int count)
 	sprite16_put_size.w = KOTOHIME_RING_SPRITE_WIDTH;
 	sprite16_put_size.h = KOTOHIME_RING_SPRITE_HEIGHT;
 
-	// The natural for-header preserves the original signed 16-bit
-	// 256-step angle division before byte truncation.
-	for(register int i = 0; i < count; ++i) {
+	// The pre-tested signed-index loop preserves the original 16-bit
+	// 256-step division before byte truncation, and only advances the
+	// index after the sprite has been rendered.
+	register int i = 0;
+	while(i < count) {
 		register screen_x_t left;
 		unsigned char angle = (
 			((i * KOTOHIME_FULL_TURN_STEPS) / count) + boss_move_phase
@@ -555,6 +565,7 @@ void near pascal kotohime_render_ring(int count)
 		// Compound top >>=4 changed original TC4 CODE (af762b).
 		top = static_cast<screen_y_t>(top >> 4);
 		sprite16_put(left, top, sprite_offset);
+		++i;
 	}
 }
 
