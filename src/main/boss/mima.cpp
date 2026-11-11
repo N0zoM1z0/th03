@@ -253,11 +253,12 @@ void near mima_pattern_spread(void)
 
 	// The paired bullet/pellet volley owns its final frame inclusively;
 	// only a later frame resets the shared selector and render mode.
-	if(boss_frame > MIMA_SPREAD_FIRE_END_AFTER) {
-		boss_render_mode = MIMA_RMODE_NORMAL;
-		boss_mode = MIMA_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame <= MIMA_SPREAD_FIRE_END_AFTER) {
+		return;
 	}
+	boss_render_mode = MIMA_RMODE_NORMAL;
+	boss_mode = MIMA_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void near mima_pattern_bomb_random(void)
@@ -320,11 +321,12 @@ void near mima_pattern_bomb_random(void)
 
 	// The three warning bursts, random barrage, and single ring draw
 	// above retain their original call order up to the terminal 0x80.
-	if(boss_frame >= MIMA_RANDOM_BOMB_END) {
-		boss_render_mode = MIMA_RMODE_NORMAL;
-		boss_mode = MIMA_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < MIMA_RANDOM_BOMB_END) {
+		return;
 	}
+	boss_render_mode = MIMA_RMODE_NORMAL;
+	boss_mode = MIMA_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void near mima_pattern_trail(void)
@@ -364,11 +366,12 @@ void near mima_pattern_trail(void)
 
 	// Reset only after the original trail pattern's byte-phase choice
 	// and both mutable template flags have been restored.
-	if(boss_frame >= MIMA_TRAIL_END) {
-		boss_render_mode = MIMA_RMODE_NORMAL;
-		boss_mode = MIMA_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < MIMA_TRAIL_END) {
+		return;
 	}
+	boss_render_mode = MIMA_RMODE_NORMAL;
+	boss_mode = MIMA_MODE_SELECT;
+	boss_frame = 0;
 }
 
 // The orbit fires only on even timer ticks after its signed direction
@@ -409,10 +412,11 @@ void near mima_pattern_orbit(void)
 
 	// Signed byte rotation and each even-frame polar pair must finish
 	// before the 0x48-frame terminal mode transition.
-	if(boss_frame >= MIMA_ORBIT_FINISH_FRAME) {
-		boss_mode = MIMA_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < MIMA_ORBIT_FINISH_FRAME) {
+		return;
 	}
+	boss_mode = MIMA_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void far gba_boss_update_mima(void)

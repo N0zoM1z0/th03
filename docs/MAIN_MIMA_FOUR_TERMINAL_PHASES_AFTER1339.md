@@ -40,3 +40,32 @@ PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py -
 
 This is a physical source-exact scope, not new gameplay CODE coverage or
 Factory packed-file/whole-game acceptance.
+
+## 2026-11-11: exact incomplete-frame exits in all four attack families
+
+The maintained Mima source now ends spread, random-bomb, trail and orbit
+patterns with independent *incomplete-frame* returns, then commits the
+original SELECT/mode/frame reset. The spread's inclusive last volley
+still fires before completion; the random barrage's single dense ring,
+trail's signed byte angle and the orbital pellet pair likewise finish
+all original effects before their respective terminal checks.
+
+The complete `ba_mima` owner passed separate two-round original TC4/TLINK
+stages `af1359c` (spread) and `af1359d` (all four), reproducing **1,922
+CODE bytes, 277 ordered native fields and nine PUBLICs**. Dependent
+`af1359f` rebuilt Mima BOSS, Bullet, both shared BOSS objects, Mima
+Extra Attack and sound service together: **6,403 CODE bytes, 641 fields,
+43 PUBLICs** and both complete normal Japanese MAIN links and ordered
+MZ relocations original-exact.
+
+Three negative compiler controls bound these recoveries. `af1359a`
+reordered two trail subphase predicates, `af1359b` moved the random-bomb
+warning into a new nested time window, and `af1359e` made the particle
+renderer animation thresholds independent. All three changed the
+complete original `ba_mima` CODE; these alternatives were restored,
+including the original trail-to-particle `goto` and sprite call order.
+
+Current proof: `.analysis/work/exatt-layout-af1359d/report.json`, SHA-256
+`d702faebc2129ffe2be8c231300d916f1b5565c8109979ed0ba181d7fff7a272`.
+Joint proof: `.analysis/work/exatt-layout-af1359f/report.json`, SHA-256
+`aa75160e97c35a62f246b2316fc54c5ceed1431d4b0f8459512ccd33e2b16099`.
