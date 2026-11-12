@@ -15,8 +15,10 @@ Ordinary story victories continue through the next introduction into battle;
 versus returns to the title. Story losses proceed through score registration and
 continue; accepting restarts the stage, while declining or exhausting credits
 returns through Game Over. The title's HiScore menu also runs natively.
-Late-stage dialogues/endings, Music Room, audio and configuration persistence
-still need integration and campaign testing. Kotohime's
+The late-stage dialogues resume the Chiyuri/Yumemi introductions and battles.
+Ending dialogue runs after the final victory and stops at the Staff Roll owner.
+Staff Roll and the following ending/bonus route, Music Room, audio and
+configuration persistence still need integration and campaign testing. Kotohime's
 Bomb fade and further CPU aliases still require the contexts described below.
 
 The DOS reconstruction stays on `main`. The live Windows DOSBox session and
@@ -61,6 +63,8 @@ for Shot/Bomb. Option changes rank, sound-mode and key-mode state in memory.
 Name entry keeps the original alphabet: Z/Enter selects, X erases, and selecting
 END or entering eight letters finishes. The following score-table wait requires
 release followed by another key press.
+Escape fast-forwards dialogue between waits; palette fades keep their original
+timing. A blocked page wait requires release followed by a new press.
 
 Scores use `%LOCALAPPDATA%/TH03` on Windows or `$XDG_DATA_HOME/th03`
 (default `$HOME/.local/share/th03`) on Linux. `--save-dir DIRECTORY` selects a
@@ -84,6 +88,9 @@ build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
 build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
   --font-bmp /path/to/FREECG98.BMP --scene scores \
   --frames 40 --screenshot scores.ppm
+build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
+  --font-bmp /path/to/FREECG98.BMP --scene dialogue1 \
+  --characters 5,17 --frames 110 --screenshot dialogue.ppm
 ```
 
 `--characters` supplies two paletted IDs 1..18; `--stage` is zero-based.
@@ -93,6 +100,9 @@ battle directly; `two-battle` starts two human players with their separate keys.
 accepts comma-separated original WORD masks, or tuples `SP:P1:P2`, one per
 VBlank. Use release samples between presses. Selection samples every three
 VBlanks after its initial 30-frame wait. `--help` lists supported scenes.
+`dialogue0` and `dialogue1` inspect the two late-stage chapters for P1's character;
+`ending` includes the original 96-frame black wait before that character's ending
+dialogue. Its next destination, Staff Roll, remains unimplemented.
 
 `--list`, `--extract NAME --output FILE` and `--pi NAME --packed FILE` inspect
 OP/MAINL resources. `--main-assets --list` or `--main-assets --extract ...`
@@ -127,6 +137,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_results.py` | Same arguments as `check_selection.py` | Reward accumulation, full BCD scores and TRAM characters/attributes, warning overlap, cover/uncover rasters, result branches, life debit/score commit and application retry/handoff |
 | `check_win.py` | Same arguments as `check_round.py` | Winner resource/palette and full message selection, story dispatch including stage9's adjacent byte, every animation refresh with real palette fades under no-BGM timing, and application stage/versus routing |
 | `check_scores.py` | Same arguments as `check_round.py` | Complete encrypted sections/files, insertion and name-entry frames, original DOS score RGB frame, continue outcomes, native file reload and application registration/continue/Game Over routes |
+| `check_cutscene.py` | Same arguments as `check_round.py` | Parameter/carry and complete interpreter refresh state, sound requests, all 28 original scripts through STOP under fast-forward, full masked-picture pixels and the stage 7/8/final dialogue routes |
 | `check_bullet.py` | Same arguments as `check_selection.py` | Group vectors, full bullet/trail pools, motion/transfer/cloud/clearing, collision maps and complete pellet rasters |
 | `check_combat.py` | Same arguments as `check_selection.py` | Explosion/chain scoring, enemy/fireball hits, derived fireballs, movement/collision, coupled bullet pipelines and known stack aliases |
 | `check_charge.py` | Same arguments as `check_selection.py` | All nine Charge Shot lifecycles, full physical pools/history, hit circles and RNG, sound events and four projectile Hyper helpers |
@@ -285,6 +296,35 @@ save directory. Short host files are treated as missing before entering the
 original recreation path. GCC8 needs its separate `stdc++fs` library; CMake
 links it for that compiler, while the Windows GCC13 build uses its ordinary
 filesystem support. The original HDI and the user's DOS play disk stay read-only.
+
+`cutscene.cpp` keeps the original two graphics pages, textbox snapshot, quarter
+pictures, four EGC masks, viewport shake, font effects and cursor flow. Only the
+stop opcode ends a script; NUL is a control byte. Numeric parameters eagerly
+read three bytes and rewind the WORD offset. For two digits, DEC preserves the
+decimal ADD's carry; three digits retain that carry directly. One digit or a
+default obtains carry from the pointer SUB. This matters to GRAPH_GAIJI_PUTC's
+ADC: the page1 call passes one less than page0, but two/three-digit parameters
+normally cancel that difference with carry. Text speedup increments its cycle
+after the blocking glyph delay returns. A cursor-triggered page wait can update
+the held input before the glyph delay is selected.
+
+The original interpreter, numeric readers, cursor and palette fades execute in
+the comparison, with graphics/storage and physical clock waits treated as foreign
+services. Five bounded scripts compare ordinary input, held confirm, fast-forward
+and release/press behavior at every refresh. All 18 chapter scripts, nine ending
+scripts and the bonus script also match through STOP under fast-forward,
+including complete song-load/control/effect requests. A separate original EGC
+helper comparison covers every pixel in both pages after each mask and the final
+quarter. Linux/Windows intermediate pictures agree. Audio output is still absent;
+measure waits use the original no-BGM fallback frames.
+
+The application retains scores and resident RNG seed while dialogue runs, then
+launches the actual next introduction/MAIN stage. Stage 7 still shows its winner
+animation first; stage 8 goes directly to its dialogue. Final victory retains its
+96-frame wait and ending dialogue before handing off to Staff Roll. A private
+SDL window accepts Escape fast-forward and reaches the final battle. Continue
+with Staff Roll, then resume ending registration and the optional bonus script
+before returning to OP.
 
 `bullet.cpp` retains the 320-slot pool, shared 48-slot trail ring, byte-wrapped
 speed tuning and ascending update order. Derived groups can occupy later slots

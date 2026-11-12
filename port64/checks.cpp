@@ -116,6 +116,55 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==4&&std::string(argv[1])=="--cutscene-flow") {
+            const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));const auto bitmap=read_file(argv[3]);
+            for(unsigned stage:{7u,8u,9u}) {
+                th03::Application app(assets,{}, {},"TL02.PI",bitmap,&main);app.resident.begin_story();
+                app.resident.stage=std::uint8_t(stage);app.resident.paletted={{5,stage==7 ? std::uint8_t(13) : stage==8 ? std::uint8_t(15) : std::uint8_t(17)}};
+                app.resident.opponents={{1,3,5,7,9,11,13,15,17}};app.resident.scores[0]={{3,2,1,0,0,0,0,0}};app.resident.seed=2000;app.start_post_match();
+                if(stage==7) {
+                    check(app.phase==th03::Phase::winner,"decisive victory skipped the winner animation");
+                    for(unsigned tick=0;tick<169;++tick)app.tick({});
+                    app.tick({th03::shot,{}});for(unsigned tick=0;tick<18;++tick)app.tick({});
+                } else if(stage==9) {
+                    check(app.phase==th03::Phase::ending_wait,"final victory skipped the ending wait");
+                    for(unsigned tick=0;tick<96;++tick)app.tick({});
+                }
+                check(app.phase==th03::Phase::cutscene,"MAINL did not enter the selected dialogue/ending");
+                unsigned ticks=0;while(app.phase==th03::Phase::cutscene&&ticks++<2000)app.tick({th03::cancel,{}});
+                if(stage==9)check(app.phase==th03::Phase::mainl_handoff,"ending did not reach the Staff Roll owner");
+                else {
+                    check(app.phase==th03::Phase::stage_intro&&app.resident.paletted[1]==(stage==7 ? 15 : 17),"dialogue lost the next stage/opponent");
+                    for(unsigned tick=0;tick<160&&app.phase==th03::Phase::stage_intro;++tick)app.tick({});
+                    check(app.phase==th03::Phase::battle&&app.round->scores[0]==app.resident.scores[0]&&app.resident.seed==2000,"dialogue did not resume MAIN with the committed score/seed");
+                }
+            }
+            std::cout<<"Story stage7/8 dialogues resume their actual MAIN stages; final ending reaches the Staff Roll handoff\n";return 0;
+        }
+        if(argc==6&&std::string(argv[1])=="--script-parameter") {
+            std::string text(argv[2]);text.append(3, char(0));
+            th03::ScriptCursor cursor(Bytes(text.begin(),text.end()),std::uint16_t(std::stoul(argv[3])));
+            cursor.number_default=std::stoi(argv[5]);const int value=std::stoi(argv[4]) ? cursor.second() : cursor.first();
+            std::cout<<value<<' '<<cursor.at<<' '<<cursor.carry<<'\n';return 0;
+        }
+        if(argc==7&&(std::string(argv[1])=="--cutscene-trace"||std::string(argv[1])=="--cutscene-picture"||std::string(argv[1])=="--cutscene-pixels")) {
+            const PfArchive assets(hdi_file(read_file(argv[2]),op_archive_name));th03::Font font(read_file(argv[3]));
+            const auto raw=argv[4][0]=='@' ? assets.read(argv[4]) : read_file(argv[4]);th03::Cutscene scene(assets,font,raw);
+            const bool trace=std::string(argv[1])=="--cutscene-trace";
+            const auto state=[&] {
+                std::cout<<scene.script.at<<' '<<scene.cursor.x<<' '<<scene.cursor.y<<' '<<scene.interval<<' '<<unsigned(scene.color)<<' '
+                    <<scene.weight<<' '<<scene.fast_forward<<' '<<scene.shown_page<<' '<<scene.tone<<' '<<scene.scroll<<' '
+                    <<scene.script.number_default<<' '<<unsigned(scene.speedup_cycle)<<' '<<scene.sounds.size()<<' '<<scene.done()<<'\n';
+            };
+            if(trace)state();
+            std::istringstream stream(argv[5]);std::string mask;while(std::getline(stream,mask,',')) {scene.tick(std::uint16_t(std::stoul(mask)));if(trace)state();}
+            if(!trace)state();
+            if(trace)for(const auto& sound:scene.sounds)std::cout<<"sound\t"<<unsigned(sound.kind)<<'\t'<<sound.value<<'\t'<<sound.name<<'\n';
+            if(std::string(argv[1])=="--cutscene-pixels") {
+                Bytes pixels=scene.pages[0].pixels;pixels.insert(pixels.end(),scene.pages[1].pixels.begin(),scene.pages[1].pixels.end());write_file(argv[6],pixels);
+            } else write_file(argv[6],th03::ppm(scene.render()));
+            return 0;
+        }
         if(argc==7&&std::string(argv[1])=="--score-file") {
             th03::ScoreFile file(std::string(argv[2])=="-" ? Bytes{} : read_file(argv[2]));
             auto seed=std::uint32_t(std::stoul(argv[4]));th03::Resident resident;

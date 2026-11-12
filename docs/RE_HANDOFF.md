@@ -108,9 +108,18 @@ BFNT palette override, overlapping-row page snapshot and eighth-character
 cursor/VRAM aliases. Linux/Windows pictures, save/reload and return-to-MAIN or
 return-to-OP paths pass; a private SDL score-window check also passes. Native
 saves use an independent directory; headless defaults to memory only.
-Continue with late-stage dialogue/endings, Music Room, audio and configuration
-persistence. Ending registration must resume the ending/bonus flow before OP,
-instead of entering continue. Dialogue/ending branches still stop at MAINL.
+The cutscene interpreter now runs both late-stage chapters and ending dialogue.
+All 28 original script traces reach STOP and agree with MAINL under fast-forward;
+ordinary/held/release/press traces, full sound requests and complete masked-picture
+pixels also pass. Preserve the two pages, box snapshot, parameter carry into
+gaiji ADC and the speedup increment after a glyph delay returns. Stages 7 and 8
+continue through their actual introductions into MAIN, retaining score and seed.
+The final ending keeps the 96-frame wait and stops at Staff Roll. Linux/Windows
+pictures agree; a private SDL dialogue check reaches the final battle.
+Continue with Staff Roll, Music Room, audio and configuration persistence.
+Ending registration must resume the ending/bonus flow before OP, instead of
+entering continue. The interpreter already supports the bonus script; its
+surrounding ending route is still open.
 See PORTABLE.md for commands and verification scope.
 The Reimu player cel looks malformed in the isolated overview at
 `build/boss-complete/overview.png`; compare the original player renderer and

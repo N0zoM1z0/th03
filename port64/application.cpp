@@ -1,5 +1,6 @@
 #include "application.hpp"
 #include <stdexcept>
+#include <cstdio>
 
 namespace th03 {
 Application::Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture,Bytes font_bitmap,const PfArchive* main_assets,std::filesystem::path save_directory):score_file(nem,std::move(save_directory)),assets_(assets),main_assets_(main_assets),
@@ -24,16 +25,34 @@ void Application::return_to_title() {
     menu=Menu{};menu.options=resident.options;menu.resident_seed=resident.seed;
     menu.selected=return_selection_;phase=Phase::op;
 }
-void Application::start_post_match() {
+void Application::start_post_match(std::uint16_t input) {
     win_.reset();
     const auto played=resident.paletted;
     const auto route=story_dispatch(resident);
-    if(route==StoryRoute::final_dialogue||route==StoryRoute::ending) {phase=Phase::mainl_handoff;return;}
+    if(route==StoryRoute::final_dialogue) {start_story_dialogue(1,input);return;}
+    if(route==StoryRoute::ending) {start_ending();return;}
     win_.emplace(assets_,graphic_font_,resident,played);phase=Phase::winner;
 }
 void Application::start_scores() {scores_.emplace(assets_,graphic_font_,score_file,resident);phase=Phase::scores;}
+void Application::start_story_dialogue(unsigned part,std::uint16_t input) {
+    char file[16];std::snprintf(file,sizeof(file),"@%02uDM%u.TXT",character_id(resident.paletted[0]),part);
+    cutscene_.emplace(assets_,graphic_font_,file,input);ending_cutscene_=false;phase=Phase::cutscene;
+}
+void Application::start_ending() {transition_wait_=96;phase=Phase::ending_wait;}
 void Application::tick(const InputFrame& input) {
     if(finished())return;
+    if(phase==Phase::ending_wait) {
+        if(!--transition_wait_) {
+            char file[16];std::snprintf(file,sizeof(file),"@%02uED.TXT",character_id(resident.paletted[0]));
+            cutscene_.emplace(assets_,graphic_font_,file,input.single);ending_cutscene_=true;phase=Phase::cutscene;
+        }
+        return;
+    }
+    if(phase==Phase::cutscene) {
+        cutscene_->tick(input.single);
+        if(cutscene_->done()) {if(ending_cutscene_)phase=Phase::mainl_handoff;else start_stage_intro();}
+        return;
+    }
     if(phase==Phase::scores) {
         scores_->tick(input.single);
         if(scores_->done()) {
@@ -62,6 +81,7 @@ void Application::tick(const InputFrame& input) {
             if(resident.mode!=Mode::story)return_to_title();
             else if(route==StoryRoute::stage)start_stage_intro();
             else if(route==StoryRoute::other)start_scores();
+            else if(route==StoryRoute::dialogue)start_story_dialogue(0,input.single);
             else phase=Phase::mainl_handoff;
         }
         return;
@@ -72,7 +92,7 @@ void Application::tick(const InputFrame& input) {
             resident.seed=round->frame;
             if(round_loop->outcome==RoundExit::return_to_op)return_to_title();
             else if(round_loop->outcome==RoundExit::next_round)round_loop->restart(*round,resident);
-            else {++resident.stage;start_post_match();}
+            else {++resident.stage;start_post_match(input.single);}
         }
         return;
     }
@@ -117,6 +137,8 @@ void Application::tick(const InputFrame& input) {
     } else phase=Phase::mainl_handoff;
 }
 Frame Application::render() const {
+    if(phase==Phase::ending_wait)return Frame(640*400,0xff000000);
+    if(cutscene_&&(phase==Phase::cutscene||(phase==Phase::mainl_handoff&&ending_cutscene_)))return cutscene_->render();
     if(phase==Phase::scores)return scores_->render();
     if(phase==Phase::continuing)return continue_->render();
     if(phase==Phase::game_over)return game_over_->render();

@@ -6,10 +6,11 @@
 #include "round_loop.hpp"
 #include "win.hpp"
 #include "score_menu.hpp"
+#include "cutscene.hpp"
 #include <optional>
 
 namespace th03 {
-enum class Phase {op,versus,selection,mainl_handoff,quit,stage_intro,battle,winner,scores,continuing,game_over};
+enum class Phase {op,versus,selection,mainl_handoff,quit,stage_intro,battle,winner,scores,continuing,game_over,cutscene,ending_wait};
 class Application {
 public:
     Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture="TL02.PI",Bytes font_bitmap={},const PfArchive* main_assets=nullptr,std::filesystem::path save_directory={});
@@ -20,8 +21,10 @@ public:
     void return_to_title();
     void start_stage_intro();
     void start_main(bool play=true);
-    void start_post_match();
+    void start_post_match(std::uint16_t input=0);
     void start_scores();
+    void start_story_dialogue(unsigned part,std::uint16_t input=0);
+    void start_ending();
     Phase phase=Phase::op;
     Menu menu;
     Resident resident;
@@ -40,6 +43,8 @@ private:
     std::optional<ScoreMenu> scores_;
     std::optional<ContinueMenu> continue_;
     std::optional<GameOver> game_over_;
+    std::optional<Cutscene> cutscene_;
+    bool ending_cutscene_=false;
     Bytes font_,window_;
     std::optional<SelectionAssets> selection_assets_;
     unsigned available_=7,transition_wait_=0;
