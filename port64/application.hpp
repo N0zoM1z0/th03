@@ -7,10 +7,11 @@
 #include "win.hpp"
 #include "score_menu.hpp"
 #include "cutscene.hpp"
+#include "staff.hpp"
 #include <optional>
 
 namespace th03 {
-enum class Phase {op,versus,selection,mainl_handoff,quit,stage_intro,battle,winner,scores,continuing,game_over,cutscene,ending_wait};
+enum class Phase {op,versus,selection,mainl_handoff,quit,stage_intro,battle,winner,scores,continuing,game_over,cutscene,ending_wait,staff};
 class Application {
 public:
     Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture="TL02.PI",Bytes font_bitmap={},const PfArchive* main_assets=nullptr,std::filesystem::path save_directory={});
@@ -25,6 +26,7 @@ public:
     void start_scores();
     void start_story_dialogue(unsigned part,std::uint16_t input=0);
     void start_ending();
+    void start_staff();
     Phase phase=Phase::op;
     Menu menu;
     Resident resident;
@@ -44,7 +46,10 @@ private:
     std::optional<ContinueMenu> continue_;
     std::optional<GameOver> game_over_;
     std::optional<Cutscene> cutscene_;
-    bool ending_cutscene_=false;
+    std::optional<StaffRoll> staff_;
+    enum class DialogueRoute {story,ending,bonus};
+    DialogueRoute dialogue_route_=DialogueRoute::story;
+    bool ending_registration_=false;
     Bytes font_,window_;
     std::optional<SelectionAssets> selection_assets_;
     unsigned available_=7,transition_wait_=0;

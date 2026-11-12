@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
             if (arg=="--main-assets") {main_assets=true;continue;}
             if (arg=="--list") { list=true; continue; }
             if (arg=="--help") {
-                std::cout<<"th03-port64 (--hdi FILE | --archive FILE) [--headless] [--scene title|menu|options|scores|story-select|versus-select|two-select|stage-intro|battle-ready|battle|two-battle|dialogue0|dialogue1|ending]\n"
+                std::cout<<"th03-port64 (--hdi FILE | --archive FILE) [--headless] [--scene title|menu|options|scores|story-select|versus-select|two-select|stage-intro|battle-ready|battle|two-battle|dialogue0|dialogue1|ending|staff]\n"
                          <<"  [--save-dir DIRECTORY]\n"
                          <<"  [--font-bmp FILE] [--characters P1,P2] [--stage N]\n"
                          <<"  [--screenshot FILE.ppm] [--frames N] [--inputs SP[:P1:P2],...]\n"
@@ -86,7 +86,7 @@ int main(int argc, char** argv) {
         } else if(scene=="versus-select"||scene=="two-select") {
             app.resident.begin_versus(scene=="two-select" ? 1 : 0);
             app.start_selection(scene=="two-select" ? th03::SelectKind::two_player : th03::SelectKind::versus_cpu);
-        } else if((scene=="stage-intro"||scene=="battle-ready"||scene=="battle"||scene=="two-battle"||scene=="dialogue0"||scene=="dialogue1"||scene=="ending")) {
+        } else if((scene=="stage-intro"||scene=="battle-ready"||scene=="battle"||scene=="two-battle"||scene=="dialogue0"||scene=="dialogue1"||scene=="ending"||scene=="staff")) {
             std::istringstream chars(characters);std::string value;unsigned at=0;
             app.resident.begin_story();
             if(scene=="two-battle")app.resident.begin_versus(1);
@@ -96,11 +96,12 @@ int main(int argc, char** argv) {
                 app.resident.paletted[at++]=std::uint8_t(paletted);
             }
             if(at!=2||stage>8)throw std::runtime_error("stage introduction needs two characters and stage 0 to 8");
-            if(scene=="dialogue0")stage=7;else if(scene=="dialogue1")stage=8;else if(scene=="ending")stage=9;
+            if(scene=="dialogue0")stage=7;else if(scene=="dialogue1")stage=8;else if(scene=="ending"||scene=="staff")stage=9;
             app.resident.stage=std::uint8_t(stage);if(stage<9)app.resident.opponents[stage]=app.resident.paletted[1];
             if(scene=="stage-intro")app.start_stage_intro();
             else if(scene=="dialogue0"||scene=="dialogue1")app.start_story_dialogue(scene=="dialogue1" ? 1 : 0);
             else if(scene=="ending")app.start_ending();
+            else if(scene=="staff")app.start_staff();
             else app.start_main(scene!="battle-ready");
         } else if (scene!="menu" && scene!="title") throw std::runtime_error("unknown scene");
         if (!inputs.empty()) {

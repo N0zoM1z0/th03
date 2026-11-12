@@ -36,28 +36,43 @@ void Application::start_post_match(std::uint16_t input) {
 void Application::start_scores() {scores_.emplace(assets_,graphic_font_,score_file,resident);phase=Phase::scores;}
 void Application::start_story_dialogue(unsigned part,std::uint16_t input) {
     char file[16];std::snprintf(file,sizeof(file),"@%02uDM%u.TXT",character_id(resident.paletted[0]),part);
-    cutscene_.emplace(assets_,graphic_font_,file,input);ending_cutscene_=false;phase=Phase::cutscene;
+    cutscene_.emplace(assets_,graphic_font_,file,input);dialogue_route_=DialogueRoute::story;phase=Phase::cutscene;
 }
 void Application::start_ending() {transition_wait_=96;phase=Phase::ending_wait;}
+void Application::start_staff() {staff_.emplace(assets_,graphic_font_,resident,cutscene_ ? &*cutscene_ : nullptr);phase=Phase::staff;}
 void Application::tick(const InputFrame& input) {
     if(finished())return;
     if(phase==Phase::ending_wait) {
         if(!--transition_wait_) {
             char file[16];std::snprintf(file,sizeof(file),"@%02uED.TXT",character_id(resident.paletted[0]));
-            cutscene_.emplace(assets_,graphic_font_,file,input.single);ending_cutscene_=true;phase=Phase::cutscene;
+            cutscene_.emplace(assets_,graphic_font_,file,input.single);dialogue_route_=DialogueRoute::ending;phase=Phase::cutscene;
         }
         return;
     }
     if(phase==Phase::cutscene) {
         cutscene_->tick(input.single);
-        if(cutscene_->done()) {if(ending_cutscene_)phase=Phase::mainl_handoff;else start_stage_intro();}
+        if(cutscene_->done()) {
+            if(dialogue_route_==DialogueRoute::ending)start_staff();
+            else if(dialogue_route_==DialogueRoute::bonus)return_to_title();
+            else start_stage_intro();
+        }
+        return;
+    }
+    if(phase==Phase::staff) {
+        staff_->tick(input.single);
+        if(staff_->done()) {resident.stage=99;ending_registration_=true;start_scores();}
         return;
     }
     if(phase==Phase::scores) {
         scores_->tick(input.single);
         if(scores_->done()) {
             available_=characters_unlocked(score_file.encoded()) ? 9 : 7;
-            if(resident.show_scores)return_to_title();
+            if(ending_registration_) {
+                ending_registration_=false;
+                if(resident.credits==3&&resident.paletted[0]<15) {
+                    cutscene_.emplace(assets_,graphic_font_,"@99ED.TXT",input.single);dialogue_route_=DialogueRoute::bonus;phase=Phase::cutscene;
+                } else return_to_title();
+            } else if(resident.show_scores)return_to_title();
             else {
                 continue_.emplace(assets_,graphic_font_,resident);phase=Phase::continuing;
                 if(continue_->done()) {game_over_.emplace(assets_);phase=Phase::game_over;}
@@ -138,7 +153,8 @@ void Application::tick(const InputFrame& input) {
 }
 Frame Application::render() const {
     if(phase==Phase::ending_wait)return Frame(640*400,0xff000000);
-    if(cutscene_&&(phase==Phase::cutscene||(phase==Phase::mainl_handoff&&ending_cutscene_)))return cutscene_->render();
+    if(phase==Phase::staff)return staff_->render();
+    if(phase==Phase::cutscene)return cutscene_->render();
     if(phase==Phase::scores)return scores_->render();
     if(phase==Phase::continuing)return continue_->render();
     if(phase==Phase::game_over)return game_over_->render();

@@ -16,9 +16,10 @@ versus returns to the title. Story losses proceed through score registration and
 continue; accepting restarts the stage, while declining or exhausting credits
 returns through Game Over. The title's HiScore menu also runs natively.
 The late-stage dialogues resume the Chiyuri/Yumemi introductions and battles.
-Ending dialogue runs after the final victory and stops at the Staff Roll owner.
-Staff Roll and the following ending/bonus route, Music Room, audio and
-configuration persistence still need integration and campaign testing. Kotohime's
+Final victory runs ending dialogue, Staff Roll, the verdict and score registration.
+Eligible clears unlock the two final characters and show the optional bonus
+dialogue before returning to the title. Music Room, audio and configuration
+persistence still need integration and campaign testing. Kotohime's
 Bomb fade and further CPU aliases still require the contexts described below.
 
 The DOS reconstruction stays on `main`. The live Windows DOSBox session and
@@ -102,7 +103,8 @@ VBlank. Use release samples between presses. Selection samples every three
 VBlanks after its initial 30-frame wait. `--help` lists supported scenes.
 `dialogue0` and `dialogue1` inspect the two late-stage chapters for P1's character;
 `ending` includes the original 96-frame black wait before that character's ending
-dialogue. Its next destination, Staff Roll, remains unimplemented.
+dialogue, followed by Staff Roll and ending registration. `staff` starts the
+roll directly; it ignores input until the verdict has waited 257 snow frames.
 
 `--list`, `--extract NAME --output FILE` and `--pi NAME --packed FILE` inspect
 OP/MAINL resources. `--main-assets --list` or `--main-assets --extract ...`
@@ -137,6 +139,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_results.py` | Same arguments as `check_selection.py` | Reward accumulation, full BCD scores and TRAM characters/attributes, warning overlap, cover/uncover rasters, result branches, life debit/score commit and application retry/handoff |
 | `check_win.py` | Same arguments as `check_round.py` | Winner resource/palette and full message selection, story dispatch including stage9's adjacent byte, every animation refresh with real palette fades under no-BGM timing, and application stage/versus routing |
 | `check_scores.py` | Same arguments as `check_round.py` | Complete encrypted sections/files, insertion and name-entry frames, original DOS score RGB frame, continue outcomes, native file reload and application registration/continue/Game Over routes |
+| `check_staff.py` | Same arguments as `check_round.py`, plus `--output /new/private/output`; optional `--slow 400 --music` | Complete original snow/RNG/page/tone traces, selected full graphics pages, verdict text calls, initial fade and sound requests; no-BGM and injected measure/slow-refresh profiles |
 | `check_cutscene.py` | Same arguments as `check_round.py` | Parameter/carry and complete interpreter refresh state, sound requests, all 28 original scripts through STOP under fast-forward, full masked-picture pixels and the stage 7/8/final dialogue routes |
 | `check_bullet.py` | Same arguments as `check_selection.py` | Group vectors, full bullet/trail pools, motion/transfer/cloud/clearing, collision maps and complete pellet rasters |
 | `check_combat.py` | Same arguments as `check_selection.py` | Explosion/chain scoring, enemy/fireball hits, derived fireballs, movement/collision, coupled bullet pipelines and known stack aliases |
@@ -321,10 +324,34 @@ measure waits use the original no-BGM fallback frames.
 The application retains scores and resident RNG seed while dialogue runs, then
 launches the actual next introduction/MAIN stage. Stage 7 still shows its winner
 animation first; stage 8 goes directly to its dialogue. Final victory retains its
-96-frame wait and ending dialogue before handing off to Staff Roll. A private
-SDL window accepts Escape fast-forward and reaches the final battle. Continue
-with Staff Roll, then resume ending registration and the optional bonus script
-before returning to OP.
+96-frame wait and ending dialogue before starting Staff Roll. A private
+SDL window accepts Escape fast-forward and reaches the final battle.
+
+`staff.cpp` preserves the 80-slot snow pool, 15-bit MAINL IRAND, Q4 movement,
+rotated blue-plane snow masks and the two independent page centers. Image
+motion erases three rows of the E plane; dissolve masks use the absolute screen
+row. Paired credits retain the previous image and the separate portrait before
+clearing both interiors. A slow refresh during automatic adjustment disables
+alpha composition and reduces the active snow slots to 50 after drawing.
+
+The no-BGM gate uses `frame > 256`; a supplied music measure instead needs the
+target measure and `frame > 192`. The verdict cannot accept input until its own
+257th snow tick, then fades over odd frames. Initial blackout takes 69 refreshes,
+followed by one sync refresh. The score's trailing digit is the number of
+continues, and the skill's case 3 deliberately falls through case 4 with BYTE
+addition before clamping. `check_staff.py` executes these original owners and
+compares the whole snow pool, RNG, page, tone and sound-control trace, plus
+selected complete two-page rasters. Its font mask comes from the original
+verdict's text calls through the previously checked native font renderer.
+
+Ending registration sets stage 99, saves ALL and refreshes character availability.
+The bonus requires all three credits and P1's paletted ID below 15. Native ending
+flow checks cover a no-continue clear, a continued clear and Chiyuri's clear,
+including save reload and return to OP. Audio still uses the no-BGM timing;
+injected measure checks do not provide music playback. Linux and Windows agree
+in both the no-BGM and injected measure/slow-refresh profiles. A private SDL
+window also runs the staff scene. Continue with Music Room,
+audio, configuration persistence and campaign acceptance.
 
 `bullet.cpp` retains the 320-slot pool, shared 48-slot trail ring, byte-wrapped
 speed tuning and ascending update order. Derived groups can occupy later slots
@@ -477,7 +504,7 @@ screen masks. Yumemi's arrival uses OR drawing, and her origin is captured
 before a pattern moves the boss. Ordered sound events include `0xff` for the
 original `snd_se_reset` service before her intro explosions.
 
-Continue with result/round-restart/MAINL routes and the remaining caller contexts.
+Resolve the remaining caller contexts during campaign testing.
 Wide CPU scans near the left edge retain their aliased DGROUP reads.
 With an empty bitmap and initialized target DATA,
 P0 at (8,336) pixels with a 32-tile scan reads `02D0..02D4` and collides with

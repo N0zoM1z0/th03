@@ -116,6 +116,72 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==5&&std::string(argv[1])=="--ending-flow") {
+            const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));const auto bitmap=read_file(argv[3]);
+            for(unsigned profile=0;profile<3;++profile) {
+                const auto directory=std::filesystem::path(argv[4])/std::to_string(profile);
+                th03::Application app(assets,{}, {},"TL02.PI",bitmap,&main,directory);
+                app.resident.begin_story();app.resident.stage=9;app.resident.seed=2000;app.resident.paletted={{profile==2 ? std::uint8_t(15) : std::uint8_t(5),17}};
+                app.resident.credits=profile==1 ? 2 : 3;app.resident.scores[0].fill(9);const auto committed=app.resident.scores[0];app.start_post_match();
+                check(app.phase==th03::Phase::ending_wait,"final victory lost the ending delay");
+                unsigned ticks=0;while(app.phase!=th03::Phase::staff&&ticks++<2500)app.tick({th03::cancel,{}});
+                check(app.phase==th03::Phase::staff,"ending dialogue did not enter Staff Roll");
+                ticks=0;while(app.phase==th03::Phase::staff&&ticks++<6000)app.tick({th03::shot,{}});
+                check(app.phase==th03::Phase::scores&&app.resident.stage==99&&app.resident.scores[0]==committed,"Staff Roll lost the final score/stage");
+                for(unsigned tick=0;tick<35;++tick)app.tick({});
+                for(auto mask:{th03::left,th03::Input(0),th03::down,th03::Input(0),th03::down,th03::Input(0),th03::shot,th03::Input(0),th03::shot})app.tick({std::uint16_t(mask),{}});
+                for(unsigned tick=0;tick<35;++tick)app.tick({});
+                check(app.phase==(profile==0 ? th03::Phase::cutscene : th03::Phase::op),"ending registration chose the wrong bonus/title route");
+                th03::ScoreFile reload({},directory);auto seed=app.resident.seed;const auto section=reload.load(0,seed,app.resident);
+                check(section.bytes[th03::ScoreSection::stages]==th03::regi::all,"ending ALL stage did not persist");
+                check(section.bytes[th03::ScoreSection::clear]==(profile==1 ? 18 : 99),"ending clear/unlock flag did not persist");
+                check(th03::characters_unlocked(reload.encoded())==(profile!=1),"ending character unlock differs after reload");
+                if(profile==0) {
+                    ticks=0;while(app.phase==th03::Phase::cutscene&&ticks++<2500)app.tick({th03::cancel,{}});
+                    check(app.phase==th03::Phase::op,"bonus dialogue did not return to title");
+                }
+                app.start_selection(th03::SelectKind::versus_cpu);
+                check(app.selection.available==(profile==1 ? 7u : 9u),"title did not refresh character availability after ending");
+            }
+            std::cout<<"Final ending, Staff Roll, persisted ALL score/unlock, conditional bonus and return to title pass\n";return 0;
+        }
+        if(argc==8&&std::string(argv[1])=="--staff-run") {
+            const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name));const th03::Font font(read_file(argv[3]));
+            th03::Resident resident;resident.paletted[0]=5;resident.seed=2000;resident.options.rank=1;
+            resident.scores[0]={{1,2,3,4,5,6,3,0}};resident.skill=70;resident.credits=2;
+            th03::StaffRoll staff(assets,font,resident);const unsigned count=unsigned(std::stoul(argv[4])),slow=unsigned(std::stoul(argv[5]));
+            const std::filesystem::path dest(argv[7]);std::filesystem::create_directories(dest);Bytes trace,fade;unsigned presents=0,ticks=0;
+            const auto append=[&](std::uint32_t v) {for(unsigned i=0;i<4;++i)trace.push_back(std::uint8_t(v>>(i*8)));};
+            const bool music=std::stoi(argv[6])!=0;
+            while(!staff.done()&&presents<count&&ticks++<20000) {
+                const auto before=staff.state;const auto frame=staff.frame;const auto adjusting=staff.auto_adjust;const auto old_segment=staff.segment;const auto previous_tone=staff.tone;
+                staff.tick(th03::shot,music ? std::optional<unsigned>((presents+1)/24) : std::nullopt,presents==slow ? 2 : 1);
+                if(before==th03::StaffRoll::State::black_out||before==th03::StaffRoll::State::sync) {fade.push_back(std::uint8_t(staff.tone));continue;}
+                // Original presentation precedes begin_segment's assignment
+                // that disables adjustment after the first credit.
+                const bool presented_auto=before==th03::StaffRoll::State::clear&&old_segment==0 ? adjusting&&staff.snow.limit==80 : staff.auto_adjust;
+                ++presents;append(std::uint32_t(std::int32_t(frame)));append(staff.shown_page);append(staff.snow.seed);
+                append(staff.snow.limit);append(staff.alpha_requested);append(presented_auto);append(std::uint32_t(previous_tone));
+                for(const auto& f:staff.snow.flakes) {append(f.alive);append(std::uint32_t(std::int32_t(f.position.x)));append(std::uint32_t(std::int32_t(f.position.y)));append(std::uint32_t(std::int32_t(f.velocity.x)));append(std::uint32_t(std::int32_t(f.velocity.y)));append(f.cel);}
+                if(presents==1||presents==300||presents==520||presents==900||presents==1400||presents==1800||presents==2000||presents==2300||presents==2800||presents==3600||presents==4900||presents==5156||presents==5412||presents==5413||presents==5500||staff.done()||presents==count) {
+                    Bytes pages=staff.pages[0].pixels;pages.insert(pages.end(),staff.pages[1].pixels.begin(),staff.pages[1].pixels.end());write_file((dest/(std::to_string(presents)+".pixels")).string(),pages);
+                    write_file((dest/(std::to_string(presents)+".ppm")).string(),th03::ppm(staff.render()));
+                }
+            }
+            write_file((dest/"trace.bin").string(),trace);write_file((dest/"fade.bin").string(),fade);
+            Bytes sounds;for(const auto& sound:staff.sounds)if(sound.kind==th03::SceneSound::Kind::control) {sounds.push_back(std::uint8_t(sound.value));sounds.push_back(std::uint8_t(sound.value>>8));}
+            write_file((dest/"sounds.bin").string(),sounds);
+            std::cout<<presents<<' '<<ticks<<' '<<staff.done()<<' '<<staff.tone<<' '<<unsigned(staff.verdict.skill)<<'\n';return 0;
+        }
+        if(argc==5&&std::string(argv[1])=="--font-ops") {
+            const th03::Font font(read_file(argv[2]));const auto ops=read_file(argv[3]);th03::Canvas canvas;unsigned at=0;
+            while(at<ops.size()) {
+                const auto word=[&] {const auto v=unsigned(ops.at(at))|(unsigned(ops.at(at+1))<<8);at+=2;return v;};
+                const int x=int(word()),y=int(word());const unsigned n=word();
+                const std::string text(ops.begin()+at,ops.begin()+at+n);at+=n;font.text(canvas,x,y,text,15,2);
+            }
+            write_file(argv[4],canvas.pixels);return 0;
+        }
         if(argc==4&&std::string(argv[1])=="--cutscene-flow") {
             const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));const auto bitmap=read_file(argv[3]);
             for(unsigned stage:{7u,8u,9u}) {
@@ -132,14 +198,14 @@ int main(int argc,char** argv) {
                 }
                 check(app.phase==th03::Phase::cutscene,"MAINL did not enter the selected dialogue/ending");
                 unsigned ticks=0;while(app.phase==th03::Phase::cutscene&&ticks++<2000)app.tick({th03::cancel,{}});
-                if(stage==9)check(app.phase==th03::Phase::mainl_handoff,"ending did not reach the Staff Roll owner");
+                if(stage==9)check(app.phase==th03::Phase::staff,"ending did not reach Staff Roll");
                 else {
                     check(app.phase==th03::Phase::stage_intro&&app.resident.paletted[1]==(stage==7 ? 15 : 17),"dialogue lost the next stage/opponent");
                     for(unsigned tick=0;tick<160&&app.phase==th03::Phase::stage_intro;++tick)app.tick({});
                     check(app.phase==th03::Phase::battle&&app.round->scores[0]==app.resident.scores[0]&&app.resident.seed==2000,"dialogue did not resume MAIN with the committed score/seed");
                 }
             }
-            std::cout<<"Story stage7/8 dialogues resume their actual MAIN stages; final ending reaches the Staff Roll handoff\n";return 0;
+            std::cout<<"Story stage7/8 dialogues resume their actual MAIN stages; final ending starts Staff Roll\n";return 0;
         }
         if(argc==6&&std::string(argv[1])=="--script-parameter") {
             std::string text(argv[2]);text.append(3, char(0));
