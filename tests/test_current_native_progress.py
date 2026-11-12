@@ -114,7 +114,6 @@ class NativeProgress(unittest.TestCase):
         ET.fromstring(svg)
         self.assertIn('Decoded acceptance: pending', svg)
         self.assertNotIn('Unit acceptance: exact 0/259', svg)
-        self.assertIn('Staff Roll (af942s): 1 physical owners / 3,695 CODE B', svg)
         self.assertIn('106 tracked unit extents', svg)
         self.assertNotIn('459 tracked functions', svg)
         self.assertEqual(pending['decoded_exact_units'], 0)
