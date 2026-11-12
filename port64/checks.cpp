@@ -105,6 +105,71 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==8&&std::string(argv[1])=="--warning-picture") {
+            const auto disk=read_file(argv[2]);
+            const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            const auto pid=unsigned(std::stoul(argv[3])),kind=unsigned(std::stoul(argv[4])),step=unsigned(std::stoul(argv[5])),hyper=unsigned(std::stoul(argv[6]));
+            if(pid>2||(kind!=1&&kind!=3&&kind!=5)||hyper>1)throw std::runtime_error("unknown warning picture");
+            th03::Resident resident;resident.mode=th03::Mode::two_player;resident.paletted={{1,6}};
+            th03::Round r;r.begin(resident,main.read("ENEDAT.DAT"));r.intro.flag=0;
+            th03::BattleGraphics graphics(op,main,resident);r.set_palette(graphics.palette());
+            r.gauge_levels={{7,11}};r.boss_level=15;
+            for(unsigned p=0;p<2;++p) {
+                r.players[p].gauge_charged=0x420;r.players[p].gauge_avail=0x900;r.players[p].hyper_active=std::uint8_t(hyper);
+                if(pid==2||pid==p) {r.warning[p]=1;r.gauge_next[p]=std::uint8_t(kind);}
+            }
+            r.prepare_warning_portraits();
+            if(step) {
+                r.begin_warning_flash();
+                for(unsigned i=0;i<std::min(step,27u);++i)r.warning_flash_tick();
+                for(unsigned i=27;i<step;++i) {r.warning_update(0);r.warning_update(1);r.prepare_warning_portraits();}
+            }
+            r.result_frame=std::uint16_t(step);
+            write_file(argv[7],th03::ppm(graphics.render(r,resident)));return 0;
+        }
+        if(argc==3&&std::string(argv[1])=="--pause") {
+            const auto mode=unsigned(std::stoul(argv[2]));if(mode>2)throw std::runtime_error("unknown pause fixture");
+            th03::Round r;th03::Resident resident;resident.cpu={{false,mode==2}};
+            if(mode==2)resident.cpu[0]=true;
+            r.frame=12345;r.result_frame=65530;r.begin_pause(resident);
+            std::vector<int> tones;
+            if(mode==2) {
+                do {r.pause_tick(0);tones.push_back(r.palette_tone);}while(r.pause!=th03::Pause::none);
+            } else {
+                for(auto key:std::array<std::uint16_t,4>{{th03::cancel,th03::shot,0,th03::shot}})r.pause_tick(key);
+                if(mode==1)r.pause_tick(th03::q|th03::cancel);
+                else {r.pause_tick(th03::cancel);r.pause_tick(th03::cancel|th03::shot);r.pause_tick(th03::shot);r.pause_tick(0);r.pause_tick(0);}
+            }
+            std::cout<<r.quit_requested<<' '<<r.frame<<' '<<r.result_frame<<' '<<r.sounds.size()<<' ';
+            for(auto sound:r.sounds)std::cout<<unsigned(sound)<<' ';
+            std::cout<<tones.size()<<' ';for(auto tone:tones)std::cout<<tone<<' ';
+            std::cout<<'\n';return 0;
+        }
+        if(argc==5&&std::string(argv[1])=="--warning") {
+            const auto pid=unsigned(std::stoul(argv[2])),kind=unsigned(std::stoul(argv[3])),ticks=unsigned(std::stoul(argv[4]));
+            if(pid>2||(kind!=1&&kind!=3&&kind!=5))throw std::runtime_error("unknown warning fixture");
+            th03::Round r;th03::Palette palette{};
+            for(unsigned i=0;i<48;++i)palette[i]=std::uint8_t(i*5+7);
+            r.set_palette(palette);r.gauge_levels={{7,11}};r.boss_level=15;
+            for(unsigned p=0;p<2;++p)if(pid==2||pid==p) {r.warning[p]=1;r.gauge_next[p]=std::uint8_t(kind);}
+            r.prepare_warning_portraits();
+            std::cout<<unsigned(r.warning[0])<<' '<<unsigned(r.warning[1])<<' ';
+            if(r.begin_warning_flash())do {
+                r.warning_flash_tick();std::cout<<r.palette_tone<<' ';
+            }while(r.warning_flash_frame<27);
+            const auto snapshot=[&] {
+                for(unsigned p=0;p<2;++p) {
+                    std::cout<<unsigned(r.warning[p])<<' '<<unsigned(r.warning_brightness[p])<<' '<<unsigned(r.warning_fading_out[p])<<' '<<unsigned(r.gauge_flags[p])<<' ';
+                    const auto& text=r.warning_text[p];std::cout<<text.visible<<' ';
+                    if(text.visible)std::cout<<text.attribute<<' '<<unsigned(text.level)<<' '<<text.boss<<' ';
+                }
+                for(auto color:r.palette)std::cout<<unsigned(color)<<' ';
+            };
+            snapshot();
+            for(unsigned tick=0;tick<ticks;++tick) {r.warning_update(0);r.warning_update(1);snapshot();}
+            std::cout<<r.sounds.size()<<' ';for(auto sound:r.sounds)std::cout<<unsigned(sound)<<' ';
+            std::cout<<'\n';return 0;
+        }
         if(argc==7&&std::string(argv[1])=="--boss") {
             const auto character=unsigned(std::stoul(argv[2])),pid=unsigned(std::stoul(argv[3])),mode=unsigned(std::stoul(argv[4])),ticks=unsigned(std::stoul(argv[5])),level=unsigned(std::stoul(argv[6]));
             if(character>8||pid>1||mode>257||level>16)throw std::runtime_error("unknown Boss fixture");

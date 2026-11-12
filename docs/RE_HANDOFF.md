@@ -70,8 +70,15 @@ The seven level parameters share physical bytes across characters; preserve
 untouched bytes. Explosion completion and Mima/Kotohime/Chiyuri render mutations
 belong after drawing, only on rendered frames. Yumemi's intro queues the original
 sound reset before its explosions. Linux/Windows states and resource pictures
-agree. Continue by joining `src/main/round/round_loop.inl`, its controller/HUD
-hooks and result/MAINL routes; preserve the original player/draw order.
+agree. `warning.cpp` now supplies portrait/white-flash/red-warning/active-pulse
+control and pause/resume/quit. Nine complete warning traces and three pause/fade
+outcomes agree with original MAIN on Linux and Windows. Warning text, portraits
+and Hyper gauge flashing have resource pictures; the DOS HUD regression passes.
+Continue by joining `src/main/round/round_loop.inl` and result/MAINL routes;
+preserve the original player/draw order. Warning white flashes and pauses freeze
+simulation clocks. A quit request after pausing still finishes the interrupted
+iteration before the original loop exits. See PORTABLE.md for the controller
+calls and picture command.
 The Reimu player cel looks malformed in the isolated overview at
 `build/boss-complete/overview.png`; compare the original player renderer and
 shot-sprite atlas preparation during the first live battle visual check.

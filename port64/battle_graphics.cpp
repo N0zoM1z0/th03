@@ -164,6 +164,19 @@ void BattleGraphics::hud(Canvas& display,const Round& round,const Resident& resi
 
     }
     if(resident.mode==Mode::story)for(unsigned i=0;i<resident.lives;++i)gaiji(display,font_,2,288-int(i)*16,32,15);
+    for(unsigned pid=0;pid<2;++pid) {
+        const auto& warning=round.warning_text[pid];if(!warning.visible)continue;
+        const int x=pid ? 32 : 352;
+        // Bit3 marks opaque black glyph ink when the TRAM attribute is1.
+        const auto color=std::uint8_t(8|((warning.attribute>>5)&7));
+        const auto put=[&](unsigned code,int left,int row,std::uint8_t ink) {gaiji(display,font_,code,left,row*16,ink);};
+        for(unsigned row=0;row<3;++row)for(unsigned i=0;i<16;++i)put(0x50+row*16+i,x+int(i)*16,11+int(row),color);
+        for(unsigned i=0;i<11;++i)put(130+i,x+32+int(i)*16,14,color);
+        for(unsigned i=0;i<8;++i)put((warning.boss&&i<3 ? 208 : 199)+i,x+48+int(i)*16,15,color);
+        put(warning.level+0x1f,x+184,15,15);
+        constexpr unsigned peril[]={141,142,143,146,147,148,149,150,151,152,153,154,155,156};
+        for(unsigned i=0;i<14;++i)put(peril[i],x+32+int(i)*16,16,color);
+    }
 }
 void BattleGraphics::charges(Canvas& graphics,const Round& round,unsigned pid) const {
     const auto& charges=round.charge_shots;
@@ -699,6 +712,10 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
         graphics.put(16+int(pid)*320+int(x),192+int(y),atlas_.pixels[(192+y)*640+320+x]);
     for(unsigned pid=0;pid<2;++pid) {
         const auto& p=round.players[pid];
+        if(p.hyper_active&&(round.result_frame&1)) {
+            const auto level=p.gauge_avail>>10;
+            graphics.fill(16+int(pid)*320,192,303+int(pid)*320,199,level==1 ? 8 : level==2 ? 12 : 6);
+        }
         const unsigned charged=p.gauge_charged>>4,available=p.gauge_avail>>4;
         const auto bar=[&](unsigned x,unsigned width,unsigned color) {
             if(!width)return;
@@ -707,7 +724,7 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
             width+=x&15;x&=~15u;
             graphics.fill(int(x),194,int(x+width-1),197,std::uint8_t(color));
         };
-        if(available>charged)bar(pid*320+charged+32,available-charged,9);
+        if(available>charged)bar(pid*320+charged+32,available-charged,p.hyper_active&&!(round.result_frame&1) ? 15 : 9);
         if(charged)bar(pid*320+32,charged,charged<64 ? 15 : charged<128 ? 10 : charged<192 ? 8 : charged<255 ? 6 : 12);
     }
     // Graphics HUD: seven visible font rows, eight BCD digits followed by
@@ -726,6 +743,7 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
         }
         digit_put(pid||resident.mode!=Mode::story ? 0 : 3-resident.credits,origin+64);
     }
+    for(unsigned pid=0;pid<2;++pid)if(round.warning_portrait[pid])portraits_[pid].put(graphics,16+int(pid)*320,16,true);
     intro(graphics,round,resident);
     Canvas display;
     for(unsigned y=0;y<400;++y)std::copy_n(graphics.pixels.begin()+(y/2)*640,640,display.pixels.begin()+y*640);

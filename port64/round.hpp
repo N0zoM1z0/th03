@@ -71,6 +71,12 @@ struct HudIntro {
     // Original renderer mutates banner state after updating the particles.
     void prepare_render(Mode mode);
 };
+struct WarningText {
+    std::uint16_t attribute=0;
+    std::uint8_t level=0;
+    bool boss=false,visible=false;
+};
+enum class Pause {none,release,command,resume_release,resume_finish,fade};
 class Round {
 public:
     void begin(const Resident& resident,const Bytes& enedat);
@@ -135,6 +141,24 @@ public:
     void update_circles();
     std::array<Combo,2> combos{};
     std::array<std::uint8_t,2> gauge_next{},warning{};
+    std::array<std::uint8_t,2> warning_brightness{},warning_fading_out{};
+    std::array<WarningText,2> warning_text{};
+    std::array<bool,2> warning_portrait{};
+    std::uint8_t warning_flash_frame=27;
+    // Called once per actual draw, after the score and before page flipping.
+    void prepare_warning_portraits();
+    bool begin_warning_flash();
+    // One physical refresh, with simulation/counters frozen. Pause handling
+    // belongs to the caller before this refresh, as in round_CA3C.
+    bool warning_flash_tick();
+    void warning_update(unsigned pid);
+    void warning_text_put(unsigned pid,std::uint16_t attribute);
+    Pause pause=Pause::none;
+    std::uint8_t pause_fade_frame=0;
+    bool quit_requested=false;
+    void begin_pause(const Resident& resident);
+    // A physical refresh of the blocking pause owner. No game clocks move.
+    bool pause_tick(std::uint16_t input);
     std::array<bool,2> boss_panic{};
     std::uint8_t boss_launched_by=255,defeat=0,fireball_variant=0,generation_previous=0,last_chain_slot=0;
     bool last_explosion_hit=false,one_hit=false,enemy_killed=false,fireball_hit=false;

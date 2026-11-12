@@ -6,8 +6,8 @@ explicit resident state into MAIN round initialization. Enemy scripts, battle
 resources/HUD, round-introduction animation, collision primitives, bullets,
 explosion chains, fireballs, all nine Charge Shot/Bomb families, Hyper handlers,
 shared effects, both background chains, nine Gauge patterns, all nine Extra
-Attack families, all nine BOSS families and their shared control, player/loss state machines and
-CPU decisions are ported and checked separately.
+Attack families, all nine BOSS families and their shared control, attack warnings,
+pause/quit, player/loss state machines and CPU decisions are ported and checked separately.
 The program stops at initialized battle state;
 it is not yet a playable full-game port. The round loop, CPU edge-scan data,
 results/dialogues/endings, Music Room/HiScore, audio and persistence still need
@@ -104,6 +104,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_bomb.py` | Same arguments as `check_selection.py` | Nine Bomb controllers coupled to complete effect pools, palette/foreground state, RNG and sound events |
 | `check_cpu.py` | Same arguments as `check_selection.py` | Offensive/defensive CPU, target selection, collision/retry grids, shared velocity/RNG and real Bomb activation |
 | `check_boss.py` | Same arguments as `check_selection.py` | Shared launch/reversal/selection/descent/HP/explosion reward and all nine BOSS families coupled to complete bullets, Extra entities, collision, palette/RNG and scores |
+| `check_warning.py` | Same arguments as `check_selection.py` | Portrait-to-flash handoff, 27 physical flash tones, red warning/attack activation, complete palettes and text events on every tick; pause/resume/quit outcomes, frozen clocks, sound events and CPU-exit fade |
 | `check_extra.py` | Same arguments as `check_selection.py` | All nine Extra lifecycles and special allocators, complete entity/Ellen-history/bullet/effect pools, real shot consumption, collision/RNG and saturated allocation |
 | `check_gauge.py` | Same arguments as `check_selection.py` | Nine Gauge patterns and ordinary/special Kotohime Extra, coupled to full bullet/effect/entity pools, shot consumption, palette/RNG and collision maps |
 | `check_background.py` | Same arguments as `check_selection.py` | Both particle chains, all80 slots, LCG, acceleration/phase transitions, reset and both indeterminate-byte branches |
@@ -139,6 +140,27 @@ source preserves these consequential details:
 - The round-introduction slide destination aliases particle15.x. Collision Y
   reports the scan rectangle's top, not the occupied row; X reports the
   containing eight-tile column. Preserve these coarse values for CPU decisions.
+
+`warning.cpp` separates physical refreshes from simulation ticks. After drawing
+the attack portrait, freeze simulation for the 27-refresh white flash, then call
+both warning controllers before the background hook. The red warning completes
+at flag33 and starts its active Gauge/BOSS pulse in that same call. Persist the
+last text attribute, level and label until the original clear; black warning ink
+must still cover graphics. Portraits use the original masked MRS blit. Hyper
+highlights fill all eight gauge-strip rows, with the original even/odd bar colors.
+Pause requires release before accepting commands and release before resuming;
+Q takes priority over Cancel. CPU/CPU pause fades through100,94,...,4,0 and quits.
+The caller must finish the interrupted loop iteration after pause returns, even
+if quit was requested: the original loop tests quit at its next entry.
+
+`check_warning.py` compares nine 180-tick warning traces, including both players
+warning simultaneously, with original MAIN instructions. It also checks three
+pause/quit outcomes against the original pause and palette-fade owners. Linux
+and native Windows x64 agree. `--warning-picture HDI PID KIND STEP HYPER OUT.ppm`
+renders the real resources; PID2 means both players, KIND1/3/5 selects the attack,
+STEP0 is the portrait,1..27 are white-flash refreshes, and28+ advances the red
+controller. Eleven complete pictures agree between platforms and the existing
+DOS battle-HUD comparison still passes. These checks precede round-loop wiring.
 
 `bullet.cpp` retains the 320-slot pool, shared 48-slot trail ring, byte-wrapped
 speed tuning and ascending update order. Derived groups can occupy later slots
