@@ -5,6 +5,7 @@
 #include "collision.hpp"
 #include "battle_graphics.hpp"
 #include "round_loop.hpp"
+#include "application.hpp"
 #include "raster.hpp"
 #include <algorithm>
 #include <iostream>
@@ -45,6 +46,14 @@ Bytes pi(const std::string& bits) {
     return raw;
 }
 void tap(th03::Menu& menu,std::uint16_t key) { menu.tick(0); menu.tick(key); }
+void result_fixture(th03::Round& r,th03::Resident& resident,unsigned profile) {
+    const unsigned winner=profile==1||profile==2||profile==3 ? 1 : 0;
+    resident.mode=profile>=2 ? th03::Mode::story : th03::Mode::two_player;
+    resident.stage=profile==5 ? 8 : 0;resident.lives=profile==3 ? 0 : 2;resident.winner=std::uint8_t(winner);
+    r.defeat=2;r.defeated_player=std::uint8_t(winner^1);r.players[winner^1].lose_time=255;
+    r.players[winner].rounds_won=profile==1 ? 2 : 1;r.result_wait=profile==5 ? 460 : 320;
+    r.scores[0]={{3,2,1,0,0,0,0,0}};r.scores[1]={{6,5,4,0,0,0,0,0}};
+}
 void boss_state(const th03::BossState& b) {
     std::cout<<b.center.x<<' '<<b.center.y<<' '<<b.scratch.x<<' '<<b.scratch.y<<' '<<b.velocity.x<<' '<<b.velocity.y<<' '
         <<b.hp<<' '<<b.sprite<<' '<<unsigned(b.hit)<<' '<<unsigned(b.mode)<<' '<<unsigned(b.angle)<<' '
@@ -106,6 +115,98 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==3&&std::string(argv[1])=="--restart-flow") {
+            const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            th03::Application app(op,{}, {},"TL02.PI",{},&main);
+            app.resident.begin_versus(1);app.resident.paletted={{5,14}};app.start_main();
+            auto& r=*app.round;result_fixture(r,app.resident,0);r.frame=2000;r.result_frame=176;
+            r.gauge_levels={{3,5}};r.players[0].gauge_avail=2576;r.combos[0].time=1;r.combos[0].bonus=99;
+            r.result.remaining=303;r.text_gaiji(4,8,0xa3,0xe1);
+            r.background.periodic=true;r.background.particles[0].center={1600,1600};r.background.particles[0].velocity={0,32};r.background.particles[0].speed=32;
+            app.round_loop->transition.midpoint=true;app.round_loop->transition.phase=th03::PlayfieldTransition::Phase::uncover;
+            app.tick({});
+            check(app.phase==th03::Phase::battle&&r.id==1&&r.frame==0&&r.result_frame==0,"next round did not restart MAIN in place");
+            check(app.resident.seed==2000&&r.players[0].gauge_avail==2576&&r.players[0].rounds_won==1,"restart discarded score/gauge/match context");
+            check(r.gauge_levels==std::array<std::uint8_t,2>{{4,6}}&&r.players[0].halfhearts==10&&r.players[1].halfhearts==10,"restart difficulty or life reset differs");
+            check(r.combos[0].time==1&&r.combos[0].bonus==99&&r.result.remaining==303,"restart erased retained combo/result state");
+            check(r.background.particles[0].center.y==1632&&r.background.particles[0].velocity.y==32,"restart regenerated the background");
+            check(std::all_of(r.text_cells.begin(),r.text_cells.end(),[](const th03::TextCell& cell){return !cell.code;}),"restart retained old TRAM text");
+            check(!app.round_loop->transition.midpoint&&app.round_loop->transition.phase==th03::PlayfieldTransition::Phase::uncover,"restart lost the uncover callback");
+            app.tick({});check(r.frame==1&&r.combos[0].time==0&&r.scores[0][0]==2,"next round did not finish the retained combo");
+            result_fixture(r,app.resident,4);r.frame=2000;r.result_frame=336;
+            app.round_loop->transition.midpoint=true;app.round_loop->transition.phase=th03::PlayfieldTransition::Phase::uncover;
+            app.tick({});
+            check(app.phase==th03::Phase::mainl_handoff&&app.resident.stage==1&&app.resident.seed==2000,"match result did not hand off the next MAINL stage");
+            check(app.resident.scores[0]==r.scores[0]&&app.resident.scores[1]==std::array<std::uint8_t,8>{},"MAINL score transfer differs");
+            std::cout<<"Application retry preserves the live round context, uncovers, and reaches the MAINL handoff\n";return 0;
+        }
+        if(argc==6&&std::string(argv[1])=="--round-end") {
+            const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            const auto profile=unsigned(std::stoul(argv[3])),frame=unsigned(std::stoul(argv[4]));const bool midpoint=std::stoi(argv[5])!=0;
+            th03::Resident resident;resident.paletted={{5,14}};resident.cpu={{false,false}};
+            resident.mode=profile>=2 ? th03::Mode::story : th03::Mode::two_player;resident.stage=profile==5 ? 8 : 0;
+            th03::Round r;r.begin(resident,main.read("ENEDAT.DAT"));th03::BattleGraphics graphics(op,main,resident);r.set_palette(graphics.palette());
+            th03::RoundLoop loop;loop.begin(r,graphics);result_fixture(r,resident,profile);r.frame=r.result_frame=std::uint16_t(frame);
+            loop.transition.midpoint=midpoint;if(midpoint)loop.transition.phase=th03::PlayfieldTransition::Phase::uncover;
+            loop.tick(r,resident,graphics,{});
+            const auto code=loop.outcome==th03::RoundExit::running ? 3 : loop.outcome==th03::RoundExit::end_match ? 2 : loop.outcome==th03::RoundExit::next_round ? 1 : 0;
+            std::cout<<code<<' '<<unsigned(resident.lives)<<' ';
+            for(const auto& score:resident.scores)for(auto digit:score)std::cout<<unsigned(digit)<<' ';
+            std::cout<<unsigned(loop.transition.phase)<<'\n';return 0;
+        }
+        if(argc==7&&std::string(argv[1])=="--result-picture") {
+            const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            const auto profile=unsigned(std::stoul(argv[4])),ticks=unsigned(std::stoul(argv[5]));
+            th03::Font font(read_file(argv[3]));th03::Resident resident;resident.paletted={{5,14}};resident.cpu={{false,false}};
+            resident.mode=profile>=2 ? th03::Mode::story : th03::Mode::two_player;resident.stage=profile==5 ? 8 : 0;
+            th03::Round r;r.begin(resident,main.read("ENEDAT.DAT"));th03::BattleGraphics graphics(op,main,resident,&font);r.set_palette(graphics.palette());
+            th03::RoundLoop loop;loop.begin(r,graphics);result_fixture(r,resident,profile);r.intro.flag=0;
+            auto& p=r.players[resident.winner];p.combo_hits_max=42;p.gauge_attacks=7;p.boss_attacks=5;p.boss_reversals=3;p.boss_panics=2;
+            for(unsigned tick=0;tick<ticks&&loop.outcome!=th03::RoundExit::end_match;++tick) {
+                loop.tick(r,resident,graphics,{});
+                if(loop.outcome==th03::RoundExit::next_round)loop.restart(r,resident);
+            }
+            write_file(argv[6],th03::ppm(loop.render(r,resident,graphics)));
+            std::cout<<unsigned(r.id)<<' '<<r.frame<<' '<<r.result_frame<<' '<<unsigned(resident.lives)<<' '<<unsigned(loop.outcome)<<'\n';return 0;
+        }
+        if(argc==4&&std::string(argv[1])=="--transition") {
+            th03::Canvas canvas;th03::PlayfieldTransition t;t.phase=th03::PlayfieldTransition::Phase::cover;
+            const auto ticks=unsigned(std::stoul(argv[2]));for(unsigned i=0;i<ticks;++i)t.update(canvas);
+            std::cout<<unsigned(t.phase)<<' '<<unsigned(t.frame)<<' '<<t.midpoint<<' ';
+            for(auto v:t.vertices)std::cout<<v.x<<' '<<v.y<<' ';
+            std::cout<<'\n';
+            write_file(argv[3],Bytes(canvas.pixels.begin(),canvas.pixels.begin()+640*200));return 0;
+        }
+        if(argc==6&&std::string(argv[1])=="--result") {
+            const auto pid=unsigned(std::stoul(argv[2])),stage=unsigned(std::stoul(argv[3])),profile=unsigned(std::stoul(argv[4])),ticks=unsigned(std::stoul(argv[5]));
+            const bool maximum=profile==1;
+            th03::Round r;th03::Resident resident;resident.stage=std::uint8_t(stage);resident.lives=maximum ? 255 : 2;
+            r.defeated_player=std::uint8_t(pid^1);r.extends_gained=0;
+            auto& p=r.players[pid];p.combo_hits_max=maximum ? 255 : 42;p.gauge_attacks=maximum ? 255 : 7;
+            p.boss_attacks=maximum ? 255 : 5;p.boss_reversals=maximum ? 255 : 3;p.boss_panics=maximum ? 255 : 2;
+            if(profile==2) {r.warning[pid^1]=3;r.gauge_next[pid^1]=3;}
+            for(unsigned tick=0;tick<ticks;++tick) {
+                r.result_frame=std::uint16_t(tick);if(profile==2)r.warning_update(pid^1);r.result.update(r,resident);
+                const auto& s=r.result;for(auto count:s.counts)std::cout<<unsigned(count)<<' ';
+                std::cout<<unsigned(s.lives)<<' '<<s.step<<' '<<s.low<<' '<<s.high<<' '<<s.remaining<<' '<<unsigned(r.extends_gained)<<' ';
+                for(const auto& score:r.scores)for(auto digit:score)std::cout<<unsigned(digit)<<' ';
+            }
+            for(const auto& cell:r.text_cells) {
+                unsigned word=32;
+                if(cell.code) {
+                    if(cell.gaiji)word=((cell.code&127)<<8)|(0x56+(cell.code>>7))|(cell.right ? 0x8000 : 0);
+                    else {
+                        const unsigned lead=cell.code>>8,trail=cell.code&255;
+                        unsigned row=(lead-(lead<0xa0 ? 0x81 : 0xc1))*2+0x21;
+                        const unsigned col=trail>=0x9f ? (++row,trail-0x7e) : trail-(trail>0x7e ? 0x20 : 0x1f);
+                        word=(col<<8)|(row-0x20)|(cell.right ? 0x80 : 0);
+                    }
+                }
+                std::cout<<word<<' ';
+            }
+            for(const auto& cell:r.text_cells)std::cout<<cell.attribute<<' ';
+            std::cout<<'\n';return 0;
+        }
         if(argc==4&&std::string(argv[1])=="--loop-control") {
             const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
             th03::Resident resident;resident.mode=th03::Mode::two_player;resident.paletted={{5,14}};resident.cpu={{false,false}};
@@ -732,7 +833,7 @@ int main(int argc,char** argv) {
             }
             return 0;
         }
-        if(argc==9&&std::string(argv[1])=="--round") {
+        if((argc==9||argc==10)&&std::string(argv[1])=="--round") {
             th03::Round round;th03::Resident resident;
             round.formations=th03::read_formations(read_file(argv[2]));
             round.random.seed=std::uint32_t(std::stoul(argv[3]));
@@ -740,7 +841,7 @@ int main(int argc,char** argv) {
             round.id=std::uint8_t(std::stoul(argv[6]));resident.credits=std::uint8_t(std::stoul(argv[7]));
             resident.stage=std::uint8_t(std::stoul(argv[8]));resident.paletted={{5,13}};resident.cpu={{false,true}};
             round.gauge_levels={{3,5}};round.players[0].cpu_safety=777;round.players[1].cpu_safety=888;
-            round.prepare(resident,0x5e);
+            round.prepare(resident,argc==10 ? std::uint8_t(std::stoul(argv[9])) : 0x5e);
             std::cout<<round.formations.size()<<' '<<round.random.seed<<' '<<unsigned(round.speed)<<' '
                      <<unsigned(round.bullet_base_speed)<<' '<<unsigned(round.boss_level)<<' '
                      <<unsigned(round.gauge_levels[0])<<' '<<unsigned(round.gauge_levels[1])<<' '

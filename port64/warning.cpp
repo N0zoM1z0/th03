@@ -36,6 +36,13 @@ void Round::warning_text_put(unsigned pid,std::uint16_t attribute) {
     auto& text=warning_text.at(pid);
     text.attribute=attribute;text.boss=gauge_next[pid]==5;
     text.level=text.boss ? boss_level : gauge_levels[pid];text.visible=true;
+    const unsigned x=pid ? 4 : 44;
+    for(unsigned row=0;row<3;++row)for(unsigned i=0;i<16;++i)text_gaiji(x+i*2,11+row,0x50+row*16+i,attribute);
+    for(unsigned i=0;i<11;++i)text_gaiji(x+4+i*2,14,130+i,attribute);
+    for(unsigned i=0;i<8;++i)text_gaiji(x+6+i*2,15,(text.boss&&i<3 ? 208 : 199)+i,attribute);
+    text_gaiji(x+23,15,text.level+0x1f,0xe1);
+    constexpr unsigned peril[]={141,142,143,146,147,148,149,150,151,152,153,154,155,156};
+    for(unsigned i=0;i<14;++i)text_gaiji(x+4+i*2,16,peril[i],attribute);
 }
 void Round::prepare_warning_portraits() {
     for(unsigned pid=0;pid<2;++pid) {
@@ -78,7 +85,9 @@ void Round::warning_update(unsigned pid) {
             }
             warning_text_put(pid,attribute);
         } else {
-            warning_text[pid].visible=false;restore();flag=0;
+            warning_text[pid].visible=false;
+            for(unsigned row=11;row<=16;++row)text_clear(pid ? 4 : 44,row,32);
+            restore();flag=0;
             gauge_flags[pid]=gauge_next[pid];brightness=fading=0;
         }
     }

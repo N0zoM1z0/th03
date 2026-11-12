@@ -23,7 +23,7 @@ constexpr unsigned explosion_sprites[4][4]={
     {160*80,160*80+80/8,160*80+160/8,160*80+240/8}
 };
 }
-BattleGraphics::BattleGraphics(const PfArchive& op,const PfArchive& main,const Resident& resident):font_(main.read("GAMEFT.BFT")) {
+BattleGraphics::BattleGraphics(const PfArchive& op,const PfArchive& main,const Resident& resident,const Font* text_font):font_(main.read("GAMEFT.BFT")),text_font_(text_font) {
     char name[16];
     for(unsigned p=0;p<2;++p) {
         std::snprintf(name,sizeof(name),"%02u16.PI",unsigned(resident.paletted[p])-1);
@@ -173,18 +173,19 @@ void BattleGraphics::hud(Canvas& display,const Round& round,const Resident& resi
         constexpr unsigned box[]={10,11,14,15};
         for(unsigned i=0;i<4;++i)gaiji(display,font_,box[i],left+int(i)*16,48,15);
     }
-    for(unsigned pid=0;pid<2;++pid) {
-        const auto& warning=round.warning_text[pid];if(!warning.visible)continue;
-        const int x=pid ? 32 : 352;
-        // Bit3 marks opaque black glyph ink when the TRAM attribute is1.
-        const auto color=std::uint8_t(8|((warning.attribute>>5)&7));
-        const auto put=[&](unsigned code,int left,int row,std::uint8_t ink) {gaiji(display,font_,code,left,row*16,ink);};
-        for(unsigned row=0;row<3;++row)for(unsigned i=0;i<16;++i)put(0x50+row*16+i,x+int(i)*16,11+int(row),color);
-        for(unsigned i=0;i<11;++i)put(130+i,x+32+int(i)*16,14,color);
-        for(unsigned i=0;i<8;++i)put((warning.boss&&i<3 ? 208 : 199)+i,x+48+int(i)*16,15,color);
-        put(warning.level+0x1f,x+184,15,15);
-        constexpr unsigned peril[]={141,142,143,146,147,148,149,150,151,152,153,154,155,156};
-        for(unsigned i=0;i<14;++i)put(peril[i],x+32+int(i)*16,16,color);
+    Canvas glyph;
+    for(unsigned at=0;at<round.text_cells.size();++at) {
+        const auto& cell=round.text_cells[at];if(!cell.code)continue;
+        glyph.fill(0,0,15,15,0);
+        if(cell.gaiji)gaiji(glyph,font_,cell.code,0,0,1);
+        else {
+            if(!text_font_||!text_font_->present())throw std::runtime_error("battle results require --font-bmp FILE");
+            const char cp932[]={char(cell.code>>8),char(cell.code&255)};
+            text_font_->text(glyph,0,0,std::string_view(cp932,2),1);
+        }
+        const auto ink=std::uint8_t(8|((cell.attribute>>5)&7));
+        for(unsigned y=0;y<16;++y)for(unsigned x=0;x<8;++x)
+            if(glyph.pixels[y*640+x+(cell.right ? 8 : 0)])display.put(int(at%80)*8+int(x),int(at/80)*16+int(y),ink);
     }
 }
 void BattleGraphics::charges(Canvas& graphics,const Round& round,unsigned pid) const {
@@ -659,6 +660,9 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
 }
 void BattleGraphics::draw(Canvas& graphics,const Round& round,const Resident& resident,Round* live,Resident* live_resident,
                           std::optional<std::uint8_t> kotohime_stack_color) const {
+    draw_battle(graphics,round,live,kotohime_stack_color);draw_hud(graphics,round,resident,live,live_resident);
+}
+void BattleGraphics::draw_battle(Canvas& graphics,const Round& round,Round* live,std::optional<std::uint8_t> kotohime_stack_color) const {
     for(unsigned pid=0;pid<2;++pid) {
         if(live)live->bombs.prepare_render(*live,pid,kotohime_stack_color);
         bombs(graphics,round,pid);
@@ -737,6 +741,8 @@ void BattleGraphics::draw(Canvas& graphics,const Round& round,const Resident& re
         pattern(graphics,18,loser*320+96,40);pattern(graphics,19,loser*320+160,40);
         pattern(graphics,20,winner*320+96,top);pattern(graphics,21,winner*320+160,top);
     }
+}
+void BattleGraphics::draw_hud(Canvas& graphics,const Round& round,const Resident& resident,Round* live,Resident* live_resident) const {
     // Gauge highlight strip resides in ENEMYxx's final eight atlas rows.
     for(unsigned pid=0;pid<2;++pid)for(unsigned y=0;y<8;++y)for(unsigned x=0;x<288;++x)
         graphics.put(16+int(pid)*320+int(x),192+int(y),atlas_.pixels[(192+y)*640+320+x]);
@@ -782,21 +788,30 @@ void BattleGraphics::draw(Canvas& graphics,const Round& round,const Resident& re
     intro(graphics,round,resident);
     if(live)live->intro.prepare_render(resident.mode);
     if(live)live->prepare_combos_render();
-    for(unsigned pid=0;pid<2;++pid)if(round.combos[pid].points_visible) {
-        const auto& combo=round.combos[pid];unsigned remaining=combo.display_bonus;bool leading=true;
-        const int left=40+int(pid)*320;
-        const auto digit_put=[&](unsigned digit,int x) {
-            for(unsigned y=1;y<8;++y)for(unsigned bit=0;bit<8;++bit)
-                if(score_font[digit][y]&(0x80u>>bit))graphics.put(x+int(bit),24+int(y),combo.display_color);
-        };
-        unsigned power=10000;
-        for(unsigned i=0;i<5;++i,power/=10) {
-            const auto digit=remaining/power;remaining%=power;
-            if(digit)leading=false;
-            if(!leading||i==4)digit_put(digit,left+int(i)*8);
-        }
-        digit_put(0,left+40);
+    for(unsigned pid=0;pid<2;++pid)if(round.combos[pid].points_visible)
+        points(graphics,40+int(pid)*320,24,round.combos[pid].display_bonus,round.combos[pid].display_color);
+}
+void BattleGraphics::points(Canvas& graphics,int left,int top,unsigned value,std::uint8_t color,bool trailing_zero,bool show_zero) const {
+    bool leading=true;unsigned power=10000;
+    const auto digit_put=[&](unsigned digit,int x) {
+        for(unsigned y=1;y<8;++y)for(unsigned bit=0;bit<8;++bit)
+            if(score_font[digit][y]&(0x80u>>bit))graphics.put(x+int(bit),top+int(y),color);
+    };
+    for(unsigned i=0;i<5;++i,power/=10) {
+        const auto digit=value/power;value%=power;
+        if(digit)leading=false;
+        if(!leading||(i==4&&show_zero))digit_put(digit,left+int(i)*8);
     }
+    if(trailing_zero)digit_put(0,left+40);
+}
+void BattleGraphics::draw_result(Canvas& graphics,const Round& round,const Resident& resident) const {
+    const auto& result=round.result;const int x=(4+result.pid*40)*8;
+    constexpr unsigned weights[]={1000,10000,15000,20000,30000};
+    for(unsigned i=0;i<5;++i)points(graphics,x+216,64+int(i)*16,weights[i],15);
+    if(resident.stage==8) {points(graphics,x+208,144,10000,15);points(graphics,x+216,144,0,15);}
+    points(graphics,x+216,160,result.low,12);
+    if(!result.low) {points(graphics,x+200,160,0,12);points(graphics,x+192,160,0,12);}
+    points(graphics,x+184,160,result.high,12,false,false);
 }
 Frame BattleGraphics::compose(const Canvas& graphics,const Round& round,const Resident& resident,const Palette* shown_palette,std::optional<int> shown_tone,const std::array<std::uint8_t,3>* hud_levels) const {
     Canvas display;

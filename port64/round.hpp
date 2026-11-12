@@ -11,8 +11,10 @@
 #include "extra.hpp"
 #include "gauge_attacks.hpp"
 #include "boss.hpp"
+#include "results.hpp"
 #include <array>
 #include <vector>
+#include <string_view>
 
 namespace th03 {
 struct RandomRing {
@@ -76,12 +78,16 @@ struct WarningText {
     std::uint8_t level=0;
     bool boss=false,visible=false;
 };
+struct TextCell {
+    std::uint16_t code=0,attribute=0xe1;
+    bool gaiji=false,right=false;
+};
 enum class Pause {none,release,command,resume_release,resume_finish,fade};
 class Round {
 public:
     void begin(const Resident& resident,const Bytes& enedat);
-    // The original first call inherits InitStart's low byte on the stack.
-    // A later-round caller must supply its recovered stack context explicitly.
+    // The resetters save the incoming SI into the randomizer's first byte:
+    // the cold InitStart context has low byte 0x5e; MAIN's PLAY_NEXT result is 1.
     void prepare(const Resident& resident,std::uint8_t formation_previous);
     void randomize_formations(std::uint8_t previous);
     void add_shots(unsigned pid);
@@ -141,6 +147,13 @@ public:
     void player_circle(Point center,std::uint8_t pid);
     void update_circles();
     std::array<Combo,2> combos{};
+    MatchResult result;
+    // Half-width TRAM cells retain each half of a Kanji/gaiji glyph. Writers
+    // can start on an odd column and overwrite another glyph's right half.
+    std::array<TextCell,80*25> text_cells{};
+    void text_gaiji(unsigned x,unsigned y,unsigned code,unsigned attribute);
+    void text_japanese(unsigned x,unsigned y,std::string_view cp932,unsigned attribute=0xe1);
+    void text_clear(unsigned x,unsigned y,unsigned cells);
     void prepare_combos_render();
     std::array<std::uint8_t,2> gauge_next{},warning{};
     std::array<std::uint8_t,2> warning_brightness{},warning_fading_out{};

@@ -1,5 +1,6 @@
 #include "round_loop.hpp"
 #include "motion.hpp"
+#include <algorithm>
 #include <stdexcept>
 
 namespace th03 {
@@ -62,6 +63,40 @@ void RoundLoop::begin(Round& r,const BattleGraphics& graphics) {
     r.background.begin(r.random,character_id(r.players[1].paletted));
     collision.adjacent_read=[&r](std::uint16_t address){return r.collision_adjacent_read(address);};
 }
+void RoundLoop::restart(Round& r,const Resident& resident) {
+    // MAIN keeps round_loop's PLAY_NEXT result in SI. The real resetters
+    // save that SI into the randomizer's otherwise uninitialized first byte.
+    ++r.id;r.prepare(resident,1);r.background.reset_velocity();
+    for(auto& p:r.players)p.hyper_handler=false;
+    r.sounds.push_back(255);r.palette=r.palette_backup;r.palette_tone=100;
+    r.text_cells={};r.warning_text={};r.warning_portrait={};r.warning_flash_frame=27;
+    for(auto& c:r.combos) {c.text_visible=false;c.points_visible=false;}
+    for(auto& page:pages_)std::fill(page.pixels.begin(),page.pixels.end(),2);
+    // The hardware access/display pages are explicitly set to0/1, while
+    // the original page_back bookkeeping byte keeps its existing parity.
+    front_=1;back_=0;step_=Step::update;outcome=RoundExit::running;refresh_wait=0;
+    transition.frame=0;transition.midpoint=false;
+    shown_palette_=r.palette;shown_tone_=100;hud_levels_={{r.gauge_levels[0],r.gauge_levels[1],r.boss_level}};
+}
+bool RoundLoop::result_step(Round& r,Resident& resident,const BattleGraphics& graphics) {
+    if(r.defeat!=2)return true;
+    const bool story=resident.mode==Mode::story;
+    const bool match=story ? resident.winner==0 : r.players[0].rounds_won>=2||r.players[1].rounds_won>=2;
+    const auto commit=[&](unsigned pid) {resident.scores[pid]=r.scores[pid];resident.scores[pid^1]={};};
+    if(match) {
+        r.result.update(r,resident);graphics.draw_result(pages_[back_],r,resident);
+        if(r.result_frame==r.result_wait)transition.phase=PlayfieldTransition::Phase::cover;
+        else if(transition.midpoint) {commit(resident.winner);outcome=RoundExit::end_match;return false;}
+    } else if(r.result_frame==160)transition.phase=PlayfieldTransition::Phase::cover;
+    else if(transition.midpoint) {
+        if(story) {
+            if(!resident.lives) {commit(0);outcome=RoundExit::end_match;return false;}
+            --resident.lives;
+        }
+        outcome=RoundExit::next_round;return false;
+    }
+    return true;
+}
 Frame RoundLoop::render(const Round& r,const Resident& resident,const BattleGraphics& graphics) const {
     return graphics.compose(pages_[front_],r,resident,&shown_palette_,shown_tone_,&hud_levels_);
 }
@@ -71,7 +106,7 @@ void RoundLoop::present(Round& r,const BattleGraphics& graphics) {
     if(refresh_wait) {step_=Step::present;return;}
     if(!render_timing) {vsync_count_=0;r.reset_frames=1;}
     shown_palette_=r.palette;shown_tone_=r.palette_tone;
-    front_=back_;back_^=1;r.page_back=!r.page_back;++draws;
+    front_=unsigned(r.page_back);back_=1-unsigned(r.page_back);r.page_back=!r.page_back;++draws;
     graphics.clear_playfields(pages_[back_]);advance(r);step_=Step::update;
 }
 void RoundLoop::advance(Round& r) {
@@ -132,7 +167,15 @@ void RoundLoop::tick(Round& r,Resident& resident,const BattleGraphics& graphics,
     r.warning_update(0);r.warning_update(1);
     r.background.update(r.random,r.frame,r.result_frame);graphics.background(pages_[back_],r);
     if(!render_timing||(r.result_frame&1)) {
-        graphics.draw(pages_[back_],r,resident,&r,&resident,kotohime_stack_color);
+        graphics.draw_battle(pages_[back_],r,&r,kotohime_stack_color);
+        if(!result_step(r,resident,graphics))return;
+        graphics.draw_hud(pages_[back_],r,resident,&r,&resident);
+        transition.update(pages_[back_]);
+        if(resident.demo) {
+            if(demo_frame<7000)++demo_frame;
+            else if(demo_frame==7000)transition.phase=PlayfieldTransition::Phase::cover;
+            if(transition.midpoint||input.single)r.quit_requested=true;
+        }
         present(r,graphics);return;
     }
     advance(r);step_=Step::update;

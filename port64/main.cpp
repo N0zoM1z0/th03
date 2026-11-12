@@ -126,7 +126,8 @@ int main(int argc, char** argv) {
                      <<" boss="<<unsigned(round.boss_level)<<" safety="<<round.players[1].cpu_safety
                      <<" formations="<<round.formations.size()<<" main_seed="<<round.random.seed
                      <<" frame="<<round.frame<<" result_frame="<<round.result_frame
-                     <<" draws="<<(app.round_loop ? app.round_loop->draws : 0)<<'\n';
+                     <<" draws="<<(app.round_loop ? app.round_loop->draws : 0)
+                     <<" lives="<<unsigned(app.resident.lives)<<" winner="<<unsigned(app.resident.winner)<<'\n';
         }
         return 0;
     } catch (const std::exception& e) {

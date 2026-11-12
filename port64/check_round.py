@@ -15,10 +15,10 @@ import tempfile
 import tomllib
 
 
-def original(image, count, seed, rank, mode, round_id, credits, stage):
+def original(image, count, seed, rank, mode, round_id, credits, stage, incoming_si=None):
     from unicorn import Uc, UC_ARCH_X86, UC_MODE_16, UC_HOOK_CODE
     from unicorn.x86_const import (UC_X86_REG_SP, UC_X86_REG_CS, UC_X86_REG_DS,
-                                  UC_X86_REG_ES, UC_X86_REG_SS, UC_X86_REG_IP)
+                                  UC_X86_REG_ES, UC_X86_REG_SS, UC_X86_REG_IP, UC_X86_REG_SI)
     load, ds, ss, sp = 0x1000, 0x2d56, 0x8000, 0xff00
     u = Uc(UC_ARCH_X86, UC_MODE_16)
     u.mem_map(0, 0x100000)
@@ -45,6 +45,9 @@ def original(image, count, seed, rank, mode, round_id, credits, stage):
     u.mem_write(ss * 16 + sp, struct.pack('<H', 0x100))
     skipped = {0xe313: False, 0x17384: True, 0x14a76: True, 0x153bb: True,
                0x142d0: True, 0x1b653: True, 0x193bc: True}
+    if incoming_si is not None:
+        u.reg_write(UC_X86_REG_SI, incoming_si)
+        skipped = {}  # Run the real resetters that establish the stack byte.
     stopped = False
 
     def hook(uc, address, size, unused):
@@ -56,7 +59,10 @@ def original(image, count, seed, rank, mode, round_id, credits, stage):
         elif relative == 0x13d9c:
             # ENTER pushes BP then reserves two bytes. [BP-2] is SP-4 here.
             stack = uc.reg_read(UC_X86_REG_SP)
-            uc.mem_write(ss * 16 + stack - 4, b'\x5e')
+            if incoming_si is None:
+                uc.mem_write(ss * 16 + stack - 4, b'\x5e')
+            elif uc.mem_read(ss * 16 + stack - 4, 1)[0] != (incoming_si & 255):
+                raise ValueError('resetter no longer leaves incoming SI in the formation byte')
         elif relative in skipped:
             far = skipped[relative]
             stack = uc.reg_read(UC_X86_REG_SP)
@@ -109,8 +115,11 @@ def main():
         enedat = Path(work) / 'ENEDAT.DAT'
         subprocess.run([str(args.native.resolve()), '--hdi', str(root / '.analysis/runtime/images/zun.hdi'),
                         '--main-assets', '--extract', 'ENEDAT.DAT', '--output', str(enedat)], check=True)
+        native_file = str(enedat)
+        if args.native_checks.suffix == '.exe':
+            native_file = subprocess.check_output(['wslpath', '-w', native_file], text=True).strip()
         for case in cases:
-            reply = subprocess.check_output([str(args.native_checks.resolve()), '--round', str(enedat),
+            reply = subprocess.check_output([str(args.native_checks.resolve()), '--round', native_file,
                                              *map(str, case)], text=True)
             native = [list(map(int, line.split())) for line in reply.splitlines()]
             expected = original(image, native[0][0], *case)
@@ -119,7 +128,16 @@ def main():
                     if actual != want:
                         index = next(i for i, pair in enumerate(zip(actual, want)) if pair[0] != pair[1])
                         raise ValueError(f'case={case}, row={row}, index={index}: native={actual[index]}, original={want[index]}')
+        for incoming_si in (1, 0x165e, 0x12af):
+            case = (7, 0, 1, 1, 3, 0)  # The first candidate is1, exercising restart rejection.
+            reply = subprocess.check_output([str(args.native_checks.resolve()), '--round', native_file,
+                                            *map(str, case), str(incoming_si & 255)], text=True)
+            native = [list(map(int, line.split())) for line in reply.splitlines()]
+            expected = original(image, native[0][0], *case, incoming_si=incoming_si)
+            if native != expected:
+                raise ValueError(f'real resetter context SI={incoming_si:04x}: native round differs')
     print(f'{len(cases)} original MAIN round cases agree: scalar state, player thresholds, LCG, backward ring and formation rings.')
+    print('Real resetters preserve incoming SI as the first formation byte; PLAY_NEXT supplies SI=1.')
 
 
 if __name__ == '__main__':

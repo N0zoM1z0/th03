@@ -9,9 +9,10 @@ shared effects, both background chains, nine Gauge patterns, all nine Extra
 Attack families, all nine BOSS families and their shared control, attack warnings,
 pause/quit, player/loss state machines and CPU decisions are ported and checked separately.
 Battle now runs with enemy/player/CPU movement, shooting, hits, attacks, warnings,
-pause/quit and draw-owned state changes. Defeat currently remains at its battle
-banner: result transitions, round restarts, dialogues/endings, Music Room/HiScore,
-audio and persistence still need integration and campaign testing. Kotohime's
+pause/quit, result statistics, playfield transitions and round retries. Matches
+commit scores and advance the resident stage, then stop at the MAINL handoff.
+Dialogues/endings, continue flow, Music Room/HiScore, audio and persistence still
+need integration and campaign testing. Kotohime's
 Bomb fade and further CPU aliases still require the contexts described below.
 
 The DOS reconstruction stays on `main`. The live Windows DOSBox session and
@@ -35,7 +36,8 @@ build/linux-x64/th03-port64 --hdi /path/to/original/zun.hdi \
 ```
 
 The font is an external 2048x2048 monochrome Anex86-format PC-98 BMP, also
-accepted by DOSBox-X. MAINL introductions require it; menu/selection do not.
+accepted by DOSBox-X. MAINL introductions and Japanese result labels require it;
+menu/selection do not.
 Windows cross-build:
 
 ```sh
@@ -98,13 +100,14 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_title.py` | `--native "$NATIVE/th03-port64" --dos-root "$DOS" --dos-frame "$DOS/.analysis/runtime/candidates/dos-replay-rebuilt/menu.png" --output /new/private/output` | All128,000 decoded PI bytes and the complete DOS menu RGB frame |
 | `check_selection.py` | `--native-checks "$NATIVE/th03-port64-checks" --dos-root "$DOS"` | OP selection/lock/palette state, complete curve rasters and story opponent/seed policy |
 | `check_intro.py` | `--native "$NATIVE/th03-port64" --dos-root "$DOS"` | Complete Marisa/Rikako Stage1 DOS frame, minimum wait and fade handoff |
-| `check_round.py` | `--native "$NATIVE/th03-port64" --native-checks "$NATIVE/th03-port64-checks" --dos-root "$DOS"` | Six MAIN initializers, including LCG, backward ring fill, player thresholds and both formation rings |
+| `check_round.py` | `--native "$NATIVE/th03-port64" --native-checks "$NATIVE/th03-port64-checks" --dos-root "$DOS"` | Six MAIN initializers plus real-resetter SI inheritance, including LCG, backward ring fill, player thresholds and both formation rings |
 | `check_enemy.py` | Same arguments as `check_round.py` | Six enemy scripts over 1,237 ticks, including real movement/vector callees |
 | `check_battle_graphics.py` | Same arguments as `check_intro.py` | Unchanged DOS borders, P1 gauge/score and TRAM glyph ink |
 | `check_hud_intro.py` | Same arguments as `check_selection.py` | 520 story/versus frames: slide/banner state, all128 particles, seed and ring cursor |
 | `check_collision.py` | Same arguments as `check_selection.py` | Six complete 6,624-byte bitmaps, ordinary player hits and wide CPU scans into adjacent DATA owners |
 | `check_loop_clock.py` | Same arguments as `check_selection.py` | Original scheduler counters, speed/recovery/CPU gates, WORD wrap and page cadence; native warning/pause suspension and double-refresh presentation |
 | `check_combo.py` | Same arguments as `check_selection.py` | Both 80-frame combo lifetimes, expiry/reset and deferred BCD score awards |
+| `check_results.py` | Same arguments as `check_selection.py` | Reward accumulation, full BCD scores and TRAM characters/attributes, warning overlap, cover/uncover rasters, result branches, life debit/score commit and application retry/handoff |
 | `check_bullet.py` | Same arguments as `check_selection.py` | Group vectors, full bullet/trail pools, motion/transfer/cloud/clearing, collision maps and complete pellet rasters |
 | `check_combat.py` | Same arguments as `check_selection.py` | Explosion/chain scoring, enemy/fireball hits, derived fireballs, movement/collision, coupled bullet pipelines and known stack aliases |
 | `check_charge.py` | Same arguments as `check_selection.py` | All nine Charge Shot lifecycles, full physical pools/history, hit circles and RNG, sound events and four projectile Hyper helpers |
@@ -137,9 +140,11 @@ source preserves these consequential details:
 - Stage setup assigns initial versus gauge levels after round preparation,
   replacing the preparation's rank increment. The round counter is DWORD;
   the round/result counter is WORD.
-- The first formation randomizer reads an uninitialized stack byte, attested
-  as `0x5e` from C0's saved InitStart. `Round::prepare` takes that context
-  explicitly. Recover later-round stack context before joining restarts.
+- The formation randomizer's first previous byte inherits the low byte of
+  incoming SI through the real Ellen resetter. Initial startup retains the
+  attested `0x5e` InitStart context; MAIN holds PLAY_NEXT in SI on retry, giving
+  `1`. `check_round.py` executes the real resetters with three SI values and a
+  seed whose first candidate is1, verifying the retry's extra rejection/RNG draw.
 - TH03's C++ graphics-font renderer uses alternate JIS-row ANK and WORD-truncated
   bold weight. TH04's ASM renderer differs. SPRITE16 uses physical 200-line
   graphics and whole-column clipping; TRAM stays at 400 lines with fixed text
@@ -187,8 +192,30 @@ An idle 1,200-tick battle and held-shot runs through 2,600 input refreshes exerc
 the integrated CPU/combat/charge/warning path. Complete pictures and diagnostic
 outputs agree between Linux and native Windows at 800, 1,800 and 2,600 input
 refreshes. A private Xvfb SDL window accepts movement/shooting, pause and Q,
-then returns to the title. These are bounded battle checks; campaign/result
-acceptance remains open.
+then returns to the title. Campaign acceptance remains open.
+
+`results.cpp` samples winner statistics on result frame1, divides the reward by
+192 with the original 65,535 step cap, then credits the winner on each rendered
+result frame. The panel retains the initial total while the remaining balance
+decreases. Final-stage lives add their original bonus and disable extends.
+Warning/result writers share persistent half-width TRAM cells, preserving odd-X
+gaiji halves, attributes, overlap and spaces written by the warning clear.
+The checked transition uses the original 5555/AAAA masks and 16-frame halves.
+The loop checks its midpoint before the next transition draw, including the
+distinct versus, story retry, game-over and match-completion score paths.
+
+Retry increments the round ID and calls `prepare` with the recovered SI byte1.
+It retains scores, gauge, wins, combo timers, result balance and background
+positions, resets background velocities and Hyper dispatch, restores the palette
+and clears TRAM. The uncover callback survives preparation. Hardware access/
+display pages reset to0/1 while the page-bookkeeping byte retains its parity.
+`--result-picture HDI FONT_BMP PROFILE REFRESHES OUT.ppm` renders controlled
+results or retries; profiles0/1 are versus,2/3 story loss with/without lives,
+4 story victory and5 final-stage victory. Eight controlled result/retry pictures
+agree on Linux and Windows. A natural run of9,000 held-shot refreshes followed
+by up to10,000 idle refreshes loses twice, restarts twice, then reaches Game Over
+and MAINL with no remaining lives. Both platforms finish with identical state
+and complete frames (round2, frame3273, result frame176,10,878 draws).
 
 `bullet.cpp` retains the 320-slot pool, shared 48-slot trail ring, byte-wrapped
 speed tuning and ascending update order. Derived groups can occupy later slots
