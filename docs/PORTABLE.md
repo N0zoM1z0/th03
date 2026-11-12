@@ -6,13 +6,12 @@ explicit resident state into MAIN round initialization. Enemy scripts, battle
 resources/HUD, round-introduction animation, collision primitives, bullets,
 explosion chains, fireballs, all nine Charge Shot/Bomb families, Hyper handlers,
 shared effects, both background chains, nine Gauge patterns, all nine Extra
-Attack families, shared BOSS control/Reimu/Mima BOSS, player/loss state machines and
+Attack families, all nine BOSS families and their shared control, player/loss state machines and
 CPU decisions are ported and checked separately.
 The program stops at initialized battle state;
-it is not yet a playable full-game port. CPU edge-scan data, the other seven
-BOSS families,
-results/dialogues/endings, Music Room/HiScore, audio and persistence
-still need integration and campaign testing.
+it is not yet a playable full-game port. The round loop, CPU edge-scan data,
+results/dialogues/endings, Music Room/HiScore, audio and persistence still need
+integration and campaign testing.
 
 The DOS reconstruction stays on `main`. The live Windows DOSBox session and
 `D:\Entertainment\Game\Touhou\th03-reconstruct\play.hdi` are independent.
@@ -104,7 +103,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_charge.py` | Same arguments as `check_selection.py` | All nine Charge Shot lifecycles, full physical pools/history, hit circles and RNG, sound events and four projectile Hyper helpers |
 | `check_bomb.py` | Same arguments as `check_selection.py` | Nine Bomb controllers coupled to complete effect pools, palette/foreground state, RNG and sound events |
 | `check_cpu.py` | Same arguments as `check_selection.py` | Offensive/defensive CPU, target selection, collision/retry grids, shared velocity/RNG and real Bomb activation |
-| `check_boss.py` | Same arguments as `check_selection.py` | Shared launch/reversal/selection/descent/HP/explosion reward and Reimu/Mima BOSS coupled to complete bullets, Extra entities, collision, palette/RNG and scores |
+| `check_boss.py` | Same arguments as `check_selection.py` | Shared launch/reversal/selection/descent/HP/explosion reward and all nine BOSS families coupled to complete bullets, Extra entities, collision, palette/RNG and scores |
 | `check_extra.py` | Same arguments as `check_selection.py` | All nine Extra lifecycles and special allocators, complete entity/Ellen-history/bullet/effect pools, real shot consumption, collision/RNG and saturated allocation |
 | `check_gauge.py` | Same arguments as `check_selection.py` | Nine Gauge patterns and ordinary/special Kotohime Extra, coupled to full bullet/effect/entity pools, shot consumption, palette/RNG and collision maps |
 | `check_background.py` | Same arguments as `check_selection.py` | Both particle chains, all80 slots, LCG, acceleration/phase transitions, reset and both indeterminate-byte branches |
@@ -264,28 +263,35 @@ its clipped-height DDA denominator. Linux/Windows saturated-state snapshots and
 18 complete Extra fixture pictures agree. These remain isolated fixtures;
 full-game render scheduling still needs the real round loop.
 
-`boss.cpp` supplies the shared launch/reversal, movement, pattern rejection,
-retreat, HP completion and explosion-ring reward. Reimu and Mima templates,
-their four pattern families each, collision and rendering are implemented.
-Original comparisons include intro, four forced patterns per character, a 1,024-frame run, retreat, reversal and HP/ring
-completion with real bullet and Extra allocation. Seven level-derived parameter
-bytes are shared by all characters at original DATA `1E3F..1E45`; later character
-owners must retain that alias and untouched bytes. A selected Reimu pattern
-executes immediately at frame0; several other characters enter their pattern on
-the following tick and must preserve that distinction. Explosion completion
-changes ownership/score in the renderer; `prepare_render` belongs after drawing,
-only on rendered frames. `--boss-picture HDI CHARACTER TICKS FILE.ppm` renders the
-isolated Reimu/Mima pipeline (characters0/1). Linux/Windows state and complete
-resource pictures agree.
+`boss.cpp` supplies all nine templates, attack patterns, collision and shared
+launch/reversal, movement, pattern selection, retreat, HP completion and
+explosion-ring rewards. Original comparisons include each pattern family,
+1,024-frame runs, low-level branches, reversal and HP/ring completion, with real
+bullets, all48 trails, Extra allocation/history, effects, palette and RNG.
+`check_boss.py --character 0..8` selects a bounded owner; omit it for all nine.
+`--boss-picture HDI CHARACTER TICKS FILE.ppm` renders the resource pipeline.
+Linux/Windows logical states and complete resource pictures agree.
 
-Mima's particle/carrier animation also mutates its mode/frame during rendering;
-retain the carrier draw before switching to expansion mode. Its trail attack
-uses the real 48-slot bullet history owner. Comparisons normalize owned DOS near
-pointers to native slot indices, then compare all576 trail coordinates. The
-intro uses complementary EGC `AAAA`/`5555` destination masks; the sprite blitter
-now applies those masks in physical screen coordinates.
+Seven level-derived parameter bytes are shared at original DATA `1E3F..1E45`.
+Each character overwrites only its own parameters. Reimu executes a newly
+selected pattern immediately at frame0; the others preserve their distinct
+switch/intro timing. Chiyuri uses a 48-frame selection delay and a separate
+position/palette cycle. Her interleaved position table is DATA `08D6..08E9`;
+Ellen's two nine-entry strip tables are DATA `08B2..08D5`. These are sprite
+geometry, with the original distinction between logical pixels and physical
+200-line VRAM rows.
 
-Continue with the other seven BOSS families, the real round loop and
+Keep draw-dependent state separate from update state. Call
+`Bosses::prepare_render` after drawing, only on rendered frames. Mima advances
+its particle/carrier frame there, retaining the carrier draw before expansion.
+Kotohime and Chiyuri advance intro phase/radius only on visible intro calls.
+Explosion-ring completion changes ownership/score after drawing; Chiyuri also
+restores her palette. The complementary `AAAA`/`5555` masks remain physical
+screen masks. Yumemi's arrival uses OR drawing, and her origin is captured
+before a pattern moves the boss. Ordered sound events include `0xff` for the
+original `snd_se_reset` service before her intro explosions.
+
+Continue with `src/main/round/round_loop.inl`, its controller/HUD hooks and
 result/MAINL routes. Wide CPU scans near the left edge still need
 their aliased DGROUP owners. With an empty bitmap and initialized target DATA,
 P0 at (8,336) pixels with a 32-tile scan reads `02D0..02D4` and collides with

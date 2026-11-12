@@ -50,12 +50,14 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
     u.mem_write(ds + 0x1d94, palette)
     put(0x2d4, 100, 2)
     sounds = []
-    hardware = {0x10f5c: 4, 0x10c40: 8, 0x109e2: 6, 0x10dbe: 8}
+    hardware = {0x1e8f0 + 0x33e: 0, 0x10f5c: 4, 0x10c40: 8, 0x109e2: 6, 0x10dbe: 8}
 
     def hook(uc, address, size, unused):
         sp = uc.reg_read(UC_X86_REG_SP)
         if address == 0x1e8f0 + 0x34a:
             sounds.append(struct.unpack('<H', uc.mem_read(0x80000 + sp + 4, 2))[0])
+        elif address == 0x1e8f0 + 0x33e:
+            sounds.append(255)
         ip, cs = struct.unpack('<HH', uc.mem_read(0x80000 + sp, 4))
         uc.reg_write(UC_X86_REG_SP, sp + 4 + hardware.get(address, 2))
         uc.reg_write(UC_X86_REG_CS, cs)
@@ -74,7 +76,7 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
             raise ValueError(f'original Gauge/Extra {segment:04x}:{offset:04x} did not return')
 
     if boss_case is not None:
-        for at, size in ((0x1dc4, 10), (0x1dde, 96), (0x1e3f, 7), (0x1e50, 2), (0x6866, 28), (0x38c8, 4), (0x4b64, 16)):
+        for at, size in ((0x1dc4, 10), (0x1dde, 96), (0x1e3f, 7), (0x1e50, 2), (0x6866, 36), (0x38c8, 4), (0x38ec, 8), (0x28f0, 1), (0x4b64, 16)):
             u.mem_write(ds + at, bytes(size))
         put(0x63e, 255)
         put(0x1e3e, level)
@@ -102,9 +104,9 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
         for p in range(2):
             u.mem_write(ds + 0x2d3c + p * 4, struct.pack('<HH', 0xde, 0x2c15))
         if boss_case is not None:
-            init_boss = (0x1a0e, 0x956)[character]
-            update_boss = (0x1e43, 0xce8)[character]
-            render_boss = (0x21b9, 0x1073)[character]
+            init_boss = (0x1a0e, 0x956, 0x3bf, 0x21f2, 0x287d, 0x3a0b, 0x415d, 0x2fad, 0x10d8)[character]
+            update_boss = (0x1e43, 0xce8, 0x658, 0x24c6, 0x2c58, 0x3df8, 0x4471, 0x34b8, 0x151a)[character]
+            render_boss = (0x21b9, 0x1073, 0x8f8, 0x2811, 0x2f50, 0x410e, 0x479b, 0x39a9, 0x19bb)[character]
             call(0xf1f, init_boss, (0,))
             call(0xf1f, init_boss, (1,))
             put(0x2d54 + pid, 5)
@@ -152,7 +154,7 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
         u.mem_write(ds + 0x4ba0, bytes(6624))
         call(0x139d, 0x3faf)
         if boss_case is not None:
-            call(0x18fe, (0x1500, 0x1765)[character])
+            call(0x18fe, (0x1500, 0x1765, 0xc56, 0x63d, 0x100f, 0x9b9, 0x2125, 0x280, 0x1e4e)[character])
             call(0xf1f, update_boss)
             if boss_case == 256:
                 put(0x2928, pid ^ 1)
@@ -220,6 +222,11 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
         for i in range(6):
             prefix.extend((signed(0x686a + i * 2), signed(0x6876 + i * 2)))
         prefix.extend(b[0x38c8:0x38cc])
+        prefix.append(b[0x28f0])
+        prefix.extend(b[0x6882:0x6884])
+        prefix.extend(b[0x6886:0x688a])
+        prefix.extend(b[0x6884:0x6886])
+        prefix.extend((*b[0x38ec:0x38ef], signed(0x38f0), signed(0x38f2)))
         prefix.extend(b[0x4b64:0x4b74])
         return prefix + out
     return out

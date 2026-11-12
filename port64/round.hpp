@@ -100,6 +100,7 @@ public:
     std::int16_t lose_left=0,lose_top=0,lose_radius=0,palette_tone=100;
     std::uint8_t reset_frames=1;
     bool page_back=false;
+    // Ordered SE plays; 0xff is the original snd_se_reset service event.
     std::vector<std::uint8_t> sounds;
     RandomRing random;
     Background background;

@@ -401,6 +401,126 @@ void BattleGraphics::boss(Canvas& graphics,const Round& round,unsigned pid) cons
         else if(state.render_mode==4)draw(left+48,top+32,state.sprite+0x1a,16,8);
         return;
     }
+    if(character==2) {
+        const int left=16+other*320+pixels(state.center.x)+round.fg_shift[other]-88,top=pixels(state.center.y)-32;
+        const auto draw=[&](int x,int y,unsigned so,unsigned w,unsigned h,std::uint16_t mask=0xffff) {sprite(graphics,x,y,so,w,h,lclip,rclip,true,-1,true,mask);};
+        if(!state.mode) {const int offset=200-int(b.frame)*2;draw(left-offset,top,state.sprite,176,48,0xaaaa);draw(left+offset,top,state.sprite,176,48,0x5555);return;}
+        draw(left,top,state.sprite,176,48);
+        if(state.hit) {draw(left+64,top+16,state.sprite+0x16,48,40);return;}
+        if(state.render_mode==1) {
+            if((round.result_frame&3)<2) {draw(left+64,top+16,state.sprite+0x1c,48,40);draw(left+32,top+48,state.sprite+0xf00,112,8);}
+            else draw(left+32,top+48,state.sprite+0x1180,112,8);
+        }
+        return;
+    }
+    if(character==3) {
+        constexpr int y_offsets[9]={108,96,80,64,48,32,16,8,4},heights[9]={2,8,16,16,16,16,16,8,2};
+        const int x=16+other*320+pixels(state.center.x)+round.fg_shift[other],y=pixels(state.center.y);
+        const auto strips=[&](unsigned frame) {
+            for(unsigned j=0;j<3;++j) {
+                const auto i=(frame+9-j)%9;
+                const auto so=std::uint16_t(y_offsets[i]*40+state.sprite-1264);
+                sprite(graphics,x-48,y+y_offsets[i]-40,so,96,unsigned(heights[i]/2),lclip,rclip);
+            }
+        };
+        if(!state.mode) {
+            strips(std::uint8_t(b.frame)%9);
+            if(round.frame%2&&b.frame<64)return;
+            auto angle=std::uint8_t(b.frame*3);unsigned so=pid*40+0x28c;
+            for(unsigned i=0;i<4;++i,so-=4) {
+                for(unsigned j=0;j<8;++j,angle=std::uint8_t(angle+32))put(orbit(state.center,angle,(200-int(b.frame)*2)*16),so,32,16,0);
+                angle=std::uint8_t(angle+3);
+            }
+            return;
+        }
+        sprite(graphics,x-32,y-32,state.sprite+(state.hit ? 8 : 0),64,48,lclip,rclip);
+        strips((state.render_frame/4)%9);return;
+    }
+    if(character==4) {
+        const auto ring=[&](unsigned count,unsigned phase,int radius,unsigned mode) {
+            const unsigned so=pid*40+0x502+(mode==2&&b.frame%4<2 ? 0xa00 : 0);
+            for(unsigned i=0;i<count;++i)put(orbit(state.center,std::uint8_t(i*256/count+phase),radius),so,32,16,0);
+        };
+        if(!state.mode) {
+            if(round.frame%2&&b.frame<64)return;
+            ring(8,std::uint8_t(state.move_phase+2),(200-int(b.frame)*2)*16,1);return;
+        }
+        put(state.center,state.sprite+(state.hit ? 16 : 0),128,48,32);
+        if(state.render_mode)ring(b.parameters[1],state.move_phase,motion::wrap(state.effect_radius),state.render_mode);
+        return;
+    }
+    if(character==5) {
+        if(!state.mode) {
+            if(b.frame<32&&round.frame%2)return;
+            const unsigned so=pid*40+0x284+((b.frame>>2)&3)*1280;
+            for(unsigned i=0;i<16;++i)put(orbit(state.center,std::uint8_t(-state.move_phase+i*16),3200-int(b.frame)*32),so,32,16,0);
+            return;
+        }
+        const int left=16+other*320+pixels(state.center.x)+round.fg_shift[other]-64,top=pixels(state.center.y)-24;
+        sprite(graphics,left,top,state.sprite+(state.hit ? 16 : 0),128,40,lclip,rclip);
+        if(state.render_mode==1)sprite(graphics,left+32,top,state.sprite+0xc80,64,32,lclip,rclip);
+        else if(state.render_mode==2)sprite(graphics,left+32,top,state.sprite+0xc80+(state.render_frame>=24 ? 24 : state.render_frame>=16 ? 16 : state.render_frame>=8 ? 8 : 0),64,32,lclip,rclip);
+        return;
+    }
+    if(character==6) {
+        if(!state.mode) {
+            if(b.frame<64&&(round.result_frame&1))return;
+            const unsigned so=pid*40+0x780+(b.frame&1)*0x780;
+            for(unsigned i=0;i<16;++i)put(orbit(state.center,std::uint8_t(-b.frame*4+i*16),3200-int(b.frame)*32),so,48,24,8);
+            return;
+        }
+        put(state.center,state.sprite+(state.hit ? 12 : 0),96,48,32);
+        const Point center{std::int16_t(16+other*320+pixels(state.center.x)+round.fg_shift[other]-8),std::int16_t(pixels(state.center.y)+8)};
+        for(unsigned i=0;i<8;++i) {
+            const auto p=orbit(center,state.render_frame+i*32,48);
+            sprite(graphics,p.x,p.y,pid*40+(i%4 ? 0x167e + (i%4)*2 : 0x284),16,8,lclip,rclip);
+        }
+        return;
+    }
+    if(character==7) {
+        if(!state.mode) {
+            if(round.frame%2&&b.frame<64)return;
+            const int radius=(b.frame<32 ? 256 : b.frame<64 ? 512 : 768)-int(b.frame)*8;
+            const auto phase=std::uint8_t(state.move_phase+(b.frame>=32&&b.frame<64 ? -4 : 4));
+            for(unsigned i=0;i<16;++i)put(orbit(state.center,std::uint8_t(phase+i*16),radius*16),state.sprite+0x790+state.render_frame*4,32,16,0);
+            return;
+        }
+        const int left=16+other*320+pixels(state.center.x)+round.fg_shift[other]-64,top=pixels(state.center.y)-48;
+        if(state.render_mode) {
+            const unsigned f=state.render_mode,color=f>=24 ? 6 : f>=20 ? 5 : f>=12 ? 2 : f>=8 ? 5 : f>=4 ? 6 : 15;
+            sprite(graphics,left,top,state.sprite,128,64,lclip,rclip,true,int(color));return;
+        }
+        sprite(graphics,left,top,state.sprite,128,64,lclip,rclip);
+        if(state.hit)sprite(graphics,left+48,top+32,state.sprite+0x778,48,40,lclip,rclip);
+        else if(state.render_frame)sprite(graphics,left+48,top+32,state.sprite+0xc+4*state.render_frame,32,24,lclip,rclip);
+        return;
+    }
+    if(character==8) {
+        const int top=pixels(state.center.y)-40;
+        const auto screen=[&](int x) {return 16+int(other)*320+pixels(x)+round.fg_shift[other];};
+        if(!state.mode) {
+            const auto draw=[&](int x) {sprite(graphics,x,top,state.sprite,112,56,lclip,rclip,true,-1,false);};
+            const int frame=b.frame;
+            if(frame<24)for(int x=screen(-1664),end=screen(frame*128-1664);x<=end;x+=8)draw(x);
+            else if(frame<48)for(int x=screen((frame-24)*128-1664),end=screen(1408);x<=end;x+=8)draw(x);
+            else if(frame<72) {for(int x=screen(4352),end=screen(4352-(frame-48)*128);x>=end;x-=8)draw(x);draw(screen(1408));}
+            else if(frame<96)for(int x=screen(4352-(frame-72)*128),end=screen(1408);x>=end;x-=8)draw(x);
+            return;
+        }
+        const int left=screen(state.center.x)-56;
+        sprite(graphics,left,top,state.sprite,112,56,lclip,rclip);
+        if(state.render_mode)sprite(graphics,left+32,top,state.sprite + 0xe + (state.render_mode==2 ? 0xa00 : 0),64,32,lclip,rclip);
+        else if(state.hit)sprite(graphics,left+16,top,state.sprite+0x16,80,48,lclip,rclip);
+        if(state.effect_radius||state.render_frame) {
+            const Clip clip{other ? 336 : 16,8,other ? 623 : 303,191};
+            // The original uses SAR5, including negative odd physical rows.
+            const auto physical=[](int q4) {return q4>=0 ? q4/32 : -((-q4+31)/32);};
+            const Point origin{std::int16_t(screen(b.yumemi_origin.x)),std::int16_t(8+physical(b.yumemi_origin.y))};
+            if(!state.render_frame)grcg_circle(graphics,origin,state.effect_radius,10,clip);
+            else grcg_line(graphics,origin,{std::int16_t(screen(state.scratch.x)),std::int16_t(8+physical(state.scratch.y))},10,clip);
+        }
+        return;
+    }
     if(character!=0)throw std::runtime_error("unimplemented Boss renderer");
     unsigned animation=std::uint8_t(b.frame/4),offset=0;
     if((animation&3)==1)offset=6;else if(animation&3)offset=0x780+(animation&1)*6;

@@ -24,8 +24,21 @@ public:
     std::uint8_t reimu_direction=0,reimu_speed=0,reimu_angle=0;
     std::array<Point,6> reimu_orbit{};
     std::array<std::uint8_t,4> mima_angles{};
+    std::uint8_t marisa_angle=0;
+    std::array<std::uint8_t,2> ellen_angles{},kana_angles{},rikako_angles{},chiyuri_angles{};
+    std::array<std::uint8_t,3> yumemi_state{};
+    Point yumemi_origin;
+    void init_template(unsigned pid,unsigned character);
+    void update(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
     void reimu_template(unsigned pid);
     void mima_template(unsigned pid);
+    void marisa_template(unsigned pid);
+    void ellen_template(unsigned pid);
+    void kotohime_template(unsigned pid);
+    void kana_template(unsigned pid);
+    void rikako_template(unsigned pid);
+    void chiyuri_template(unsigned pid);
+    void yumemi_template(unsigned pid);
     bool start(Round& round,unsigned pid);
     void move_sine();
     void fall(Round& round,unsigned pid);
@@ -35,9 +48,23 @@ public:
     void prepare_render(Round& round,unsigned pid);
     void update_reimu(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
     void update_mima(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
+    void update_marisa(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
+    void update_ellen(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
+    void update_kotohime(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
+    void update_kana(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
+    void update_rikako(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
+    void update_chiyuri(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
+    void update_yumemi(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
 private:
     void reimu_pattern(Round& round,unsigned pid);
     void mima_pattern(Round& round,unsigned pid);
-    void hit(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
+    void marisa_pattern(Round& round,unsigned pid);
+    void ellen_pattern(Round& round,unsigned pid);
+    void kotohime_pattern(Round& round,unsigned pid);
+    void kana_pattern(Round& round,unsigned pid);
+    void rikako_pattern(Round& round,unsigned pid);
+    void chiyuri_pattern(Round& round,unsigned pid);
+    void yumemi_pattern(Round& round,unsigned pid);
+    void hit(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge,int width=28,int height=28,int radius=512);
 };
 }

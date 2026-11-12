@@ -63,14 +63,18 @@ all nine ordinary Extra families and their special allocators now match original
 MAIN with full pools/history and collision, including saturated allocation.
 Linux/Windows state and Extra fixture pictures agree. Reimu advances animation
 after drawing, only on rendered frames; preserve the state-vs-frame appearance
-quirks noted in PORTABLE.md. Shared BOSS control and Reimu/Mima BOSS now have
-coupled original-instruction comparisons, including each character's four
-patterns, launch/reversal, retreat and HP/explosion rewards. The seven level
-parameters share physical bytes across characters; keep that alias. Explosion
-completion belongs after rendering. Mima also advances particle/carrier
-animation during rendering and uses masked intro halves. Continue with the other seven BOSS families,
-the real round loop and result/MAINL routes. Marisa's template/pattern/render
-owner in `src/main/boss/marisa.cpp` is the next bounded source.
+quirks noted in PORTABLE.md. All nine BOSS templates, patterns, collision and
+resource renderers now have coupled original-instruction comparisons, including
+launch/reversal, retreat, HP/explosion rewards and full bullet/trail/Extra pools.
+The seven level parameters share physical bytes across characters; preserve
+untouched bytes. Explosion completion and Mima/Kotohime/Chiyuri render mutations
+belong after drawing, only on rendered frames. Yumemi's intro queues the original
+sound reset before its explosions. Linux/Windows states and resource pictures
+agree. Continue by joining `src/main/round/round_loop.inl`, its controller/HUD
+hooks and result/MAINL routes; preserve the original player/draw order.
+The Reimu player cel looks malformed in the isolated overview at
+`build/boss-complete/overview.png`; compare the original player renderer and
+shot-sprite atlas preparation during the first live battle visual check.
 Resolve wide CPU collision scans' aliased DATA reads when joining that path;
 observed aliases include palette tone, sine tables and CRT tables (PORTABLE.md).
 The native program still stops before gameplay. Preserve the live Windows DOSBox disk
