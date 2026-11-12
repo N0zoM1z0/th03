@@ -88,9 +88,15 @@ the static initializer fixture. Idle and held-shot runs reach live CPU combat;
 the 2,600-refresh shot run includes a 27-refresh blocking warning.
 Linux/Windows pictures and diagnostic outputs agree at 800, 1,800 and 2,600
 refreshes. A private SDL window accepts movement/shooting, pause and Q and
-returns to title. Continue with
-result statistics/transitions, round restarts and MAINL routes: defeat currently
-stays on its banner. See PORTABLE.md for commands and verification scope.
+returns to title. Result rewards, full TRAM characters/attributes, warning
+overlap, cover/uncover pixels, life debit and score commits now agree with
+original MAIN. Retries retain gauge, scores, combo timers and background
+positions while clearing text and uncovering the next round. The first
+formation byte on retry inherits SI (PLAY_NEXT=1), proved through all real
+resetters. Eight controlled result pictures and a natural two-retry run through
+Game Over agree on Linux/Windows. Matches stop at MAINL after advancing the
+resident stage. Continue with winner animation, score registration/continue,
+story dialogue and endings. See PORTABLE.md for commands and verification scope.
 The Reimu player cel looks malformed in the isolated overview at
 `build/boss-complete/overview.png`; compare the original player renderer and
 shot-sprite atlas preparation during the first live battle visual check.
