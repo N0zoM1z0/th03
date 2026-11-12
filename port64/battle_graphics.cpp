@@ -151,7 +151,7 @@ void BattleGraphics::bullets(Canvas& graphics,const Round& round) const {
         pellet(graphics,left,top,b.flag==1 ? 0 : 1);
     }
 }
-void BattleGraphics::hud(Canvas& display,const Round& round,const Resident& resident) const {
+void BattleGraphics::hud(Canvas& display,const Round& round,const Resident& resident,const std::array<std::uint8_t,3>* levels) const {
     // TRAM glyphs keep sixteen display rows even while graphics is doubled.
     for(unsigned pid=0;pid<2;++pid) {
         const int left=16+int(pid)*320;
@@ -159,11 +159,20 @@ void BattleGraphics::hud(Canvas& display,const Round& round,const Resident& resi
         for(int i=0;i<10;i+=2)gaiji(display,font_,p.halfhearts-i>=2 ? 5 : p.halfhearts-i==1 ? 6 : 4,left+104+i*8,16,15);
         for(unsigned i=0;i<p.bombs;++i)gaiji(display,font_,7,pid ? left+int(i)*16 : left+272-int(i)*16,368,15);
         for(unsigned i=0;i<p.rounds_won;++i)gaiji(display,font_,9,left+int(i)*16,16,15);
-        gaiji(display,font_,0x20-1+round.gauge_levels[pid],left,384,4);
-        gaiji(display,font_,0x20+std::min<unsigned>(round.boss_level,15),left+272,384,2);
+        gaiji(display,font_,0x20-1+(levels ? (*levels)[pid] : round.gauge_levels[pid]),left,384,4);
+        gaiji(display,font_,0x20+std::min<unsigned>(levels ? (*levels)[2] : round.boss_level,15),left+272,384,2);
 
     }
     if(resident.mode==Mode::story)for(unsigned i=0;i<resident.lives;++i)gaiji(display,font_,2,288-int(i)*16,32,15);
+    for(unsigned pid=0;pid<2;++pid) {
+        const auto& combo=round.combos[pid];if(!combo.text_visible)continue;
+        const int left=32+int(pid)*320;
+        gaiji(display,font_,combo.display_hits>=10 ? 0xa0+combo.display_hits/10 : 0xcf,left,32,15);
+        gaiji(display,font_,0xa0+combo.display_hits%10,left+16,32,15);
+        gaiji(display,font_,12,left+32,32,15);gaiji(display,font_,13,left+48,32,15);
+        constexpr unsigned box[]={10,11,14,15};
+        for(unsigned i=0;i<4;++i)gaiji(display,font_,box[i],left+int(i)*16,48,15);
+    }
     for(unsigned pid=0;pid<2;++pid) {
         const auto& warning=round.warning_text[pid];if(!warning.visible)continue;
         const int x=pid ? 32 : 352;
@@ -569,9 +578,9 @@ void BattleGraphics::background(Canvas& graphics,const Round& round) const {
         sprite(graphics,pixels(p.center.x),pixels(p.center.y),p.sprite+delta,16,height,0,639,!bg.draw_periodic&&bg.chain==1);
     }
 }
-void BattleGraphics::bombs(Canvas& graphics,const Round& round) const {
+void BattleGraphics::bombs(Canvas& graphics,const Round& round,unsigned pid) const {
     const auto& bombs=round.bombs;
-    for(unsigned pid=0;pid<2;++pid)if(round.bomb_flags[pid]) {
+    if(round.bomb_flags[pid]) {
         const unsigned character=character_id(round.players[pid].paletted),frame=bombs.frame[pid];
         const int left=int(pid)*320+16;
         const Clip clip{left,8,left+287,191};
@@ -641,16 +650,30 @@ void BattleGraphics::effects(Canvas& graphics,const Round& round) const {
         }
     }
 }
-Frame BattleGraphics::render(const Round& round,const Resident& resident) const {
-    Canvas graphics;
+void BattleGraphics::clear_playfields(Canvas& graphics) const {
     graphics.fill(16,8,303,191,0);graphics.fill(336,8,623,191,1);
-    background(graphics,round);
-    bombs(graphics,round);
-    for(unsigned pid=0;pid<2;++pid)boss(graphics,round,pid);
+}
+Frame BattleGraphics::render(const Round& round,const Resident& resident) const {
+    Canvas graphics;clear_playfields(graphics);background(graphics,round);
+    draw(graphics,round,resident);return compose(graphics,round,resident);
+}
+void BattleGraphics::draw(Canvas& graphics,const Round& round,const Resident& resident,Round* live,Resident* live_resident,
+                          std::optional<std::uint8_t> kotohime_stack_color) const {
+    for(unsigned pid=0;pid<2;++pid) {
+        if(live)live->bombs.prepare_render(*live,pid,kotohime_stack_color);
+        bombs(graphics,round,pid);
+    }
+    for(unsigned pid=0;pid<2;++pid) {
+        boss(graphics,round,pid);
+        if(live)live->bosses.prepare_render(*live,pid);
+    }
     for(const auto& shot:round.shots)if(shot.alive) {
         const int left=16+shot.pid*320+pixels(shot.top_left.x)+round.fg_shift[shot.pid],top=16+pixels(shot.top_left.y);
         sprite(graphics,left,top,shot.animation+shot.pid*40,16,8);
         sprite(graphics,left+16,top,shot.animation+shot.pid*40,16,8);
+    }
+    if(live)for(auto& shot:live->shots)if(shot.alive) {
+        shot.animation=std::uint8_t(shot.animation+2);if(shot.animation>=8)shot.animation=0;
     }
     for(const auto& enemy:round.enemies)if(enemy.flag&&enemy.flag!=3) {
         if(enemy.size_words<1||enemy.size_words>4)throw std::runtime_error("enemy sprite size outside atlas");
@@ -662,6 +685,8 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
         const int left=16+enemy.pid*320+pixels(enemy.center.x)+round.fg_shift[enemy.pid]-int(size/2),top=16+pixels(enemy.center.y)-int(size/2);
         sprite(graphics,left,top,offset,size,size/2,enemy.pid ? 320 : 0,enemy.pid ? 639 : 319);
     }
+    if(live)live->hit_fireballs([&](const Hitbox& box){return live->charge_shots.hit(*live,box);},
+                               [&](Point center,std::uint8_t pid){live->extra_attacks.add(*live,center,pid);},0x0f);
     for(const auto& f:round.fireballs)if(f.flag) {
         unsigned offset,size;
         if(f.flag>=9) {
@@ -678,7 +703,11 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
         const unsigned so=80*80+16+((c.age-1)/4)*6;
         sprite(graphics,c.left,c.top,so,48,24,c.pid ? 320 : 0,c.pid ? 639 : 319,true,i==12 ? 15 : 11+(round.result_frame&1));
     }
-    for(unsigned pid=0;pid<2;++pid) {extras(graphics,round,pid);charges(graphics,round,pid);}
+    for(unsigned pid=0;pid<2;++pid) {
+        extras(graphics,round,pid);
+        if(live)live->extra_attacks.prepare_render(*live,pid);
+        charges(graphics,round,pid);
+    }
     for(unsigned pid=0;pid<2;++pid) {
         const auto& p=round.players[pid];
         if(p.lose_time) {
@@ -699,6 +728,7 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
             pattern(graphics,base+((round.result_frame>>2)&3),left,p.center.y/32-15);
         }
     }
+    if(live)live->prepare_effects_render();
     effects(graphics,round);
     bullets(graphics,round);
     if(round.defeat==2) {
@@ -743,17 +773,41 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
         }
         digit_put(pid||resident.mode!=Mode::story ? 0 : 3-resident.credits,origin+64);
     }
+    if(live&&live_resident&&live->extends_gained<live->scores[0][6]) {
+        live->sounds.push_back(8);++live_resident->lives;
+        if(++live->extends_gained>=2)live->extends_gained=255;
+    }
+    if(live)live->prepare_warning_portraits();
     for(unsigned pid=0;pid<2;++pid)if(round.warning_portrait[pid])portraits_[pid].put(graphics,16+int(pid)*320,16,true);
     intro(graphics,round,resident);
+    if(live)live->intro.prepare_render(resident.mode);
+    if(live)live->prepare_combos_render();
+    for(unsigned pid=0;pid<2;++pid)if(round.combos[pid].points_visible) {
+        const auto& combo=round.combos[pid];unsigned remaining=combo.display_bonus;bool leading=true;
+        const int left=40+int(pid)*320;
+        const auto digit_put=[&](unsigned digit,int x) {
+            for(unsigned y=1;y<8;++y)for(unsigned bit=0;bit<8;++bit)
+                if(score_font[digit][y]&(0x80u>>bit))graphics.put(x+int(bit),24+int(y),combo.display_color);
+        };
+        unsigned power=10000;
+        for(unsigned i=0;i<5;++i,power/=10) {
+            const auto digit=remaining/power;remaining%=power;
+            if(digit)leading=false;
+            if(!leading||i==4)digit_put(digit,left+int(i)*8);
+        }
+        digit_put(0,left+40);
+    }
+}
+Frame BattleGraphics::compose(const Canvas& graphics,const Round& round,const Resident& resident,const Palette* shown_palette,std::optional<int> shown_tone,const std::array<std::uint8_t,3>* hud_levels) const {
     Canvas display;
     for(unsigned y=0;y<400;++y)std::copy_n(graphics.pixels.begin()+(y/2)*640,640,display.pixels.begin()+y*640);
-    auto frame=display.frame(round.palette_initialized ? round.palette : palette_,round.palette_tone);
+    auto frame=display.frame(shown_palette ? *shown_palette : round.palette_initialized ? round.palette : palette_,shown_tone.value_or(round.palette_tone));
     // hud_wipe leaves opaque reversed-black TRAM cells around the two
     // white playfield rectangles. Their color is independent of Palettes[0].
     for(unsigned y=0;y<400;++y)for(unsigned x=0;x<640;++x)
         if(y<16||x<16||(x>=304&&x<336)||x>=624)frame[y*640+x]=0xff000000;
     Canvas text;
-    hud(text,round,resident);
+    hud(text,round,resident,hud_levels);
     for(unsigned at=0;at<text.pixels.size();++at)if(const auto color=text.pixels[at])
         frame[at]=0xff000000u|((color&2) ? 0xff0000 : 0)|((color&4) ? 0xff00 : 0)|((color&1) ? 0xff : 0);
     return frame;

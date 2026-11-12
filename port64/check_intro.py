@@ -25,7 +25,7 @@ def main():
         # A held key must not skip the original minimum introduction wait.
         early = subprocess.check_output(command + ['--inputs', ','.join(['32'] * 49)], text=True)
         late = subprocess.check_output(command + ['--inputs', ','.join(['32'] * 85)], text=True)
-        if 'phase=5 ' not in early or 'phase=3 ' not in late:
+        if 'phase=5 ' not in early or 'phase=6 ' not in late:
             raise ValueError('introduction minimum wait/fade handoff differs')
     print('Complete 640x400 stage introduction agrees with DOS; minimum wait and fade handoff pass.')
 

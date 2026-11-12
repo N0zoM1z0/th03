@@ -3,10 +3,11 @@
 #include "stage_intro.hpp"
 #include "round.hpp"
 #include "battle_graphics.hpp"
+#include "round_loop.hpp"
 #include <optional>
 
 namespace th03 {
-enum class Phase {op,versus,selection,mainl_handoff,quit,stage_intro};
+enum class Phase {op,versus,selection,mainl_handoff,quit,stage_intro,battle};
 class Application {
 public:
     Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture="TL02.PI",Bytes font_bitmap={},const PfArchive* main_assets=nullptr);
@@ -16,12 +17,13 @@ public:
     void start_selection(SelectKind kind);
     void return_to_title();
     void start_stage_intro();
-    void start_main();
+    void start_main(bool play=true);
     Phase phase=Phase::op;
     Menu menu;
     Resident resident;
     Selection selection;
     std::optional<Round> round;
+    std::optional<RoundLoop> round_loop;
 private:
     const PfArchive& assets_;
     const PfArchive* main_assets_;

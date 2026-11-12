@@ -52,9 +52,12 @@ handlers and the 48-frame loss animation are implemented, with common player
 contracts. All nine Bomb controllers and the shared effect pool now have original
 instruction comparisons; MRS and GRCG rasters agree in all pixels. Linux/Windows
 Bomb fixture pictures agree. Kotohime's fade still needs its actual incoming
-stack color when the round renderer joins. Both CPU strategies, retry grids and
-real Bomb activation now agree with original instructions on Linux/Windows for
-in-map cases; common player contracts bind all five actual service owners.
+stack color in the round renderer. Both CPU strategies, retry grids and
+real Bomb activation agree with original instructions on Linux/Windows;
+common player contracts bind all five actual service owners. Wide edge scans
+now use recovered tone/palette/trig/CRT owners under the stated DOS startup
+profile, with eight original-instruction cases; unknown aliases report their
+address and round frame.
 Both background chains now match original state/RNG instructions; native
 Linux/Windows pictures agree. The indeterminate periodic byte is redundant
 under the established velocity invariant (PORTABLE.md). Preserve skipped-frame
@@ -74,17 +77,28 @@ agree. `warning.cpp` now supplies portrait/white-flash/red-warning/active-pulse
 control and pause/resume/quit. Nine complete warning traces and three pause/fade
 outcomes agree with original MAIN on Linux and Windows. Warning text, portraits
 and Hyper gauge flashing have resource pictures; the DOS HUD regression passes.
-Continue by joining `src/main/round/round_loop.inl` and result/MAINL routes;
-preserve the original player/draw order. Warning white flashes and pauses freeze
-simulation clocks. A quit request after pausing still finishes the interrupted
-iteration before the original loop exits. See PORTABLE.md for the controller
-calls and picture command.
+`RoundLoop` now joins the actual battle update/draw owners and two indexed
+pages. It retains background writes on skipped draws, draw-owned Shot/Extra/
+BOSS/effect mutations, combo expiry and score extends. Warning flashes, pauses
+and double-refresh waits preserve the interrupted iteration without repeating
+its update or draw. The original scheduler's counters, WORD wrap, speed/recovery
+gates and page cadence pass separately; combo expiry/BCD awards pass against
+the original owner. Story introductions now enter battle; `battle-ready` keeps
+the static initializer fixture. Idle and held-shot runs reach live CPU combat;
+the 2,600-refresh shot run includes a 27-refresh blocking warning.
+Linux/Windows pictures and diagnostic outputs agree at 800, 1,800 and 2,600
+refreshes. A private SDL window accepts movement/shooting, pause and Q and
+returns to title. Continue with
+result statistics/transitions, round restarts and MAINL routes: defeat currently
+stays on its banner. See PORTABLE.md for commands and verification scope.
 The Reimu player cel looks malformed in the isolated overview at
 `build/boss-complete/overview.png`; compare the original player renderer and
 shot-sprite atlas preparation during the first live battle visual check.
-Resolve wide CPU collision scans' aliased DATA reads when joining that path;
-observed aliases include palette tone, sine tables and CRT tables (PORTABLE.md).
-The native program still stops before gameplay. Preserve the live Windows DOSBox disk
+For Kotohime's fade, probe the original background callback, EGC_ON and both
+Bomb callbacks on one shared stack. Periodic backgrounds have a local frame
+word; EGC_ON uses no stack saves. Recover the complete intervening writes before
+choosing the inherited color; the isolated `0x5a` probe value is not that context.
+Preserve the live Windows DOSBox disk
 and do not send inputs to its window.
 
 The four-file DOS package has been played using the TH04-style

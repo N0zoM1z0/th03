@@ -4,6 +4,7 @@
 #include "round.hpp"
 #include "collision.hpp"
 #include "battle_graphics.hpp"
+#include "round_loop.hpp"
 #include "raster.hpp"
 #include <algorithm>
 #include <iostream>
@@ -105,6 +106,69 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==4&&std::string(argv[1])=="--loop-control") {
+            const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            th03::Resident resident;resident.mode=th03::Mode::two_player;resident.paletted={{5,14}};resident.cpu={{false,false}};
+            th03::Round r;r.begin(resident,main.read("ENEDAT.DAT"));th03::BattleGraphics graphics(op,main,resident);r.set_palette(graphics.palette());
+            th03::RoundLoop loop;loop.begin(r,graphics);r.shots[0].alive=true;r.shots[0].top_left={0,4000};r.shots[0].velocity_y=-16;
+            const bool flash=std::string(argv[3])=="flash",wait=std::string(argv[3])=="wait";
+            if(wait) {
+                r.reset_frames=2;loop.tick(r,resident,graphics,{});
+                check(r.frame==0&&loop.draws==0&&loop.refresh_wait==1&&r.shots[0].top_left.y==3984,"double refresh did not defer presentation");
+                loop.tick(r,resident,graphics,{});
+                check(r.frame==1&&loop.draws==1&&r.shots[0].top_left.y==3984,"double refresh repeated update or drawing");
+                std::cout<<"Double-refresh presentation preserves one simulation update\n";return 0;
+            }
+            if(flash) {r.warning[0]=2;r.gauge_next[0]=1;}
+            th03::InputFrame input;if(!flash)input.single=th03::cancel;
+            loop.tick(r,resident,graphics,input);
+            check(r.frame==0&&loop.draws==0&&r.shots[0].top_left.y==3984,"blocking controller did not suspend the updated iteration");
+            for(unsigned i=0;i<26;++i) {
+                loop.tick(r,resident,graphics,input);
+                check(r.frame==0&&loop.draws==0&&r.shots[0].top_left.y==3984,"blocking controller advanced simulation");
+            }
+            if(flash)loop.tick(r,resident,graphics,{});
+            else {
+                input.single=th03::q;loop.tick(r,resident,graphics,input);
+                check(!r.quit_requested,"pause accepted Q before key release");
+                loop.tick(r,resident,graphics,{});input.single=th03::q|th03::cancel;loop.tick(r,resident,graphics,input);
+                check(r.quit_requested,"pause lost Q priority");
+            }
+            check(r.frame==1&&loop.draws==1&&r.shots[0].top_left.y==3984,"resumed loop repeated its simulation update");
+            if(!flash) {loop.tick(r,resident,graphics,{});check(loop.outcome==th03::RoundExit::return_to_op&&r.frame==1,"quit did not wait for next loop entry");}
+            std::cout<<"Blocking "<<(flash ? "warning" : "pause/quit")<<" preserves the interrupted update and draw cadence\n";return 0;
+        }
+        if(argc==6&&std::string(argv[1])=="--loop-clock") {
+            const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            th03::Resident resident;resident.mode=th03::Mode::two_player;resident.paletted={{5,14}};resident.cpu={{false,false}};
+            th03::Round r;r.begin(resident,main.read("ENEDAT.DAT"));th03::BattleGraphics graphics(op,main,resident);r.set_palette(graphics.palette());
+            th03::RoundLoop loop;loop.begin(r,graphics);r.frame=r.result_frame=std::uint16_t(std::stoul(argv[3]));
+            r.speed=126;r.players[0].hit_damage_next=5;r.players[1].hit_damage_next=2;
+            r.players[0].cpu_frame=777;r.players[1].cpu_frame=888;loop.render_timing=std::stoi(argv[5])!=0;
+            const auto ticks=unsigned(std::stoul(argv[4]));for(unsigned tick=0;tick<ticks;++tick)loop.tick(r,resident,graphics,{});
+            std::cout<<r.frame<<' '<<r.result_frame<<' '<<unsigned(r.speed)<<' '<<unsigned(r.players[0].hit_damage_next)<<' '
+                <<unsigned(r.players[1].hit_damage_next)<<' '<<r.players[0].cpu_frame<<' '<<r.players[1].cpu_frame<<' '<<loop.draws<<' '<<r.page_back<<'\n';return 0;
+        }
+        if(argc==7&&std::string(argv[1])=="--collision-edge") {
+            th03::Round r;th03::CollisionMap collision;th03::Player player;
+            const auto pid=unsigned(std::stoul(argv[2]));player.center={std::int16_t(std::stoi(argv[3])*16),std::int16_t(std::stoi(argv[4])*16)};
+            r.palette_tone=std::int16_t(std::stoi(argv[6]));collision.adjacent_read=[&](std::uint16_t at){return r.collision_adjacent_read(at);};
+            const auto hit=collision.hit(pid,player,std::stoi(argv[5]));
+            std::cout<<bool(hit)<<' '<<(hit ? hit->x : 0)<<' '<<(hit ? hit->y : 0)<<'\n';return 0;
+        }
+        if(argc==3&&std::string(argv[1])=="--combo") {
+            const auto ticks=unsigned(std::stoul(argv[2]));th03::Round r;
+            r.combos[0].time=r.combos[1].time=80;r.combos[0].hits=42;r.combos[1].hits=7;
+            r.combos[0].bonus=65535;r.combos[1].bonus=1234;
+            for(unsigned tick=0;tick<ticks;++tick) {
+                r.result_frame=std::uint16_t(tick);r.prepare_combos_render();
+                for(unsigned pid=0;pid<2;++pid) {
+                    const auto& c=r.combos[pid];std::cout<<unsigned(c.time)<<' '<<unsigned(c.hits)<<' '<<c.bonus<<' ';
+                    for(auto digit:r.scores[pid])std::cout<<unsigned(digit)<<' ';
+                }
+            }
+            std::cout<<'\n';return 0;
+        }
         if(argc==8&&std::string(argv[1])=="--warning-picture") {
             const auto disk=read_file(argv[2]);
             const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));

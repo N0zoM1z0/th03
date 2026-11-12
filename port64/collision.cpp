@@ -65,11 +65,12 @@ std::optional<Point> CollisionMap::hit(unsigned pid,const Player& player,int siz
         if(column>=0) {
             unsigned y=std::uint8_t(top);stride=184;
             do {
-                if(address<0x4ba0||unsigned(address)-0x4ba0>=bytes.size())
-                    throw std::runtime_error("CPU edge scan needs its aliased DGROUP read owner");
+                const bool in_map=address>=0x4ba0&&unsigned(address)-0x4ba0<bytes.size();
+                if(!in_map&&!adjacent_read)
+                    throw std::runtime_error("CPU edge scan needs DGROUP read owner at "+std::to_string(address));
                 // The target returns the scan rectangle's top, not the
                 // occupied tile's row; X is the containing eight-tile column.
-                if(bytes[unsigned(address)-0x4ba0]&pattern)return Point{std::int16_t(column*256),std::int16_t(top*32)};
+                if((in_map ? bytes[unsigned(address)-0x4ba0] : adjacent_read(address))&pattern)return Point{std::int16_t(column*256),std::int16_t(top*32)};
                 ++address;--stride;++y;
             }while(y<unsigned(std::uint8_t(bottom)));
         }

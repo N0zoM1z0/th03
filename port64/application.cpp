@@ -13,10 +13,12 @@ void Application::start_selection(SelectKind kind) {
 void Application::start_stage_intro() {
     intro_.emplace(assets_,graphic_font_,resident);phase=Phase::stage_intro;
 }
-void Application::start_main() {
+void Application::start_main(bool play) {
     if(!main_assets_)throw std::runtime_error("MAIN setup requires the second original PF archive");
     round.emplace();round->begin(resident,main_assets_->read("ENEDAT.DAT"));
     battle_graphics_.emplace(assets_,*main_assets_,resident);round->set_palette(battle_graphics_->palette());phase=Phase::mainl_handoff;
+    round_loop.reset();
+    if(play) {round_loop.emplace();round_loop->begin(*round,*battle_graphics_);phase=Phase::battle;}
 }
 void Application::return_to_title() {
     menu=Menu{};menu.options=resident.options;menu.resident_seed=resident.seed;
@@ -24,6 +26,11 @@ void Application::return_to_title() {
 }
 void Application::tick(const InputFrame& input) {
     if(finished())return;
+    if(phase==Phase::battle) {
+        round_loop->tick(*round,resident,*battle_graphics_,input);
+        if(round_loop->outcome==RoundExit::return_to_op) {resident.seed=round->frame;return_to_title();}
+        return;
+    }
     if(phase==Phase::stage_intro) {
         intro_->tick(input.single);
         if(intro_->done()) {
@@ -63,6 +70,7 @@ void Application::tick(const InputFrame& input) {
     } else phase=Phase::mainl_handoff;
 }
 Frame Application::render() const {
+    if(phase==Phase::battle)return round_loop->render(*round,resident,*battle_graphics_);
     if(round&&phase==Phase::mainl_handoff)return battle_graphics_->render(*round,resident);
     if(phase==Phase::stage_intro||(phase==Phase::mainl_handoff&&intro_))return intro_->render();
     if(phase==Phase::selection||(phase==Phase::mainl_handoff&&selection.done))

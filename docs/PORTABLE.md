@@ -2,16 +2,17 @@
 
 `port/modern-64` builds native C++17 for Linux/SDL2 and Windows x64/Win32-GDI.
 Title, menus, character selection and MAINL stage introduction join through
-explicit resident state into MAIN round initialization. Enemy scripts, battle
+explicit resident state into the native MAIN battle loop. Enemy scripts, battle
 resources/HUD, round-introduction animation, collision primitives, bullets,
 explosion chains, fireballs, all nine Charge Shot/Bomb families, Hyper handlers,
 shared effects, both background chains, nine Gauge patterns, all nine Extra
 Attack families, all nine BOSS families and their shared control, attack warnings,
 pause/quit, player/loss state machines and CPU decisions are ported and checked separately.
-The program stops at initialized battle state;
-it is not yet a playable full-game port. The round loop, CPU edge-scan data,
-results/dialogues/endings, Music Room/HiScore, audio and persistence still need
-integration and campaign testing.
+Battle now runs with enemy/player/CPU movement, shooting, hits, attacks, warnings,
+pause/quit and draw-owned state changes. Defeat currently remains at its battle
+banner: result transitions, round restarts, dialogues/endings, Music Room/HiScore,
+audio and persistence still need integration and campaign testing. Kotohime's
+Bomb fade and further CPU aliases still require the contexts described below.
 
 The DOS reconstruction stays on `main`. The live Windows DOSBox session and
 `D:\Entertainment\Game\Touhou\th03-reconstruct\play.hdi` are independent.
@@ -62,9 +63,13 @@ build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
   --characters 5,13 --frames 20 --screenshot intro.ppm
 build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
   --scene battle-ready --characters 5,13 --screenshot ready.ppm
+build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
+  --scene battle --characters 5,13 --frames 1200 --screenshot battle.ppm
 ```
 
 `--characters` supplies two paletted IDs 1..18; `--stage` is zero-based.
+`battle-ready` retains the static initialization fixture. `battle` starts story
+battle directly; `two-battle` starts two human players with their separate keys.
 `--frames` advances idle headless VBlanks or limits a window run. `--inputs`
 accepts comma-separated original WORD masks, or tuples `SP:P1:P2`, one per
 VBlank. Use release samples between presses. Selection samples every three
@@ -97,7 +102,9 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_enemy.py` | Same arguments as `check_round.py` | Six enemy scripts over 1,237 ticks, including real movement/vector callees |
 | `check_battle_graphics.py` | Same arguments as `check_intro.py` | Unchanged DOS borders, P1 gauge/score and TRAM glyph ink |
 | `check_hud_intro.py` | Same arguments as `check_selection.py` | 520 story/versus frames: slide/banner state, all128 particles, seed and ring cursor |
-| `check_collision.py` | Same arguments as `check_selection.py` | Six complete 6,624-byte bitmaps and their player hit scans |
+| `check_collision.py` | Same arguments as `check_selection.py` | Six complete 6,624-byte bitmaps, ordinary player hits and wide CPU scans into adjacent DATA owners |
+| `check_loop_clock.py` | Same arguments as `check_selection.py` | Original scheduler counters, speed/recovery/CPU gates, WORD wrap and page cadence; native warning/pause suspension and double-refresh presentation |
+| `check_combo.py` | Same arguments as `check_selection.py` | Both 80-frame combo lifetimes, expiry/reset and deferred BCD score awards |
 | `check_bullet.py` | Same arguments as `check_selection.py` | Group vectors, full bullet/trail pools, motion/transfer/cloud/clearing, collision maps and complete pellet rasters |
 | `check_combat.py` | Same arguments as `check_selection.py` | Explosion/chain scoring, enemy/fireball hits, derived fireballs, movement/collision, coupled bullet pipelines and known stack aliases |
 | `check_charge.py` | Same arguments as `check_selection.py` | All nine Charge Shot lifecycles, full physical pools/history, hit circles and RNG, sound events and four projectile Hyper helpers |
@@ -160,7 +167,28 @@ and native Windows x64 agree. `--warning-picture HDI PID KIND STEP HYPER OUT.ppm
 renders the real resources; PID2 means both players, KIND1/3/5 selects the attack,
 STEP0 is the portrait,1..27 are white-flash refreshes, and28+ advances the red
 controller. Eleven complete pictures agree between platforms and the existing
-DOS battle-HUD comparison still passes. These checks precede round-loop wiring.
+DOS battle-HUD comparison still passes. `RoundLoop` now calls these controllers.
+
+`round_loop.cpp` follows the original update and draw order. Enemy hits run in
+the update; fireball hits run immediately before fireball drawing. Bomb render
+changes precede each Bomb draw, BOSS/Extra mutations follow their draw, and
+effect quads rotate before drawing. Shot animation and combo expiry advance
+only when drawing. Score extends run before warning portraits; combo awards
+occur after the score HUD. Two indexed pages preserve background pixels from
+skipped draws. Palette writes and page presentation wait for the required
+refresh, without repeating simulation or render mutations. Gauge/BOSS level
+labels retain their TRAM values until the next white-flash update. Pause and the
+27-refresh white flash resume the interrupted iteration exactly once.
+
+The clock probe executes the original loop's control flow while treating its
+gameplay/draw calls as foreign services. Native fixtures run the real modules;
+this probe covers scheduler cadence rather than a full battle-state comparison.
+An idle 1,200-tick battle and held-shot runs through 2,600 input refreshes exercise
+the integrated CPU/combat/charge/warning path. Complete pictures and diagnostic
+outputs agree between Linux and native Windows at 800, 1,800 and 2,600 input
+refreshes. A private Xvfb SDL window accepts movement/shooting, pause and Q,
+then returns to the title. These are bounded battle checks; campaign/result
+acceptance remains open.
 
 `bullet.cpp` retains the 320-slot pool, shared 48-slot trail ring, byte-wrapped
 speed tuning and ascending update order. Derived groups can occupy later slots
@@ -282,8 +310,8 @@ All families have resource rendering, including Ellen's four visible history
 samples, the repeated Marisa beam, Chiyuri trapezoids and Yumemi's outlines and
 sprite perimeters. The trapezoid matches original master.lib pixels, including
 its clipped-height DDA denominator. Linux/Windows saturated-state snapshots and
-18 complete Extra fixture pictures agree. These remain isolated fixtures;
-full-game render scheduling still needs the real round loop.
+18 complete Extra fixture pictures agree. The native round loop now schedules
+these owners in their original update/draw positions.
 
 `boss.cpp` supplies all nine templates, attack patterns, collision and shared
 launch/reversal, movement, pattern selection, retreat, HP completion and
@@ -313,14 +341,17 @@ screen masks. Yumemi's arrival uses OR drawing, and her origin is captured
 before a pattern moves the boss. Ordered sound events include `0xff` for the
 original `snd_se_reset` service before her intro explosions.
 
-Continue with `src/main/round/round_loop.inl`, its controller/HUD hooks and
-result/MAINL routes. Wide CPU scans near the left edge still need
-their aliased DGROUP owners. With an empty bitmap and initialized target DATA,
+Continue with result/round-restart/MAINL routes and the remaining caller contexts.
+Wide CPU scans near the left edge retain their aliased DGROUP reads.
+With an empty bitmap and initialized target DATA,
 P0 at (8,336) pixels with a 32-tile scan reads `02D0..02D4` and collides with
 `PaletteTone`; at X16 it immediately reads `SinTable8` byte `0380`. P1's
 corresponding scans reach CRT C++/signal/string DATA around `0FC0..1128`.
-These reads can cause real false collisions. Recover those owners and their
-runtime state before joining this edge path; the collision module currently
-reports an unresolved owner instead of supplying empty memory. The
+These reads can cause real false collisions. The native owner now supplies the
+live tone, original default palette, mathematical sine table, unused CRT
+exception workspaces, initial signal data, string settings and range-error
+strings. Its compatibility context uses a 486-class DOS CPU and no SAJ joystick;
+the original-instruction edge checks use the same startup context. Other DATA
+reads still report their address and frame until their owner is recovered. The
 original ENEDAT does not use its broken loop opcodes; custom loop scripts would
 also need the original indeterminate stack context.

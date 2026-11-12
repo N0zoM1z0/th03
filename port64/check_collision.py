@@ -27,10 +27,14 @@ def original(image, kind, pid, x, y, width, height, right, hit):
                             (UC_X86_REG_SS, 0x8000), (UC_X86_REG_SP, 0xff00)):
         u.reg_write(register, value)
     u.mem_write(0x8ff00, struct.pack('<HH', 0xf000, 0x239d))
-    entry = dict(rectangle=0x9e, vertical=0x172, slope=0x1ca)[kind]
-    u.emu_start(0x239d0 + entry, 0x239d0 + 0xf000, count=10000)
-    if u.reg_read(UC_X86_REG_IP) != 0xf000:
-        raise ValueError('original collision writer did not return')
+    if kind == 'edge':
+        u.mem_write(ds + 0x2d4, struct.pack('<H', right))
+        u.mem_write(ds + 0x1076, struct.pack('<H', 4))  # Original 486 startup profile.
+    else:
+        entry = dict(rectangle=0x9e, vertical=0x172, slope=0x1ca)[kind]
+        u.emu_start(0x239d0 + entry, 0x239d0 + 0xf000, count=10000)
+        if u.reg_read(UC_X86_REG_IP) != 0xf000:
+            raise ValueError('original collision writer did not return')
     bitmap = bytes(u.mem_read(ds + 0x4ba0, 6624))
     if not hit:
         return bitmap
@@ -43,7 +47,7 @@ def original(image, kind, pid, x, y, width, height, right, hit):
     u.mem_write(ds + 0x38e4, bytes(4))
     u.reg_write(UC_X86_REG_CS, 0x196e)
     u.reg_write(UC_X86_REG_SP, 0xff00)
-    u.mem_write(0x8ff00, struct.pack('<HH', 0xf000, 4))
+    u.mem_write(0x8ff00, struct.pack('<HH', 0xf000, width if kind == 'edge' else 4))
     u.emu_start(0x196e0 + 0x4a17, 0x196e0 + 0xf000, count=10000)
     if u.reg_read(UC_X86_REG_IP) != 0xf000:
         raise ValueError('original player hit scan did not return')
@@ -78,6 +82,15 @@ def main():
         if native != original(image, *case, True):
             raise ValueError(f'player scan differs: {case}, native={native}, original={original(image, *case, True)}')
     print('Six complete collision bitmaps and player hit scans agree with original MAIN instructions.')
+    for case in ((0, 8, 336, 32, 100), (0, 8, 336, 32, 0), (0, 16, 336, 32, 100),
+                 (0, 32, 336, 48, 100), (0, 48, 336, 64, 100), (0, 64, 336, 80, 100),
+                 (1, 8, 336, 32, 100), (1, 16, 336, 32, 100)):
+        native = list(map(int, subprocess.check_output([str(args.native_checks.resolve()), '--collision-edge', *map(str, case)], text=True).split()))
+        pid, x, y, size, tone = case
+        expected = original(image, 'edge', pid, x * 16, y * 16, size, 0, tone, True)
+        if native != expected:
+            raise ValueError(f'CPU edge scan {case}: native={native}, original={expected}')
+    print('Wide CPU edge scans retain palette-tone, default palette, sine-table and CRT DATA aliases.')
 
 
 if __name__ == '__main__':

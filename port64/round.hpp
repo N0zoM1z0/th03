@@ -100,6 +100,7 @@ public:
     void find_target(unsigned pid);
     void hyper_update(unsigned pid);
     void cpu_update(unsigned pid,CollisionMap& collision,Resident& resident);
+    std::uint8_t collision_adjacent_read(std::uint16_t address) const;
     Point collision_top;
     std::uint8_t cpu_pattern=0;
     void player_lose_update(unsigned pid,Resident& resident);
@@ -140,6 +141,7 @@ public:
     void player_circle(Point center,std::uint8_t pid);
     void update_circles();
     std::array<Combo,2> combos{};
+    void prepare_combos_render();
     std::array<std::uint8_t,2> gauge_next{},warning{};
     std::array<std::uint8_t,2> warning_brightness{},warning_fading_out{};
     std::array<WarningText,2> warning_text{};

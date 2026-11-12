@@ -7,6 +7,7 @@ namespace th03 {
 class CollisionMap {
 public:
     std::array<std::uint8_t,2*18*184> bytes{};
+    std::function<std::uint8_t(std::uint16_t)> adjacent_read;
     void clear() {bytes.fill(0);}
     void rectangle(unsigned pid,Point center,int width,int height);
     void vertical(unsigned pid,Point top,int height);

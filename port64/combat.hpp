@@ -25,6 +25,9 @@ struct HitCircle {std::uint8_t age=0,pid=0;std::int16_t left=0,top=0;};
 struct Combo {
     std::uint8_t time=0,hits=0;
     std::uint16_t bonus=0;
+    std::uint8_t display_hits=0,display_color=12;
+    std::uint16_t display_bonus=0;
+    bool text_visible=false,points_visible=false;
 };
 enum class Against:std::uint8_t {enemy=0,pellet=1,fireball_blue=2,fireball_red=3};
 struct Hitbox {

@@ -1,8 +1,8 @@
 # 東方夢時空 ～ Phantasmagoria of Dim.Dream
 
-This is the `port/modern-64` branch. The native C++17 menu/selection and MAINL introduction path
-builds for Linux x64 and Windows x64, with separately checked battle modules; [portable status and commands](docs/PORTABLE.md)
-describe its checks and remaining gameplay integration. The DOS reconstruction
+This is the `port/modern-64` branch. Native C++17 menus, selection, introductions
+and battle simulation build for Linux x64 and Windows x64; [portable status and commands](docs/PORTABLE.md)
+describe the checks and unfinished game flow. The DOS reconstruction
 is retained on `main` and remains the behavioral baseline.
 
 Agent workflow: follow the highest-priority requirements in [AGENTS.md](AGENTS.md). Use affected exact checks and searchable Markdown knowledge; ordinary notes do not require full CI or replay.
