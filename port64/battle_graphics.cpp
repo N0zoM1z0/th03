@@ -263,18 +263,106 @@ void BattleGraphics::charges(Canvas& graphics,const Round& round,unsigned pid) c
     }
 }
 void BattleGraphics::extras(Canvas& graphics,const Round& round,unsigned pid) const {
-    if(character_id(round.players[pid].paletted)!=4)return;
-    for(unsigned i=0;i<10;++i) {
+    const auto character=character_id(round.players[pid].paletted),other=pid^1;
+    constexpr unsigned counts[9]={8,6,14,12,10,8,14,16,16};
+    const int clip_left=other ? 320 : 0,clip_right=other ? 639 : 319;
+    const auto xy=[&](const Extra& e) {return Point{std::int16_t(16+e.pid*320+pixels(e.center.x)+round.fg_shift[e.pid]),std::int16_t(pixels(e.center.y)+16)};};
+    const auto transition=[&](const Extra& e,unsigned appear_frame) {
+        const auto p=xy(e);
+        if(e.state==2) {
+            const auto frame=character==1 ? std::uint8_t(e.duration) : e.frame;
+            if(!(frame&1))sprite(graphics,p.x-16,p.y-16,0x1928+((frame&7)<=3 ? 4 : 0),32,16);
+        } else sprite(graphics,p.x-24,p.y-24,0x1930+((appear_frame/4)%3)*6,48,24);
+    };
+    for(unsigned i=0;i<counts[character];i+=character==7 ? 2 : 1) {
         const auto& e=round.extra_attacks.items[pid][i];if(!e.state)continue;
-        const int left=16+e.pid*320+pixels(e.center.x)+round.fg_shift[e.pid],top=pixels(e.center.y)+16;
-        if(e.state==1) {
+        const auto p=xy(e);const int left=p.x,top=p.y;
+        if(e.state!=1) {
+            transition(e,character<=3 ? e.state : e.frame);
+            if(character==7) {const auto& b=round.extra_attacks.items[pid][i+1];transition(b,b.frame);}
+            continue;
+        }
+        switch(character) {
+        case 0: {
+            unsigned so=pid*40+0x280,phase=e.frame/4;
+            if((phase&3)==1)so+=6;else if(phase&3)so+=0x780+(phase&1)*6;
+            sprite(graphics,left-24,top-24,so,48,24,clip_left,clip_right);break;
+        }
+        case 1: {
+            unsigned so=pid*40+0x280;
+            if(!e.frame)so+=0x786;else if(e.frame==1)so+=0x780;else if(e.frame==2)so+=6;
+            sprite(graphics,left-24,top-24,so,48,24,clip_left,clip_right);break;
+        }
+        case 2: {
+            unsigned so=pid*40+0x1a;
+            if(e.frame<48) {sprite(graphics,left-8,top-8,so,16,8,clip_left,clip_right);so+=2;}
+            else if(e.frame<96)so+=2;else if(e.frame<102)so+=4;else if(e.frame<108)so+=6;else if(e.frame<114)so+=8;else so+=10;
+            // SPF_DOWNWARDS_COLUMN repeats the tile through physical VRAM.
+            for(int y=top+8;y<400;y+=16)sprite(graphics,left-8,y,so,16,8,clip_left,clip_right);
+            break;
+        }
+        case 3: {
+            unsigned so=pid*40+0x28c;
+            for(int j=6;j>=0;j-=2) {
+                const auto h=round.extra_attacks.ellen_history[pid][i][unsigned(j)];
+                const int x=16+e.pid*320+pixels(h.x)+round.fg_shift[e.pid],y=pixels(h.y)+16;
+                sprite(graphics,x-16,y-16,so,32,16,e.pid ? 320 : 0,e.pid ? 639 : 319);so-=4;
+            }
+            break;
+        }
+        case 4: {
             unsigned so=pid*40+0x280;
             if(motion::wrap(int(e.duration)-e.center.y)<=1536&&e.frame%4<2)so+=0xa00;
             if(!e.mode)sprite(graphics,left-16,top-16,so+0x282,32,16);
             else sprite(graphics,left-32,top-32,so,64,32);
-        } else if(e.state==2) {
-            if(!(e.frame&1))sprite(graphics,left-16,top-16,0x1928+((e.frame&7)<=3 ? 4 : 0),32,16);
-        } else sprite(graphics,left-24,top-24,0x1930+((e.frame/4)%3)*6,48,24);
+            break;
+        }
+        case 5:sprite(graphics,left-16,top-16,pid*40+0x284+((e.frame/4)%4)*1280,32,16,clip_left,clip_right);break;
+        case 6:sprite(graphics,left-24,top-24,pid*40+0x780+(e.frame&1)*0x780,48,24,clip_left,clip_right);break;
+        case 7: {
+            const auto b=xy(round.extra_attacks.items[pid][i+1]);const auto f=e.frame;
+            const auto trapezoid=[&](int radius,unsigned color) {grcg_trapezoid(graphics,8,left-radius,left+radius,192,b.x-radius,b.x+radius,std::uint8_t(color),{});};
+            if(f>=40&&f<112) {trapezoid(6,9);trapezoid(3,10);trapezoid(1,15);}
+            else if(f<136) {
+                if(f>=16) {const int radius=(f<40 ? int(f)-16 : 136-int(f))/4;trapezoid(radius,9);trapezoid(radius/2,10);}
+                grcg_line(graphics,{std::int16_t(left),8},{b.x,192},15,{});
+            }
+            break;
+        }
+        case 8: {
+            const Clip clip{other ? 336 : 16,8,other ? 623 : 303,191};
+            const auto hline=[&](int x1,int x2,int y,unsigned color) {
+                if(y>=clip.top&&y<=clip.bottom)graphics.fill(std::max(clip.left,std::min(x1,x2)),y,std::min(clip.right,std::max(x1,x2)),y,std::uint8_t(color));
+            };
+            const auto vline=[&](int x,int y1,int y2,unsigned color) {
+                if(x>=clip.left&&x<=clip.right)graphics.fill(x,std::max(clip.top,std::min(y1,y2)),x,std::min(clip.bottom,std::max(y1,y2)),std::uint8_t(color));
+            };
+            const auto outline=[&](int l,int r,int t,int b,unsigned color) {hline(l,r,t,color);hline(l,r,b,color);vline(l,t,b,color);vline(r,t,b,color);};
+            const int mid=top/2;
+            if(e.frame<=16) {
+                const int extent=e.frame,half=extent/2;
+                outline(left+extent-32,left+32-extent,mid+half-40,mid+52-half,6);
+                outline(left+extent-80,left+80-extent,mid+half-16,mid+16-half,6);
+            } else {
+                const auto raw=std::uint8_t(e.duration-8-e.frame);const int extent=raw<128 ? raw : int(raw)-256,half=extent/2,color=extent>16 ? 5 : 6;
+                outline(left+extent-16,left+16-extent,mid+half-32,mid+44-half,color);
+                outline(left+extent-64,left+64-extent,mid+half-8,mid+8-half,color);
+            }
+            const int l=left-16;const unsigned so=pid*40+0x280;
+            sprite(graphics,l,top-e.radius,so,32,8,clip_left,clip_right);
+            for(int y=top-e.radius+16;y<top-16;y+=16)sprite(graphics,l,y,so+0x502,32,8,clip_left,clip_right);
+            const int bottom=e.radius/2+e.radius+top-16;
+            sprite(graphics,l,bottom,so+0x280,32,8,clip_left,clip_right);
+            for(int y=bottom-16;y>top;y-=16)sprite(graphics,l,y,so+0x502,32,8,clip_left,clip_right);
+            const int t=top-16,first=l-e.radius+16,last=e.radius+l;
+            sprite(graphics,first,t,so,16,16,clip_left,clip_right);
+            for(int x=first+16;x<l;x+=16)sprite(graphics,x,t,so+0x500,16,16,clip_left,clip_right);
+            sprite(graphics,last,t,so+2,16,16,clip_left,clip_right);
+            for(int x=last-16;x>l+16;x-=16)sprite(graphics,x,t,so+0x500,16,16,clip_left,clip_right);
+            if(e.radius>24)sprite(graphics,l,t,so+4,32,16,clip_left,clip_right);
+            break;
+        }
+        }
     }
 }
 void BattleGraphics::background(Canvas& graphics,const Round& round) const {

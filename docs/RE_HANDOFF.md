@@ -59,9 +59,12 @@ Both background chains now match original state/RNG instructions; native
 Linux/Windows pictures agree. The indeterminate periodic byte is redundant
 under the established velocity invariant (PORTABLE.md). Preserve skipped-frame
 background pixels when joining the scheduler. All nine Gauge patterns and
-Kotohime ordinary/special Extra now match original MAIN with full pools and
-collision; Linux/Windows state and pictures agree. Continue with the other eight
-Extra families, Boss attacks, the real round loop and result/MAINL routes.
+all nine ordinary Extra families and their special allocators now match original
+MAIN with full pools/history and collision, including saturated allocation.
+Linux/Windows state and Extra fixture pictures agree. Reimu advances animation
+after drawing, only on rendered frames; preserve the state-vs-frame appearance
+quirks noted in PORTABLE.md. Continue with Boss attacks, the real round loop and
+result/MAINL routes.
 Resolve wide CPU collision scans' aliased DATA reads when joining that path;
 observed aliases include palette tone, sine tables and CRT tables (PORTABLE.md).
 The native program still stops before gameplay. Preserve the live Windows DOSBox disk

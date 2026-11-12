@@ -44,7 +44,7 @@ Bytes pi(const std::string& bits) {
     return raw;
 }
 void tap(th03::Menu& menu,std::uint16_t key) { menu.tick(0); menu.tick(key); }
-void attack_pools(const th03::Round& r,const th03::CollisionMap& collision) {
+void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool extended=false) {
     for(auto f:r.gauge_flags)std::cout<<unsigned(f)<<' ';
     std::cout<<unsigned(r.random.cursor)<<' '<<unsigned(r.bullets.trail_cursor)<<' '<<unsigned(r.effect_cursor)<<' ';
     for(const auto& frames:r.gauges.frame)for(auto f:frames)std::cout<<unsigned(f)<<' ';
@@ -70,12 +70,40 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision) {
     for(const auto& c:r.circles)std::cout<<unsigned(c.age)<<' '<<unsigned(c.pid)<<' '<<c.left<<' '<<c.top<<' ';
     for(const auto& shot:r.shots)std::cout<<shot.alive<<' ';
     for(auto b:collision.bytes)std::cout<<unsigned(b)<<' ';
+    if(extended) {
+        for(const auto& pool:r.extra_attacks.items)for(const auto& e:pool)std::cout<<e.homing_disabled<<' ';
+        for(const auto& pool:r.extra_attacks.ellen_history)for(const auto& h:pool)for(auto p:h)std::cout<<p.x<<' '<<p.y<<' ';
+    }
     std::cout<<r.sounds.size()<<' ';for(auto sound:r.sounds)std::cout<<unsigned(sound)<<' ';
     std::cout<<'\n';
 }
 }
 int main(int argc,char** argv) {
     try {
+        if((argc==6||argc==7)&&std::string(argv[1])=="--extra") {
+            const auto character=unsigned(std::stoul(argv[2])),pid=unsigned(std::stoul(argv[3])),ticks=unsigned(std::stoul(argv[4]));
+            const bool special=std::stoi(argv[5]);
+            if(character>8||pid>1)throw std::runtime_error("unknown Extra fixture");
+            th03::Round r;th03::CollisionMap collision;r.speed=64;r.bullet_base_speed=8;r.fg_shift={{3,-4}};
+            r.players[0].center={3600,4800};r.players[1].center={800,5200};
+            r.players[0].paletted=r.players[1].paletted=std::uint8_t(character*2+1);
+            r.random.cursor=254;for(unsigned i=0;i<256;++i)r.random.bytes[i]=std::uint8_t(i*13+7);
+            th03::Palette palette{};for(unsigned i=0;i<48;++i)palette[i]=std::uint8_t(i*5+7);r.set_palette(palette);
+            r.bullets.model.acceleration=128;r.gauges.timing[pid]={{6,1,2,0}};
+            const auto spawns=argc==7 ? unsigned(std::stoul(argv[6])) : 1;
+            for(unsigned i=0;i<spawns;++i) {
+                if(special)r.extra_attacks.special(r,{2048,1920},pid,72,255);
+                else r.extra_attacks.add(r,r.players[pid].center,pid);
+            }
+            const auto& e=r.extra_attacks.items[pid][special&&character==8 ? 8 : special&&character==4 ? 8 : 0];
+            r.shots[0].alive=true;r.shots[0].pid=std::uint8_t(pid^1);r.shots[0].top_left={std::int16_t((special ? e.center.x : e.target_x)-256),1920};
+            for(unsigned tick=0;tick<ticks;++tick) {
+                r.result_frame=std::uint16_t(tick);collision.clear();r.bullets.model.reset();
+                r.extra_attacks.update(r,pid,collision,[&](const th03::Hitbox& box){return r.charge_shots.hit(r,box);});
+                r.extra_attacks.prepare_render(r,pid);r.update_effects();r.prepare_effects_render();
+            }
+            attack_pools(r,collision,true);return 0;
+        }
         if((argc==7&&std::string(argv[1])=="--gauge")||(argc==5&&std::string(argv[1])=="--koto-extra")) {
             const bool extra=std::string(argv[1])=="--koto-extra";
             const auto character=extra ? 4u : unsigned(std::stoul(argv[2])),pid=unsigned(std::stoul(argv[extra ? 2 : 3]));
@@ -171,6 +199,7 @@ int main(int argc,char** argv) {
             if(kind=="circle"&&argc==6)th03::grcg_circle(canvas,{number(3),number(4)},unsigned(std::stoul(argv[5])),13,clip);
             else if(kind=="line"&&argc==7)th03::grcg_line(canvas,{number(3),number(4)},{number(5),number(6)},13,clip);
             else if(kind=="triangle"&&argc==9)th03::grcg_triangle(canvas,{{{number(3),number(4)},{number(5),number(6)},{number(7),number(8)}}},13,clip);
+            else if(kind=="trapezoid"&&argc==9)th03::grcg_trapezoid(canvas,number(3),number(4),number(5),number(6),number(7),number(8),13,clip);
             else throw std::runtime_error("invalid raster fixture");
             std::cout.write(reinterpret_cast<const char*>(canvas.pixels.data()),640*200);return 0;
         }
@@ -188,18 +217,19 @@ int main(int argc,char** argv) {
                 gauge=std::string(argv[1])=="--gauge-picture",extra=std::string(argv[1])=="--extra-picture";
             th03::CollisionMap collision;
             if(gauge)for(unsigned p=0;p<2;++p) {round.gauge_flags[p]=3;round.gauge_levels[p]=15;}
-            else if(extra)for(unsigned p=0;p<2;++p) {round.gauges.timing[p]={{6,1,2,0}};round.extra_attacks.kotohime_gauge(round,{2048,0},p);}
+            else if(extra)for(unsigned p=0;p<2;++p)round.extra_attacks.add(round,round.players[p].center,p);
             else if(background)round.background.begin(round.random,character);
             else if(loss) {round.players[0].lose_time=48;round.defeated_player=0;}
             else if(bomb)for(unsigned p=0;p<2;++p)round.player_bomb(p,resident);
             else for(unsigned p=0;p<2;++p)round.charge_shots.add(round,round.players[p].center,p);
             for(unsigned i=0;i<ticks;++i) {
                 round.result_frame=std::uint16_t(i);
+                if(i)for(unsigned p=0;p<2;++p)round.extra_attacks.prepare_render(round,p);
                 if(gauge||extra) {
                     collision.clear();round.bullets.model.reset();
                     for(unsigned p=0;p<2;++p) {
                         if(gauge)round.gauges.update(round,p);
-                        if(character==4)round.extra_attacks.update_kotohime(round,p,collision,[&](const th03::Hitbox& box){return round.charge_shots.hit(round,box);});
+                        if(extra||character==4)round.extra_attacks.update(round,p,collision,[&](const th03::Hitbox& box){return round.charge_shots.hit(round,box);});
                     }
                     round.bullets.update(round,collision,[&](th03::Point center,std::uint8_t pid) {
                         const th03::Hitbox box{center,center,pid,{0,0}};

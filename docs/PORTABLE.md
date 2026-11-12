@@ -5,11 +5,11 @@ Title, menus, character selection and MAINL stage introduction join through
 explicit resident state into MAIN round initialization. Enemy scripts, battle
 resources/HUD, round-introduction animation, collision primitives, bullets,
 explosion chains, fireballs, all nine Charge Shot/Bomb families, Hyper handlers,
-shared effects, both background chains, nine Gauge patterns, Kotohime Extra
-Attacks, player/loss state machines and CPU decisions are ported and checked
+shared effects, both background chains, nine Gauge patterns, all nine Extra
+Attack families, player/loss state machines and CPU decisions are ported and checked
 separately.
 The program stops at initialized battle state;
-it is not yet a playable full-game port. CPU edge-scan data, the other eight Extra families, Boss attacks,
+it is not yet a playable full-game port. CPU edge-scan data, Boss attacks,
 results/dialogues/endings, Music Room/HiScore, audio and persistence
 still need integration and campaign testing.
 
@@ -103,9 +103,10 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_charge.py` | Same arguments as `check_selection.py` | All nine Charge Shot lifecycles, full physical pools/history, hit circles and RNG, sound events and four projectile Hyper helpers |
 | `check_bomb.py` | Same arguments as `check_selection.py` | Nine Bomb controllers coupled to complete effect pools, palette/foreground state, RNG and sound events |
 | `check_cpu.py` | Same arguments as `check_selection.py` | Offensive/defensive CPU, target selection, collision/retry grids, shared velocity/RNG and real Bomb activation |
+| `check_extra.py` | Same arguments as `check_selection.py` | All nine Extra lifecycles and special allocators, complete entity/Ellen-history/bullet/effect pools, real shot consumption, collision/RNG and saturated allocation |
 | `check_gauge.py` | Same arguments as `check_selection.py` | Nine Gauge patterns and ordinary/special Kotohime Extra, coupled to full bullet/effect/entity pools, shot consumption, palette/RNG and collision maps |
 | `check_background.py` | Same arguments as `check_selection.py` | Both particle chains, all80 slots, LCG, acceleration/phase transitions, reset and both indeterminate-byte branches |
-| `check_raster.py` | Same arguments as `check_selection.py` | Complete original GRCG circle, clipped DDA line and filled-triangle rasters |
+| `check_raster.py` | Same arguments as `check_selection.py` | Complete original GRCG circle, clipped DDA line, triangle and trapezoid rasters |
 | `check_mrs.py` | Same arguments as `check_round.py` | Original MRS opaque/altered/alpha blits, alignment and horizontal flip in all pixels |
 
 Linux and native Windows x64 state checks pass; menu, selection and isolated
@@ -152,7 +153,7 @@ Native Windows x64 transfer/trail states and collision maps agree with Linux.
 `combat.cpp` joins shot, explosion and charge-shot collision in the original
 order, including score carry, combo saturation, Boss/Panic state and derived
 fireballs. Its Charge Shot callback can now use `ChargeShots::hit`; Extra Attack
-callbacks still need their character owners. Fireball allocation retains a reused
+callbacks can now bind `ExtraAttacks::add`. Fireball allocation retains a reused
 slot's frame; charged red fireballs can read the previous destroyed fireball's generation.
 The ordinary fireball-hit stack slot is supplied as `0x0f`. Known out-of-range
 slots retain the original cross-player charge, score-digit and extends aliases,
@@ -239,11 +240,29 @@ special allocator uses slot8 or overwrites slot9 when slot8 is occupied, as in
 MAIN. Extra hitboxes skip explosions while retaining real charge/shot and
 hit-circle effects. Collision dimensions convert pixels to two-pixel tiles.
 `--gauge-picture HDI CHARACTER TICKS FILE.ppm` and
-`--extra-picture HDI 4 TICKS FILE.ppm` render coupled fixtures. Linux/Windows
+`--extra-picture HDI CHARACTER TICKS FILE.ppm` render coupled fixtures. Linux/Windows
 state and complete picture comparisons agree.
 
-Continue with the other Extra families, Boss attacks, the real round loop and
-result/MAINL routes. Wide CPU scans near the left edge still need
+`ExtraAttacks` now also owns the other eight ordinary attack families and the
+Reimu/Marisa/Ellen/Kana/Rikako/Yumemi special allocators used by bosses. The
+original-instruction checks include saturated scans and Kotohime's slot9
+replacement, all seven Ellen history samples, paired Chiyuri arrival and beam
+collision, Mima recoil/bounces, Rikako homing and Yumemi's two collision bars.
+Reimu alone advances its Extra animation in the render loop; call
+`prepare_render` after drawing, only on rendered frames. Mima uses duration for
+its flying animation. Reimu/Mima/Marisa/Ellen appearance sprites use the state
+byte rather than the frame byte. Ellen/Kana consume spawn RNG before scanning
+occupied slots. Kana's special allocator deliberately retains the existing PID
+and Ellen's retains history until the update, as in MAIN.
+
+All families have resource rendering, including Ellen's four visible history
+samples, the repeated Marisa beam, Chiyuri trapezoids and Yumemi's outlines and
+sprite perimeters. The trapezoid matches original master.lib pixels, including
+its clipped-height DDA denominator. Linux/Windows saturated-state snapshots and
+18 complete Extra fixture pictures agree. These remain isolated fixtures;
+full-game render scheduling still needs the real round loop.
+
+Continue with Boss attacks, the real round loop and result/MAINL routes. Wide CPU scans near the left edge still need
 their aliased DGROUP owners. With an empty bitmap and initialized target DATA,
 P0 at (8,336) pixels with a 32-tile scan reads `02D0..02D4` and collides with
 `PaletteTone`; at X16 it immediately reads `SinTable8` byte `0380`. P1's

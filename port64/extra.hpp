@@ -14,7 +14,13 @@ struct Extra {
 class ExtraAttacks {
 public:
     std::array<std::array<Extra,16>,2> items{};
+    std::array<std::array<std::array<Point,7>,12>,2> ellen_history{};
     void reset();
+    void add(Round& round,Point center,unsigned pid);
+    void special(Round& round,Point center,unsigned owner,std::uint8_t angle=64,std::uint8_t mode=1);
+    void update(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
+    // Reimu alone advances its animation during the original render call.
+    void prepare_render(const Round& round,unsigned pid);
     void fly_init(Round& round,Extra& extra,Point from,Point target,unsigned pid,int speed);
     bool fly_update(Extra& extra,unsigned owner);
     void add_kotohime(Round& round,Point center,unsigned pid);

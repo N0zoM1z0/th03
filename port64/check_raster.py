@@ -47,7 +47,7 @@ def original(image, kind, values):
             raise ValueError(f'original raster {offset:04x} did not return')
 
     call(0xc40, (16, 8, 303, 191))
-    call({'circle': 0x9e2, 'line': 0xdbe, 'triangle': 0xfac}[kind], values)
+    call({'circle': 0x9e2, 'line': 0xdbe, 'triangle': 0xfac, 'trapezoid': 0x1120}[kind], values)
     return pixels
 
 
@@ -70,13 +70,15 @@ def main():
                                     (160, -30, 120, 250), (50, 8, 50, 191), (303, 191, 16, 8))]
     cases += [('triangle', v) for v in ((160, -12, 353, 155, -33, 155), (-2, 170, 300, 0, 100, 80),
                                         (20, 20, 250, 20, 100, 150), (20, 20, 250, 150, 100, 150))]
+    cases += [('trapezoid', v) for v in ((8, 150, 162, 192, 100, 112), (8, 50, 52, 192, 250, 252),
+        (8, 10, 14, 192, 90, 94), (8, 303, 315, 192, 200, 212), (100, 50, 50, 8, 100, 100))]
     for kind, values in cases:
         native = subprocess.check_output([str(args.native_checks.resolve()), '--raster', kind, *map(str, values)])
         expected = original(image, kind, values)
         if native != expected:
             points = [(i % 640, i // 640, a, b) for i, (a, b) in enumerate(zip(native, expected)) if a != b]
             raise ValueError(f'{kind}{values}: differing dots={len(points)}, first={points[:8]}')
-    print('Original GRCG circle, clipped DDA line and filled triangle rasters agree in all pixels')
+    print('Original GRCG circle, clipped DDA line and filled triangle/trapezoid rasters agree in all pixels')
 
 
 if __name__ == '__main__':

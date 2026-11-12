@@ -14,7 +14,7 @@ import sys
 import tomllib
 
 
-def original(image, character, pid, kind, level, ticks, extra=False):
+def original(image, character, pid, kind, level, ticks, extra=False, extended=False, spawns=1):
     from unicorn import Uc, UC_ARCH_X86, UC_MODE_16, UC_HOOK_CODE
     from unicorn.x86_const import UC_X86_REG_SP, UC_X86_REG_CS, UC_X86_REG_DS, UC_X86_REG_SS, UC_X86_REG_IP
     u = Uc(UC_ARCH_X86, UC_MODE_16)
@@ -73,16 +73,35 @@ def original(image, character, pid, kind, level, ticks, extra=False):
         if u.reg_read(UC_X86_REG_IP) != 0xf000:
             raise ValueError(f'original Gauge/Extra {segment:04x}:{offset:04x} did not return')
 
+    if extended:
+        u.mem_write(ds + 0x230a, bytes(720))
+        call(0x18fe, 0x3dc)
+        # Reimu's frame byte advances in the renderer, which calls a near
+        # sprite helper. Capture only that helper; execute the real loop.
+        def skip_near(uc, address, size, unused):
+            sp = uc.reg_read(UC_X86_REG_SP)
+            ip = struct.unpack('<H', uc.mem_read(0x80000 + sp, 2))[0]
+            uc.reg_write(UC_X86_REG_SP, sp + 2)
+            uc.reg_write(UC_X86_REG_IP, ip)
+        u.hook_add(UC_HOOK_CODE, skip_near, begin=0x28fe0 + 0x13e4, end=0x28fe0 + 0x13e4)
     if extra:
         u.mem_write(ds + 0x2d58 + pid * 4, bytes((6, 1, 2, 0)))
         for p in range(2):
             u.mem_write(ds + 0x2d3c + p * 4, struct.pack('<HH', 0xde, 0x2c15))
-        if kind:
+        if extended:
+            add = (0x129e, 0x164b, 0xadc, 0x40f, 0xd80, 0x845, 0x1fc2, 0xa, 0x1922)
+            special = {0: (0x12ee, (2048, 1920, 72)), 2: (0xb26, (2048, 1920, pid ^ 1)),
+                       3: (0x4c9, (2048, 1920, 72, 255)), 4: (0xdf3, (2048, 1920)),
+                       5: (0x8b6, (2048, 1920, 72)), 6: (0x2026, (2048, 1920, 72)), 8: (0x197f, (2048, 1920))}
+            offset, arguments = special[character] if kind else (add[character], (*((3600, 4800) if pid == 0 else (800, 5200)), pid))
+            for _ in range(spawns):
+                call(0x18fe, offset, arguments)
+        elif kind:
             call(0x18fe, 0xdf3, (2048, 0))
         else:
             call(0x18fe, 0xd80, (*((3600, 4800) if pid == 0 else (800, 5200)), pid))
-        index = pid * 16 + (8 if kind else 0)
-        target_x = struct.unpack('<h', u.mem_read(ds + 0x292a + index * 32 + 10, 2))[0]
+        index = pid * 16 + (8 if kind and character in (4, 8) else 0)
+        target_x = struct.unpack('<h', u.mem_read(ds + 0x292a + index * 32 + (2 if extended and kind else 10), 2))[0]
         put(0x66a6, 1)
         u.mem_write(ds + 0x66a8, struct.pack('<hh', target_x - 256, 1920))
         put(0x66a6 + 12, pid ^ 1)
@@ -97,7 +116,10 @@ def original(image, character, pid, kind, level, ticks, extra=False):
         u.mem_write(ds + 0x4ba0, bytes(6624))
         call(0x139d, 0x3faf)
         if extra:
-            call(0x18fe, 0x100f)
+            update = (0x1500, 0x1765, 0xc56, 0x63d, 0x100f, 0x9b9, 0x2125, 0x280, 0x1e4e)
+            call(0x18fe, update[character] if extended else 0x100f)
+            if extended and character == 0:
+                call(0x18fe, 0x1619)
         else:
             call(*entry)
             call(entry[0], entry[1] + 24)
@@ -125,6 +147,12 @@ def original(image, character, pid, kind, level, ticks, extra=False):
         out.extend(struct.unpack_from('<BBhh', b, 0x2832 + i * 6))
     out.extend(b[0x66a6 + i * 14] for i in range(32))
     out.extend(b[0x4ba0:0x6580])
+    if extended:
+        out.extend(b[0x292a + i * 32 + 23] for i in range(32))
+        for i in range(24):
+            at = 0x230a + i * 30
+            for j in range(7):
+                out.extend((signed(at + 2 + j * 2), signed(at + 16 + j * 2)))
     out.extend((len(sounds), *sounds))
     return out
 

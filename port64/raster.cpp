@@ -83,4 +83,18 @@ void grcg_triangle(Canvas& canvas,std::array<Point,3> p,std::uint8_t color,Clip 
         edge.next();long_edge.next();
     }
 }
+void grcg_trapezoid(Canvas& canvas,int y1,int left1,int right1,int y2,int left2,int right2,std::uint8_t color,Clip clip) {
+    // master.lib rejects either endpoint above the clip. Its bottom clip
+    // changes the DDA denominator while retaining the supplied endpoint Xs.
+    if(y1<clip.top||y2<clip.top)return;
+    if(y1>y2) {std::swap(y1,y2);std::swap(left1,left2);std::swap(right1,right2);}
+    if(y1>clip.bottom)return;
+    y2=std::min(y2,clip.bottom);
+    Edge a({std::int16_t(left1),std::int16_t(y1)},{std::int16_t(left2),std::int16_t(y2)});
+    Edge b({std::int16_t(right1),std::int16_t(y1)},{std::int16_t(right2),std::int16_t(y2)});
+    for(int y=y1;y<=y2;++y) {
+        canvas.fill(std::max(clip.left,std::min(a.x,b.x)),y,std::min(clip.right,std::max(a.x,b.x)),y,color);
+        a.next();b.next();
+    }
+}
 }
