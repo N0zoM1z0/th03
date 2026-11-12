@@ -100,8 +100,17 @@ Every animation refresh agrees with the actual palette fade instructions under
 the original no-BGM clock profile; audio integration remains open. The played
 character pair must survive dispatch's change to the next resident opponent.
 Ordinary wins continue through the next stage introduction into MAIN, carrying
-the score; versus returns to OP. Continue with score registration/continue and
-late-stage dialogue/endings. Those owners still stop at their MAINL handoffs.
+the score; versus returns to OP. Score registration, title HiScore, native
+YUME.NEM persistence and continue/Game Over now run as well. Complete score
+crypto/files, insertion, name-entry frames and continue outcomes agree with
+original MAINL. The entire initial score RGB frame matches DOS. Preserve the
+BFNT palette override, overlapping-row page snapshot and eighth-character
+cursor/VRAM aliases. Linux/Windows pictures, save/reload and return-to-MAIN or
+return-to-OP paths pass; a private SDL score-window check also passes. Native
+saves use an independent directory; headless defaults to memory only.
+Continue with late-stage dialogue/endings, Music Room, audio and configuration
+persistence. Ending registration must resume the ending/bonus flow before OP,
+instead of entering continue. Dialogue/ending branches still stop at MAINL.
 See PORTABLE.md for commands and verification scope.
 The Reimu player cel looks malformed in the isolated overview at
 `build/boss-complete/overview.png`; compare the original player renderer and

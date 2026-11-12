@@ -103,6 +103,15 @@ std::uint8_t Bfnt::pixel(unsigned image,unsigned x,unsigned y) const {
     const auto packed=bytes_[data_offset+(std::size_t(image)*height+y)*(width/2)+x/2];
     return std::uint8_t((x&1) ? packed&15 : packed>>4);
 }
+void Bfnt::apply_palette(Palette& palette) const {
+    if(!(bytes_[5]&128))return;
+    const auto start=32+word(bytes_,28);
+    // BFNT_PALETTE_SET reads eight-bit B,R,G components and rotates each
+    // triple into the master palette's R,G,B storage without nibble expansion.
+    for(unsigned i=0;i<16;++i) {
+        palette[i*3]=bytes_.at(start+i*3+1);palette[i*3+1]=bytes_.at(start+i*3+2);palette[i*3+2]=bytes_.at(start+i*3);
+    }
+}
 void Bfnt::put(Canvas& dest,unsigned image,int left,int top) const {
     need(image<count,"BFNT image index outside file");
     for(unsigned y=0;y<height;++y)for(unsigned x=0;x<width;++x) {

@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
 
 namespace {
 void check(bool ok, const char* what) { if (!ok) throw std::runtime_error(what); }
@@ -115,6 +116,99 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==7&&std::string(argv[1])=="--score-file") {
+            th03::ScoreFile file(std::string(argv[2])=="-" ? Bytes{} : read_file(argv[2]));
+            auto seed=std::uint32_t(std::stoul(argv[4]));th03::Resident resident;
+            resident.stage=std::uint8_t(std::stoi(argv[5]));resident.credits=std::uint8_t(std::stoi(argv[6]));
+            const auto section=file.load(unsigned(std::stoul(argv[3])),seed,resident);
+            std::cout<<seed<<' ';for(auto b:section.bytes)std::cout<<unsigned(b)<<' ';
+            for(auto b:file.encoded())std::cout<<unsigned(b)<<' ';
+            std::cout<<'\n';return 0;
+        }
+        if(argc==6&&std::string(argv[1])=="--score-codec") {
+            th03::ScoreSection section;const auto raw=read_file(argv[2]);check(raw.size()==206,"score section size differs");
+            std::copy(raw.begin(),raw.end(),section.bytes.begin());
+            th03::Resident resident;resident.stage=std::uint8_t(std::stoi(argv[4]));resident.credits=std::uint8_t(std::stoi(argv[5]));
+            auto seed=std::uint32_t(std::stoul(argv[3]));const auto encoded=section.encode(seed,resident);
+            std::cout<<seed<<' ';for(auto b:encoded)std::cout<<unsigned(b)<<' ';
+            std::cout<<'\n';return 0;
+        }
+        if(argc==7&&std::string(argv[1])=="--score-insert") {
+            th03::ScoreSection section;const auto raw=read_file(argv[2]);std::copy(raw.begin(),raw.end(),section.bytes.begin());
+            th03::Resident resident;auto value=std::uint32_t(std::stoul(argv[3]));
+            for(auto& digit:resident.scores[0]) {digit=std::uint8_t(value%10);value/=10;}
+            resident.credits=std::uint8_t(std::stoi(argv[4]));resident.stage=std::uint8_t(std::stoi(argv[5]));resident.paletted[0]=std::uint8_t(std::stoi(argv[6]));
+            std::cout<<section.insert(resident)<<' ';for(auto b:section.bytes)std::cout<<unsigned(b)<<' ';
+            std::cout<<'\n';return 0;
+        }
+        if(argc==4&&std::string(argv[1])=="--name-entry") {
+            th03::ScoreSection section;const auto raw=read_file(argv[2]);std::copy(raw.begin(),raw.end(),section.bytes.begin());
+            th03::NameEntry editor;std::istringstream stream(argv[3]);std::string mask;
+            while(std::getline(stream,mask,',')) {
+                editor.tick(std::uint16_t(std::stoul(mask)),section,0);
+                std::cout<<editor.letter<<' '<<unsigned(editor.cursor)<<' '<<editor.done<<' ';
+                for(auto held:editor.holds)std::cout<<held<<' ';
+                std::cout<<(editor.snow_spill ? int(*editor.snow_spill) : -1)<<'\n';
+            }
+            for(auto b:section.bytes)std::cout<<unsigned(b)<<' ';
+            std::cout<<'\n';return 0;
+        }
+        if(argc==7&&std::string(argv[1])=="--score-ui") {
+            const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name));th03::Font font(read_file(argv[3]));
+            th03::Resident resident;resident.paletted={{5,14}};resident.stage=std::stoi(argv[4])==0 ? 255 : 1;
+            if(std::stoi(argv[4])==1)resident.scores[0].fill(9);
+            th03::ScoreFile file(hdi_file(disk,"YUME    NEM"));th03::ScoreMenu menu(assets,font,file,resident);
+            std::istringstream stream(argv[5]);std::string mask;while(std::getline(stream,mask,','))menu.tick(std::uint16_t(std::stoul(mask)));
+            std::cout<<menu.place<<' '<<menu.tone()<<' '<<menu.editing()<<' '<<menu.done()<<' '<<menu.name.letter<<' '<<unsigned(menu.name.cursor)<<'\n';
+            write_file(argv[6],th03::ppm(menu.render()));return 0;
+        }
+        if(argc==7&&std::string(argv[1])=="--continue-ui") {
+            const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name));th03::Font font(read_file(argv[3]));
+            th03::Resident resident;resident.stage=5;resident.lives=0;resident.credits=std::uint8_t(std::stoi(argv[4]));resident.scores[0].fill(9);
+            th03::ContinueMenu menu(assets,font,resident);std::istringstream stream(argv[5]);std::string mask;
+            while(std::getline(stream,mask,','))menu.tick(std::uint16_t(std::stoul(mask)));
+            std::cout<<menu.selected<<' '<<menu.done()<<' '<<unsigned(resident.credits)<<' '<<unsigned(resident.stage)<<' '<<unsigned(resident.lives)<<' ';
+            for(const auto& score:resident.scores)for(auto d:score)std::cout<<unsigned(d)<<' ';
+            std::cout<<'\n';
+            write_file(argv[6],th03::ppm(menu.render()));return 0;
+        }
+        if(argc==5&&std::string(argv[1])=="--scores-flow") {
+            const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));const auto bitmap=read_file(argv[3]);
+            th03::Application app(assets,{},hdi_file(disk,"YUME    NEM"),"TL02.PI",bitmap,&main,argv[4]);
+            app.resident.begin_story();app.resident.paletted={{5,14}};app.resident.stage=1;app.resident.winner=1;app.resident.scores[0].fill(9);
+            app.resident.opponents={{13,3,5,7,9,11,1,15,17}};app.start_post_match();
+            for(unsigned tick=0;tick<169;++tick)app.tick({});
+            app.tick({th03::shot,{}});
+            for(unsigned tick=0;tick<18;++tick)app.tick({});
+            check(app.phase==th03::Phase::scores,"story loss did not open scores");
+            for(unsigned tick=0;tick<35;++tick)app.tick({});
+            for(auto mask:{th03::left,th03::Input(0),th03::down,th03::Input(0),th03::down,th03::Input(0),th03::shot,th03::Input(0),th03::shot})app.tick({std::uint16_t(mask),{}});
+            for(unsigned tick=0;tick<35;++tick)app.tick({});
+            check(app.phase==th03::Phase::continuing,"score registration did not open continue");
+            th03::ScoreFile reloaded({},argv[4]);auto seed=app.resident.seed;const auto section=reloaded.load(0,seed,app.resident);
+            check(section.bytes[85]==41&&section.bytes[92]==41,"saved score did not survive reload");
+            for(unsigned i=0;i<8;++i)check(section.bytes[2+i]==th03::regi::ascii("MARISA  "[7-i]),"default player name did not survive reload");
+            for(unsigned tick=0;tick<18;++tick)app.tick({});
+            app.tick({th03::shot,{}});
+            for(unsigned tick=0;tick<18;++tick)app.tick({});
+            check(app.phase==th03::Phase::stage_intro,"accepted continue did not open intro");
+            for(unsigned tick=0;tick<160&&app.phase==th03::Phase::stage_intro;++tick)app.tick({});
+            check(app.phase==th03::Phase::battle&&app.resident.stage==0&&app.resident.credits==2&&app.resident.lives==2,"continue lost its stage/credit/life context");
+            check(app.round->scores[0]==std::array<std::uint8_t,8>{},"continued MAIN did not clear its old score");
+            for(unsigned credits:{0u,3u}) {
+                th03::Application over(assets,{},hdi_file(disk,"YUME    NEM"),"TL02.PI",bitmap,&main);
+                over.resident.begin_story();over.resident.paletted={{5,14}};over.resident.stage=1;over.resident.credits=std::uint8_t(credits);over.start_scores();
+                for(unsigned tick=0;tick<35;++tick)over.tick({});
+                over.tick({th03::shot,{}});
+                for(unsigned tick=0;tick<35;++tick)over.tick({});
+                if(credits) {for(unsigned tick=0;tick<18;++tick)over.tick({});
+                over.tick({th03::cancel,{}});for(unsigned tick=0;tick<18;++tick)over.tick({});}
+                check(over.phase==th03::Phase::game_over,"declined/exhausted continue did not enter Game Over");
+                for(unsigned tick=0;tick<100;++tick)over.tick({});
+            check(over.phase==th03::Phase::op,"Game Over did not return to title");
+            }
+            std::cout<<"Score registration persists and reloads, continue restarts MAIN, decline/exhausted credits return through Game Over\n";return 0;
+        }
         if(argc==4&&std::string(argv[1])=="--win-clock") {
             const PfArchive assets(hdi_file(read_file(argv[2]),op_archive_name));th03::Font font(read_file(argv[3]));
             th03::Resident resident;resident.stage=1;resident.paletted={{5,14}};
@@ -156,7 +250,7 @@ int main(int argc,char** argv) {
                 for(unsigned tick=0;tick<169;++tick)app.tick({});
                 check(app.phase==th03::Phase::winner,"winner screen skipped its input wait");
                 app.tick({th03::shot,{}});for(unsigned tick=0;tick<18;++tick)app.tick({});
-                check(app.phase==(mode==0 ? th03::Phase::stage_intro : mode==1 ? th03::Phase::mainl_handoff : th03::Phase::op),"winner screen routed to the wrong MAINL owner");
+                check(app.phase==(mode==0 ? th03::Phase::stage_intro : mode==1 ? th03::Phase::scores : th03::Phase::op),"winner screen routed to the wrong MAINL owner");
                 if(!mode) {
                     check(app.resident.paletted[1]==3,"next stage lost its dispatched opponent");
                     for(unsigned tick=0;tick<160&&app.phase==th03::Phase::stage_intro;++tick)app.tick({});

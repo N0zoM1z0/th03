@@ -2,9 +2,9 @@
 #include <stdexcept>
 
 namespace th03 {
-Application::Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture,Bytes font_bitmap,const PfArchive* main_assets):assets_(assets),main_assets_(main_assets),
+Application::Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture,Bytes font_bitmap,const PfArchive* main_assets,std::filesystem::path save_directory):score_file(nem,std::move(save_directory)),assets_(assets),main_assets_(main_assets),
     background_(decode_pi(assets.read(picture))),graphic_font_(std::move(font_bitmap)),font_(assets.read("MIKOFT.BFT")),window_(assets.read("OPWIN.BFT")) {
-    menu.options=resident.options=options;available_=characters_unlocked(nem) ? 9 : 7;
+    menu.options=resident.options=options;available_=characters_unlocked(score_file.encoded()) ? 9 : 7;
 }
 void Application::start_selection(SelectKind kind) {
     if(!selection_assets_)selection_assets_.emplace(assets_);
@@ -31,14 +31,37 @@ void Application::start_post_match() {
     if(route==StoryRoute::final_dialogue||route==StoryRoute::ending) {phase=Phase::mainl_handoff;return;}
     win_.emplace(assets_,graphic_font_,resident,played);phase=Phase::winner;
 }
+void Application::start_scores() {scores_.emplace(assets_,graphic_font_,score_file,resident);phase=Phase::scores;}
 void Application::tick(const InputFrame& input) {
     if(finished())return;
+    if(phase==Phase::scores) {
+        scores_->tick(input.single);
+        if(scores_->done()) {
+            available_=characters_unlocked(score_file.encoded()) ? 9 : 7;
+            if(resident.show_scores)return_to_title();
+            else {
+                continue_.emplace(assets_,graphic_font_,resident);phase=Phase::continuing;
+                if(continue_->done()) {game_over_.emplace(assets_);phase=Phase::game_over;}
+            }
+        }
+        return;
+    }
+    if(phase==Phase::continuing) {
+        continue_->tick(input.single);
+        if(continue_->done()) {
+            if(continue_->selected)start_stage_intro();
+            else {game_over_.emplace(assets_);phase=Phase::game_over;}
+        }
+        return;
+    }
+    if(phase==Phase::game_over) {game_over_->tick();if(game_over_->done())return_to_title();return;}
     if(phase==Phase::winner) {
         win_->tick(input.single);
         if(win_->done()) {
             const auto route=story_dispatch(resident);
             if(resident.mode!=Mode::story)return_to_title();
             else if(route==StoryRoute::stage)start_stage_intro();
+            else if(route==StoryRoute::other)start_scores();
             else phase=Phase::mainl_handoff;
         }
         return;
@@ -89,9 +112,14 @@ void Application::tick(const InputFrame& input) {
         phase=Phase::versus;transition_wait_=13;
     } else if(menu.request==Request::attract) {
         resident.begin_demo();start_stage_intro();
+    } else if(menu.request==Request::scores) {
+        return_selection_=menu.selected;resident.show_scores=true;resident.stage=255;start_scores();
     } else phase=Phase::mainl_handoff;
 }
 Frame Application::render() const {
+    if(phase==Phase::scores)return scores_->render();
+    if(phase==Phase::continuing)return continue_->render();
+    if(phase==Phase::game_over)return game_over_->render();
     if(win_&&(phase==Phase::winner||phase==Phase::mainl_handoff))return win_->render();
     if(round_loop&&(phase==Phase::battle||phase==Phase::mainl_handoff))return round_loop->render(*round,resident,*battle_graphics_);
     if(round&&phase==Phase::mainl_handoff)return battle_graphics_->render(*round,resident);

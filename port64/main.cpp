@@ -8,7 +8,7 @@
 int main(int argc, char** argv) {
     try {
         std::string hdi, archive, screenshot, extract, output, packed, inputs;
-        std::string scene="title", picture="TL02.PI",font_bitmap,characters="1,3";
+        std::string scene="title", picture="TL02.PI",font_bitmap,characters="1,3",save_directory;
         unsigned stage=0;
         bool headless=false, list=false, main_assets=false;
         unsigned frames=0;
@@ -18,7 +18,8 @@ int main(int argc, char** argv) {
             if (arg=="--main-assets") {main_assets=true;continue;}
             if (arg=="--list") { list=true; continue; }
             if (arg=="--help") {
-                std::cout<<"th03-port64 (--hdi FILE | --archive FILE) [--headless] [--scene title|menu|options|story-select|versus-select|two-select|stage-intro|battle-ready|battle|two-battle]\n"
+                std::cout<<"th03-port64 (--hdi FILE | --archive FILE) [--headless] [--scene title|menu|options|scores|story-select|versus-select|two-select|stage-intro|battle-ready|battle|two-battle]\n"
+                         <<"  [--save-dir DIRECTORY]\n"
                          <<"  [--font-bmp FILE] [--characters P1,P2] [--stage N]\n"
                          <<"  [--screenshot FILE.ppm] [--frames N] [--inputs SP[:P1:P2],...]\n"
                          <<"  [--main-assets] [--list] [--extract NAME --output FILE] [--pi NAME --packed FILE]\n";
@@ -29,6 +30,7 @@ int main(int argc, char** argv) {
             if (arg=="--hdi") hdi=value;
             else if (arg=="--archive") archive=value;
             else if (arg=="--font-bmp") font_bitmap=value;
+            else if (arg=="--save-dir") save_directory=value;
             else if (arg=="--characters") characters=value;
             else if (arg=="--stage") stage=unsigned(std::stoul(value));
             else if (arg=="--scene") scene=value;
@@ -71,12 +73,14 @@ int main(int argc, char** argv) {
         std::optional<PfArchive> main_archive;
         if(!disk.empty())main_archive.emplace(hdi_file(disk,main_archive_name));
         th03::Application app(assets,options,nem,picture,font_bitmap.empty() ? Bytes{} : read_file(font_bitmap),
-                              main_archive ? &*main_archive : nullptr);
+                              main_archive ? &*main_archive : nullptr,save_directory.empty() ? (headless ? std::filesystem::path{} : th03::default_save_directory()) : std::filesystem::path(save_directory));
         auto& menu=app.menu;
         if (scene=="menu" || scene=="options") { menu.tick(th03::left); menu.tick(0); }
         if (scene=="options") {
             for (int i=0;i<4;++i) { menu.tick(th03::down); menu.tick(0); }
             menu.tick(th03::shot); menu.tick(0);
+        } else if(scene=="scores") {
+            app.resident.stage=255;app.resident.show_scores=true;app.start_scores();
         } else if(scene=="story-select") {
             app.resident.begin_story();app.start_selection(th03::SelectKind::story);
         } else if(scene=="versus-select"||scene=="two-select") {

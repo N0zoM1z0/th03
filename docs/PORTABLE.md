@@ -12,17 +12,18 @@ Battle now runs with enemy/player/CPU movement, shooting, hits, attacks, warning
 pause/quit, result statistics, playfield transitions and round retries. Matches
 commit scores, advance the resident stage and enter MAINL's winner animation.
 Ordinary story victories continue through the next introduction into battle;
-versus returns to the title. Story losses and the late-stage dialogue/ending
-branches stop at their respective unfinished MAINL owners.
-Dialogues/endings, continue flow, Music Room/HiScore, audio and persistence still
-need integration and campaign testing. Kotohime's
+versus returns to the title. Story losses proceed through score registration and
+continue; accepting restarts the stage, while declining or exhausting credits
+returns through Game Over. The title's HiScore menu also runs natively.
+Late-stage dialogues/endings, Music Room, audio and configuration persistence
+still need integration and campaign testing. Kotohime's
 Bomb fade and further CPU aliases still require the contexts described below.
 
 The DOS reconstruction stays on `main`. The live Windows DOSBox session and
 `D:\Entertainment\Game\Touhou\th03-reconstruct\play.hdi` are independent.
 Do not replace that disk, send input to its window or restart its emulator.
-The native program reads external original data; it executes no DOS code and
-writes no saves yet. Add a separate save directory before implementing writes.
+The native program reads external original data and executes no DOS code.
+It writes YUME.NEM only to its independent native save directory.
 
 ## Build and inspect
 
@@ -39,7 +40,7 @@ build/linux-x64/th03-port64 --hdi /path/to/original/zun.hdi \
 ```
 
 The font is an external 2048x2048 monochrome Anex86-format PC-98 BMP, also
-accepted by DOSBox-X. MAINL introductions and Japanese result labels require it;
+accepted by DOSBox-X. MAINL introductions, scores and Japanese result labels require it;
 menu/selection do not.
 Windows cross-build:
 
@@ -57,6 +58,16 @@ Arrows move through single-player menus; Z/Enter confirms and Escape returns.
 The original title initially hides menu labels; a direction reveals them.
 Two-player P1 uses T/F/H/B with Z/X; P2 uses keypad movement with Left/Right
 for Shot/Bomb. Option changes rank, sound-mode and key-mode state in memory.
+Name entry keeps the original alphabet: Z/Enter selects, X erases, and selecting
+END or entering eight letters finishes. The following score-table wait requires
+release followed by another key press.
+
+Scores use `%LOCALAPPDATA%/TH03` on Windows or `$XDG_DATA_HOME/th03`
+(default `$HOME/.local/share/th03`) on Linux. `--save-dir DIRECTORY` selects a
+different directory. A missing native YUME.NEM starts with the external HDI's
+score file; subsequent saves and loads use the native copy. Configuration still
+comes from the HDI and changes remain in memory. Headless runs use memory only
+unless an explicit `--save-dir` is supplied.
 
 Useful headless scenes:
 
@@ -70,6 +81,9 @@ build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
   --scene battle-ready --characters 5,13 --screenshot ready.ppm
 build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
   --scene battle --characters 5,13 --frames 1200 --screenshot battle.ppm
+build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
+  --font-bmp /path/to/FREECG98.BMP --scene scores \
+  --frames 40 --screenshot scores.ppm
 ```
 
 `--characters` supplies two paletted IDs 1..18; `--stage` is zero-based.
@@ -112,6 +126,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_combo.py` | Same arguments as `check_selection.py` | Both 80-frame combo lifetimes, expiry/reset and deferred BCD score awards |
 | `check_results.py` | Same arguments as `check_selection.py` | Reward accumulation, full BCD scores and TRAM characters/attributes, warning overlap, cover/uncover rasters, result branches, life debit/score commit and application retry/handoff |
 | `check_win.py` | Same arguments as `check_round.py` | Winner resource/palette and full message selection, story dispatch including stage9's adjacent byte, every animation refresh with real palette fades under no-BGM timing, and application stage/versus routing |
+| `check_scores.py` | Same arguments as `check_round.py` | Complete encrypted sections/files, insertion and name-entry frames, original DOS score RGB frame, continue outcomes, native file reload and application registration/continue/Game Over routes |
 | `check_bullet.py` | Same arguments as `check_selection.py` | Group vectors, full bullet/trail pools, motion/transfer/cloud/clearing, collision maps and complete pellet rasters |
 | `check_combat.py` | Same arguments as `check_selection.py` | Explosion/chain scoring, enemy/fireball hits, derived fireballs, movement/collision, coupled bullet pipelines and known stack aliases |
 | `check_charge.py` | Same arguments as `check_selection.py` | All nine Charge Shot lifecycles, full physical pools/history, hit circles and RNG, sound events and four projectile Hyper helpers |
@@ -238,10 +253,38 @@ the initial palette synchronization waits. Audio is still absent: the native
 animation uses the original no-BGM delays of 16, 64 and 4 frames. A measure input is exposed
 for the eventual audio service. Linux/Windows winner pictures agree. The real
 application proceeds from an ordinary win through StageIntro into a fresh MAIN
-round with the committed score; versus returns to OP. Score registration and
-continue still need their own owners before story losses can resume.
+round with the committed score; versus returns to OP. Story losses enter score
+registration, followed by continue or Game Over.
 `--win-picture HDI FONT_BMP PROFILE REFRESHES OUT.ppm` inspects the animation:
 profiles 0/1 select P1/P2 at stage 1, 4/5 at stage 6 and 6/7 at stage 7.
+
+`score.cpp` retains the four 206-byte YUME.NEM sections, forward decode, backward
+encryption, checksum and three LCG draws per save. MAINL recreates all four ranks
+when loading corrupt data, including its original all-rank unlock quirk for a
+clear without continuing. Equal scores retain insertion order because the sort
+ignores the continue digit. Name entry retains release locks, signed WORD repeat
+counters, the double-width alphabet commands and all-identical default names.
+Its eighth character wraps the backwards cursor to255. The next blank writes14
+to a byte in the snow pool, which has no subsequent consumer before exec/exit;
+the editor records that location. The associated unput and preview use different
+signed/unsigned X shifts, producing the original visible VRAM aliases.
+
+The complete initial score frame matches the retained DOS frame in every RGB
+byte. `super_entry_bfnt` replaces the PI palette with the last BFNT's eight-bit
+B,R,G palette, rotated to R,G,B; retaining only the PI palette changes the blues.
+Page1 retains the initial rows, so name erases restore neighboring overlapping
+rows. Linux/Windows editing and continue pictures agree, including the final
+underflow preview. The save/registration/continue fixture reloads the native
+file and reaches MAIN with the previous stage, two lives, one fewer credit and
+a cleared score. Rejecting continue and exhausted credits return through the
+original no-BGM Game Over waits. A private SDL window also accepts the score
+screen's release/confirm sequence, writes the native copy and returns to title.
+
+Native file writes replace YUME.NEM through a temporary file in the selected
+save directory. Short host files are treated as missing before entering the
+original recreation path. GCC8 needs its separate `stdc++fs` library; CMake
+links it for that compiler, while the Windows GCC13 build uses its ordinary
+filesystem support. The original HDI and the user's DOS play disk stay read-only.
 
 `bullet.cpp` retains the 320-slot pool, shared 48-slot trail ring, byte-wrapped
 speed tuning and ascending update order. Derived groups can occupy later slots
