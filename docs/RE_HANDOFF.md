@@ -63,12 +63,14 @@ all nine ordinary Extra families and their special allocators now match original
 MAIN with full pools/history and collision, including saturated allocation.
 Linux/Windows state and Extra fixture pictures agree. Reimu advances animation
 after drawing, only on rendered frames; preserve the state-vs-frame appearance
-quirks noted in PORTABLE.md. Shared BOSS control and Reimu
-BOSS now have coupled original-instruction comparisons, including all four
+quirks noted in PORTABLE.md. Shared BOSS control and Reimu/Mima BOSS now have
+coupled original-instruction comparisons, including each character's four
 patterns, launch/reversal, retreat and HP/explosion rewards. The seven level
 parameters share physical bytes across characters; keep that alias. Explosion
-completion belongs after rendering. Continue with the other eight BOSS families,
-the real round loop and result/MAINL routes.
+completion belongs after rendering. Mima also advances particle/carrier
+animation during rendering and uses masked intro halves. Continue with the other seven BOSS families,
+the real round loop and result/MAINL routes. Marisa's template/pattern/render
+owner in `src/main/boss/marisa.cpp` is the next bounded source.
 Resolve wide CPU collision scans' aliased DATA reads when joining that path;
 observed aliases include palette tone, sine tables and CRT tables (PORTABLE.md).
 The native program still stops before gameplay. Preserve the live Windows DOSBox disk

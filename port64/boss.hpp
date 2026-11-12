@@ -23,7 +23,9 @@ public:
     std::array<std::uint8_t,7> parameters{};
     std::uint8_t reimu_direction=0,reimu_speed=0,reimu_angle=0;
     std::array<Point,6> reimu_orbit{};
+    std::array<std::uint8_t,4> mima_angles{};
     void reimu_template(unsigned pid);
+    void mima_template(unsigned pid);
     bool start(Round& round,unsigned pid);
     void move_sine();
     void fall(Round& round,unsigned pid);
@@ -32,7 +34,10 @@ public:
     // Explosion-ring completion changes score and ownership after drawing.
     void prepare_render(Round& round,unsigned pid);
     void update_reimu(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
+    void update_mima(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
 private:
     void reimu_pattern(Round& round,unsigned pid);
+    void mima_pattern(Round& round,unsigned pid);
+    void hit(Round& round,unsigned pid,CollisionMap& collision,const ChargeQuery& charge);
 };
 }

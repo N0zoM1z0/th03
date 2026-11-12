@@ -9,7 +9,7 @@ public:
     BattleGraphics(const PfArchive& op,const PfArchive& main,const Resident& resident);
     Frame render(const Round& round,const Resident& resident) const;
     void sprite(Canvas& dest,int left,int top,unsigned offset,unsigned width,unsigned height,
-                int clip_left=0,int clip_right=639,bool clipped=true,int monochrome=-1,bool overlap_clear=true) const;
+                int clip_left=0,int clip_right=639,bool clipped=true,int monochrome=-1,bool overlap_clear=true,std::uint16_t mask=0xffff) const;
     void pattern(Canvas& dest,unsigned index,int left,int top) const;
     const Palette& palette() const {return palette_;}
 private:
@@ -18,7 +18,7 @@ private:
     void effects(Canvas& graphics,const Round& round) const;
     void charges(Canvas& graphics,const Round& round,unsigned pid) const;
     void extras(Canvas& graphics,const Round& round,unsigned pid) const;
-    void reimu_boss(Canvas& graphics,const Round& round,unsigned pid) const;
+    void boss(Canvas& graphics,const Round& round,unsigned pid) const;
     void bullets(Canvas& graphics,const Round& round) const;
     void intro(Canvas& graphics,const Round& round,const Resident& resident) const;
     std::uint8_t pattern_pixel(unsigned index,unsigned x,unsigned y) const;

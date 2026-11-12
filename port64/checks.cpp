@@ -58,6 +58,7 @@ void boss_pools(const th03::Round& r) {
     for(auto v:b.parameters)std::cout<<unsigned(v)<<' ';
     std::cout<<unsigned(b.reimu_direction)<<' '<<unsigned(b.reimu_speed)<<' '<<unsigned(b.reimu_angle)<<' ';
     for(auto p:b.reimu_orbit)std::cout<<p.x<<' '<<p.y<<' ';
+    for(auto v:b.mima_angles)std::cout<<unsigned(v)<<' ';
     for(const auto& score:r.scores)for(auto digit:score)std::cout<<unsigned(digit)<<' ';
 }
 void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool extended=false) {
@@ -89,6 +90,7 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
     if(extended) {
         for(const auto& pool:r.extra_attacks.items)for(const auto& e:pool)std::cout<<e.homing_disabled<<' ';
         for(const auto& pool:r.extra_attacks.ellen_history)for(const auto& h:pool)for(auto p:h)std::cout<<p.x<<' '<<p.y<<' ';
+        for(const auto& trail:r.bullets.trails) {for(auto x:trail.x)std::cout<<x<<' ';for(auto y:trail.y)std::cout<<y<<' ';}
     }
     std::cout<<r.sounds.size()<<' ';for(auto sound:r.sounds)std::cout<<unsigned(sound)<<' ';
     std::cout<<'\n';
@@ -96,18 +98,24 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
 }
 int main(int argc,char** argv) {
     try {
-        if(argc==6&&std::string(argv[1])=="--boss-reimu") {
+        if(argc==6&&(std::string(argv[1])=="--boss-reimu"||std::string(argv[1])=="--boss-mima")) {
+            const unsigned character=std::string(argv[1])=="--boss-mima" ? 1 : 0;
             const auto pid=unsigned(std::stoul(argv[2])),mode=unsigned(std::stoul(argv[3])),ticks=unsigned(std::stoul(argv[4])),level=unsigned(std::stoul(argv[5]));
             if(pid>1||mode>257||level>16)throw std::runtime_error("unknown Boss fixture");
             th03::Round r;th03::CollisionMap collision;r.speed=64;r.bullet_base_speed=8;r.fg_shift={{3,-4}};
             r.players[0].center={3600,4800};r.players[1].center={800,5200};
-            r.players[0].paletted=r.players[1].paletted=1;r.boss_level=std::uint8_t(level);r.boss_launched_by=255;
+            r.players[0].paletted=r.players[1].paletted=std::uint8_t(character*2+1);r.boss_level=std::uint8_t(level);r.boss_launched_by=255;
             r.random.cursor=254;for(unsigned i=0;i<256;++i)r.random.bytes[i]=std::uint8_t(i*13+7);
             th03::Palette palette{};for(unsigned i=0;i<48;++i)palette[i]=std::uint8_t(i*5+7);r.set_palette(palette);
-            r.bullets.model.acceleration=128;r.bosses.reimu_template(0);r.bosses.reimu_template(1);r.gauge_flags[pid]=5;
+            r.bullets.model.acceleration=128;if(character) {r.bosses.mima_template(0);r.bosses.mima_template(1);}else {r.bosses.reimu_template(0);r.bosses.reimu_template(1);}
+            r.gauge_flags[pid]=5;
+            const auto update=[&](unsigned p) {
+                const th03::ChargeQuery charge=[&](const th03::Hitbox& box){return r.charge_shots.hit(r,box);};
+                if(character)r.bosses.update_mima(r,p,collision,charge);else r.bosses.update_reimu(r,p,collision,charge);
+            };
             r.shots[0].alive=true;r.shots[0].pid=std::uint8_t(pid^1);r.shots[0].top_left={2048,1280};
             if(mode) {
-                r.bosses.update_reimu(r,pid,collision,[&](const th03::Hitbox& box){return r.charge_shots.hit(r,box);});
+                update(pid);
                 if(mode<=255) {r.bosses.state.mode=std::uint8_t(mode);r.bosses.frame=mode==255 ? 0 : 65535;}
                 else if(mode==256)r.gauge_flags[pid^1]=5;
                 else {r.bosses.state.hp=0;r.bosses.hit_end(r,pid);}
@@ -115,8 +123,8 @@ int main(int argc,char** argv) {
             for(unsigned tick=0;tick<ticks;++tick) {
                 r.frame=tick;r.result_frame=std::uint16_t(tick);collision.clear();r.bullets.model.reset();
                 r.extra_attacks.update(r,pid,collision,[&](const th03::Hitbox& box){return r.charge_shots.hit(r,box);});
-                r.bosses.update_reimu(r,pid,collision,[&](const th03::Hitbox& box){return r.charge_shots.hit(r,box);});
-                if(mode==256)r.bosses.update_reimu(r,pid^1,collision,[&](const th03::Hitbox& box){return r.charge_shots.hit(r,box);});
+                update(pid);
+                if(mode==256)update(pid^1);
                 r.bosses.prepare_render(r,pid);r.extra_attacks.prepare_render(r,pid);r.update_effects();r.prepare_effects_render();
             }
             boss_pools(r);attack_pools(r,collision,true);return 0;
@@ -258,8 +266,8 @@ int main(int argc,char** argv) {
                 gauge=std::string(argv[1])=="--gauge-picture",extra=std::string(argv[1])=="--extra-picture",boss=std::string(argv[1])=="--boss-picture";
             th03::CollisionMap collision;
             if(boss) {
-                if(character!=0)throw std::runtime_error("Boss fixture currently owns Reimu");
-                round.bosses.reimu_template(0);round.bosses.reimu_template(1);round.boss_level=8;round.gauge_flags[0]=5;
+                if(character>1)throw std::runtime_error("Boss fixture currently owns Reimu/Mima");
+                if(character==1) {round.bosses.mima_template(0);round.bosses.mima_template(1);}else {round.bosses.reimu_template(0);round.bosses.reimu_template(1);}round.boss_level=8;round.gauge_flags[0]=5;
             }
             else if(gauge)for(unsigned p=0;p<2;++p) {round.gauge_flags[p]=3;round.gauge_levels[p]=15;}
             else if(extra)for(unsigned p=0;p<2;++p)round.extra_attacks.add(round,round.players[p].center,p);
@@ -278,7 +286,10 @@ int main(int argc,char** argv) {
                     for(unsigned p=0;p<2;++p) {
                         if(gauge)round.gauges.update(round,p);
                         if(extra||boss||character==4)round.extra_attacks.update(round,p,collision,[&](const th03::Hitbox& box){return round.charge_shots.hit(round,box);});
-                        if(boss)round.bosses.update_reimu(round,p,collision,[&](const th03::Hitbox& box){return round.charge_shots.hit(round,box);});
+                        if(boss) {
+                            const th03::ChargeQuery charge=[&](const th03::Hitbox& box){return round.charge_shots.hit(round,box);};
+                            if(character==1)round.bosses.update_mima(round,p,collision,charge);else round.bosses.update_reimu(round,p,collision,charge);
+                        }
                     }
                     round.bullets.update(round,collision,[&](th03::Point center,std::uint8_t pid) {
                         const th03::Hitbox box{center,center,pid,{0,0}};

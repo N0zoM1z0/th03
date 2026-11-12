@@ -51,9 +51,14 @@ void Bosses::hit_end(Round& r,unsigned pid) {
     r.boss_active[pid^1]=0;if(r.boss_level<16)++r.boss_level;
 }
 void Bosses::prepare_render(Round& r,unsigned pid) {
-    if(r.boss_launched_by!=pid||state.mode!=255)return;
-    if(frame==1)r.sounds.push_back(16);
-    if(motion::wrap(int(frame)*8)>=200) {r.score_add(pid^1,2560);state.mode=0;r.boss_launched_by=255;}
+    if(r.boss_launched_by!=pid)return;
+    if(state.mode==255) {
+        if(frame==1)r.sounds.push_back(16);
+        if(motion::wrap(int(frame)*8)>=200) {r.score_add(pid^1,2560);state.mode=0;r.boss_launched_by=255;}
+    } else if(state.mode&&character_id(r.players[pid].paletted)==1&&!state.hit) {
+        if(state.render_mode==5)state.render_frame=0;
+        if(state.render_mode==2||state.render_mode==5) {if(state.render_frame>=32)state.render_mode=3;++state.render_frame;}
+    }
 }
 void Bosses::reimu_pattern(Round& r,unsigned pid) {
     auto& s=state;auto& t=r.bullets.model;const unsigned other=pid^1;
@@ -108,10 +113,76 @@ void Bosses::update_reimu(Round& r,unsigned pid,CollisionMap& collision,const Ch
     if(!state.mode) {if(frame!=100)return;frame=0;state.mode=1;}
     if(state.mode==1)next_pattern(r);
     reimu_pattern(r,pid);if(state.mode==255)return;
+    hit(r,pid,collision,charge);
+}
+void Bosses::hit(Round& r,unsigned pid,CollisionMap& collision,const ChargeQuery& charge) {
     const unsigned other=pid^1;const auto center=state.center;
     collision.rectangle(other,center,28,28);
     const Hitbox box{{motion::wrap(int(center.x)-512),motion::wrap(int(center.y)-512)},
         {motion::wrap(int(center.x)+512),motion::wrap(int(center.y)+512)},std::uint8_t(other),{512,512}};
     state.hit=r.hitbox_hits(box,center.y,charge,Against::enemy,true);state.hp=motion::wrap(int(state.hp)-state.hit);hit_end(r,pid);
 }
+void Bosses::mima_template(unsigned pid) {
+    auto& s=templates[pid];s.center={2304,1280};s.velocity={-32,0};s.angle=s.hit=s.mode=s.pattern=s.render_mode=0;
+    s.hp=110;s.sprite=std::uint16_t(0x28c+pid*40);
+}
+void Bosses::mima_pattern(Round& r,unsigned pid) {
+    auto& s=state;auto& t=r.bullets.model;const unsigned other=pid^1;
+    const auto add=[&] {r.bullets.add(r,pid*40);};
+    const auto finish=[&] {s.render_mode=0;s.mode=1;frame=0;};
+    if(s.mode>=2&&s.mode<=5) {
+        if(frame<2) {s.render_mode=2;s.render_frame=0;mima_angles[0]=0;mima_angles[1]=192;return;}
+        if(frame<32)return;
+        if(!(frame%2)) {
+            r.sounds.push_back(3);t.angle=mima_angles[0];t.group=34;t.center=s.center;t.speed=parameters[0];t.type=2;t.animated=false;add();t.animated=true;
+            mima_angles[0]=std::uint8_t(mima_angles[0]+9);
+            if(frame<parameters[5]&&!(frame%6)) {t.type=1;t.group=15;t.speed=parameters[4];t.angle=mima_angles[1];add();t.angle=std::uint8_t(128-mima_angles[1]);add();}
+            mima_angles[1]=std::uint8_t(mima_angles[1]+3);
+        }
+        if(frame>130)finish();
+    } else if(s.mode>=6&&s.mode<=10) {
+        if(frame==16)s.render_mode=5;else if(frame<32)return;
+        const Point center{motion::wrap(int(s.center.x)+384),motion::wrap(int(s.center.y)-512)};
+        if(frame==32||frame==36||frame==40) {r.effect_add(center,other,Effect::center);return;}
+        if(frame<=48)return;
+        if(!(frame%4)) {
+            t.angle=0;t.group=28;t.center=center;t.count=parameters[1];t.speed=parameters[2];t.type=2;t.animated=false;add();t.type=1;add();t.animated=true;
+        }
+        if(frame==64) {t.angle=std::uint8_t(r.random.ring());t.group=37;t.center=center;t.speed=32;t.type=2;t.animated=false;add();t.animated=true;}
+        if(!(frame%2))r.sounds.push_back(3);
+        if(frame>=128)finish();
+    } else if(s.mode>=11&&s.mode<=13) {
+        const auto remainder=std::uint8_t(frame%parameters[3]);move_sine();s.render_mode=5;
+        if(remainder==1||remainder==parameters[3]/2) {
+            t.group=remainder==parameters[3]/2 ? 18 : 24;r.sounds.push_back(10);t.angle=0;
+            t.center={motion::wrap(int(s.center.x)+384),motion::wrap(int(s.center.y)-512)};
+            t.speed=88;t.type=2;t.animated=false;t.has_trail=true;add();t.has_trail=false;t.animated=true;
+        }
+        if(frame>=150)finish();
+    } else if(s.mode>=14&&s.mode<=17) {
+        move_sine();
+        if(frame==1) {mima_angles[2]=(r.random.ring()&1) ? 7 : std::uint8_t(-7);mima_angles[3]=std::uint8_t(r.random.ring());}
+        if(!(frame%2)) {t.center=orbit(s.center,mima_angles[3],768);t.angle=std::uint8_t(mima_angles[3]+64);t.type=4;t.group=33;t.speed=parameters[6];add();r.sounds.push_back(10);mima_angles[3]=std::uint8_t(mima_angles[3]+mima_angles[2]);}
+        if(frame>=72) {s.mode=1;frame=0;}
+    }
+}
+void Bosses::update_mima(Round& r,unsigned pid,CollisionMap& collision,const ChargeQuery& charge) {
+    if(start(r,pid)) {
+        const auto level=r.boss_level;
+        parameters={{std::uint8_t(32+level),std::uint8_t(2+level/4),std::uint8_t(32+level),std::uint8_t(64-2*level),
+            std::uint8_t(40+level),std::uint8_t(64+level*4),std::uint8_t(54+level)}};
+    }
+    if(r.boss_launched_by!=pid)return;
+    if(state.mode!=128)r.boss_target={state.center.x,motion::wrap(int(state.center.y)+2048)};
+    r.bullets.model.pid=std::uint8_t(pid^1);++frame;
+    switch(state.mode) {
+    case 0:if(frame!=100)return;frame=0;state.mode=1;break;
+    case 1:next_pattern(r);break;
+    case 128:fall(r,pid);break;
+    case 255:return;
+    default:mima_pattern(r,pid);break;
+    }
+    hit(r,pid,collision,charge);
+}
+
 }

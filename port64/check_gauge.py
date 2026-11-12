@@ -15,7 +15,7 @@ import tomllib
 
 
 def original(image, character, pid, kind, level, ticks, extra=False, extended=False, spawns=1, boss_case=None):
-    from unicorn import Uc, UC_ARCH_X86, UC_MODE_16, UC_HOOK_CODE
+    from unicorn import Uc, UC_ARCH_X86, UC_MODE_16, UC_HOOK_CODE, UC_HOOK_INTR
     from unicorn.x86_const import UC_X86_REG_SP, UC_X86_REG_CS, UC_X86_REG_DS, UC_X86_REG_SS, UC_X86_REG_IP
     u = Uc(UC_ARCH_X86, UC_MODE_16)
     u.mem_map(0, 0x100000)
@@ -74,11 +74,15 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
             raise ValueError(f'original Gauge/Extra {segment:04x}:{offset:04x} did not return')
 
     if boss_case is not None:
-        for at, size in ((0x1dc4, 10), (0x1dde, 96), (0x1e3f, 7), (0x1e50, 2), (0x6866, 28), (0x4b64, 16)):
+        for at, size in ((0x1dc4, 10), (0x1dde, 96), (0x1e3f, 7), (0x1e50, 2), (0x6866, 28), (0x38c8, 4), (0x4b64, 16)):
             u.mem_write(ds + at, bytes(size))
         put(0x63e, 255)
         put(0x1e3e, level)
         put(0x3ed4, 5120, 2)
+        def interrupt(uc, number, unused):
+            if number != 0x42:
+                raise ValueError(f'unexpected Boss interrupt {number:#x}')
+        u.hook_add(UC_HOOK_INTR, interrupt)
         hardware[0x1e8f0 + 0x810] = 6
         u.hook_add(UC_HOOK_CODE, hook, begin=0x1e8f0 + 0x810, end=0x1e8f0 + 0x810)
     if extended:
@@ -98,14 +102,17 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
         for p in range(2):
             u.mem_write(ds + 0x2d3c + p * 4, struct.pack('<HH', 0xde, 0x2c15))
         if boss_case is not None:
-            call(0xf1f, 0x1a0e, (0,))
-            call(0xf1f, 0x1a0e, (1,))
+            init_boss = (0x1a0e, 0x956)[character]
+            update_boss = (0x1e43, 0xce8)[character]
+            render_boss = (0x21b9, 0x1073)[character]
+            call(0xf1f, init_boss, (0,))
+            call(0xf1f, init_boss, (1,))
             put(0x2d54 + pid, 5)
             put(0x66a6, 1)
             u.mem_write(ds + 0x66a8, struct.pack("<hh", 2048, 1280))
             put(0x66a6 + 12, pid ^ 1)
             if boss_case:
-                call(0xf1f, 0x1e43)
+                call(0xf1f, update_boss)
                 if boss_case <= 255:
                     put(0x1def, boss_case)
                     put(0x1e50, 0 if boss_case == 255 else 65535, 2)
@@ -145,16 +152,17 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
         u.mem_write(ds + 0x4ba0, bytes(6624))
         call(0x139d, 0x3faf)
         if boss_case is not None:
-            call(0x18fe, 0x1500)
-            call(0xf1f, 0x1e43)
+            call(0x18fe, (0x1500, 0x1765)[character])
+            call(0xf1f, update_boss)
             if boss_case == 256:
                 put(0x2928, pid ^ 1)
                 put(0x6590, (pid ^ 1) * 40)
-                call(0xf1f, 0x1e43)
+                call(0xf1f, update_boss)
                 put(0x2928, pid)
                 put(0x6590, pid * 40)
-            call(0xf1f, 0x21b9)
-            call(0x18fe, 0x1619)
+            call(0xf1f, render_boss)
+            if character == 0:
+                call(0x18fe, 0x1619)
         elif extra:
             update = (0x1500, 0x1765, 0xc56, 0x63d, 0x100f, 0x9b9, 0x2125, 0x280, 0x1e4e)
             call(0x18fe, update[character] if extended else 0x100f)
@@ -177,7 +185,15 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
     out.extend((*b[0x3790:0x3794], *b[0x2d58:0x2d60], *b[0x11ba:0x11ea]))
     out.extend((signed(0x68de), signed(0x68e0), *b[0x68e2:0x68e8], signed(0x68e8), signed(0x68ea), word(0x68ec), *b[0x68ee:0x68f2], b[0x8df2]))
     for i in range(320):
-        out.extend(struct.unpack_from('<BBhhhhhhBBBBHBBBBH', b, 0x68f2 + i * 26))
+        fields = list(struct.unpack_from('<BBhhhhhhBBBBHBBBBH', b, 0x68f2 + i * 26))
+        if fields[16]:
+            offset = fields[17] - 0x8972
+            if not 0 <= offset < 48 * 24 or offset % 24:
+                raise ValueError('original bullet references an unowned trail')
+            fields[17] = offset // 24
+        else:
+            fields[17] = 0  # Unused near pointer; native stores an owner index.
+        out.extend(fields)
     for i in range(32):
         out.extend(struct.unpack_from('<BBhhhhhhhBBBBh', b, 0x292a + i * 32))
     for i in range(12):
@@ -193,6 +209,7 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
             at = 0x230a + i * 30
             for j in range(7):
                 out.extend((signed(at + 2 + j * 2), signed(at + 16 + j * 2)))
+        out.extend(struct.unpack_from("<576h", b, 0x8972))
     out.extend((len(sounds), *sounds))
     if boss_case is not None:
         prefix = []
@@ -202,6 +219,7 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
         prefix.extend((*b[0x1e3f:0x1e46], *b[0x6866:0x6869]))
         for i in range(6):
             prefix.extend((signed(0x686a + i * 2), signed(0x6876 + i * 2)))
+        prefix.extend(b[0x38c8:0x38cc])
         prefix.extend(b[0x4b64:0x4b74])
         return prefix + out
     return out
