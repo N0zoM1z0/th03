@@ -18,8 +18,9 @@ returns through Game Over. The title's HiScore menu also runs natively.
 The late-stage dialogues resume the Chiyuri/Yumemi introductions and battles.
 Final victory runs ending dialogue, Staff Roll, the verdict and score registration.
 Eligible clears unlock the two final characters and show the optional bonus
-dialogue before returning to the title. Music Room, audio and configuration
-persistence still need integration and campaign testing. Kotohime's
+dialogue before returning to the title. Music Room now runs its full track list,
+comments and polygon animation. Native configuration survives process restarts.
+Audio output and campaign acceptance remain open. Kotohime's
 Bomb fade and further CPU aliases still require the contexts described below.
 
 The DOS reconstruction stays on `main`. The live Windows DOSBox session and
@@ -60,7 +61,9 @@ GUI checks belong on private Xvfb, not the user's active DOS desktop.
 Arrows move through single-player menus; Z/Enter confirms and Escape returns.
 The original title initially hides menu labels; a direction reveals them.
 Two-player P1 uses T/F/H/B with Z/X; P2 uses keypad movement with Left/Right
-for Shot/Bomb. Option changes rank, sound-mode and key-mode state in memory.
+for Shot/Bomb. Option changes rank, sound-mode and key-mode state.
+Music Room uses Up/Down to select, Z/Enter to request playback and Escape or Quit to return; release held
+keys between commands. Playback requests are recorded; audio output is pending.
 Name entry keeps the original alphabet: Z/Enter selects, X erases, and selecting
 END or entering eight letters finishes. The following score-table wait requires
 release followed by another key press.
@@ -70,9 +73,10 @@ timing. A blocked page wait requires release followed by a new press.
 Scores use `%LOCALAPPDATA%/TH03` on Windows or `$XDG_DATA_HOME/th03`
 (default `$HOME/.local/share/th03`) on Linux. `--save-dir DIRECTORY` selects a
 different directory. A missing native YUME.NEM starts with the external HDI's
-score file; subsequent saves and loads use the native copy. Configuration still
-comes from the HDI and changes remain in memory. Headless runs use memory only
-unless an explicit `--save-dir` is supplied.
+score file; subsequent saves and loads use the native copy. YUME.CFG also uses
+this directory, falling back to the HDI on its first run. Configuration saves at
+OP handoffs and normal application exit, including closing the native window.
+Headless runs use memory only unless an explicit `--save-dir` is supplied.
 
 Useful headless scenes:
 
@@ -101,7 +105,8 @@ battle directly; `two-battle` starts two human players with their separate keys.
 accepts comma-separated original WORD masks, or tuples `SP:P1:P2`, one per
 VBlank. Use release samples between presses. Selection samples every three
 VBlanks after its initial 30-frame wait. `--help` lists supported scenes.
-`dialogue0` and `dialogue1` inspect the two late-stage chapters for P1's character;
+`music` opens Music Room directly. `dialogue0` and `dialogue1` inspect the two
+late-stage chapters for P1's character;
 `ending` includes the original 96-frame black wait before that character's ending
 dialogue, followed by Staff Roll and ending registration. `staff` starts the
 roll directly; it ignores input until the verdict has waited 257 snow frames.
@@ -127,6 +132,8 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | Check | Command arguments after the script | Evidence compared |
 |---|---|---|
 | `check_title.py` | `--native "$NATIVE/th03-port64" --dos-root "$DOS" --dos-frame "$DOS/.analysis/runtime/candidates/dos-replay-rebuilt/menu.png" --output /new/private/output` | All128,000 decoded PI bytes and the complete DOS menu RGB frame |
+| `check_music.py` | Same arguments as `check_round.py`, plus `--output /new/private/output` | Complete OP polygon/RNG/page/input traces, all 19 song requests, full pages after each comment switch, original GRCG polygon rasters and application reentry/exit |
+| `check_configuration.py` | Same arguments as `check_round.py` | Original CFG option order and save/exit bytes, native overwrite/reload, invalid native records and Option changes across process restart |
 | `check_selection.py` | `--native-checks "$NATIVE/th03-port64-checks" --dos-root "$DOS"` | OP selection/lock/palette state, complete curve rasters and story opponent/seed policy |
 | `check_intro.py` | `--native "$NATIVE/th03-port64" --dos-root "$DOS"` | Complete Marisa/Rikako Stage1 DOS frame, minimum wait and fade handoff |
 | `check_round.py` | `--native "$NATIVE/th03-port64" --native-checks "$NATIVE/th03-port64-checks" --dos-root "$DOS"` | Six MAIN initializers plus real-resetter SI inheritance, including LCG, backward ring fill, player thresholds and both formation rings |
@@ -350,8 +357,35 @@ flow checks cover a no-continue clear, a continued clear and Chiyuri's clear,
 including save reload and return to OP. Audio still uses the no-BGM timing;
 injected measure checks do not provide music playback. Linux and Windows agree
 in both the no-BGM and injected measure/slow-refresh profiles. A private SDL
-window also runs the staff scene. Continue with Music Room,
-audio, configuration persistence and campaign acceptance.
+window also runs the staff scene.
+
+`music.cpp` adapts TH04's polygon raster while retaining TH03's 19 tracks and
+840-byte comment blocks. Original OP instructions verify all sixteen polygon
+states and RNG through bounces/resets, input release, the skipped blank list row,
+playback order and exit. Comment refreshes restore all four planes in the text
+rectangle and recapture the complete B plane. Only B receives polygon fills;
+the original GRCG owner renders the poses used in picture comparisons. Both
+pages agree after each track's first comment update and at the final observation
+in each input profile, using the already checked font renderer as a device.
+
+OP leaves the first animation's accessed page at 0 while its page variable is 1;
+keep those distinct. Polygon initialization and the selected playing track
+persist across Music Room visits, even though returning to the title restarts
+its own song. Selection reseeds OP's shared RNG. Executing a new OP process
+resets this state to seed 1 and track 0. The application now retains that process
+boundary across selection cancellation, MAIN/MAINL and score viewing.
+Linux and Windows state/picture checks agree. A private SDL window accepts
+selection/play/exit and returns to the title.
+
+`configuration.cpp` keeps the native YUME.CFG separate from the HDI. Its first
+three bytes are BGM mode, key mode and rank; native loading validates the same
+typed ranges used by the menu. DOS's ordinary save writes one indeterminate
+stack byte after these options. The native file preserves its existing opaque
+byte instead; unused and segment/debug metadata never become host pointers.
+Exit writes the options followed by five zero bytes, matching original OP.
+Both platforms pass original-instruction save comparisons, replacement of an
+existing native file, Option changes and reload in a new process. Continue with
+audio output, the remaining battle caller contexts and campaign acceptance.
 
 `bullet.cpp` retains the 320-slot pool, shared 48-slot trail ring, byte-wrapped
 speed tuning and ascending update order. Derived groups can occupy later slots

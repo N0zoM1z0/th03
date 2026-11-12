@@ -11,6 +11,10 @@
 #include <iostream>
 #include <stdexcept>
 #include <sstream>
+#ifdef _WIN32
+#include <io.h>
+#include <fcntl.h>
+#endif
 
 namespace {
 void check(bool ok, const char* what) { if (!ok) throw std::runtime_error(what); }
@@ -116,6 +120,66 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==3&&std::string(argv[1])=="--font-service") {
+#ifdef _WIN32
+            _setmode(_fileno(stdin),_O_BINARY);_setmode(_fileno(stdout),_O_BINARY);
+#endif
+            const th03::Font font(read_file(argv[2]));std::array<unsigned char,8> header{};
+            while(std::cin.read(reinterpret_cast<char*>(header.data()),8)) {
+                const auto word=[&](unsigned at) {return unsigned(header[at])|(unsigned(header[at+1])<<8);};
+                std::string text(word(6),char(0));std::cin.read(text.data(),std::streamsize(text.size()));check(bool(std::cin),"font service request truncated");
+                th03::Canvas canvas;font.text(canvas,int(word(0)),int(word(2)),text,15,word(4));Bytes mask(32000);
+                for(unsigned i=0;i<canvas.pixels.size();++i)if(canvas.pixels[i])mask[i/8]|=std::uint8_t(128u>>(i&7));
+                std::cout.write(reinterpret_cast<const char*>(mask.data()),std::streamsize(mask.size()));std::cout.flush();
+            }
+            return 0;
+        }
+        if(argc==6&&std::string(argv[1])=="--music-run") {
+            const PfArchive assets(hdi_file(read_file(argv[2]),op_archive_name));const th03::Font font(read_file(argv[3]));th03::MusicState state;
+            std::istringstream masks(argv[4]);std::string mask;check(bool(std::getline(masks,mask,',')),"music input is empty");
+            th03::MusicRoom room(assets,font,state,std::uint16_t(std::stoul(mask)));
+            unsigned age=0;
+            const auto snapshot=[&] {
+                if(room.phase==th03::MusicRoom::Phase::after_play) {
+                    Bytes pixels=room.pages[0].pixels;pixels.insert(pixels.end(),room.pages[1].pixels.begin(),room.pages[1].pixels.end());
+                    write_file(std::string(argv[5])+".frame"+std::to_string(age)+".pixels",pixels);
+                }
+                ++age;
+                std::cout<<room.selected<<' '<<unsigned(state.playing)<<' '<<room.back<<' '<<room.accessed<<' '<<room.shown<<' '<<state.initialized<<' '<<state.seed<<' '<<room.frames<<' '<<room.done()<<' ';
+                for(const auto& p:state.polygons)std::cout<<p.center.x<<' '<<p.center.y<<' '<<p.velocity.x<<' '<<p.velocity.y<<' '<<unsigned(p.angle)<<' '<<unsigned(p.angle_speed)<<' ';
+                std::cout<<'\n';
+            };
+            snapshot();while(!room.done()&&std::getline(masks,mask,',')) {room.tick(std::uint16_t(std::stoul(mask)));snapshot();}
+            for(const auto& sound:room.sounds)std::cout<<"sound\t"<<unsigned(sound.kind)<<'\t'<<sound.value<<'\t'<<sound.name<<'\n';
+            Bytes pages=room.pages[0].pixels;pages.insert(pages.end(),room.pages[1].pixels.begin(),room.pages[1].pixels.end());write_file(argv[5],pages);write_file(std::string(argv[5])+".ppm",th03::ppm(room.render()));return 0;
+        }
+        if(argc==6&&std::string(argv[1])=="--configuration") {
+            const auto original=read_file(argv[2]);th03::Configuration config({},argv[3],original);const auto before=config.options();
+            std::cout<<unsigned(before.music)<<' '<<unsigned(before.keys)<<' '<<unsigned(before.rank)<<'\n';
+            const std::string values(argv[4]);check(values.size()==3,"configuration needs three option digits");
+            config.save({std::uint8_t(values[0]-'0'),std::uint8_t(values[1]-'0'),std::uint8_t(values[2]-'0')},std::stoi(argv[5])!=0);
+            for(auto b:config.bytes())std::cout<<unsigned(b)<<' ';
+            std::cout<<'\n';return 0;
+        }
+        if(argc==5&&std::string(argv[1])=="--music-flow") {
+            const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));const auto bitmap=read_file(argv[3]);
+            th03::Application app(assets,{}, {},"TL02.PI",bitmap,&main,argv[4]);
+            for(auto mask:{th03::left,th03::Input(0),th03::down,th03::Input(0),th03::down,th03::Input(0),th03::shot})app.tick({std::uint16_t(mask),{}});
+            check(app.phase==th03::Phase::music,"main menu did not enter Music Room");
+            for(auto mask:{th03::Input(0),th03::down,th03::Input(0),th03::shot,th03::shot,th03::Input(0),th03::cancel,th03::Input(0)})app.tick({std::uint16_t(mask),{}});
+            check(app.phase==th03::Phase::op&&app.music_state.playing==1&&app.menu.selected==2,"Music Room lost the playing track or title return choice");
+            const auto seed=app.music_state.seed;const auto center=app.music_state.polygons[0].center;
+            app.start_music();check(app.music_state.seed==seed&&app.music_state.playing==1&&app.music_state.initialized,"Music Room visit reset process-local track/RNG");
+            check(app.music_state.polygons[0].center.x!=center.x||app.music_state.polygons[0].center.y!=center.y,"Music Room did not resume polygons on reentry");
+            app.tick({th03::cancel,{}});app.tick({});check(app.phase==th03::Phase::op,"Music Room did not wait for exit release");
+            app.start_selection(th03::SelectKind::story);check(app.music_state.seed==app.resident.seed,"selection did not reseed OP's shared RNG");
+            app.return_to_title();app.start_scores();app.return_to_title();check(!app.music_state.initialized&&app.music_state.seed==1&&app.music_state.playing==0,"new OP process inherited old Music Room state");
+            app.resident.options={0,2,3};app.return_to_title();app.menu.screen=th03::Screen::main;app.menu.input_allowed=true;
+            app.tick({th03::cancel,{}});check(app.phase==th03::Phase::quit,"OP exit failed");
+            th03::Application reload(assets,{}, {},"TL02.PI",bitmap,&main,argv[4]);
+            check(reload.resident.options.music==0&&reload.resident.options.keys==2&&reload.resident.options.rank==3,"native configuration did not reload");
+            std::cout<<"Music menu playback/reentry/release, OP process reset and native configuration reload pass\n";return 0;
+        }
         if(argc==5&&std::string(argv[1])=="--ending-flow") {
             const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));const auto bitmap=read_file(argv[3]);
             for(unsigned profile=0;profile<3;++profile) {

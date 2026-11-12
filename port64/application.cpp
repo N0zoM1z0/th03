@@ -3,15 +3,18 @@
 #include <cstdio>
 
 namespace th03 {
-Application::Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture,Bytes font_bitmap,const PfArchive* main_assets,std::filesystem::path save_directory):score_file(nem,std::move(save_directory)),assets_(assets),main_assets_(main_assets),
+Application::Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture,Bytes font_bitmap,const PfArchive* main_assets,std::filesystem::path save_directory,Bytes cfg):score_file(nem,save_directory),configuration(options,std::move(save_directory),std::move(cfg)),assets_(assets),main_assets_(main_assets),
     background_(decode_pi(assets.read(picture))),graphic_font_(std::move(font_bitmap)),font_(assets.read("MIKOFT.BFT")),window_(assets.read("OPWIN.BFT")) {
-    menu.options=resident.options=options;available_=characters_unlocked(score_file.encoded()) ? 9 : 7;
+    menu.options=resident.options=configuration.options();available_=characters_unlocked(score_file.encoded()) ? 9 : 7;
 }
 void Application::start_selection(SelectKind kind) {
     if(!selection_assets_)selection_assets_.emplace(assets_);
+    music_state.seed=resident.seed;
     selection.begin(resident,kind,available_);phase=Phase::selection;
 }
 void Application::start_stage_intro() {
+    if(op_process_active_)save_configuration(false);
+    op_process_active_=false;
     intro_.emplace(assets_,graphic_font_,resident);phase=Phase::stage_intro;
 }
 void Application::start_main(bool play) {
@@ -22,6 +25,7 @@ void Application::start_main(bool play) {
     if(play) {round_loop.emplace();round_loop->begin(*round,*battle_graphics_);phase=Phase::battle;}
 }
 void Application::return_to_title() {
+    if(!op_process_active_) {music_state=MusicState{};op_process_active_=true;}
     menu=Menu{};menu.options=resident.options;menu.resident_seed=resident.seed;
     menu.selected=return_selection_;phase=Phase::op;
 }
@@ -33,15 +37,17 @@ void Application::start_post_match(std::uint16_t input) {
     if(route==StoryRoute::ending) {start_ending();return;}
     win_.emplace(assets_,graphic_font_,resident,played);phase=Phase::winner;
 }
-void Application::start_scores() {scores_.emplace(assets_,graphic_font_,score_file,resident);phase=Phase::scores;}
+void Application::start_scores() {if(op_process_active_)save_configuration(false);op_process_active_=false;scores_.emplace(assets_,graphic_font_,score_file,resident);phase=Phase::scores;}
 void Application::start_story_dialogue(unsigned part,std::uint16_t input) {
     char file[16];std::snprintf(file,sizeof(file),"@%02uDM%u.TXT",character_id(resident.paletted[0]),part);
     cutscene_.emplace(assets_,graphic_font_,file,input);dialogue_route_=DialogueRoute::story;phase=Phase::cutscene;
 }
 void Application::start_ending() {transition_wait_=96;phase=Phase::ending_wait;}
 void Application::start_staff() {staff_.emplace(assets_,graphic_font_,resident,cutscene_ ? &*cutscene_ : nullptr);phase=Phase::staff;}
+void Application::start_music(std::uint16_t input) {music_.emplace(assets_,graphic_font_,music_state,input);phase=Phase::music;}
 void Application::tick(const InputFrame& input) {
     if(finished())return;
+    if(phase==Phase::music) {music_->tick(input.single);if(music_->done())return_to_title();return;}
     if(phase==Phase::ending_wait) {
         if(!--transition_wait_) {
             char file[16];std::snprintf(file,sizeof(file),"@%02uED.TXT",character_id(resident.paletted[0]));
@@ -134,7 +140,7 @@ void Application::tick(const InputFrame& input) {
     const bool versus=phase==Phase::versus;
     menu.tick(input.single);
     resident.options=menu.options;resident.seed=menu.resident_seed;
-    if(menu.screen==Screen::quit) {phase=Phase::quit;return;}
+    if(menu.screen==Screen::quit) {save_configuration();phase=Phase::quit;return;}
     if(menu.screen!=Screen::handoff)return;
     if(versus) {
         resident.begin_versus(unsigned(menu.selected));
@@ -147,6 +153,8 @@ void Application::tick(const InputFrame& input) {
         phase=Phase::versus;transition_wait_=13;
     } else if(menu.request==Request::attract) {
         resident.begin_demo();start_stage_intro();
+    } else if(menu.request==Request::music) {
+        return_selection_=menu.selected;start_music(input.single);
     } else if(menu.request==Request::scores) {
         return_selection_=menu.selected;resident.show_scores=true;resident.stage=255;start_scores();
     } else phase=Phase::mainl_handoff;
@@ -154,6 +162,7 @@ void Application::tick(const InputFrame& input) {
 Frame Application::render() const {
     if(phase==Phase::ending_wait)return Frame(640*400,0xff000000);
     if(phase==Phase::staff)return staff_->render();
+    if(phase==Phase::music)return music_->render();
     if(phase==Phase::cutscene)return cutscene_->render();
     if(phase==Phase::scores)return scores_->render();
     if(phase==Phase::continuing)return continue_->render();

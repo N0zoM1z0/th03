@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
             if (arg=="--main-assets") {main_assets=true;continue;}
             if (arg=="--list") { list=true; continue; }
             if (arg=="--help") {
-                std::cout<<"th03-port64 (--hdi FILE | --archive FILE) [--headless] [--scene title|menu|options|scores|story-select|versus-select|two-select|stage-intro|battle-ready|battle|two-battle|dialogue0|dialogue1|ending|staff]\n"
+                std::cout<<"th03-port64 (--hdi FILE | --archive FILE) [--headless] [--scene title|menu|options|scores|story-select|versus-select|two-select|stage-intro|battle-ready|battle|two-battle|dialogue0|dialogue1|ending|staff|music]\n"
                          <<"  [--save-dir DIRECTORY]\n"
                          <<"  [--font-bmp FILE] [--characters P1,P2] [--stage N]\n"
                          <<"  [--screenshot FILE.ppm] [--frames N] [--inputs SP[:P1:P2],...]\n"
@@ -63,9 +63,9 @@ int main(int argc, char** argv) {
             return 0;
         }
         th03::Options options;
-        Bytes nem;
+        Bytes nem,configuration;
         if (!disk.empty()) {
-            const auto cfg=hdi_file(disk,"YUME    CFG");
+            configuration=hdi_file(disk,"YUME    CFG");const auto& cfg=configuration;
             if (cfg.size()!=8 || cfg[0]>2 || cfg[1]>2 || cfg[2]>3) throw std::runtime_error("unsupported YUME.CFG");
             options={cfg[0],cfg[1],cfg[2]};
             nem=hdi_file(disk,"YUME    NEM");
@@ -73,12 +73,14 @@ int main(int argc, char** argv) {
         std::optional<PfArchive> main_archive;
         if(!disk.empty())main_archive.emplace(hdi_file(disk,main_archive_name));
         th03::Application app(assets,options,nem,picture,font_bitmap.empty() ? Bytes{} : read_file(font_bitmap),
-                              main_archive ? &*main_archive : nullptr,save_directory.empty() ? (headless ? std::filesystem::path{} : th03::default_save_directory()) : std::filesystem::path(save_directory));
+                              main_archive ? &*main_archive : nullptr,save_directory.empty() ? (headless ? std::filesystem::path{} : th03::default_save_directory()) : std::filesystem::path(save_directory),configuration);
         auto& menu=app.menu;
         if (scene=="menu" || scene=="options") { menu.tick(th03::left); menu.tick(0); }
         if (scene=="options") {
             for (int i=0;i<4;++i) { menu.tick(th03::down); menu.tick(0); }
             menu.tick(th03::shot); menu.tick(0);
+        } else if(scene=="music") {
+            app.start_music();
         } else if(scene=="scores") {
             app.resident.stage=255;app.resident.show_scores=true;app.start_scores();
         } else if(scene=="story-select") {
@@ -124,6 +126,7 @@ int main(int argc, char** argv) {
         if (!headless) run_view(app,render,frames);
         else for(unsigned i=0;i<frames&&!app.finished();++i)app.tick({});
         if (!screenshot.empty()) write_file(screenshot,th03::ppm(render()));
+        app.save_configuration();
         std::cout<<"screen="<<int(menu.screen)<<" selected="<<int(menu.selected)
                  <<" rank="<<int(menu.options.rank)<<" music="<<int(menu.options.music)
                  <<" keys="<<int(menu.options.keys)<<" handoff="<<int(menu.request)
