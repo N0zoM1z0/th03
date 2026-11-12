@@ -365,6 +365,33 @@ void BattleGraphics::extras(Canvas& graphics,const Round& round,unsigned pid) co
         }
     }
 }
+void BattleGraphics::reimu_boss(Canvas& graphics,const Round& round,unsigned pid) const {
+    if(round.boss_launched_by!=pid||character_id(round.players[pid].paletted)!=0)return;
+    const auto& b=round.bosses;const auto& state=b.state;const unsigned other=pid^1;
+    const int lclip=other ? 320 : 0,rclip=other ? 639 : 319;
+    const auto orbit=[&](Point center,unsigned angle,int radius) {
+        const auto v=motion::polar(std::uint8_t(angle),motion::wrap(radius));
+        return Point{motion::wrap(int(center.x)+v.x),motion::wrap(int(center.y)+v.y)};
+    };
+    const auto put=[&](Point center,unsigned so,unsigned width,unsigned height,int ymargin) {
+        sprite(graphics,16+other*320+pixels(center.x)+round.fg_shift[other]-int(width)/2,pixels(center.y)-ymargin,so,width,height,lclip,rclip);
+    };
+    if(state.mode==255) {
+        const int length=motion::wrap(int(b.frame)*8),x=16+other*320+pixels(state.center.x)+round.fg_shift[other],y=16+pixels(state.center.y);
+        for(unsigned i=0;i<16;++i) {const auto p=orbit({std::int16_t(x),std::int16_t(y)},length+i*16,length);sprite(graphics,p.x-24,p.y-24,0x1930,48,24,lclip,rclip);}
+        for(unsigned i=0;i<8;++i) {const auto p=orbit({std::int16_t(x),std::int16_t(y)},-length+i*32,length*2);sprite(graphics,p.x-24,p.y-24,0x1930,48,24,lclip,rclip);}
+        return;
+    }
+    unsigned animation=std::uint8_t(b.frame/4),offset=0;
+    if((animation&3)==1)offset=6;else if(animation&3)offset=0x780+(animation&1)*6;
+    if(!state.mode) {
+        if(round.frame%2&&b.frame<64)return;
+        for(unsigned i=0;i<8;++i)put(orbit(state.center,std::uint8_t(b.frame+i*32),3200-b.frame*32),pid*40+0x280+offset,48,24,8);
+        return;
+    }
+    put(state.center,state.sprite+(state.hit ? 12 : 0),96,48,32);
+    if(state.render_mode==1)for(unsigned i=0;i<b.parameters[3];++i)put(b.reimu_orbit[i],std::uint16_t(state.sprite-12+offset),48,24,8);
+}
 void BattleGraphics::background(Canvas& graphics,const Round& round) const {
     const auto& bg=round.background;if(!bg.chain)return;
     for(unsigned i=0;i<24;++i) {
@@ -466,6 +493,7 @@ Frame BattleGraphics::render(const Round& round,const Resident& resident) const 
     graphics.fill(16,8,303,191,0);graphics.fill(336,8,623,191,1);
     background(graphics,round);
     bombs(graphics,round);
+    for(unsigned pid=0;pid<2;++pid)reimu_boss(graphics,round,pid);
     for(const auto& shot:round.shots)if(shot.alive) {
         const int left=16+shot.pid*320+pixels(shot.top_left.x)+round.fg_shift[shot.pid],top=16+pixels(shot.top_left.y);
         sprite(graphics,left,top,shot.animation+shot.pid*40,16,8);

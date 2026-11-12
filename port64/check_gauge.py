@@ -14,7 +14,7 @@ import sys
 import tomllib
 
 
-def original(image, character, pid, kind, level, ticks, extra=False, extended=False, spawns=1):
+def original(image, character, pid, kind, level, ticks, extra=False, extended=False, spawns=1, boss_case=None):
     from unicorn import Uc, UC_ARCH_X86, UC_MODE_16, UC_HOOK_CODE
     from unicorn.x86_const import UC_X86_REG_SP, UC_X86_REG_CS, UC_X86_REG_DS, UC_X86_REG_SS, UC_X86_REG_IP
     u = Uc(UC_ARCH_X86, UC_MODE_16)
@@ -73,6 +73,14 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
         if u.reg_read(UC_X86_REG_IP) != 0xf000:
             raise ValueError(f'original Gauge/Extra {segment:04x}:{offset:04x} did not return')
 
+    if boss_case is not None:
+        for at, size in ((0x1dc4, 10), (0x1dde, 96), (0x1e3f, 7), (0x1e50, 2), (0x6866, 28), (0x4b64, 16)):
+            u.mem_write(ds + at, bytes(size))
+        put(0x63e, 255)
+        put(0x1e3e, level)
+        put(0x3ed4, 5120, 2)
+        hardware[0x1e8f0 + 0x810] = 6
+        u.hook_add(UC_HOOK_CODE, hook, begin=0x1e8f0 + 0x810, end=0x1e8f0 + 0x810)
     if extended:
         u.mem_write(ds + 0x230a, bytes(720))
         call(0x18fe, 0x3dc)
@@ -85,10 +93,28 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
             uc.reg_write(UC_X86_REG_IP, ip)
         u.hook_add(UC_HOOK_CODE, skip_near, begin=0x28fe0 + 0x13e4, end=0x28fe0 + 0x13e4)
     if extra:
-        u.mem_write(ds + 0x2d58 + pid * 4, bytes((6, 1, 2, 0)))
+        if boss_case is None:
+            u.mem_write(ds + 0x2d58 + pid * 4, bytes((6, 1, 2, 0)))
         for p in range(2):
             u.mem_write(ds + 0x2d3c + p * 4, struct.pack('<HH', 0xde, 0x2c15))
-        if extended:
+        if boss_case is not None:
+            call(0xf1f, 0x1a0e, (0,))
+            call(0xf1f, 0x1a0e, (1,))
+            put(0x2d54 + pid, 5)
+            put(0x66a6, 1)
+            u.mem_write(ds + 0x66a8, struct.pack("<hh", 2048, 1280))
+            put(0x66a6 + 12, pid ^ 1)
+            if boss_case:
+                call(0xf1f, 0x1e43)
+                if boss_case <= 255:
+                    put(0x1def, boss_case)
+                    put(0x1e50, 0 if boss_case == 255 else 65535, 2)
+                elif boss_case == 256:
+                    put(0x2d54 + (pid ^ 1), 5)
+                else:
+                    put(0x1dea, 0, 2)
+                    call(0xf1f, 0x2c4)
+        elif extended:
             add = (0x129e, 0x164b, 0xadc, 0x40f, 0xd80, 0x845, 0x1fc2, 0xa, 0x1922)
             special = {0: (0x12ee, (2048, 1920, 72)), 2: (0xb26, (2048, 1920, pid ^ 1)),
                        3: (0x4c9, (2048, 1920, 72, 255)), 4: (0xdf3, (2048, 1920)),
@@ -100,11 +126,12 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
             call(0x18fe, 0xdf3, (2048, 0))
         else:
             call(0x18fe, 0xd80, (*((3600, 4800) if pid == 0 else (800, 5200)), pid))
-        index = pid * 16 + (8 if kind and character in (4, 8) else 0)
-        target_x = struct.unpack('<h', u.mem_read(ds + 0x292a + index * 32 + (2 if extended and kind else 10), 2))[0]
-        put(0x66a6, 1)
-        u.mem_write(ds + 0x66a8, struct.pack('<hh', target_x - 256, 1920))
-        put(0x66a6 + 12, pid ^ 1)
+        if boss_case is None:
+            index = pid * 16 + (8 if kind and character in (4, 8) else 0)
+            target_x = struct.unpack('<h', u.mem_read(ds + 0x292a + index * 32 + (2 if extended and kind else 10), 2))[0]
+            put(0x66a6, 1)
+            u.mem_write(ds + 0x66a8, struct.pack('<hh', target_x - 256, 1920))
+            put(0x66a6 + 12, pid ^ 1)
     else:
         put(0x2d54 + pid, 1 if kind == 1 else 3)
         put(0x2d56 + pid, level)
@@ -113,9 +140,22 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
     u.mem_write(ds + 0x4ba0, bytes(6624))
     for tick in range(ticks):
         put(0x6596, tick & 65535, 2)
+        for at, mask in ((0x65a2, 1), (0x65a3, 3), (0x65a4, 7), (0x65a5, 15)):
+            put(at, tick & mask)
         u.mem_write(ds + 0x4ba0, bytes(6624))
         call(0x139d, 0x3faf)
-        if extra:
+        if boss_case is not None:
+            call(0x18fe, 0x1500)
+            call(0xf1f, 0x1e43)
+            if boss_case == 256:
+                put(0x2928, pid ^ 1)
+                put(0x6590, (pid ^ 1) * 40)
+                call(0xf1f, 0x1e43)
+                put(0x2928, pid)
+                put(0x6590, pid * 40)
+            call(0xf1f, 0x21b9)
+            call(0x18fe, 0x1619)
+        elif extra:
             update = (0x1500, 0x1765, 0xc56, 0x63d, 0x100f, 0x9b9, 0x2125, 0x280, 0x1e4e)
             call(0x18fe, update[character] if extended else 0x100f)
             if extended and character == 0:
@@ -154,6 +194,16 @@ def original(image, character, pid, kind, level, ticks, extra=False, extended=Fa
             for j in range(7):
                 out.extend((signed(at + 2 + j * 2), signed(at + 16 + j * 2)))
     out.extend((len(sounds), *sounds))
+    if boss_case is not None:
+        prefix = []
+        for at in (0x1dde, 0x1dfe, 0x1e1e):
+            prefix.extend(struct.unpack_from('<hhhhhhhHBBBBBBBBHb5B', b, at))
+        prefix.extend((word(0x1e50), b[0x1dc4], b[0x63e], b[0x1e3e], word(0x1dca), word(0x1dcc), signed(0x1dc6), signed(0x1dc8), word(0x3ed4)))
+        prefix.extend((*b[0x1e3f:0x1e46], *b[0x6866:0x6869]))
+        for i in range(6):
+            prefix.extend((signed(0x686a + i * 2), signed(0x6876 + i * 2)))
+        prefix.extend(b[0x4b64:0x4b74])
+        return prefix + out
     return out
 
 

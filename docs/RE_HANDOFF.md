@@ -63,8 +63,12 @@ all nine ordinary Extra families and their special allocators now match original
 MAIN with full pools/history and collision, including saturated allocation.
 Linux/Windows state and Extra fixture pictures agree. Reimu advances animation
 after drawing, only on rendered frames; preserve the state-vs-frame appearance
-quirks noted in PORTABLE.md. Continue with Boss attacks, the real round loop and
-result/MAINL routes.
+quirks noted in PORTABLE.md. Shared BOSS control and Reimu
+BOSS now have coupled original-instruction comparisons, including all four
+patterns, launch/reversal, retreat and HP/explosion rewards. The seven level
+parameters share physical bytes across characters; keep that alias. Explosion
+completion belongs after rendering. Continue with the other eight BOSS families,
+the real round loop and result/MAINL routes.
 Resolve wide CPU collision scans' aliased DATA reads when joining that path;
 observed aliases include palette tone, sine tables and CRT tables (PORTABLE.md).
 The native program still stops before gameplay. Preserve the live Windows DOSBox disk

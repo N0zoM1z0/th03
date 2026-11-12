@@ -10,6 +10,7 @@
 #include "background.hpp"
 #include "extra.hpp"
 #include "gauge_attacks.hpp"
+#include "boss.hpp"
 #include <array>
 #include <vector>
 
@@ -108,6 +109,7 @@ public:
     Bombs bombs;
     ExtraAttacks extra_attacks;
     GaugeAttacks gauges;
+    Bosses bosses;
     Palette palette{},palette_backup{};
     bool palette_initialized=false;
     void set_palette(const Palette& colors);

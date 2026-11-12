@@ -6,10 +6,11 @@ explicit resident state into MAIN round initialization. Enemy scripts, battle
 resources/HUD, round-introduction animation, collision primitives, bullets,
 explosion chains, fireballs, all nine Charge Shot/Bomb families, Hyper handlers,
 shared effects, both background chains, nine Gauge patterns, all nine Extra
-Attack families, player/loss state machines and CPU decisions are ported and checked
-separately.
+Attack families, shared BOSS control/Reimu BOSS, player/loss state machines and
+CPU decisions are ported and checked separately.
 The program stops at initialized battle state;
-it is not yet a playable full-game port. CPU edge-scan data, Boss attacks,
+it is not yet a playable full-game port. CPU edge-scan data, the other eight
+BOSS families,
 results/dialogues/endings, Music Room/HiScore, audio and persistence
 still need integration and campaign testing.
 
@@ -103,6 +104,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_charge.py` | Same arguments as `check_selection.py` | All nine Charge Shot lifecycles, full physical pools/history, hit circles and RNG, sound events and four projectile Hyper helpers |
 | `check_bomb.py` | Same arguments as `check_selection.py` | Nine Bomb controllers coupled to complete effect pools, palette/foreground state, RNG and sound events |
 | `check_cpu.py` | Same arguments as `check_selection.py` | Offensive/defensive CPU, target selection, collision/retry grids, shared velocity/RNG and real Bomb activation |
+| `check_boss.py` | Same arguments as `check_selection.py` | Shared launch/reversal/selection/descent/HP/explosion reward and Reimu BOSS coupled to complete bullets, Extra entities, collision, palette/RNG and scores |
 | `check_extra.py` | Same arguments as `check_selection.py` | All nine Extra lifecycles and special allocators, complete entity/Ellen-history/bullet/effect pools, real shot consumption, collision/RNG and saturated allocation |
 | `check_gauge.py` | Same arguments as `check_selection.py` | Nine Gauge patterns and ordinary/special Kotohime Extra, coupled to full bullet/effect/entity pools, shot consumption, palette/RNG and collision maps |
 | `check_background.py` | Same arguments as `check_selection.py` | Both particle chains, all80 slots, LCG, acceleration/phase transitions, reset and both indeterminate-byte branches |
@@ -262,7 +264,22 @@ its clipped-height DDA denominator. Linux/Windows saturated-state snapshots and
 18 complete Extra fixture pictures agree. These remain isolated fixtures;
 full-game render scheduling still needs the real round loop.
 
-Continue with Boss attacks, the real round loop and result/MAINL routes. Wide CPU scans near the left edge still need
+`boss.cpp` supplies the shared launch/reversal, movement, pattern rejection,
+retreat, HP completion and explosion-ring reward. Reimu's template, four pattern
+families, collision and rendering are implemented. Original comparisons include
+intro, four forced patterns, a 1,024-frame run, retreat, reversal and HP/ring
+completion with real bullet and Extra allocation. Seven level-derived parameter
+bytes are shared by all characters at original DATA `1E3F..1E45`; later character
+owners must retain that alias and untouched bytes. A selected Reimu pattern
+executes immediately at frame0; several other characters enter their pattern on
+the following tick and must preserve that distinction. Explosion completion
+changes ownership/score in the renderer; `prepare_render` belongs after drawing,
+only on rendered frames. `--boss-picture HDI 0 TICKS FILE.ppm` renders the
+isolated Reimu pipeline. Linux/Windows state snapshots and five complete
+resource pictures agree.
+
+Continue with the other eight BOSS families, the real round loop and
+result/MAINL routes. Wide CPU scans near the left edge still need
 their aliased DGROUP owners. With an empty bitmap and initialized target DATA,
 P0 at (8,336) pixels with a 32-tile scan reads `02D0..02D4` and collides with
 `PaletteTone`; at X16 it immediately reads `SinTable8` byte `0380`. P1's
