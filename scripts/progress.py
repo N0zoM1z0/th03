@@ -646,14 +646,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             rows.append(f'<desc>Natural CODE layout: 71 linker bytes + EVEN · cold decoded/stored files target-equal</desc>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
-    from html import escape
-    native_lines = []
-    for index, review in enumerate(native_reviews):
-        label = f"{review.get('artifact', '')} {review['scope']} ({review['stage']})".strip()
-        text = (f"{label}: {review['modules']} physical owners / {review['code_bytes']:,} CODE B"
-                if review['verified'] else f"{label}: verification unavailable")
-        native_lines.append(f'<text x="24" y="{514 + index * 24}" fill="#c8cad2" font-family="sans-serif" font-size="12">{escape(text)}</text>')
-    height = 562 + len(native_lines) * 24
+    height = 510
     main_functions = [f for f in functions if f['artifact'] == 'th03-main']
     main_exact_functions = sum(f['state'] == 'exact' for f in main_functions)
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="{height}" viewBox="0 0 788 {height}" role="img" aria-label="TH03 reviewed subset reconstruction progress">
@@ -667,9 +660,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
 {chr(10).join(rows)}
   <path d="M24 426 H764" stroke="#353b52"/>
   <text x="24" y="454" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN ledger: {exact_bytes:,} bytes · {len(exact_units)} extents · {main_exact_functions}/{len(main_functions)} functions</text>
-  <text x="24" y="486" fill="#f4f4f5" font-family="sans-serif" font-size="13">Current source-native reviews (separate from broad acceptance)</text>
-{chr(10).join(native_lines)}
-  <text x="24" y="{height-28}" fill="#c8cad2" font-family="sans-serif" font-size="12">Pending = publication needs revalidation. Details: docs/PROGRESS.md</text>
+  <text x="24" y="{height-28}" fill="#c8cad2" font-family="sans-serif" font-size="12">Details: docs/PROGRESS.md</text>
   <desc>Whole-game source/link/product graph: OPEN · no whole-game completion percentage</desc>
 </svg>
 '''
