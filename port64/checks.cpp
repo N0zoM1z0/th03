@@ -115,6 +115,57 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==4&&std::string(argv[1])=="--win-clock") {
+            const PfArchive assets(hdi_file(read_file(argv[2]),op_archive_name));th03::Font font(read_file(argv[3]));
+            th03::Resident resident;resident.stage=1;resident.paletted={{5,14}};
+            th03::WinScreen screen(assets,font,resident,resident.paletted);
+            const auto state=[&] {std::cout<<screen.age()<<' '<<screen.cel()<<' '<<screen.tone()<<' '<<screen.waiting()<<' '<<screen.done()<<'\n';};
+            state();for(unsigned tick=1;tick<=195;++tick) {screen.tick(tick==177 ? th03::shot : 0);state();}
+            return 0;
+        }
+        if(argc==8&&std::string(argv[1])=="--win-message") {
+            const PfArchive assets(hdi_file(read_file(argv[2]),op_archive_name));
+            th03::Resident resident;resident.paletted={{std::uint8_t(std::stoi(argv[3])),std::uint8_t(std::stoi(argv[4]))}};
+            resident.winner=std::uint8_t(std::stoi(argv[5]));resident.stage=std::uint8_t(std::stoi(argv[6]));resident.mode=th03::Mode(std::stoi(argv[7]));
+            resident.opponents={{1,3,5,7,9,11,13,15,17}};resident.opponent_tail=42;
+            const th03::WinMessage message(assets,resident,resident.paletted);
+            std::cout<<message.character<<' '<<message.palette<<' '<<message.message<<' ';
+            for(const auto& line:message.lines)for(auto c:line)std::cout<<unsigned(std::uint8_t(c))<<' ';
+            std::cout<<unsigned(th03::story_dispatch(resident))<<' '<<unsigned(resident.paletted[1])<<'\n';return 0;
+        }
+        if(argc==7&&std::string(argv[1])=="--win-picture") {
+            const PfArchive assets(hdi_file(read_file(argv[2]),op_archive_name));th03::Font font(read_file(argv[3]));
+            const unsigned profile=unsigned(std::stoul(argv[4])),ticks=unsigned(std::stoul(argv[5]));
+            th03::Resident resident;resident.paletted={{5,14}};resident.winner=profile&1;
+            resident.stage=profile>=4 ? 6+(profile-4)/2 : 1;
+            th03::WinScreen screen(assets,font,resident,resident.paletted);
+            for(unsigned i=0;i<ticks;++i)screen.tick(0);
+            std::cout<<screen.age()<<' '<<screen.cel()<<' '<<screen.tone()<<' '<<screen.waiting()<<' '<<screen.done()<<'\n';
+            write_file(argv[6],th03::ppm(screen.render()));return 0;
+        }
+        if(argc==4&&std::string(argv[1])=="--win-flow") {
+            const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            const auto bitmap=read_file(argv[3]);
+            for(unsigned mode=0;mode<3;++mode) {
+                th03::Application app(assets,{}, {},"TL02.PI",bitmap,&main);
+                app.resident.mode=mode==2 ? th03::Mode::two_player : th03::Mode::story;
+                app.resident.stage=1;app.resident.winner=std::uint8_t(mode==1);app.resident.paletted={{5,14}};
+                app.resident.scores[0]={{3,2,1,0,0,0,0,0}};
+                app.resident.opponents={{1,3,5,7,9,11,13,15,17}};app.start_post_match();
+                check(app.phase==th03::Phase::winner,"MAINL did not enter winner animation");
+                for(unsigned tick=0;tick<169;++tick)app.tick({});
+                check(app.phase==th03::Phase::winner,"winner screen skipped its input wait");
+                app.tick({th03::shot,{}});for(unsigned tick=0;tick<18;++tick)app.tick({});
+                check(app.phase==(mode==0 ? th03::Phase::stage_intro : mode==1 ? th03::Phase::mainl_handoff : th03::Phase::op),"winner screen routed to the wrong MAINL owner");
+                if(!mode) {
+                    check(app.resident.paletted[1]==3,"next stage lost its dispatched opponent");
+                    for(unsigned tick=0;tick<160&&app.phase==th03::Phase::stage_intro;++tick)app.tick({});
+                    check(app.phase==th03::Phase::battle&&app.round.has_value(),"next introduction did not launch MAIN");
+                    check(app.round->scores[0]==app.resident.scores[0],"next MAIN discarded the committed story score");
+                }
+            }
+            std::cout<<"Winner animation waits for input, then continues story through the next introduction or returns versus to OP\n";return 0;
+        }
         if(argc==3&&std::string(argv[1])=="--restart-flow") {
             const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
             th03::Application app(op,{}, {},"TL02.PI",{},&main);
@@ -136,9 +187,9 @@ int main(int argc,char** argv) {
             result_fixture(r,app.resident,4);r.frame=2000;r.result_frame=336;
             app.round_loop->transition.midpoint=true;app.round_loop->transition.phase=th03::PlayfieldTransition::Phase::uncover;
             app.tick({});
-            check(app.phase==th03::Phase::mainl_handoff&&app.resident.stage==1&&app.resident.seed==2000,"match result did not hand off the next MAINL stage");
+            check(app.phase==th03::Phase::winner&&app.resident.stage==1&&app.resident.seed==2000,"match result did not start MAINL winner animation");
             check(app.resident.scores[0]==r.scores[0]&&app.resident.scores[1]==std::array<std::uint8_t,8>{},"MAINL score transfer differs");
-            std::cout<<"Application retry preserves the live round context, uncovers, and reaches the MAINL handoff\n";return 0;
+            std::cout<<"Application retry preserves the live round context, uncovers, and starts MAINL winner animation\n";return 0;
         }
         if(argc==6&&std::string(argv[1])=="--round-end") {
             const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));

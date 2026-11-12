@@ -24,15 +24,32 @@ void Application::return_to_title() {
     menu=Menu{};menu.options=resident.options;menu.resident_seed=resident.seed;
     menu.selected=return_selection_;phase=Phase::op;
 }
+void Application::start_post_match() {
+    win_.reset();
+    const auto played=resident.paletted;
+    const auto route=story_dispatch(resident);
+    if(route==StoryRoute::final_dialogue||route==StoryRoute::ending) {phase=Phase::mainl_handoff;return;}
+    win_.emplace(assets_,graphic_font_,resident,played);phase=Phase::winner;
+}
 void Application::tick(const InputFrame& input) {
     if(finished())return;
+    if(phase==Phase::winner) {
+        win_->tick(input.single);
+        if(win_->done()) {
+            const auto route=story_dispatch(resident);
+            if(resident.mode!=Mode::story)return_to_title();
+            else if(route==StoryRoute::stage)start_stage_intro();
+            else phase=Phase::mainl_handoff;
+        }
+        return;
+    }
     if(phase==Phase::battle) {
         round_loop->tick(*round,resident,*battle_graphics_,input);
         if(round_loop->outcome!=RoundExit::running) {
             resident.seed=round->frame;
             if(round_loop->outcome==RoundExit::return_to_op)return_to_title();
             else if(round_loop->outcome==RoundExit::next_round)round_loop->restart(*round,resident);
-            else {++resident.stage;phase=Phase::mainl_handoff;}
+            else {++resident.stage;start_post_match();}
         }
         return;
     }
@@ -75,6 +92,7 @@ void Application::tick(const InputFrame& input) {
     } else phase=Phase::mainl_handoff;
 }
 Frame Application::render() const {
+    if(win_&&(phase==Phase::winner||phase==Phase::mainl_handoff))return win_->render();
     if(round_loop&&(phase==Phase::battle||phase==Phase::mainl_handoff))return round_loop->render(*round,resident,*battle_graphics_);
     if(round&&phase==Phase::mainl_handoff)return battle_graphics_->render(*round,resident);
     if(phase==Phase::stage_intro||(phase==Phase::mainl_handoff&&intro_))return intro_->render();

@@ -94,9 +94,15 @@ original MAIN. Retries retain gauge, scores, combo timers and background
 positions while clearing text and uncovering the next round. The first
 formation byte on retry inherits SI (PLAY_NEXT=1), proved through all real
 resetters. Eight controlled result pictures and a natural two-retry run through
-Game Over agree on Linux/Windows. Matches stop at MAINL after advancing the
-resident stage. Continue with winner animation, score registration/continue,
-story dialogue and endings. See PORTABLE.md for commands and verification scope.
+Game Over agree on Linux/Windows. MAINL winner animation now follows matches,
+with original portrait/palette/message selection and story dispatch checks.
+Every animation refresh agrees with the actual palette fade instructions under
+the original no-BGM clock profile; audio integration remains open. The played
+character pair must survive dispatch's change to the next resident opponent.
+Ordinary wins continue through the next stage introduction into MAIN, carrying
+the score; versus returns to OP. Continue with score registration/continue and
+late-stage dialogue/endings. Those owners still stop at their MAINL handoffs.
+See PORTABLE.md for commands and verification scope.
 The Reimu player cel looks malformed in the isolated overview at
 `build/boss-complete/overview.png`; compare the original player renderer and
 shot-sprite atlas preparation during the first live battle visual check.

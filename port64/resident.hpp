@@ -12,6 +12,7 @@ struct Resident {
     std::uint32_t seed=0;
     Mode mode=Mode::none;
     std::array<std::uint8_t,9> opponents{};
+    std::uint8_t opponent_tail=0; // Original resident_t::unused_2, read at stage9.
     std::uint8_t winner=0,stage=0,lives=2,credits=3,skill=70,demo=0;
     bool show_scores=false,fast_title=false;
     void begin_story();

@@ -10,7 +10,10 @@ Attack families, all nine BOSS families and their shared control, attack warning
 pause/quit, player/loss state machines and CPU decisions are ported and checked separately.
 Battle now runs with enemy/player/CPU movement, shooting, hits, attacks, warnings,
 pause/quit, result statistics, playfield transitions and round retries. Matches
-commit scores and advance the resident stage, then stop at the MAINL handoff.
+commit scores, advance the resident stage and enter MAINL's winner animation.
+Ordinary story victories continue through the next introduction into battle;
+versus returns to the title. Story losses and the late-stage dialogue/ending
+branches stop at their respective unfinished MAINL owners.
 Dialogues/endings, continue flow, Music Room/HiScore, audio and persistence still
 need integration and campaign testing. Kotohime's
 Bomb fade and further CPU aliases still require the contexts described below.
@@ -108,6 +111,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_loop_clock.py` | Same arguments as `check_selection.py` | Original scheduler counters, speed/recovery/CPU gates, WORD wrap and page cadence; native warning/pause suspension and double-refresh presentation |
 | `check_combo.py` | Same arguments as `check_selection.py` | Both 80-frame combo lifetimes, expiry/reset and deferred BCD score awards |
 | `check_results.py` | Same arguments as `check_selection.py` | Reward accumulation, full BCD scores and TRAM characters/attributes, warning overlap, cover/uncover rasters, result branches, life debit/score commit and application retry/handoff |
+| `check_win.py` | Same arguments as `check_round.py` | Winner resource/palette and full message selection, story dispatch including stage9's adjacent byte, every animation refresh with real palette fades under no-BGM timing, and application stage/versus routing |
 | `check_bullet.py` | Same arguments as `check_selection.py` | Group vectors, full bullet/trail pools, motion/transfer/cloud/clearing, collision maps and complete pellet rasters |
 | `check_combat.py` | Same arguments as `check_selection.py` | Explosion/chain scoring, enemy/fireball hits, derived fireballs, movement/collision, coupled bullet pipelines and known stack aliases |
 | `check_charge.py` | Same arguments as `check_selection.py` | All nine Charge Shot lifecycles, full physical pools/history, hit circles and RNG, sound events and four projectile Hyper helpers |
@@ -216,6 +220,28 @@ agree on Linux and Windows. A natural run of9,000 held-shot refreshes followed
 by up to10,000 idle refreshes loses twice, restarts twice, then reaches Game Over
 and MAINL with no remaining lives. Both platforms finish with identical state
 and complete frames (round2, frame3273, result frame176,10,878 draws).
+
+`win.cpp` keeps the played characters separate from the resident opponent
+selected for the next stage. MAINL updates the latter before loading the winner
+portrait and message, which still use the played pair. Stages 6 and 7 choose the two
+special message blocks when P1 wins. Each block contains three exact 60-byte
+CP932 lines. The original dispatch reads the byte after `story_opponents` at
+stage 9 before taking the ending branch; `Resident::opponent_tail` retains that
+physical alias. The original win loader and dispatcher agree in 25 bounded
+cases, covering every winner character/palette and the stage/mode branches.
+
+Winner animation has five logo cels, the white flash, final portrait/logo,
+three bold text lines, an unrestricted input wait and a black fade. The clock
+check runs the original animation and actual palette fade instructions, replacing
+only device output and clock waits. Its entire refresh trace agrees, including
+the initial palette synchronization waits. Audio is still absent: the native
+animation uses the original no-BGM delays of 16, 64 and 4 frames. A measure input is exposed
+for the eventual audio service. Linux/Windows winner pictures agree. The real
+application proceeds from an ordinary win through StageIntro into a fresh MAIN
+round with the committed score; versus returns to OP. Score registration and
+continue still need their own owners before story losses can resume.
+`--win-picture HDI FONT_BMP PROFILE REFRESHES OUT.ppm` inspects the animation:
+profiles 0/1 select P1/P2 at stage 1, 4/5 at stage 6 and 6/7 at stage 7.
 
 `bullet.cpp` retains the 320-slot pool, shared 48-slot trail ring, byte-wrapped
 speed tuning and ascending update order. Derived groups can occupy later slots
