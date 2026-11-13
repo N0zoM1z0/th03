@@ -17,6 +17,8 @@ void Round::prepare_combos_render() {
 std::uint8_t Round::collision_adjacent_read(std::uint16_t address) const {
     // A negative first column wraps the original unsigned MUL into
     // earlier DGROUP owners. Preserve the read rather than clipping it.
+    // ENEDAT and graphics loaders close master.lib's file API before battle.
+    if(address>=0x2b2&&address<0x2b4)return 255; // file_Handle == -1.
     if(address>=0x2cc&&address<0x2d4)return 0; // No SAJ joystick is attached.
     if(address>=0x2d4&&address<0x2d6)return std::uint8_t(std::uint16_t(palette_tone)>>((address-0x2d4)*8));
     if(address>=0x2d6&&address<0x306) {
@@ -41,6 +43,9 @@ std::uint8_t Round::collision_adjacent_read(std::uint16_t address) const {
         return interrupts[address-0x1092];
     }
     if(address>=0x109a&&address<0x109e)return std::uint8_t(0xb8cu>>((address-0x109a)*8));
+    // Original xx.cpp type-name fallback and exception-handler signature.
+    if(address>=0x10ba&&address<0x10c3)return std::uint8_t("<notype>"[address-0x10ba]);
+    if(address>=0x10c3&&address<0x10cc)return std::uint8_t("**BCCxh1"[address-0x10c3]);
     if(address>=0x10cc&&address<0x10d0) {
         // Canonical DOS load 1000h, original SS=263Fh, 4096-byte stack.
         // Console startup allocates the 512-byte stdin buffer before the
@@ -55,8 +60,8 @@ std::uint8_t Round::collision_adjacent_read(std::uint16_t address) const {
         const auto at=address-0x10d0;
         return std::uint8_t(string_options[at/2]>>((at&1)*8));
     }
-    if(address>=0x10dc&&address<0x1133) {
-        constexpr char message[]="String reference out of range";
+    constexpr char message[]="String reference out of range";
+    if(address>=0x10dc&&address<0x10dc+3*sizeof(message)) {
         return std::uint8_t(message[(address-0x10dc)%sizeof(message)]);
     }
     throw std::runtime_error("unowned collision DGROUP read "+std::to_string(address)+" at round frame "+std::to_string(frame));

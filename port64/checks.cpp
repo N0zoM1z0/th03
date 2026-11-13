@@ -132,8 +132,9 @@ int main(int argc,char** argv) {
             th03::BattleGraphics graphics(op,main,resident);th03::Canvas canvas;graphics.draw_battle(canvas,r);
             canvas.pixels.resize(640*200);write_file(argv[7],canvas.pixels);return 0;
         }
-        if(argc==2&&std::string(argv[1])=="--startup-environ") {
-            const th03::Round r;for(unsigned at=0x10cc;at<0x10d0;++at)std::cout.put(char(r.collision_adjacent_read(std::uint16_t(at))));return 0;
+        if(argc==2&&std::string(argv[1])=="--startup-crt") {
+            const th03::Round r;for(unsigned at=0x2b2;at<0x2b4;++at)std::cout.put(char(r.collision_adjacent_read(std::uint16_t(at))));
+            for(unsigned at=0x10ba;at<0x1136;++at)std::cout.put(char(r.collision_adjacent_read(std::uint16_t(at))));return 0;
         }
         if(argc==6&&std::string(argv[1])=="--bomb-caller") {
             const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));

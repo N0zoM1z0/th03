@@ -50,7 +50,7 @@ def console_startup(u, image):
     u.hook_del(hook)
     if u.reg_read(UC_X86_REG_CS) != 0x1000 or u.reg_read(UC_X86_REG_IP) != 0x13b:
         raise ValueError('original console startup did not reach MAIN')
-    return bytes(u.mem_read(0x2d560 + 0x10cc, 4))
+    return bytes(u.mem_read(0x2d560 + 0x2b2, 2)) + bytes(u.mem_read(0x2d560 + 0x10ba, 124))
 
 
 def original(image, kind, pid, x, y, width, height, right, hit):
@@ -64,10 +64,10 @@ def original(image, kind, pid, x, y, width, height, right, hit):
         old = struct.unpack_from('<H', program, relocation.linear)[0]
         struct.pack_into('<H', program, relocation.linear, (old + 0x1000) & 65535)
     u.mem_write(0x10000, bytes(program))
-    if kind in ('edge', 'environment'):
-        environment = console_startup(u, image)
-        if kind == 'environment':
-            return environment
+    if kind in ('edge', 'startup'):
+        startup = console_startup(u, image)
+        if kind == 'startup':
+            return startup
     ds = 0x2d560
     u.mem_write(ds + 0x4ba0, bytes(6624))
     u.mem_write(ds + 0x4b8e, struct.pack('<hhhhhhB', x, y, width, height, right, 0, pid))
@@ -118,9 +118,9 @@ def main():
     sys.path.insert(0, str(root / 'scripts'))
     from lib.pc98 import parse_mz
     image = parse_mz(raw)
-    native_environment = subprocess.check_output([str(args.native_checks.resolve()), '--startup-environ'])
-    if native_environment != original(image, 'environment', 0, 0, 0, 0, 0, 0, False):
-        raise ValueError('native environ alias differs from original C0/stdio/heap/environment startup')
+    native_startup = subprocess.check_output([str(args.native_checks.resolve()), '--startup-crt'])
+    if native_startup != original(image, 'startup', 0, 0, 0, 0, 0, 0, False):
+        raise ValueError('native startup aliases differ from original C0/stdio/heap/environment startup')
     cases = [('rectangle', 0, 2304, 512, 24, 24, 0), ('rectangle', 1, 64, 64, 12, 12, 0),
              ('vertical', 1, 4496, 5856, 1, 8, 0), ('vertical', 0, 2304, 512, 1, 0, 0),
              ('slope', 0, 64, 0, 3, 0, 4000), ('slope', 1, 4000, 0, 7, 0, 64)]
@@ -135,7 +135,8 @@ def main():
     print('Six complete collision bitmaps and player hit scans agree with original MAIN instructions.')
     for case in ((0, 8, 336, 32, 100), (0, 8, 336, 32, 0), (0, 16, 336, 32, 100),
                  (0, 32, 336, 48, 100), (0, 48, 336, 64, 100), (0, 64, 336, 80, 100),
-                 (1, 8, 336, 32, 100), (1, 16, 336, 32, 100), (1, 67, 203, 80, 100)):
+                 (1, 8, 336, 32, 100), (1, 16, 336, 32, 100),
+                 (1, 67, 203, 80, 100), (1, 67, 197, 80, 100), (0, 8, 276, 32, 100)):
         native = list(map(int, subprocess.check_output([str(args.native_checks.resolve()), '--collision-edge', *map(str, case)], text=True).split()))
         pid, x, y, size, tone = case
         expected = original(image, 'edge', pid, x * 16, y * 16, size, 0, tone, True)

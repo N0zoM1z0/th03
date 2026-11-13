@@ -664,3 +664,17 @@ The repaired pairing completes both retries and reaches the winner's required
 input wait after 9,385 draws. Linux/Windows diagnostics and complete frames
 agree. The neighboring-character battle runs now cover all nine player families
 without an unowned-read failure.
+
+The title's first attract battle also reached DATA `10CB`, the final null in
+the original `xx.cpp` strings at `10BA..10CB`: the type-name fallback
+`<notype>` and handler signature `**BCCxh1`. These immutable strings are now
+available to the same alias reader. The startup comparison covers both strings, the allocated environment pointer,
+all string options and all three 30-byte range-error messages. The last message
+ends at `1136`; the earlier alias reader stopped three bytes too soon.
+
+The same demo also reaches master.lib `file_Handle` at `02B2`. The ENEDAT and
+graphics loaders close that API before battle, leaving the original WORD at
+`-1`; this closed handle is now retained. Complete startup-byte and collision
+comparisons pass on Linux and Windows. Both native executables run 32,000
+refreshes from the title without input, reaching the fourth demo pairing with
+identical diagnostics.
