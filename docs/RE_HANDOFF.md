@@ -61,8 +61,12 @@ and input exit pass. A real Windows window creates/resizes/closes and saves
 configuration on a separate inactive desktop. See PORTABLE.md for commands.
 
 The Windows build/launch/package helpers follow the TH04 delivery pattern.
-The current local package is `build/th03-preview-2-windows-x64.zip`. Release
-source builds, package checks and private-desktop Win32 window checks pass.
+The current local package is `build/th03-preview-2-windows-x64.zip`. The private
+ready-to-play folder is `D:\Entertainment\Game\Touhou\th03-port64-preview-2`:
+use `Play.bat` for PMD86 audio or `Play-silent.bat`; saves go to `save-normal`.
+It has its own attested original HDI, font and ROM, and its real Windows window
+passed create/resize/close/save on an inactive desktop. Release source builds,
+package checks and private-desktop Win32 window checks pass.
 `--inputs-file` now replays ordinary story play in the normal game executable.
 Two Reimu Easy input recordings complete all nine stages, ending, Staff Roll,
 ALL registration and return to title on Linux and Windows: 94,716 frames with
