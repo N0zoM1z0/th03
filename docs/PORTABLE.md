@@ -29,6 +29,31 @@ Do not replace that disk, send input to its window or restart its emulator.
 The native program reads external original data and executes no DOS code.
 It writes YUME.NEM only to its independent native save directory.
 
+## Windows preview package
+
+The portable branch is `port/modern-64`. From a Windows MinGW-w64 environment
+with a 64-bit C++17 compiler, CMake and Ninja on PATH, run
+`port64\build-windows.bat`. It builds only the game in
+`build\portable-win64\th03-port64.exe` with one compiler process.
+
+For a playable folder, place the executable, `port64/Play.bat` and
+`port64/Play-silent.bat` beside your original Japanese game disk named
+`th03.hdi` and external `FREECG98.BMP`. Add `ym2608_adpcm_rom.bin` for
+`Play.bat` audio. `Play-silent.bat` needs no rhythm ROM. Both launchers use
+`save-normal` beside the executable; keep that directory when updating.
+The title initially hides its menu until a direction is pressed.
+
+To prepare a data-free ZIP from a clean committed checkout:
+
+```sh
+python3 port64/package_release.py --exe build/windows-x64/th03-port64.exe \
+  --version preview-1 --output build/th03-preview-1-windows-x64.zip
+```
+
+The ZIP contains the executable, launchers, setup instructions, MIT and ymfm
+BSD-3-Clause licenses, and SHA-256 checksums. Supply the game disk, font and
+rhythm ROM separately. Packaging locally does not publish a GitHub release.
+
 ## Build and inspect
 
 The local port checkout is `.analysis/native/port64/` inside the DOS checkout.
@@ -56,7 +81,9 @@ cmake --build build/windows-x64 --parallel 1
 
 MinGW runtime libraries are linked statically. Use `--headless` for native
 Windows background checks; it opens no window and takes no keyboard input.
-GUI checks belong on private Xvfb, not the user's active DOS desktop.
+Linux GUI checks use private Xvfb. `port64/check_windows_window.ps1` creates
+a separate inactive Windows desktop, checks window creation/resize/close and
+configuration persistence, and never switches the user's desktop.
 
 Arrows move through single-player menus; Z/Enter confirms and Escape returns.
 The original title initially hides menu labels; a direction reveals them.
@@ -678,3 +705,33 @@ graphics loaders close that API before battle, leaving the original WORD at
 comparisons pass on Linux and Windows. Both native executables run 32,000
 refreshes from the title without input, reaching the fourth demo pairing with
 identical diagnostics.
+
+
+## Integrated campaign and attract acceptance
+
+`th03-port64-checks --campaign-flow HDI FONT PRIVATE_SAVE_DIRECTORY CHARACTER`
+runs the actual application from the first introduction through nine stages,
+ending dialogue, Staff Roll, ALL registration, bonus/title return and persisted
+character unlock. `CHARACTER` is 0..8; its rank is `CHARACTER % 4`. Each battle
+runs 180 ordinary held-shot refreshes, then injects one lethal opponent hit.
+The real 48-frame loss animation, results/rewards, score commit, cover and
+scene dispatch run normally. These controlled wins check integration; an
+ordinary full campaign remains to be played.
+
+All nine characters pass on Linux and Windows, with identical complete stdout
+and YUME.NEM/YUME.CFG bytes in separate temporary save directories. Appending
+the external rhythm-ROM path enables PMD86 synthesis and real music-measure
+waits. Reimu's complete audio campaign also passes on both platforms, with
+identical diagnostics/saves and 13,752,000 stereo sample frames. No physical
+audio device is opened by this fixture.
+
+`th03-port64-checks --attract-flow HDI FONT` runs each of the four complete
+attract battles back to the title, wraps to the first pairing, then exits it
+with input. Both platforms agree on every reported duration, round frame and
+resident seed. Each timed battle reaches frame 7,017; the input-exit case
+returns after two refreshes at round frame 1.
+
+`check_windows_window.ps1 -Game EXE -Disk HDI -Font BMP -Save PRIVATE_DIRECTORY`
+created a real Win32 window on its private desktop, resized its client area
+from 726x443 to 986x663, closed it normally and verified saved configuration.
+It does not exercise physical keyboard input or validate displayed pixels.

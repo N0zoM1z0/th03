@@ -1,4 +1,4 @@
-# TH03 — active agent handoff (2026-11-11)
+# TH03 — active agent handoff (2026-11-13)
 
 Read [AGENTS.md](../AGENTS.md), this page and the relevant
 [workflow](RE_WORKFLOW.md) section. [Generated progress](PROGRESS.md) is the
@@ -34,102 +34,38 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
 
 ## Remaining work and next useful actions
 
-The user has authorized semantic and 64-bit work while independently testing
-the DOS build. This checkout is the isolated `port/modern-64` worktree; see
-[portable status and commands](PORTABLE.md). Title/menu/Option and story/versus
-selection and MAINL stage introduction now run natively, including original
-graphics and resident/opponent state. The full Stage 1 poster matches the DOS
-frame. MAIN round initialization and its RNG/formation rings also agree with
-bounded original-instruction checks. Original enemy scripts and battle
-resource/HUD rendering, round intro, collision primitives and bullet
-generation/update/rendering are ported separately. Bullet pools, trails and
-transfers agree with bounded original-instruction checks. Explosion/chain
-scoring, enemy/fireball hits and fireballs now join the real bullet pipeline;
-see the portable notes for stack aliases and generation/frame quirks. All nine
-Charge Shot families and their Hyper helpers now agree with original MAIN on
-Linux/Windows; their fixture pictures also agree across platforms. Hyper
-handlers and the 48-frame loss animation are implemented, with common player
-contracts. All nine Bomb controllers and the shared effect pool now have original
-instruction comparisons; MRS and GRCG rasters agree in all pixels. Linux/Windows
-Bomb fixture pictures agree. Kotohime's fade still needs its actual incoming
-stack color in the round renderer. Both CPU strategies, retry grids and
-real Bomb activation agree with original instructions on Linux/Windows;
-common player contracts bind all five actual service owners. Wide edge scans
-now use recovered tone/palette/trig/CRT owners under the stated DOS startup
-profile, with eight original-instruction cases; unknown aliases report their
-address and round frame.
-Both background chains now match original state/RNG instructions; native
-Linux/Windows pictures agree. The indeterminate periodic byte is redundant
-under the established velocity invariant (PORTABLE.md). Preserve skipped-frame
-background pixels when joining the scheduler. All nine Gauge patterns and
-all nine ordinary Extra families and their special allocators now match original
-MAIN with full pools/history and collision, including saturated allocation.
-Linux/Windows state and Extra fixture pictures agree. Reimu advances animation
-after drawing, only on rendered frames; preserve the state-vs-frame appearance
-quirks noted in PORTABLE.md. All nine BOSS templates, patterns, collision and
-resource renderers now have coupled original-instruction comparisons, including
-launch/reversal, retreat, HP/explosion rewards and full bullet/trail/Extra pools.
-The seven level parameters share physical bytes across characters; preserve
-untouched bytes. Explosion completion and Mima/Kotohime/Chiyuri render mutations
-belong after drawing, only on rendered frames. Yumemi's intro queues the original
-sound reset before its explosions. Linux/Windows states and resource pictures
-agree. `warning.cpp` now supplies portrait/white-flash/red-warning/active-pulse
-control and pause/resume/quit. Nine complete warning traces and three pause/fade
-outcomes agree with original MAIN on Linux and Windows. Warning text, portraits
-and Hyper gauge flashing have resource pictures; the DOS HUD regression passes.
-`RoundLoop` now joins the actual battle update/draw owners and two indexed
-pages. It retains background writes on skipped draws, draw-owned Shot/Extra/
-BOSS/effect mutations, combo expiry and score extends. Warning flashes, pauses
-and double-refresh waits preserve the interrupted iteration without repeating
-its update or draw. The original scheduler's counters, WORD wrap, speed/recovery
-gates and page cadence pass separately; combo expiry/BCD awards pass against
-the original owner. Story introductions now enter battle; `battle-ready` keeps
-the static initializer fixture. Idle and held-shot runs reach live CPU combat;
-the 2,600-refresh shot run includes a 27-refresh blocking warning.
-Linux/Windows pictures and diagnostic outputs agree at 800, 1,800 and 2,600
-refreshes. A private SDL window accepts movement/shooting, pause and Q and
-returns to title. Result rewards, full TRAM characters/attributes, warning
-overlap, cover/uncover pixels, life debit and score commits now agree with
-original MAIN. Retries retain gauge, scores, combo timers and background
-positions while clearing text and uncovering the next round. The first
-formation byte on retry inherits SI (PLAY_NEXT=1), proved through all real
-resetters. Eight controlled result pictures and a natural two-retry run through
-Game Over agree on Linux/Windows. MAINL winner animation now follows matches,
-with original portrait/palette/message selection and story dispatch checks.
-Every animation refresh agrees with the actual palette fade instructions under
-the original no-BGM clock profile; audio integration remains open. The played
-character pair must survive dispatch's change to the next resident opponent.
-Ordinary wins continue through the next stage introduction into MAIN, carrying
-the score; versus returns to OP. Score registration, title HiScore, native
-YUME.NEM persistence and continue/Game Over now run as well. Complete score
-crypto/files, insertion, name-entry frames and continue outcomes agree with
-original MAINL. The entire initial score RGB frame matches DOS. Preserve the
-BFNT palette override, overlapping-row page snapshot and eighth-character
-cursor/VRAM aliases. Linux/Windows pictures, save/reload and return-to-MAIN or
-return-to-OP paths pass; a private SDL score-window check also passes. Native
-saves use an independent directory; headless defaults to memory only.
-The cutscene interpreter now runs both late-stage chapters and ending dialogue.
-All 28 original script traces reach STOP and agree with MAINL under fast-forward;
-ordinary/held/release/press traces, full sound requests and complete masked-picture
-pixels also pass. Preserve the two pages, box snapshot, parameter carry into
-gaiji ADC and the speedup increment after a glyph delay returns. Stages 7 and 8
-continue through their actual introductions into MAIN, retaining score and seed.
-The final ending keeps the 96-frame wait and stops at Staff Roll. Linux/Windows
-pictures agree; a private SDL dialogue check reaches the final battle.
-Continue with Staff Roll, Music Room, audio and configuration persistence.
-Ending registration must resume the ending/bonus flow before OP, instead of
-entering continue. The interpreter already supports the bonus script; its
-surrounding ending route is still open.
-See PORTABLE.md for commands and verification scope.
-The Reimu player cel looks malformed in the isolated overview at
-`build/boss-complete/overview.png`; compare the original player renderer and
-shot-sprite atlas preparation during the first live battle visual check.
-For Kotohime's fade, probe the original background callback, EGC_ON and both
-Bomb callbacks on one shared stack. Periodic backgrounds have a local frame
-word; EGC_ON uses no stack saves. Recover the complete intervening writes before
-choosing the inherited color; the isolated `0x5a` probe value is not that context.
-Preserve the live Windows DOSBox disk
-and do not send inputs to its window.
+The native checkout is `port/modern-64`, isolated from the user's live DOS game.
+[PORTABLE.md](PORTABLE.md) holds build/play commands and the maintained
+original-instruction comparisons. All nine gameplay families, CPU decisions,
+backgrounds, scheduler, round results/retries, winner screens, score/continue,
+late-stage dialogues, endings, Staff Roll, bonus/unlocks, Music Room and native
+configuration are implemented. Native PMD music/effects and stereo synthesis
+are available with `--audio`; the external rhythm ROM remains private.
+
+Recent integrated battle checks recovered Kotohime's actual inherited Bomb
+color through the original background/EGC/two-Bomb call chain. Player graphics
+now agree with original MAIN for all nine characters, both palettes and all
+nine images at ordinary and upper-edge positions on Linux and Windows; the
+upper-edge glow needed signed Q5 rounding. No asset edits were needed.
+
+Wide CPU scans retain original DOS DGROUP aliases under the documented virtual
+startup profile. Natural battle/attract runs exposed the allocated environment
+pointer, immutable CRT strings and the closed master.lib file handle. Unknown
+aliases still report their address and round frame. The nine neighboring-player
+battle runs and a 32,000-refresh title/demo run now complete on Linux/Windows.
+
+Controlled nine-stage campaigns now pass for all nine characters on both
+platforms, with identical traces and saved bytes. Reimu also passes with live
+PMD86 synthesis/measure waits. All four complete attract battles, pairing wrap
+and input exit pass. A real Windows window creates/resizes/closes and saves
+configuration on a separate inactive desktop. See PORTABLE.md for commands.
+
+The Windows build/launch/package helpers follow the TH04 delivery pattern.
+Finish the fresh data-free source build and ZIP smoke, then continue ordinary
+combat/campaign and audible acceptance. Keep controlled victories distinct
+from natural combat proof. Physical audio listening and an ordinary full
+campaign remain unverified. Preserve the user's Windows DOSBox disk and do
+not send input to its window.
 
 The four-file DOS package has been played using the TH04-style
 isolated HDI process. [DOS runtime notes](RUNTIME.md) contain the replay

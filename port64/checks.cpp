@@ -134,7 +134,8 @@ int main(int argc,char** argv) {
         }
         if(argc==2&&std::string(argv[1])=="--startup-crt") {
             const th03::Round r;for(unsigned at=0x2b2;at<0x2b4;++at)std::cout.put(char(r.collision_adjacent_read(std::uint16_t(at))));
-            for(unsigned at=0x10ba;at<0x1136;++at)std::cout.put(char(r.collision_adjacent_read(std::uint16_t(at))));return 0;
+            for(unsigned at=0x10ba;at<0x1136;++at)std::cout.put(char(r.collision_adjacent_read(std::uint16_t(at))));
+            return 0;
         }
         if(argc==6&&std::string(argv[1])=="--bomb-caller") {
             const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
@@ -270,6 +271,66 @@ int main(int argc,char** argv) {
             th03::Application reload(assets,{}, {},"TL02.PI",bitmap,&main,argv[4]);
             check(reload.resident.options.music==0&&reload.resident.options.keys==2&&reload.resident.options.rank==3,"native configuration did not reload");
             std::cout<<"Music menu playback/reentry/release, OP process reset and native configuration reload pass\n";return 0;
+        }
+        if(argc==4&&std::string(argv[1])=="--attract-flow") {
+            const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            th03::Application app(assets,{}, {},"TL02.PI",read_file(argv[3]),&main);
+            constexpr unsigned pairs[4][2]={{3,1},{5,13},{7,11},{9,5}};
+            for(unsigned demo=0;demo<5;++demo) {
+                unsigned ticks=0;while(app.phase!=th03::Phase::battle&&ticks++<2000)app.tick({});
+                check(app.phase==th03::Phase::battle&&app.resident.demo==demo%4+1,"title did not cycle to the expected demo");
+                check(app.resident.paletted[0]==pairs[demo%4][0]&&app.resident.paletted[1]==pairs[demo%4][1],"demo character pairing differs");
+                ticks=0;while(app.phase!=th03::Phase::op&&ticks++<9000)app.tick({std::uint16_t(demo==4 ? th03::shot : 0),{}});
+                check(app.phase==th03::Phase::op,"demo did not return to title after timeout/input");
+                check(demo==4 ? ticks<100 : app.round_loop->demo_frame>=7000,"demo timeout/input length differs");
+                std::cout<<"demo "<<demo%4+1<<" input "<<(demo==4)<<" ticks "<<ticks<<" frame "<<app.round->frame<<" seed "<<app.resident.seed<<'\n';
+            }
+            std::cout<<"Four complete attract battles, pairing wrap and input exit pass\n";return 0;
+        }
+        if((argc==6||argc==7)&&std::string(argv[1])=="--campaign-flow") {
+            const auto character=unsigned(std::stoul(argv[5]));check(character<9,"campaign character outside 0..8");
+            const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            th03::Application app(assets,{1,0,std::uint8_t(character%4)}, {},"TL02.PI",read_file(argv[3]),&main,argv[4]);
+            std::optional<th03::Sound> sound;
+            if(argc==7) {sound.emplace(assets,th03::pmd::Board::speakboard,read_file(argv[6]));app.attach_sound(*sound);}
+            app.resident.begin_story();app.resident.paletted[0]=std::uint8_t(character*2+1);app.resident.seed=600;
+            app.resident.choose_story_opponents();app.resident.scores[0][6]=1;app.start_stage_intro();
+            const auto opponents=app.resident.opponents;
+            const auto advance=[&] {
+                const auto key=app.phase==th03::Phase::cutscene ? th03::cancel :
+                    app.phase==th03::Phase::winner||app.phase==th03::Phase::staff ? th03::shot : th03::Input(0);
+                app.tick({std::uint16_t(key),{}});
+            };
+            for(unsigned stage=0;stage<9;++stage) {
+                unsigned ticks=0;while(app.phase!=th03::Phase::battle&&ticks++<10000)advance();
+                check(app.phase==th03::Phase::battle&&app.resident.stage==stage,"campaign did not enter the next MAIN stage");
+                check(app.resident.paletted[1]==opponents[stage]&&app.round->scores[0]==app.resident.scores[0],"campaign lost its opponent or committed score");
+                for(unsigned tick=0;tick<180;++tick)app.tick({th03::shot,{}});
+                check(app.phase==th03::Phase::battle&&!app.round->defeat,"campaign live opening ended before the controlled victory");
+                // Inject only the opponent's lethal hit; run the real loss,
+                // results, rewards, cover, dispatch and later scenes unchanged.
+                app.round->players[1].halfhearts=0;app.round->players[1].lose_time=48;app.round->defeated_player=1;
+                ticks=0;while(app.phase==th03::Phase::battle&&ticks++<2000)app.tick({});
+                check(app.phase!=th03::Phase::battle&&app.resident.stage==stage+1&&app.resident.winner==0,"controlled victory did not commit the stage");
+                check(app.resident.scores[0]==app.round->scores[0],"match exit lost the result rewards");
+                std::cout<<"character "<<character<<" rank "<<unsigned(app.resident.options.rank)<<" stage "<<stage<<" opponent "<<unsigned(opponents[stage])<<" seed "<<app.resident.seed<<" score ";
+                for(auto digit:app.resident.scores[0])std::cout<<unsigned(digit);
+                std::cout<<'\n';
+            }
+            unsigned ticks=0;bool staff=false;
+            while(app.phase!=th03::Phase::scores&&ticks++<30000) {staff|=app.phase==th03::Phase::staff;advance();}
+            check(staff&&app.phase==th03::Phase::scores&&app.resident.stage==99,"campaign ending did not run Staff Roll and registration");
+            const auto committed=app.resident.scores[0];
+            for(unsigned tick=0;tick<35;++tick)app.tick({});
+            for(auto mask:{th03::left,th03::Input(0),th03::down,th03::Input(0),th03::down,th03::Input(0),th03::shot,th03::Input(0),th03::shot})app.tick({std::uint16_t(mask),{}});
+            ticks=0;while(app.phase!=th03::Phase::op&&ticks++<10000)advance();
+            check(app.phase==th03::Phase::op&&app.resident.scores[0]==committed,"campaign registration/bonus did not return to title");
+            th03::ScoreFile reload({},argv[4]);auto seed=app.resident.seed;const auto section=reload.load(app.resident.options.rank,seed,app.resident);
+            check(section.bytes[th03::ScoreSection::stages]==th03::regi::all&&section.bytes[th03::ScoreSection::characters]==character+1,"campaign ALL score/character did not persist");
+            check(th03::characters_unlocked(reload.encoded()),"campaign clear did not persist the character unlock");
+            for(unsigned digit=0;digit<8;++digit)check(section.bytes[th03::ScoreSection::scores+digit+1]==th03::regi::zero+committed[digit],"campaign saved score differs");
+            app.start_selection(th03::SelectKind::versus_cpu);check(app.selection.available==9,"campaign title did not expose unlocked characters");
+            std::cout<<"Controlled nine-stage campaign, ending, Staff Roll, registration, bonus/title and saved unlock pass; audio samples "<<(sound ? sound->samples() : 0)<<'\n';return 0;
         }
         if(argc==5&&std::string(argv[1])=="--ending-flow") {
             const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));const auto bitmap=read_file(argv[3]);

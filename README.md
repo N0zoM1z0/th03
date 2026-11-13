@@ -2,7 +2,7 @@
 
 This is the `port/modern-64` branch. Native C++17 menus, selection, introductions
 and battle, results and score/continue flows build for Linux x64 and Windows x64; [portable status and commands](docs/PORTABLE.md)
-describe the checks and unfinished game flow. The DOS reconstruction
+describe the checks and remaining acceptance work. The DOS reconstruction
 is retained on `main` and remains the behavioral baseline.
 
 Agent workflow: follow the highest-priority requirements in [AGENTS.md](AGENTS.md). Use affected exact checks and searchable Markdown knowledge; ordinary notes do not require full CI or replay.
