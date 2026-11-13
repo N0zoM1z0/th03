@@ -9,6 +9,7 @@
 namespace th03 {
 namespace {
 int pixels(int q4) {return q4>=0 ? q4/16 : -((-q4+15)/16);}
+int physical_y(int q4) {return q4>=0 ? q4/32 : -((-q4+31)/32);}
 void interlace(Canvas& dest,const PiImage& image,int left,int top) {
     for(unsigned y=0;y<image.height;y+=2)for(unsigned x=0;x<image.width;++x) {
         const auto packed=image.pixels.at((std::size_t(y)*image.width+x)/2);
@@ -729,7 +730,7 @@ void BattleGraphics::draw_battle(Canvas& graphics,const Round& round,Round* live
             continue;
         }
         const int left=16+int(pid)*320+pixels(p.center.x)+round.fg_shift[pid]-16,top=pixels(p.center.y)-16;
-        if(p.pattern_glow)pattern(graphics,p.pattern_glow+pid*9+p.pattern_movement*3,left,top/2);
+        if(p.pattern_glow)pattern(graphics,p.pattern_glow+pid*9+p.pattern_movement*3,left,physical_y(p.center.y)-8);
         else sprite(graphics,left,top,0x2844+p.pattern_movement*4+pid*0xa00,32,32);
         if(p.gauge_charged>=0x100) {
             const unsigned base=p.gauge_charged<0x400 ? 44 : p.gauge_charged<0x800 ? 48 : p.gauge_charged<0xff0 ? 52 : 56;

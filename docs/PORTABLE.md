@@ -139,6 +139,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_round.py` | `--native "$NATIVE/th03-port64" --native-checks "$NATIVE/th03-port64-checks" --dos-root "$DOS"` | Six MAIN initializers plus real-resetter SI inheritance, including LCG, backward ring fill, player thresholds and both formation rings |
 | `check_enemy.py` | Same arguments as `check_round.py` | Six enemy scripts over 1,237 ticks, including real movement/vector callees |
 | `check_battle_graphics.py` | Same arguments as `check_intro.py` | Unchanged DOS borders, P1 gauge/score and TRAM glyph ink |
+| `check_player_graphics.py` | Same arguments as `check_round.py` | Original BFNT allocation/conversion, normal-pose atlas preparation and both player draw passes; all three poses/glow images in both palette banks |
 | `check_hud_intro.py` | Same arguments as `check_selection.py` | 520 story/versus frames: slide/banner state, all128 particles, seed and ring cursor |
 | `check_collision.py` | Same arguments as `check_selection.py` | Six complete 6,624-byte bitmaps, ordinary player hits and wide CPU scans into adjacent DATA owners |
 | `check_loop_clock.py` | Same arguments as `check_selection.py` | Original scheduler counters, speed/recovery/CPU gates, WORD wrap and page cadence; native warning/pause suspension and double-refresh presentation |
@@ -249,6 +250,21 @@ source preserves these consequential details:
 - The round-introduction slide destination aliases particle15.x. Collision Y
   reports the scan rectangle's top, not the occupied row; X reports the
   containing eight-tile column. Preserve these coarse values for CPU decisions.
+
+Reimu and the other eight characters' player sprite indices agree with original
+BFNT, `SUPER_ENTRY_PAT`, `SUPER_PUT`, atlas preparation and player/overlay calls.
+The original normal poses occupy VRAM rows 328/360, relative rows 128/160 in the
+SPRITE16 area. Each stored 32x32 pose becomes 32x64 display pixels in 200-line
+graphics mode. `check_player_graphics.py` compares all 128,000 visible indices
+for every normal/glow image in both palette banks, at the ordinary position
+and near the upper edge. It executes the original GRCG masks and models the
+resident's vertical clipping at the INT42 device interface.
+
+At player Y=11, the original glow top is `(center.y >> 5) - 8`, or physical
+row -3. Dividing the logical top `(11 - 16)` by2 instead truncates toward zero
+and produces row -2. The native glow now retains the original arithmetic-shift
+rounding, fixing the two-display-pixel offset at the upper edge. Linux and
+Windows pass all nine characters' normal/glow pixel comparisons at both heights.
 
 `warning.cpp` separates physical refreshes from simulation ticks. After drawing
 the attack portrait, freeze simulation for the 27-refresh white flash, then call

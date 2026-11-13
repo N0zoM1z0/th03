@@ -123,6 +123,15 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==8&&std::string(argv[1])=="--player-sprite") {
+            const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            th03::Resident resident;resident.paletted={{std::uint8_t(std::stoul(argv[3])),std::uint8_t(std::stoul(argv[4]))}};
+            const auto image=std::stoul(argv[5]);check(image<9,"unknown player sprite");
+            const auto center_y=std::int16_t(std::stoi(argv[6])*16);
+            th03::Round r;for(unsigned pid=0;pid<2;++pid) {r.players[pid].paletted=resident.paletted[pid];r.players[pid].center={144*16,center_y};r.players[pid].pattern_movement=std::uint8_t(image/3);r.players[pid].pattern_glow=std::uint8_t(image%3);}
+            th03::BattleGraphics graphics(op,main,resident);th03::Canvas canvas;graphics.draw_battle(canvas,r);
+            canvas.pixels.resize(640*200);write_file(argv[7],canvas.pixels);return 0;
+        }
         if(argc==2&&std::string(argv[1])=="--startup-environ") {
             const th03::Round r;for(unsigned at=0x10cc;at<0x10d0;++at)std::cout.put(char(r.collision_adjacent_read(std::uint16_t(at))));return 0;
         }
