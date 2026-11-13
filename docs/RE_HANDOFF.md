@@ -61,16 +61,19 @@ and input exit pass. A real Windows window creates/resizes/closes and saves
 configuration on a separate inactive desktop. See PORTABLE.md for commands.
 
 The Windows build/launch/package helpers follow the TH04 delivery pattern.
-The clean exported-source Windows Release build and unpacked ZIP smoke pass;
-`build/th03-preview-1-windows-x64.zip` is the current local preview. Continue
-broader character/difficulty and audible acceptance. Reimu Easy now clears
-through legal recorded inputs with three continues; the normal Linux/Windows
-executables replay all 94,716 frames with identical diagnostics, complete frame
-and saved files. The recording and `--inputs-file` command are in PORTABLE.md.
-An independent PMD86 input-only run reached the final battle and then Game Over;
-a stronger pilot is currently recording a second audio run. Physical listening
-remains unverified. Preserve the user's Windows DOSBox disk and do not send
-input to its window.
+The current local package is `build/th03-preview-2-windows-x64.zip`. Release
+source builds, package checks and private-desktop Win32 window checks pass.
+`--inputs-file` now replays ordinary story play in the normal game executable.
+Two Reimu Easy input recordings complete all nine stages, ending, Staff Roll,
+ALL registration and return to title on Linux and Windows: 94,716 frames with
+no audio adapter, and 79,298 with the real PMD86 clock. Complete final pictures,
+diagnostics and saved files agree across platforms. The audio run uses one
+continue, retains two lives and synthesizes 63,438,399 stereo frames. The input
+files and commands are in PORTABLE.md. No damage or outcome state is injected.
+
+Broader character/difficulty campaigns and physical listening remain useful
+manual acceptance work. Preserve the user's Windows DOSBox disk and do not
+send input to its window.
 
 The four-file DOS package has been played using the TH04-style
 isolated HDI process. [DOS runtime notes](RUNTIME.md) contain the replay

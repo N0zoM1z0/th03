@@ -49,21 +49,21 @@ To prepare a data-free ZIP from a clean committed checkout:
 
 ```sh
 python3 port64/package_release.py --exe build/windows-x64/th03-port64.exe \
-  --version preview-1 --output build/th03-preview-1-windows-x64.zip
+  --version preview-2 --output build/th03-preview-2-windows-x64.zip
 ```
 
 The ZIP contains the executable, launchers, setup instructions, MIT and ymfm
 BSD-3-Clause licenses, and SHA-256 checksums. Supply the game disk, font and
 rhythm ROM separately. Packaging locally does not publish a GitHub release.
 
-The current local `build/th03-preview-1-windows-x64.zip` was built in Release
-from a clean, data-free export of `4ff633ca`. Its executable SHA-256 is
-`8c0197bc20c46aab4dfae6694a46343ec875287bc4a6fd63155ff89c0d958ae4`.
-The unpacked executable matches the working build's diagnostics and full frame
-after 32,000 title/demo refreshes, and passes the private Windows window
-create/resize/close/save check. Only Windows system DLLs are imported. ZIP
-membership and every included checksum pass. Non-PE input, unsafe version
-names, dirty source and an existing output path are rejected.
+The current local `build/th03-preview-2-windows-x64.zip` contains the Windows
+Release executable with input-file replay support. Its SHA-256 is
+`1227d8bb11976114c4ea8ee52f1e12f9a34a4b3c33f960ead6c32a199939e0e5`.
+The game also builds from a clean, data-free source export. Packaged runtime
+checks cover title/demo progression, full frames and private Win32 window
+creation/resize/close/save. Only Windows system DLLs are imported. ZIP membership
+and every included checksum pass. Non-PE input, unsafe version names, dirty
+source and an existing output path are rejected.
 
 ## Build and inspect
 
@@ -774,3 +774,23 @@ identical final diagnostics, complete frame and YUME.NEM/YUME.CFG bytes. Its sco
 file matches the original input-generating run exactly. This record uses the
 existing no-adapter scene clock; adding `--audio` changes music waits and needs
 a separately recorded input sequence.
+
+
+`port64/replays/reimu-story-easy-pmd86.csv` is a second ordinary Easy clear,
+recorded with the real PMD86 music clock enabled. It reaches ALL in 79,298 input
+frames, using one continue and retaining two lives. The final ALL entry is second
+in the score table, below the earlier attempt that ended at the final boss; the
+native clear flag correctly remains 18 after a continue. Replay it with the
+same command, replacing the input filename and adding:
+
+```sh
+--audio --opna-rom /path/to/ym2608_adpcm_rom.bin
+```
+
+Both normal Linux and Windows executables reproduce the original run's entire
+score file. Their complete final frames, YUME.CFG, YUME.NEM and diagnostics
+agree, including 63,438,399 stereo sample frames and no physical device output.
+An earlier input-only PMD86 attempt exhausted its credits at Yumemi and reached
+Game Over normally. No gameplay source change was needed for either outcome.
+Physical speaker playback/listening and broader character/difficulty campaigns
+remain outside these playtests.
