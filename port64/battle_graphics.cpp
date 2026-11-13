@@ -663,9 +663,13 @@ void BattleGraphics::draw(Canvas& graphics,const Round& round,const Resident& re
     draw_battle(graphics,round,live,kotohime_stack_color);draw_hud(graphics,round,resident,live,live_resident);
 }
 void BattleGraphics::draw_battle(Canvas& graphics,const Round& round,Round* live,std::optional<std::uint8_t> kotohime_stack_color) const {
+    // Periodic backgrounds leave their frame local here; acceleration saves
+    // MAIN's SI instead. EGC_ON at load 0704 has no stack locals or pushes.
+    auto stack_color=kotohime_stack_color.value_or(round.background.draw_periodic ? std::uint8_t(round.result_frame) : round.main_si);
     for(unsigned pid=0;pid<2;++pid) {
-        if(live)live->bombs.prepare_render(*live,pid,kotohime_stack_color);
+        if(live)live->bombs.prepare_render(*live,pid,stack_color);
         bombs(graphics,round,pid);
+        if(live)stack_color=live->bombs.palette_stack_byte(*live,pid,stack_color);
     }
     for(unsigned pid=0;pid<2;++pid) {
         boss(graphics,round,pid);

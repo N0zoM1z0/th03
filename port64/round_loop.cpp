@@ -168,7 +168,7 @@ void RoundLoop::tick(Round& r,Resident& resident,const BattleGraphics& graphics,
     r.warning_update(0);r.warning_update(1);
     r.background.update(r.random,r.frame,r.result_frame);graphics.background(pages_[back_],r);
     if(!render_timing||(r.result_frame&1)) {
-        graphics.draw_battle(pages_[back_],r,&r,kotohime_stack_color);
+        graphics.draw_battle(pages_[back_],r,&r);
         if(!result_step(r,resident,graphics))return;
         graphics.draw_hud(pages_[back_],r,resident,&r,&resident);
         transition.update(pages_[back_]);

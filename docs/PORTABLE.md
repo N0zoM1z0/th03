@@ -21,8 +21,7 @@ Eligible clears unlock the two final characters and show the optional bonus
 dialogue before returning to the title. Music Room now runs its full track list,
 comments and polygon animation. Native configuration survives process restarts.
 Native PMD music/effects and stereo output are available with `--audio`.
-Campaign acceptance remains open. Kotohime's
-Bomb fade and further CPU aliases still require the contexts described below.
+Campaign acceptance and further CPU aliases remain open.
 
 The DOS reconstruction stays on `main`. The live Windows DOSBox session and
 `D:\Entertainment\Game\Touhou\th03-reconstruct\play.hdi` are independent.
@@ -152,7 +151,7 @@ Run the original-instruction checks with the DOS checkout's Python environment
 | `check_bullet.py` | Same arguments as `check_selection.py` | Group vectors, full bullet/trail pools, motion/transfer/cloud/clearing, collision maps and complete pellet rasters |
 | `check_combat.py` | Same arguments as `check_selection.py` | Explosion/chain scoring, enemy/fireball hits, derived fireballs, movement/collision, coupled bullet pipelines and known stack aliases |
 | `check_charge.py` | Same arguments as `check_selection.py` | All nine Charge Shot lifecycles, full physical pools/history, hit circles and RNG, sound events and four projectile Hyper helpers |
-| `check_bomb.py` | Same arguments as `check_selection.py` | Nine Bomb controllers coupled to complete effect pools, palette/foreground state, RNG and sound events |
+| `check_bomb.py` | Same arguments as `check_selection.py`; add `--caller` for the background/two-Bomb chain | Nine controllers with complete effect pools, palette/foreground state, RNG and sound events; real caller stack bytes through Kotohime's fade |
 | `check_cpu.py` | Same arguments as `check_selection.py` | Offensive/defensive CPU, target selection, collision/retry grids, shared velocity/RNG and real Bomb activation |
 | `check_boss.py` | Same arguments as `check_selection.py` | Shared launch/reversal/selection/descent/HP/explosion reward and all nine BOSS families coupled to complete bullets, Extra entities, collision, palette/RNG and scores |
 | `check_warning.py` | Same arguments as `check_selection.py` | Portrait-to-flash handoff, 27 physical flash tones, red warning/attack activation, complete palettes and text events on every tick; pause/resume/quit outcomes, frozen clocks, sound events and CPU-exit fade |
@@ -511,9 +510,28 @@ render frames: they consume RNG, emit effects/sounds, change palette/foreground
 state and rotate quads. Keep Marisa's per-player draw position before the next
 player overwrites the shared point. Ellen's spawn count, Kotohime's row Y and
 Kana's angle are also genuinely shared. Kotohime's final palette phase reads
-an uninitialized stack byte. The API requires that context explicitly; the
-controller comparison supplies the same byte to both implementations. Recover
-the real round-render caller's context before enabling this fade in gameplay.
+an uninitialized stack byte at `[BP-2]`, eight bytes below the round loop's SP.
+Periodic backgrounds leave their frame local there, so its low byte is the
+current result clock. Accelerating backgrounds save MAIN's SI in that slot;
+the port retains the existing startup/retry contexts, `0x5e` and `1`.
+EGC_ON at load `0704` makes no pushes and leaves the slot intact.
+
+P1 inherits the byte left by P0's Bomb, including each character's distinct
+local layout. `Bombs::palette_stack_byte` carries just that observable byte
+between the two callbacks. Marisa's initial gray phase shares its trailing
+color store with the fade; Chiyuri stops writing her first-phase color at
+frame64. Treating either branch as leaving the background byte changed the
+original caller trace. Inactive callbacks leave the byte intact.
+
+`check_bomb.py --caller` executes original MAIN's `9858..988D` call sequence,
+both real background chains and EGC_ON/OFF, with the real Bomb/effect owners.
+It observes the two stack bytes rather than writing them, and compares every
+frame's palette, tone and RNG through fade and stop. The production battle
+renderer now supplies this context automatically; standalone Bomb fixtures
+can still pass an explicit caller byte.
+Linux and Windows agree on every checked row and on the complete frame after
+600 two-player Bomb inputs. A native debugger confirms both players actually
+cast at frames0 and180 and finish all four lifecycles normally.
 
 `cpu.cpp` retains both offensive and defensive strategies, all twelve authored
 dodge grids, the three retry sequences, coarse shared collision coordinates and

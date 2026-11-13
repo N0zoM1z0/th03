@@ -123,6 +123,28 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==6&&std::string(argv[1])=="--bomb-caller") {
+            const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            const unsigned character=unsigned(std::stoul(argv[3])),opponent=unsigned(std::stoul(argv[4]));check(character<9&&opponent<9,"unknown Bomb caller character");
+            th03::Resident resident;resident.paletted={{std::uint8_t(character*2+1),std::uint8_t(opponent*2+1)}};
+            th03::Round r;r.begin(resident,main.read("ENEDAT.DAT"));r.main_si=std::uint8_t(std::stoul(argv[5]));
+            r.bomb_flags={{1,1}};r.random.seed=0x12345678;r.random.cursor=254;
+            for(unsigned i=0;i<256;++i)r.random.bytes[i]=std::uint8_t(i*13+7);
+            r.background.begin(r.random,opponent);r.palette_tone=100;
+            for(unsigned i=0;i<48;++i)r.palette[i]=r.palette_backup[i]=std::uint8_t(i*5+7);
+            th03::BattleGraphics graphics(op,main,resident);th03::Canvas canvas;
+            for(unsigned frame=0;frame<180;++frame) {
+                r.frame=frame;r.result_frame=std::uint16_t(frame);
+                r.bombs.update(r,0);r.bombs.update(r,1);r.update_effects();
+                r.background.update(r.random,r.frame,r.result_frame);
+                const auto incoming=r.background.draw_periodic ? std::uint8_t(r.result_frame) : r.main_si;
+                graphics.draw_battle(canvas,r,&r);
+                std::cout<<unsigned(incoming)<<' '<<unsigned(r.bombs.palette_stack_byte(r,0,incoming))<<' '<<r.palette_tone<<' '<<r.random.seed<<' '<<unsigned(r.random.cursor);
+                for(auto color:r.palette)std::cout<<' '<<unsigned(color);
+                std::cout<<'\n';
+            }
+            return 0;
+        }
         if(argc==6&&std::string(argv[1])=="--audio-flow") {
             const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
             th03::WavWriter wave(argv[5]);th03::Sound sound(assets,th03::pmd::Board::speakboard,read_file(argv[4]),[&](const auto& block){wave.write(block);});

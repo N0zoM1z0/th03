@@ -16,7 +16,6 @@ public:
     std::uint16_t demo_frame=0;
     RoundExit outcome=RoundExit::running;
     bool render_timing=false;
-    std::optional<std::uint8_t> kotohime_stack_color;
     unsigned draws=0,refresh_wait=0;
 private:
     enum class Step {update,after_pause,flash,present};

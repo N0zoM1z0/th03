@@ -28,8 +28,10 @@ public:
     void update(Round& round,unsigned pid);
     // Original Bomb render calls mutate palette/RNG/effects. Run this once
     // per scheduled game render, before reading the resulting drawing state.
-    // Kotohime's fade reads an uninitialized stack byte; the caller must
-    // supply that context rather than silently filling it with zero.
+    // Kotohime's fade reads an uninitialized stack byte. BattleGraphics
+    // derives it from the original background and preceding Bomb callback.
     void prepare_render(Round& round,unsigned pid,std::optional<std::uint8_t> kotohime_stack_color={});
+    // Local byte left for the following player's far Bomb callback.
+    std::uint8_t palette_stack_byte(const Round& round,unsigned pid,std::uint8_t incoming) const;
 };
 }

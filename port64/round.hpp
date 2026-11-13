@@ -204,5 +204,6 @@ public:
     std::uint16_t result_wait=0,combo_points_for_boss_attack=5120;
     std::uint32_t frame=0;
     std::uint16_t result_frame=0;
+    std::uint8_t main_si=0x5e; // Low byte inherited from MAIN; PLAY_NEXT retains 1.
 };
 }

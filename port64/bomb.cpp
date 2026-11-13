@@ -72,6 +72,25 @@ void Bombs::update(Round& round,unsigned pid) {
     }
     if(frame[pid]>=180) {flag=0;restore(round,pid);}
 }
+std::uint8_t Bombs::palette_stack_byte(const Round& r,unsigned pid,std::uint8_t incoming) const {
+    if(!r.bomb_flags[pid])return incoming;
+    // The two far Bomb callbacks reuse [caller SP-8]. Kotohime's color is
+    // [BP-2]; other characters leave these specific locals in that byte.
+    const unsigned f=frame[pid];
+    const auto fade=std::uint8_t(255-f*8);
+    switch(character_id(r.players[pid].paletted)) {
+    case 0:if(f>=112)return fade;if(f>=64)return std::uint8_t(f%8);break;
+    case 1:return f<=80 ? std::uint8_t(-int(f)*3) : f<144 ? std::uint8_t(f%8) : fade;
+    case 2:if(f<64)return std::uint8_t(-int(f)*4);if(f>=128)return fade;break;
+    case 3:if(f>=64&&f<128)return std::uint8_t(r.fg_shift[pid]);break;
+    case 4:if(f<64)return std::uint8_t(f*3);if(f>=128)return std::uint8_t(incoming*2);break;
+    case 5:if(f<64)return std::uint8_t(64-f);if(f>=128)return std::uint8_t(fade*2);break;
+    case 6:if(f<64)return std::uint8_t(f*4);if(f>=128)return std::uint8_t(fade*2);break;
+    case 7:if(f<64)return std::uint8_t(255-f*4);if(f>=144)return std::uint8_t(fade*2);break;
+    case 8:if(f<=64)return std::uint8_t(16+pid*320);break;
+    }
+    return incoming;
+}
 void Bombs::prepare_render(Round& r,unsigned pid,std::optional<std::uint8_t> stack_color) {
     if(!r.bomb_flags[pid])return;
     const int f=frame[pid];const unsigned character=character_id(r.players[pid].paletted);
