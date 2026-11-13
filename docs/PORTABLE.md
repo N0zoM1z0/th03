@@ -21,7 +21,9 @@ Eligible clears unlock the two final characters and show the optional bonus
 dialogue before returning to the title. Music Room now runs its full track list,
 comments and polygon animation. Native configuration survives process restarts.
 Native PMD music/effects and stereo output are available with `--audio`.
-Ordinary campaign play and further naturally reached CPU aliases remain open.
+A complete Reimu Easy campaign now passes from recorded player inputs on
+Linux and Windows. Broader character/difficulty play and physical audio
+listening remain open.
 
 The DOS reconstruction stays on `main`. The live Windows DOSBox session and
 `D:\Entertainment\Game\Touhou\th03-reconstruct\play.hdi` are independent.
@@ -493,8 +495,7 @@ stack byte after these options. The native file preserves its existing opaque
 byte instead; unused and segment/debug metadata never become host pointers.
 Exit writes the options followed by five zero bytes, matching original OP.
 Both platforms pass original-instruction save comparisons, replacement of an
-existing native file, Option changes and reload in a new process. Continue with
-the remaining battle caller contexts and campaign acceptance.
+existing native file, Option changes and reload in a new process.
 
 `bullet.cpp` retains the 320-slot pool, shared 48-slot trail ring, byte-wrapped
 speed tuning and ascending update order. Derived groups can occupy later slots
@@ -666,7 +667,6 @@ screen masks. Yumemi's arrival uses OR drawing, and her origin is captured
 before a pattern moves the boss. Ordered sound events include `0xff` for the
 original `snd_se_reset` service before her intro explosions.
 
-Resolve the remaining caller contexts during campaign testing.
 Wide CPU scans near the left edge retain their aliased DGROUP reads.
 With an empty bitmap and initialized target DATA,
 P0 at (8,336) pixels with a 32-tile scan reads `02D0..02D4` and collides with
@@ -744,3 +744,33 @@ returns after two refreshes at round frame 1.
 created a real Win32 window on its private desktop, resized its client area
 from 726x443 to 986x663, closed it normally and verified saved configuration.
 It does not exercise physical keyboard input or validate displayed pixels.
+
+
+## Recorded ordinary story play
+
+`port64/replays/reimu-story-easy.csv` records 94,716 legal input frames from
+an ordinary Reimu Easy campaign, starting at the title with the original HDI's
+configuration and scores. Movement, Shot and Bomb are the only battle controls;
+no health, damage, opponent, result or RNG state is injected. It uses all three
+continues, defeats Yumemi, runs the ending and Staff Roll, records ALL and returns
+to the title. The saved section retains the original no-unlock result for a
+continued clear (`clear=18`, `stage=48`, character 1, three credits used).
+
+Replay with the normal executable, no audio adapter, and a fresh save directory:
+
+```sh
+build/linux-x64/th03-port64 --hdi /path/to/original/zun.hdi \
+  --font-bmp /path/to/FREECG98.BMP --headless \
+  --inputs-file port64/replays/reimu-story-easy.csv \
+  --save-dir /new/private/replay-save --screenshot /new/private/replay.ppm
+```
+
+`--inputs-file` reads the same comma-separated WORD tuples as `--inputs`,
+including `SP:P1:P2` and whitespace across lines. It removes Windows' command
+line length limit for complete game recordings. The two options are exclusive;
+inline/file equivalence and conflicting/missing-file errors pass on both
+platforms. The recorded campaign also passes in both normal executables, with
+identical final diagnostics, complete frame and YUME.NEM/YUME.CFG bytes. Its score
+file matches the original input-generating run exactly. This record uses the
+existing no-adapter scene clock; adding `--audio` changes music waits and needs
+a separately recorded input sequence.

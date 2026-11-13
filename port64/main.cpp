@@ -8,7 +8,7 @@
 
 int main(int argc, char** argv) {
     try {
-        std::string hdi, archive, screenshot, extract, output, packed, inputs;
+        std::string hdi, archive, screenshot, extract, output, packed, inputs, inputs_file;
         std::string scene="title", picture="TL02.PI",font_bitmap,characters="1,3",save_directory;
         unsigned stage=0;
         bool audio_enabled=false,muted=false;std::string rhythm_rom,audio_wav,pmd_driver="pmd86";
@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
                          <<"  [--audio] [--mute] [--audio-wav FILE] [--pmd-driver pmd|pmdb2|pmd86] [--opna-rom FILE]\n"
                          <<"  [--save-dir DIRECTORY]\n"
                          <<"  [--font-bmp FILE] [--characters P1,P2] [--stage N]\n"
-                         <<"  [--screenshot FILE.ppm] [--frames N] [--inputs SP[:P1:P2],...]\n"
+                         <<"  [--screenshot FILE.ppm] [--frames N] [--inputs SP[:P1:P2],... | --inputs-file FILE]\n"
                          <<"  [--main-assets] [--list] [--extract NAME --output FILE] [--pi NAME --packed FILE]\n";
                 return 0;
             }
@@ -48,8 +48,13 @@ int main(int argc, char** argv) {
             else if (arg=="--pi") picture=value;
             else if (arg=="--packed") packed=value;
             else if (arg=="--inputs") inputs=value;
+            else if (arg=="--inputs-file") inputs_file=value;
             else if (arg=="--frames") frames=unsigned(std::stoul(value));
             else throw std::runtime_error("unknown option: "+arg);
+        }
+        if (!inputs_file.empty()) {
+            if (!inputs.empty()) throw std::runtime_error("supply either --inputs or --inputs-file");
+            const auto data=read_file(inputs_file);inputs.assign(data.begin(),data.end());
         }
         if (hdi.empty()==archive.empty()) throw std::runtime_error("supply one original HDI or PF archive");
         Bytes disk;
