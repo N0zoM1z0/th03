@@ -7,10 +7,13 @@
 #include "round_loop.hpp"
 #include "application.hpp"
 #include "raster.hpp"
+#include "pmd/pmd_timer_player.hpp"
+#include "pmd/pmd_pcm.hpp"
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
 #include <sstream>
+#include <fstream>
 #ifdef _WIN32
 #include <io.h>
 #include <fcntl.h>
@@ -120,6 +123,59 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==6&&std::string(argv[1])=="--audio-flow") {
+            const auto disk=read_file(argv[2]);const PfArchive assets(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            th03::WavWriter wave(argv[5]);th03::Sound sound(assets,th03::pmd::Board::speakboard,read_file(argv[4]),[&](const auto& block){wave.write(block);});
+            th03::Application app(assets,{}, {},"TL02.PI",read_file(argv[3]),&main);app.attach_sound(sound);
+            for(unsigned i=0;i<180;++i)app.tick({});
+            check(sound.samples()==144000&&sound.measure()&&*sound.measure()>0,"audio refresh clock/count did not advance music");
+            app.start_music();for(auto key:{0,2,0,32,32,0})app.tick({std::uint16_t(key),{}});
+            check(app.music_state.playing==1,"Music Room did not request the selected song");
+            app.tick({th03::cancel,{}});app.tick({});check(app.phase==th03::Phase::op,"audio Music Room did not return to title");
+            app.resident.begin_story();app.resident.paletted={{5,13}};app.resident.opponents.fill(13);app.start_stage_intro();
+            check(!sound.player().player().player().music().sequence().state().playing,"stage introduction did not stop the previous song");
+            for(unsigned i=0;i<160&&app.phase==th03::Phase::stage_intro;++i)app.tick({});
+            check(app.phase==th03::Phase::battle,"audio introduction did not enter battle");bool effect=false;
+            for(unsigned i=0;i<240;++i){app.tick({th03::shot,{}});effect|=sound.player().player().player().effects().state().active;}
+            check(effect,"battle did not reach resident FM effect playback");
+            app.tick({th03::cancel,{}});check(app.round->sounds.back()==21,"pause did not request its immediate sound");
+            sound.configure(false);check(!sound.measure(),"BGM Off reported a live measure");sound.effect(255);sound.effect(2);sound.update_effect();
+            check(sound.player().player().player().effects().state().active,"BGM Off incorrectly disabled FM sound effects");
+            unsigned measure=0;const th03::Font font(read_file(argv[3]));th03::Cutscene scene(assets,font,Bytes{'\\','w','m','5',',','1',' ','\\','$'},0,[&]{return std::optional<unsigned>(measure);});
+            check(scene.wait==th03::Cutscene::Wait::measure,"active cutscene measure wait used fallback frames");
+            for(unsigned i=0;i<5;++i)scene.tick(0);
+            check(!scene.done(),"cutscene completed before the requested measure");measure=5;scene.tick(0);check(scene.done(),"cutscene did not resume at its measure");
+            wave.finish();std::cout<<"Native title/Music Room/stage/battle/pause audio, mute effects, measure waits and WAV capture pass\n";return 0;
+        }
+        if(argc==6&&std::string(argv[1])=="--sound-mirror") {
+            const PfArchive assets(hdi_file(read_file(argv[2]),op_archive_name));th03::Sound sound(assets,th03::pmd::Board(std::stoi(argv[3])),read_file(argv[4]));
+            const auto& music=sound.player().player().player().music();std::ofstream out(argv[5]);
+            for(unsigned bank=0;bank<2;++bank)for(unsigned a=0;a<256;++a)out<<unsigned(!bank&&a<14 ? music.ssg().registers()[a] : music.registers()[bank][a])<<' ';
+            return 0;
+        }
+        if(argc==5&&std::string(argv[1])=="--hdi-file") {
+            std::istringstream lines(argv[4]);std::string request;const auto disk=read_file(argv[2]);const std::filesystem::path directory(argv[3]);std::filesystem::create_directories(directory);
+            while(std::getline(lines,request,',')) {
+                const auto dot=request.find('.');check(dot!=std::string::npos,"FAT extraction needs an extension");
+                auto name=request.substr(0,dot);check(name.size()<=8&&request.size()-dot-1<=3,"FAT short name differs");name.resize(8,' ');name+=request.substr(dot+1);name.resize(11,' ');
+                write_file((directory/request).string(),hdi_file(disk,name));
+            }
+            return 0;
+        }
+        if(argc==8&&std::string(argv[1])=="--pmd-owner") {
+            std::vector<th03::pmd::FmWrite> writes;
+            th03::pmd::TimerPlayer p(th03::pmd::Board(std::stoi(argv[4])),[&](auto w){writes.push_back(w);},[&](auto w){writes.push_back({0,w.address,w.value});});
+            p.load_music(read_file(argv[2]));p.load_effects(read_file(argv[3]));
+            std::ifstream mirror(argv[5]);for(unsigned bank=0;bank<2;++bank)for(unsigned a=0;a<256;++a) {unsigned value;check(bool(mirror>>value),"PMD mirror incomplete");p.mirror(std::uint8_t(bank),std::uint8_t(a),std::uint8_t(value));}
+            std::ifstream operations(argv[6]);char op;int value;std::ofstream out(argv[7]);check(bool(out),"PMD trace output unavailable");
+            while(operations>>op>>value) {
+                writes.clear();if(op=='R')p.start_music();else if(op=='M')p.stop_music();else if(op=='F')p.fade(std::int8_t(value));else if(op=='P')p.start_effect(unsigned(value));else if(op=='S')p.stop_effect();else if(op=='I')p.interrupt(std::uint8_t(value));else throw std::runtime_error("PMD trace operation differs");
+                const auto& s=p.player().music().sequence();out<<s.state().measure<<' '<<unsigned(s.state().fade)<<' '<<s.status()<<' '<<writes.size();
+                for(auto w:writes)out<<' '<<unsigned(w.bank)<<' '<<unsigned(w.address)<<' '<<unsigned(w.value);
+                out<<'\n';
+            }
+            return 0;
+        }
         if(argc==3&&std::string(argv[1])=="--font-service") {
 #ifdef _WIN32
             _setmode(_fileno(stdin),_O_BINARY);_setmode(_fileno(stdout),_O_BINARY);

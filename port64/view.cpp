@@ -81,7 +81,7 @@ void run_view(th03::Application& app, const std::function<th03::Frame()>& frame,
                                         SDL_WINDOWPOS_CENTERED,1280,800,SDL_WINDOW_RESIZABLE);
     SDL_Renderer* renderer=window ? SDL_CreateRenderer(window,-1,SDL_RENDERER_SOFTWARE) : nullptr;
     SDL_Texture* texture=renderer ? SDL_CreateTexture(renderer,SDL_PIXELFORMAT_ARGB8888,SDL_TEXTUREACCESS_STREAMING,640,400) : nullptr;
-    if (!texture) { SDL_Quit(); throw std::runtime_error("cannot create SDL video output"); }
+    if (!texture) { SDL_QuitSubSystem(SDL_INIT_VIDEO); throw std::runtime_error("cannot create SDL video output"); }
     SDL_RenderSetLogicalSize(renderer,640,400);
 #endif
     unsigned frames=0;
@@ -128,6 +128,6 @@ void run_view(th03::Application& app, const std::function<th03::Frame()>& frame,
     if (IsWindow(window)) DestroyWindow(window);
     UnregisterClassA(wc.lpszClassName,wc.hInstance);
 #else
-    SDL_DestroyTexture(texture); SDL_DestroyRenderer(renderer); SDL_DestroyWindow(window); SDL_Quit();
+    SDL_DestroyTexture(texture); SDL_DestroyRenderer(renderer); SDL_DestroyWindow(window); SDL_QuitSubSystem(SDL_INIT_VIDEO);
 #endif
 }

@@ -22,6 +22,7 @@ int name_left(std::uint8_t cursor) {return 72+(7-int(cursor))*24;}
 ScoreMenu::ScoreMenu(const PfArchive& assets,const Font& font,ScoreFile& file,const Resident& resident):
     font_(font),file_(file),resident_(resident),seed_(resident.seed),normal_(assets.read("REGI2.BFT")),highlight_(assets.read("REGI1.BFT")) {
     if(!font.present())throw std::runtime_error("score menu requires --font-bmp FILE");
+    sounds.push_back({SceneSound::Kind::load,"SCORE.M",0});sounds.push_back({SceneSound::Kind::control,{},0});
     section=file_.load(resident.options.rank,seed_,resident);
     if(resident.stage!=255)place=section.insert(resident);
     const auto image=decode_pi(assets.read("REGIB.PI"));picture(canvas_,image);palette_=image.palette;
@@ -86,8 +87,9 @@ void ScoreMenu::edit(std::uint16_t input) {
     }
     if(name.done) {state_=State::name_finish;wait_=1;}
 }
-void ScoreMenu::tick(std::uint16_t input) {
+void ScoreMenu::tick(std::uint16_t input,std::optional<unsigned> volume) {
     if(done())return;
+    if(state_==State::volume_wait) {if(!volume||*volume==255){sounds.push_back({SceneSound::Kind::control,{},0x100});state_=State::done;}return;}
     if(state_==State::fade_in||state_==State::fade_out) {
         if(--wait_)return;
         if(state_==State::fade_in) {
@@ -96,7 +98,13 @@ void ScoreMenu::tick(std::uint16_t input) {
             state_=place<0 ? State::release : State::name;
         } else {
             tone_=std::max(tone_-6,0);wait_=2;
-            if(!tone_) {file_.save(section,resident_.options.rank,seed_,resident_);state_=State::done;}
+            if(!tone_) {
+                file_.save(section,resident_.options.rank,seed_,resident_);state_=State::done;
+                if(!resident_.credits||resident_.stage==99) {
+                    if(volume&&*volume!=255)state_=State::volume_wait;
+                    else sounds.push_back({SceneSound::Kind::control,{},0x100});
+                }
+            }
             return;
         }
     }
@@ -105,7 +113,7 @@ void ScoreMenu::tick(std::uint16_t input) {
         section.default_name(unsigned(place),character_id(resident_.paletted[0]));rows();state_=State::release;
     }
     if(state_==State::release) {if(input)return;state_=State::press;}
-    if(state_==State::press&&input) {state_=State::fade_out;wait_=3;}
+    if(state_==State::press&&input) {if(!resident_.credits||resident_.stage==99)sounds.push_back({SceneSound::Kind::control,{},0x210});state_=State::fade_out;wait_=3;}
 }
 ContinueMenu::ContinueMenu(const PfArchive& assets,const Font& font,Resident& resident):
     assets_(assets),font_(font),resident_(resident),choices_(assets.read("CONTI.CD2")) {
@@ -127,7 +135,7 @@ void ContinueMenu::tick(std::uint16_t input) {
             tone_=std::max(tone_-6,0);wait_=1;
             if(!tone_) {
                 const auto image=decode_pi(assets_.read("OVER.PI"));canvas_=Canvas{};picture(canvas_,image);palette_=image.palette;
-                --resident_.stage;resident_.lives=2;state_=State::done;
+                sounds.push_back({SceneSound::Kind::control,{},0x100});--resident_.stage;resident_.lives=2;state_=State::done;
             }
             return;
         }
@@ -135,8 +143,8 @@ void ContinueMenu::tick(std::uint16_t input) {
     if(input&(left|right)) {if(!held_) {selected=!selected;choices();}held_=true;}else held_=false;
     if(input&(ok|shot)) {
         if(selected) {--resident_.credits;canvas_.fill(576,371,592,387,0);credits();}
-        state_=State::fade_out;wait_=2;
-    } else if(input&cancel) {selected=false;state_=State::fade_out;wait_=2;}
+        sounds.push_back({SceneSound::Kind::control,{},0x203});state_=State::fade_out;wait_=2;
+    } else if(input&cancel) {selected=false;sounds.push_back({SceneSound::Kind::control,{},0x203});state_=State::fade_out;wait_=2;}
 }
 GameOver::GameOver(const PfArchive& assets) {
     const auto image=decode_pi(assets.read("OVER.PI"));picture(canvas_,image);palette_=image.palette;

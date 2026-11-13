@@ -1,5 +1,6 @@
 #include "assets.hpp"
 #include "view.hpp"
+#include "audio_device.hpp"
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -10,15 +11,19 @@ int main(int argc, char** argv) {
         std::string hdi, archive, screenshot, extract, output, packed, inputs;
         std::string scene="title", picture="TL02.PI",font_bitmap,characters="1,3",save_directory;
         unsigned stage=0;
+        bool audio_enabled=false,muted=false;std::string rhythm_rom,audio_wav,pmd_driver="pmd86";
         bool headless=false, list=false, main_assets=false;
         unsigned frames=0;
         for (int i=1;i<argc;++i) {
             const std::string arg=argv[i];
+            if (arg=="--audio") {audio_enabled=true;continue;}
+            if (arg=="--mute") {muted=true;continue;}
             if (arg=="--headless") { headless=true; continue; }
             if (arg=="--main-assets") {main_assets=true;continue;}
             if (arg=="--list") { list=true; continue; }
             if (arg=="--help") {
                 std::cout<<"th03-port64 (--hdi FILE | --archive FILE) [--headless] [--scene title|menu|options|scores|story-select|versus-select|two-select|stage-intro|battle-ready|battle|two-battle|dialogue0|dialogue1|ending|staff|music]\n"
+                         <<"  [--audio] [--mute] [--audio-wav FILE] [--pmd-driver pmd|pmdb2|pmd86] [--opna-rom FILE]\n"
                          <<"  [--save-dir DIRECTORY]\n"
                          <<"  [--font-bmp FILE] [--characters P1,P2] [--stage N]\n"
                          <<"  [--screenshot FILE.ppm] [--frames N] [--inputs SP[:P1:P2],...]\n"
@@ -30,6 +35,9 @@ int main(int argc, char** argv) {
             if (arg=="--hdi") hdi=value;
             else if (arg=="--archive") archive=value;
             else if (arg=="--font-bmp") font_bitmap=value;
+            else if (arg=="--opna-rom") rhythm_rom=value;
+            else if (arg=="--audio-wav") {audio_wav=value;audio_enabled=true;}
+            else if (arg=="--pmd-driver") pmd_driver=value;
             else if (arg=="--save-dir") save_directory=value;
             else if (arg=="--characters") characters=value;
             else if (arg=="--stage") stage=unsigned(std::stoul(value));
@@ -74,6 +82,15 @@ int main(int argc, char** argv) {
         if(!disk.empty())main_archive.emplace(hdi_file(disk,main_archive_name));
         th03::Application app(assets,options,nem,picture,font_bitmap.empty() ? Bytes{} : read_file(font_bitmap),
                               main_archive ? &*main_archive : nullptr,save_directory.empty() ? (headless ? std::filesystem::path{} : th03::default_save_directory()) : std::filesystem::path(save_directory),configuration);
+        std::optional<th03::WavWriter> wave;if(!audio_wav.empty())wave.emplace(audio_wav);
+        th03::audio::Output audio(muted||headless,th03::audio::platform_device,[](const std::string& error){std::cerr<<"audio device: "<<error<<'\n';});
+        std::optional<th03::Sound> sound;
+        if(audio_enabled) {
+            const auto board=pmd_driver=="pmd" ? th03::pmd::Board::fm26 : pmd_driver=="pmdb2" ? th03::pmd::Board::fm86 : th03::pmd::Board::speakboard;
+            if(pmd_driver!="pmd"&&pmd_driver!="pmd86"&&pmd_driver!="pmdb2")throw std::runtime_error("unknown PMD driver profile");
+            if(board!=th03::pmd::Board::fm26&&rhythm_rom.empty())throw std::runtime_error("PMD86/PMDB2 audio requires --opna-rom FILE");
+            sound.emplace(assets,board,rhythm_rom.empty() ? Bytes{} : read_file(rhythm_rom),[&](const auto& block){if(wave)wave->write(block);audio.stereo(block);});app.attach_sound(*sound);
+        }
         auto& menu=app.menu;
         if (scene=="menu" || scene=="options") { menu.tick(th03::left); menu.tick(0); }
         if (scene=="options") {
@@ -127,6 +144,8 @@ int main(int argc, char** argv) {
         else for(unsigned i=0;i<frames&&!app.finished();++i)app.tick({});
         if (!screenshot.empty()) write_file(screenshot,th03::ppm(render()));
         app.save_configuration();
+        if(wave)wave->finish();
+        if(sound)std::cout<<"audio_samples="<<sound->samples()<<" submitted="<<audio.statistics().submitted<<" dropped="<<audio.statistics().dropped<<" failed="<<audio.statistics().failed<<'\n';
         std::cout<<"screen="<<int(menu.screen)<<" selected="<<int(menu.selected)
                  <<" rank="<<int(menu.options.rank)<<" music="<<int(menu.options.music)
                  <<" keys="<<int(menu.options.keys)<<" handoff="<<int(menu.request)

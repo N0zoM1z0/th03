@@ -20,7 +20,8 @@ Final victory runs ending dialogue, Staff Roll, the verdict and score registrati
 Eligible clears unlock the two final characters and show the optional bonus
 dialogue before returning to the title. Music Room now runs its full track list,
 comments and polygon animation. Native configuration survives process restarts.
-Audio output and campaign acceptance remain open. Kotohime's
+Native PMD music/effects and stereo output are available with `--audio`.
+Campaign acceptance remains open. Kotohime's
 Bomb fade and further CPU aliases still require the contexts described below.
 
 The DOS reconstruction stays on `main`. The live Windows DOSBox session and
@@ -63,7 +64,7 @@ The original title initially hides menu labels; a direction reveals them.
 Two-player P1 uses T/F/H/B with Z/X; P2 uses keypad movement with Left/Right
 for Shot/Bomb. Option changes rank, sound-mode and key-mode state.
 Music Room uses Up/Down to select, Z/Enter to request playback and Escape or Quit to return; release held
-keys between commands. Playback requests are recorded; audio output is pending.
+keys between commands. Playback uses the selected PMD profile when audio is enabled.
 Name entry keeps the original alphabet: Z/Enter selects, X erases, and selecting
 END or entering eight letters finishes. The following score-table wait requires
 release followed by another key press.
@@ -168,6 +169,63 @@ DOS checkout's `.analysis/work/` and `.analysis/runtime/candidates/`.
 `th03-port64-checks --hud-picture HDI 100 FILE.ppm` renders an isolated round
 introduction without running the surrounding battle loop.
 
+## Audio
+
+Enable music and effects explicitly. PMD86 is the default profile; PMDB2 and
+PMD are selected with `--pmd-driver pmdb2` or `--pmd-driver pmd`.
+PMD86/PMDB2 require an external 8,192-byte YM2608 rhythm ROM. The local test
+copy is `$DOS/.analysis/runtime/audio/ym2608_adpcm_rom.bin`; its SHA-256 is
+`53afd0fa9c62eda3e2be939e23f3adf48a2af8ad37bb1640261726c5d5adeba8`.
+Keep it outside Git with the original game resources. The three-channel PMD
+profile needs no rhythm ROM.
+
+```sh
+build/linux-x64/th03-port64 --hdi /path/to/zun.hdi \
+  --font-bmp /path/to/FREECG98.BMP --audio --opna-rom /path/to/ym2608_adpcm_rom.bin
+build/linux-x64/th03-port64 --hdi /path/to/zun.hdi --headless \
+  --audio-wav title.wav --opna-rom /path/to/ym2608_adpcm_rom.bin --frames 180
+```
+
+`--audio-wav` enables synthesis and streams signed 16-bit stereo at 48 kHz to
+WAV. Headless runs open no device. `--mute` suppresses device output while
+retaining synthesis and optional capture. Linux uses SDL's queued device;
+Windows uses WinMM. BGM Off stops music while preserving FM sound effects.
+The original saved sound option 2 still uses FM when no MIDI resident exists.
+
+`sound.cpp` follows TH03's installation, sound priorities, process-local effect
+reset and MAIN update order. Title, selection, Music Room, introductions,
+battle, winner, dialogue, scores, continue and Staff Roll feed the same owner.
+Measure waits read PMD's live counter; score/staff fades wait for its volume
+when required. The semantic player, chip renderer and transports derive from
+the MIT TH04 port at `1ba7107`; `pmd/vendor/ymfm` retains its BSD-3-Clause
+license and upstream revision. Driver COMs are used only by verification.
+
+```sh
+"$DOS/.venv/bin/python" port64/check_audio.py \
+  --native "$NATIVE/th03-port64" --native-checks "$NATIVE/th03-port64-checks" \
+  --dos-root "$DOS" --output build/audio/pmd86 --loops 2
+# Use --driver pmd or --driver pmdb2 for the other original residents.
+# --song OP.M --all-effects checks every game effect ID with one song.
+"$NATIVE/th03-port64-checks" --audio-flow "$DOS/.analysis/runtime/images/zun.hdi" \
+  "$DOS/.analysis/runtime/fonts/FREECG98.BMP" \
+  "$DOS/.analysis/runtime/audio/ym2608_adpcm_rom.bin" build/audio/flow.wav
+```
+
+The checker pins the original HDI and all three TH03 COMs, installs them with
+TH03's `/M8 /V0 /E2 /K` flags and compares every ordered FM/SSG/rhythm/timer
+register write, measure, fade and loop status. PMD86 covers every song through
+two loops or its natural end, followed by effects, mixed IRQs, fade and stop.
+The other two profiles cover all songs over 512 IRQs, and all three also pass
+the complete 0..21 effect sequence with OP.M. Saved traces agree on Windows.
+PCM and fake-device contracts run in CTest. Linux/Windows installation mirrors,
+title/flow WAVs and application audio checks agree. A private SDL window with
+the dummy backend submitted all 144,000 title/Music Room frames without drops.
+
+The adapter advances one declared 60 Hz refresh at a time; CPU/resource work
+does not consume chip time. Physical listening, Windows device playback and
+complete campaign audio acceptance remain open. External MIDI/ADPCM sample
+memory is not implemented.
+
 ## Integration findings and next work
 
 Keep the original draw/call order and explicit integer widths. The current
@@ -270,9 +328,9 @@ Winner animation has five logo cels, the white flash, final portrait/logo,
 three bold text lines, an unrestricted input wait and a black fade. The clock
 check runs the original animation and actual palette fade instructions, replacing
 only device output and clock waits. Its entire refresh trace agrees, including
-the initial palette synchronization waits. Audio is still absent: the native
-animation uses the original no-BGM delays of 16, 64 and 4 frames. A measure input is exposed
-for the eventual audio service. Linux/Windows winner pictures agree. The real
+the initial palette synchronization waits. With audio disabled, the native
+animation uses the original no-BGM delays of 16, 64 and 4 frames; enabled audio
+supplies the live PMD measure. Linux/Windows winner pictures agree. The real
 application proceeds from an ordinary win through StageIntro into a fresh MAIN
 round with the committed score; versus returns to OP. Story losses enter score
 registration, followed by continue or Game Over.
@@ -325,8 +383,8 @@ and release/press behavior at every refresh. All 18 chapter scripts, nine ending
 scripts and the bonus script also match through STOP under fast-forward,
 including complete song-load/control/effect requests. A separate original EGC
 helper comparison covers every pixel in both pages after each mask and the final
-quarter. Linux/Windows intermediate pictures agree. Audio output is still absent;
-measure waits use the original no-BGM fallback frames.
+quarter. Linux/Windows intermediate pictures agree. Measure waits use the live
+PMD counter when audio is enabled, otherwise the original fallback frames.
 
 The application retains scores and resident RNG seed while dialogue runs, then
 launches the actual next introduction/MAIN stage. Stage 7 still shows its winner
@@ -354,8 +412,8 @@ verdict's text calls through the previously checked native font renderer.
 Ending registration sets stage 99, saves ALL and refreshes character availability.
 The bonus requires all three credits and P1's paletted ID below 15. Native ending
 flow checks cover a no-continue clear, a continued clear and Chiyuri's clear,
-including save reload and return to OP. Audio still uses the no-BGM timing;
-injected measure checks do not provide music playback. Linux and Windows agree
+including save reload and return to OP. Enabled audio supplies the music measure
+and waits for the initial PMD fade to finish. Linux and Windows agree
 in both the no-BGM and injected measure/slow-refresh profiles. A private SDL
 window also runs the staff scene.
 
@@ -385,7 +443,7 @@ byte instead; unused and segment/debug metadata never become host pointers.
 Exit writes the options followed by five zero bytes, matching original OP.
 Both platforms pass original-instruction save comparisons, replacement of an
 existing native file, Option changes and reload in a new process. Continue with
-audio output, the remaining battle caller contexts and campaign acceptance.
+the remaining battle caller contexts and campaign acceptance.
 
 `bullet.cpp` retains the 320-slot pool, shared 48-slot trail ring, byte-wrapped
 speed tuning and ascending update order. Derived groups can occupy later slots
@@ -421,7 +479,7 @@ Native contracts exercise held-charge/release/tap timing, one-halfheart survival
 final defeat, CPU shot cadence and locked-player banking/glow. They pass on
 Linux and native Windows x64. The movement velocity is a signed byte shared
 across player calls: locked paths can retain the preceding player's velocity
-for sprite banking. Audio calls are queued in order for the later sound owner.
+for sprite banking. Audio calls are queued in order for the sound owner.
 
 `charge.cpp` implements all nine characters' add/update/hit paths and projectile
 Hyper helpers. Linux and Windows x64 agree with original MAIN instructions on

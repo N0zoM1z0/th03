@@ -27,9 +27,9 @@ std::string ScriptCursor::filename() {
     for(unsigned i=0;i<12;++i) {const auto c=take();if(separator(c))break;out+=char(c);}
     return out;
 }
-Cutscene::Cutscene(const PfArchive& assets,const Font& font,std::string filename,std::uint16_t input):Cutscene(assets,font,assets.read(std::move(filename)),input) {}
-Cutscene::Cutscene(const PfArchive& assets,const Font& font,Bytes bytes,std::uint16_t input):script(std::move(bytes)),
-    assets_(assets),font_(font),gaiji_(assets.read("MIKOFT.BFT")),box_(480*64) {
+Cutscene::Cutscene(const PfArchive& assets,const Font& font,std::string filename,std::uint16_t input,Measure measure):Cutscene(assets,font,assets.read(std::move(filename)),input,std::move(measure)) {}
+Cutscene::Cutscene(const PfArchive& assets,const Font& font,Bytes bytes,std::uint16_t input,Measure measure):script(std::move(bytes)),
+    measure_(std::move(measure)),assets_(assets),font_(font),gaiji_(assets.read("MIKOFT.BFT")),box_(480*64) {
     if(!font.present())throw std::runtime_error("cutscene requires --font-bmp FILE");
     snapshot();pump(input);
 }
@@ -90,6 +90,11 @@ void Cutscene::complete_wait(std::uint16_t input) {
 }
 void Cutscene::tick(std::uint16_t input) {
     if(stopped_)return;
+    if(wait==Wait::measure) {
+        const auto current=measure_();
+        if(!(measure_key_&&(input&(ok|shot)))&&(!current||*current<measure_target_))return;
+        wait=Wait::none;
+    }
     if(wait==Wait::release) {if(input)return;wait=Wait::press;return;}
     if(wait==Wait::press) {
         if(!input&&(!timeout_||--timeout_))return;
@@ -173,8 +178,15 @@ void Cutscene::op(unsigned command,std::uint16_t input) {
         bool key=kind=='k';
         if(kind=='m') {script.take();key=script.peek()=='k';if(key)script.take();}
         else if(key)script.take();
-        auto frames=script.first();if(kind=='m')frames=script.second();
+        auto frames=script.first();const auto target=frames;if(kind=='m')frames=script.second();
         if(fast_forward)break;
+        if(kind=='m'&&measure_) {
+            const auto current=measure_();
+            if(current) {
+                if(*current<unsigned(target)&&!(key&&(input&(ok|shot)))) {measure_target_=unsigned(target);measure_key_=key;wait=Wait::measure;}
+                break;
+            }
+        }
         if(key) {if(!(input&(ok|shot))&&frames) {wait=Wait::ok;ticks_=unsigned(frames);}}
         else sleep(unsigned(frames));
         break;

@@ -183,15 +183,16 @@ void StaffRoll::begin_segment() {
     if(speed==2) {centers[back]=264;centers[back^1]=263;}
     else centers.fill(280-height_offset);
 }
-void StaffRoll::tick(std::uint16_t input,std::optional<unsigned> measure,unsigned elapsed_refreshes) {
+void StaffRoll::tick(std::uint16_t input,std::optional<unsigned> measure,unsigned elapsed_refreshes,std::optional<unsigned> volume) {
     if(done())return;
     if(state==State::black_out) {
         if(--wait_)return;
         // palette_black_out synchronizes once, then writes 100,94,...,4,0.
         tone=fade_tone_==0 ? 100 : std::max(tone-6,0);fade_tone_=1;wait_=4;
-        if(!tone)setup();
+        if(!tone){if(volume&&*volume!=255)state=State::volume_wait;else setup();}
         return;
     }
+    if(state==State::volume_wait) {if(!volume||*volume==255)setup();return;}
     if(state==State::sync) {state=State::initial;return;}
     if(state==State::initial||state==State::hold||state==State::gallery||state==State::verdict)clear_blue();
     if(state==State::enter) {

@@ -10,6 +10,7 @@
 #include "staff.hpp"
 #include "music.hpp"
 #include "configuration.hpp"
+#include "sound.hpp"
 #include <optional>
 
 namespace th03 {
@@ -18,6 +19,7 @@ class Application {
 public:
     Application(const PfArchive& assets,Options options,const Bytes& nem,const std::string& picture="TL02.PI",Bytes font_bitmap={},const PfArchive* main_assets=nullptr,std::filesystem::path save_directory={},Bytes configuration={});
     void tick(const InputFrame& input);
+    void attach_sound(Sound& sound);
     Frame render() const;
     bool finished() const {return phase==Phase::quit||phase==Phase::mainl_handoff;}
     void start_selection(SelectKind kind);
@@ -41,6 +43,11 @@ public:
     Configuration configuration;
     MusicState music_state;
 private:
+    Sound* sound_=nullptr;
+    std::size_t cutscene_audio_=0,staff_audio_=0,music_audio_=0,score_audio_=0,continue_audio_=0,round_audio_=0;
+    void tick_game(const InputFrame& input);
+    void scene_audio(const std::vector<SceneSound>& events,std::size_t& cursor);
+    void play_song(const std::string& name);
     const PfArchive& assets_;
     const PfArchive* main_assets_;
     PiImage background_;

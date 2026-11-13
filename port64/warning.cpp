@@ -6,7 +6,7 @@ void Round::begin_pause(const Resident& resident) {
     if(resident.cpu[0]&&resident.cpu[1]) {
         pause=Pause::fade;pause_fade_frame=0;palette_tone=100;
     } else {
-        sounds.push_back(255);sounds.push_back(21);pause=Pause::release;
+        sounds.push_back(255);sounds.push_back(21);if(sound_update)sound_update();pause=Pause::release;
     }
 }
 bool Round::pause_tick(std::uint16_t input) {
@@ -27,7 +27,7 @@ bool Round::pause_tick(std::uint16_t input) {
         if(!input)pause=Pause::resume_finish;
         break;
     case Pause::resume_finish:
-        sounds.push_back(255);sounds.push_back(21);pause=Pause::none;
+        sounds.push_back(255);sounds.push_back(21);if(sound_update)sound_update();pause=Pause::none;
         break;
     }
     return pause!=Pause::none;
@@ -52,7 +52,7 @@ void Round::prepare_warning_portraits() {
 }
 bool Round::begin_warning_flash() {
     if(warning[0]!=2&&warning[1]!=2)return false;
-    sounds.push_back(255);sounds.push_back(19);
+    sounds.push_back(255);sounds.push_back(19);if(sound_update)sound_update();
     for(unsigned pid=0;pid<2;++pid)if(warning[pid]==2) {
         warning[pid]=3;warning_text_put(pid,0xe1);
     }

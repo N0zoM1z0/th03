@@ -154,6 +154,7 @@ void RoundLoop::tick(Round& r,Resident& resident,const BattleGraphics& graphics,
         if(r.players[1].cpu&&!r.players[0].cpu) {keys[0]|=input.single;keys[1]=0;}
         else if(r.players[0].cpu&&!r.players[1].cpu) {keys[1]=input.single|input.players[0];keys[0]=0;}
         r.player_update(0,keys[0],collision,resident,services);r.player_update(1,keys[1],collision,resident,services);
+        if(r.sound_update)r.sound_update();
         step_=Step::after_pause;
         if(input.single&cancel) {r.begin_pause(resident);return;}
     }

@@ -3,6 +3,7 @@
 #include "font.hpp"
 #include "game_types.hpp"
 #include <optional>
+#include <functional>
 
 namespace th03 {
 struct ScriptCursor {
@@ -26,9 +27,10 @@ struct SceneSound {
 };
 class Cutscene {
 public:
-    enum class Wait {none,delay,release,press,ok,fade};
-    Cutscene(const PfArchive& assets,const Font& font,std::string filename,std::uint16_t input=0);
-    Cutscene(const PfArchive& assets,const Font& font,Bytes bytes,std::uint16_t input=0);
+    enum class Wait {none,delay,release,press,ok,fade,measure};
+    using Measure=std::function<std::optional<unsigned>()>;
+    Cutscene(const PfArchive& assets,const Font& font,std::string filename,std::uint16_t input=0,Measure measure={});
+    Cutscene(const PfArchive& assets,const Font& font,Bytes bytes,std::uint16_t input=0,Measure measure={});
     void tick(std::uint16_t input);
     Frame render() const;
     bool done() const {return stopped_;}
@@ -45,6 +47,9 @@ public:
     std::array<Canvas,2> pages;
     const Palette& palette() const {return palette_;}
 private:
+    Measure measure_;
+    unsigned measure_target_=0;
+    bool measure_key_=false;
     const PfArchive& assets_;
     const Font& font_;
     Bytes gaiji_,box_;

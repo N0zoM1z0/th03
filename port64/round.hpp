@@ -13,6 +13,7 @@
 #include "boss.hpp"
 #include "results.hpp"
 #include <array>
+#include <functional>
 #include <vector>
 #include <string_view>
 
@@ -115,6 +116,7 @@ public:
     bool page_back=false;
     // Ordered SE plays; 0xff is the original snd_se_reset service event.
     std::vector<std::uint8_t> sounds;
+    std::function<void()> sound_update;
     RandomRing random;
     Background background;
     HudIntro intro;

@@ -24,9 +24,9 @@ struct StaffVerdict {
 };
 class StaffRoll {
 public:
-    enum class State {black_out,sync,initial,enter,leave,hold,clear,gallery,verdict,done};
+    enum class State {black_out,volume_wait,sync,initial,enter,leave,hold,clear,gallery,verdict,done};
     StaffRoll(const PfArchive& assets,const Font& font,const Resident& resident,const Cutscene* previous=nullptr);
-    void tick(std::uint16_t input,std::optional<unsigned> measure={},unsigned elapsed_refreshes=1);
+    void tick(std::uint16_t input,std::optional<unsigned> measure={},unsigned elapsed_refreshes=1,std::optional<unsigned> volume={});
     Frame render() const {return pages[shown_page].frame(palette_,tone);}
     bool done() const {return state==State::done;}
     StaffSnow snow;

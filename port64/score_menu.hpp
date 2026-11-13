@@ -3,16 +3,18 @@
 #include "assets.hpp"
 #include "score.hpp"
 #include "resident.hpp"
+#include "cutscene.hpp"
 
 namespace th03 {
 class ScoreMenu {
 public:
     ScoreMenu(const PfArchive& assets,const Font& font,ScoreFile& file,const Resident& resident);
-    void tick(std::uint16_t input);
+    void tick(std::uint16_t input,std::optional<unsigned> volume={});
     Frame render() const {return canvas_.frame(palette_,tone_);}
     bool done() const {return state_==State::done;}
     bool editing() const {return state_==State::name;}
     int tone() const {return tone_;}
+    std::vector<SceneSound> sounds;
     int place=-1;
     ScoreSection section;
     NameEntry name;
@@ -26,7 +28,7 @@ private:
     Palette palette_;
     int tone_=0;
     unsigned wait_=3;
-    enum class State {fade_in,name,name_finish,release,press,fade_out,done};
+    enum class State {fade_in,name,name_finish,release,press,fade_out,volume_wait,done};
     State state_=State::fade_in;
     void sprite(int x,int y,unsigned code,bool highlight);
     void glyph(int x,int y,unsigned code,bool highlight);
@@ -42,6 +44,7 @@ public:
     void tick(std::uint16_t input);
     Frame render() const {return canvas_.frame(palette_,tone_);}
     bool done() const {return state_==State::done;}
+    std::vector<SceneSound> sounds;
     bool selected=true;
     int tone() const {return tone_;}
 private:
