@@ -61,8 +61,9 @@ and input exit pass. A real Windows window creates/resizes/closes and saves
 configuration on a separate inactive desktop. See PORTABLE.md for commands.
 
 The Windows build/launch/package helpers follow the TH04 delivery pattern.
-Finish the fresh data-free source build and ZIP smoke, then continue ordinary
-combat/campaign and audible acceptance. Keep controlled victories distinct
+The clean exported-source Windows Release build and unpacked ZIP smoke pass;
+`build/th03-preview-1-windows-x64.zip` is the current local preview. Continue
+ordinary combat/campaign and audible acceptance. Keep controlled victories distinct
 from natural combat proof. Physical audio listening and an ordinary full
 campaign remain unverified. Preserve the user's Windows DOSBox disk and do
 not send input to its window.

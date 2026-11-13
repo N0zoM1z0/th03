@@ -21,7 +21,7 @@ Eligible clears unlock the two final characters and show the optional bonus
 dialogue before returning to the title. Music Room now runs its full track list,
 comments and polygon animation. Native configuration survives process restarts.
 Native PMD music/effects and stereo output are available with `--audio`.
-Campaign acceptance and further CPU aliases remain open.
+Ordinary campaign play and further naturally reached CPU aliases remain open.
 
 The DOS reconstruction stays on `main`. The live Windows DOSBox session and
 `D:\Entertainment\Game\Touhou\th03-reconstruct\play.hdi` are independent.
@@ -53,6 +53,15 @@ python3 port64/package_release.py --exe build/windows-x64/th03-port64.exe \
 The ZIP contains the executable, launchers, setup instructions, MIT and ymfm
 BSD-3-Clause licenses, and SHA-256 checksums. Supply the game disk, font and
 rhythm ROM separately. Packaging locally does not publish a GitHub release.
+
+The current local `build/th03-preview-1-windows-x64.zip` was built in Release
+from a clean, data-free export of `4ff633ca`. Its executable SHA-256 is
+`8c0197bc20c46aab4dfae6694a46343ec875287bc4a6fd63155ff89c0d958ae4`.
+The unpacked executable matches the working build's diagnostics and full frame
+after 32,000 title/demo refreshes, and passes the private Windows window
+create/resize/close/save check. Only Windows system DLLs are imported. ZIP
+membership and every included checksum pass. Non-PE input, unsafe version
+names, dirty source and an existing output path are rejected.
 
 ## Build and inspect
 
@@ -249,9 +258,9 @@ title/flow WAVs and application audio checks agree. A private SDL window with
 the dummy backend submitted all 144,000 title/Music Room frames without drops.
 
 The adapter advances one declared 60 Hz refresh at a time; CPU/resource work
-does not consume chip time. Physical listening, Windows device playback and
-complete campaign audio acceptance remain open. External MIDI/ADPCM sample
-memory is not implemented.
+does not consume chip time. A complete controlled Reimu campaign with live
+PMD86 timing passes on Linux/Windows (see below). Physical listening and Windows
+device playback remain open. External MIDI/ADPCM sample memory is not implemented.
 
 ## Integration findings and next work
 
