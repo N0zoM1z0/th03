@@ -41,6 +41,15 @@ std::uint8_t Round::collision_adjacent_read(std::uint16_t address) const {
         return interrupts[address-0x1092];
     }
     if(address>=0x109a&&address<0x109e)return std::uint8_t(0xb8cu>>((address-0x109a)*8));
+    if(address>=0x10cc&&address<0x10d0) {
+        // Canonical DOS load 1000h, original SS=263Fh, 4096-byte stack.
+        // Console startup allocates the 512-byte stdin buffer before the
+        // environment list. Far malloc has a four-byte block header.
+        constexpr unsigned heap=0x1000+0x263f+4096/16+1;
+        constexpr unsigned stdin_paragraphs=(512+4+15)/16;
+        constexpr std::uint32_t environment_pointer=4u|(std::uint32_t(heap+stdin_paragraphs)<<16);
+        return std::uint8_t(environment_pointer>>((address-0x10cc)*8));
+    }
     if(address>=0x10d0&&address<0x10dc) {
         constexpr std::uint16_t string_options[]={1,0,1,63,64,63};
         const auto at=address-0x10d0;

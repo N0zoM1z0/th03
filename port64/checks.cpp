@@ -123,6 +123,9 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==2&&std::string(argv[1])=="--startup-environ") {
+            const th03::Round r;for(unsigned at=0x10cc;at<0x10d0;++at)std::cout.put(char(r.collision_adjacent_read(std::uint16_t(at))));return 0;
+        }
         if(argc==6&&std::string(argv[1])=="--bomb-caller") {
             const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
             const unsigned character=unsigned(std::stoul(argv[3])),opponent=unsigned(std::stoul(argv[4]));check(character<9&&opponent<9,"unknown Bomb caller character");

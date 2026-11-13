@@ -623,8 +623,28 @@ corresponding scans reach CRT C++/signal/string DATA around `0FC0..1128`.
 These reads can cause real false collisions. The native owner now supplies the
 live tone, original default palette, mathematical sine table, unused CRT
 exception workspaces, initial signal data, string settings and range-error
-strings. Its compatibility context uses a 486-class DOS CPU and no SAJ joystick;
-the original-instruction edge checks use the same startup context. Other DATA
+strings. Its compatibility context loads MAIN at segment `1000h`, with a
+486-class DOS CPU, DOS5 console handles, CP932 and no SAJ joystick.
+The original-instruction edge checks execute the actual C0 startup and CRT
+initializers with that profile. Other DATA
 reads still report their address and frame until their owner is recovered. The
 original ENEDAT does not use its broken loop opcodes; custom loop scripts would
 also need the original indeterminate stack context.
+
+The `__environ` far pointer occupies DATA `10CC..10CF`. In this profile C0's
+original `SS=263Fh` and 4,096-byte stack place the heap at `3740h`. Stdio first
+allocates its 512-byte stdin buffer; the original far allocator then returns
+`3761:0004` for the environment list. The port derives that virtual address
+from these sizes rather than exposing a host pointer. The environment list is
+not replaced during ordinary MAIN gameplay.
+
+A natural Rikako/Chiyuri battle reached this alias during its first retry,
+at round frame1036. P1's 80-tile scan at Q4 `(1072,3257)` first reads `10CE`
+in its second column. With an empty collision map the allocated pointer still
+causes the original false hit. `check_collision.py` compares all four pointer
+bytes after executing original C0, stdio, heap and environment initialization,
+then checks this actual scan against the original player-hit instructions.
+The repaired pairing completes both retries and reaches the winner's required
+input wait after 9,385 draws. Linux/Windows diagnostics and complete frames
+agree. The neighboring-character battle runs now cover all nine player families
+without an unowned-read failure.
