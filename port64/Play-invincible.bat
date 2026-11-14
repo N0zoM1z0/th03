@@ -18,8 +18,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Runtime.InteropServices;
 public static class Th03RuntimeNoHit {
- public const string SupportedHash="8e93786c991462b4c1362424413395023a42d65d70b1054148cf3be4e83824bf";
- const int CollisionHitRva=0x43130;
+ public const string SupportedHash="78568d9d0716c94a28a121ae1f0f38d5003f11af4493695fb448bdd1848c77fe";
+ const int CollisionHitRva=0x43240;
  static readonly byte[] Prologue={0x41,0x57,0x41,0x56,0x41,0x55,0x41,0x54,0x55,0x57,0x56,0x53,0x48,0x81,0xec,0x88,0,0,0};
  [StructLayout(LayoutKind.Sequential,CharSet=CharSet.Unicode)] struct Start {
   public int size;public string reserved,desktop,title;public int x,y,width,height,columns,rows,fill,flags;
@@ -61,7 +61,7 @@ public static class Th03RuntimeNoHit {
  }
  public static Process Launch(string exe,string arguments,string directory,string desktop){
   Require(Environment.Is64BitProcess,"64-bit PowerShell is required");
-  Require(Hash(exe)==SupportedHash,"Unsupported th03-port64.exe; this BAT targets preview-3");
+  Require(Hash(exe)==SupportedHash,"Unsupported th03-port64.exe; this BAT targets preview-4");
   var start=new Start();start.size=Marshal.SizeOf(typeof(Start));start.desktop=desktop;Child child;
   Require(CreateProcess(exe,new StringBuilder(Quote(exe)+" "+arguments),IntPtr.Zero,IntPtr.Zero,false,0x08000004,IntPtr.Zero,directory,ref start,out child),"Create owned suspended game");
   bool resumed=false;

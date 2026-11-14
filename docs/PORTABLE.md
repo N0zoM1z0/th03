@@ -45,7 +45,7 @@ For a playable folder, place the executable, `port64/Play.bat` and
 `save-normal` beside the executable; keep that directory when updating.
 The title initially hides its menu until a direction is pressed.
 
-For human-player invulnerability on the current preview-3 executable, put
+For human-player invulnerability on the current preview-4 executable, put
 [`Play-invincible.bat`](../port64/Play-invincible.bat) in the same playable
 folder and double-click it. This standalone launcher uses Windows PowerShell
 and patches only its newly created suspended process; it keeps PMD86 audio
@@ -54,7 +54,7 @@ Both human slots are protected in two-player mode. The EXE hash and original
 instructions are checked before the game resumes, so another build needs a
 reviewed update to this launcher.
 
-The patch intercepts `CollisionMap::hit` at RVA `0x43130`, returning an empty
+The patch intercepts `CollisionMap::hit` at RVA `0x43240`, returning an empty
 `optional<Point>` for human players and preserving the original CPU path.
 Patching `Round::player_hit` alone does not work: Release GCC inlines it into
 `player_update`. Native Windows collision calls cover both player slots,
@@ -63,22 +63,24 @@ unsupported code. A 10,000-frame two-human battle retains full hearts with the
 patch while the unpatched control takes damage. The BAT also passes an inactive
 desktop launch, remote-instruction readback, resize, close and separate-save
 check, with physical audio muted for that test. Local probes are in
-`build/no-hit/`; no product rebuild is involved.
+`build/no-hit/`, with preview-4 launch/guard checks in `build/render-fix/`.
+The launcher alone never rebuilds or edits the executable.
 
 To prepare a data-free ZIP from a clean committed checkout:
 
 ```sh
 python3 port64/package_release.py --exe build/windows-x64/th03-port64.exe \
-  --version preview-3 --output build/th03-preview-3-windows-x64.zip
+  --version preview-4 --output build/th03-preview-4-windows-x64.zip
 ```
 
 The ZIP contains the executable, launchers, setup instructions, MIT and ymfm
 BSD-3-Clause licenses, and SHA-256 checksums. Supply the game disk, font and
 rhythm ROM separately. Packaging locally does not publish a GitHub release.
 
-The current local `build/th03-preview-3-windows-x64.zip` contains the Windows
-Release executable with high-resolution waits, bounded catchup and menu caching. Its SHA-256 is
-`8e93786c991462b4c1362424413395023a42d65d70b1054148cf3be4e83824bf`.
+The current local `build/th03-preview-4-windows-x64.zip` contains the Windows
+Release executable with high-resolution waits, bounded catchup, menu caching
+and the repaint/Reimu Bomb corrections below. Its SHA-256 is
+`78568d9d0716c94a28a121ae1f0f38d5003f11af4493695fb448bdd1848c77fe`.
 The game also builds from a clean, data-free source export. Packaged runtime
 checks cover title/demo progression, full frames and private Win32 window
 creation/resize/close/save. Only Windows system DLLs are imported. ZIP membership
@@ -87,6 +89,27 @@ source and an existing output path are rejected.
 
 See the [TH04 performance/audio comparison](PORTABLE_PERFORMANCE.md) for
 implemented host/menu improvements, measurements and remaining raster questions.
+
+Preview-4 fixes two rendering defects reported during manual play. Win32 paints
+black only into letterbox bars, so it no longer clears the game area before
+`StretchDIBits`. Inactive-desktop paint probes exercise narrow, wide and normal
+windows: the previous path clears the game on every paint; the corrected path
+never does. Reimu's Bomb now draws the portrait before its moving particles,
+matching the original MRS/EGC order at frames 64–95. The old order fails at
+frame 64; the corrected layer matches every pixel at 17 phase boundaries for
+both player slots on Linux and Windows. Normal Bomb and warning palette flashes
+remain part of the original game.
+
+```sh
+dos_root=/path/to/DOS/checkout
+"$dos_root/.venv/bin/python" port64/check_reimu_bomb.py --native build/linux-x64/th03-port64 \
+  --native-checks build/linux-x64/th03-port64-checks --dos-root "$dos_root"
+```
+
+The native fixture advances the complete Bomb lifecycle; the original update,
+renderer, GRCG fill and MRS blitter run directly under Unicorn. The sound service
+and resident sprite device are supplied at their boundaries. Private Win32
+paint probes and launch checks are in `build/render-fix/`.
 
 ## Build and inspect
 

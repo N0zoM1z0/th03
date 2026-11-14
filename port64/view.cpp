@@ -26,15 +26,21 @@ LRESULT CALLBACK procedure(HWND window, UINT message, WPARAM w, LPARAM l) {
         if (state) {
             const auto& pixels=state->frames->pixels();
             RECT rect; GetClientRect(window,&rect);
-            FillRect(dc,&rect,reinterpret_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
             const int scale_width=rect.right*400 <= rect.bottom*640 ? rect.right : rect.bottom*640/400;
             const int scale_height=scale_width*400/640;
+            const int left=(rect.right-scale_width)/2,top=(rect.bottom-scale_height)/2;
+            // Clear only the letterbox. Clearing underneath the next blit
+            // exposes a black intermediate frame on every animated repaint.
+            const RECT bars[]={{0,0,rect.right,top},{0,top,left,top+scale_height},
+                               {left+scale_width,top,rect.right,top+scale_height},
+                               {0,top+scale_height,rect.right,rect.bottom}};
+            for(const auto& bar:bars)FillRect(dc,&bar,reinterpret_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
             BITMAPINFO info{};
             info.bmiHeader.biSize=sizeof(BITMAPINFOHEADER);
             info.bmiHeader.biWidth=640; info.bmiHeader.biHeight=-400;
             info.bmiHeader.biPlanes=1; info.bmiHeader.biBitCount=32; info.bmiHeader.biCompression=BI_RGB;
             SetStretchBltMode(dc,COLORONCOLOR);
-            StretchDIBits(dc,(rect.right-scale_width)/2,(rect.bottom-scale_height)/2,scale_width,scale_height,
+            StretchDIBits(dc,left,top,scale_width,scale_height,
                           0,0,640,400,pixels.data(),&info,DIB_RGB_COLORS,SRCCOPY);
         }
         EndPaint(window,&paint);

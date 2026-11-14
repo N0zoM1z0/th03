@@ -593,8 +593,6 @@ void BattleGraphics::bombs(Canvas& graphics,const Round& round,unsigned pid) con
         switch(character) {
         case 0:
             portrait=frame>=64&&frame<=96;
-            if(frame<96)for(const auto& p:bombs.reimu[pid])if(p.active)
-                sprite(graphics,x(p.center.x)-8,pixels(p.center.y)+8,pid*40+0x18,16,8);
             break;
         case 1:
             portrait=frame>80&&frame<144;portrait_left+=round.fg_shift[pid];
@@ -624,7 +622,12 @@ void BattleGraphics::bombs(Canvas& graphics,const Round& round,unsigned pid) con
             break;
         }
         if(portrait)bomb_images_[pid].put(graphics,portrait_left,16,false,pid!=0);
-        if(character==2&&portrait) {
+        // Reimu calls MRS with EGC disabled, then draws the particles after
+        // enabling EGC again. They remain in front of the portrait at 64..95.
+        if(character==0&&frame<96) {
+            for(const auto& p:bombs.reimu[pid])if(p.active)
+                sprite(graphics,x(p.center.x)-8,pixels(p.center.y)+8,pid*40+0x18,16,8);
+        } else if(character==2&&portrait) {
             const auto at=bombs.marisa_draw_point[pid];
             sprite(graphics,at.x-24,at.y-24,pid*40+0xf16+((frame&3)<2 ? 6 : 0),48,24);
         } else if(character==3&&portrait) {

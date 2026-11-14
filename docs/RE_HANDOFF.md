@@ -61,11 +61,15 @@ and input exit pass. A real Windows window creates/resizes/closes and saves
 configuration on a separate inactive desktop. See PORTABLE.md for commands.
 
 The Windows build/launch/package helpers follow the TH04 delivery pattern.
-The current local package is `build/th03-preview-3-windows-x64.zip`. The private
-ready-to-play folder is `D:\Entertainment\Game\Touhou\th03-port64-preview-3`:
+The current local package is `build/th03-preview-4-windows-x64.zip`. The private
+ready-to-play folder is `D:\Entertainment\Game\Touhou\th03-port64-preview-4`:
 use `Play.bat` for PMD86 audio or `Play-silent.bat`; saves go to `save-normal`.
 The optional `Play-invincible.bat` adds a hash-guarded, human-only runtime
 patch for that executable and uses `save-invincible`; see PORTABLE.md.
+Preview-4 removes the Win32 clear beneath each frame and restores Reimu Bomb's
+portrait-before-particles order. Original raster comparisons pass on both host
+platforms; narrow/wide/normal inactive-desktop paints leave the game area intact.
+The user's preview-3 folder remains separate; its saves are copied into preview-4.
 It has its own attested original HDI, font and ROM, and its real Windows window
 passed create/resize/close/save on an inactive desktop. Release source builds,
 package checks and private-desktop Win32 window checks pass.
