@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare Reimu Bomb fill, portrait and overlaid particles with original MAIN.
+"""Compare all nine Bomb layers and their coupled effects with original MAIN.
 
 Execute the real update/draw owners, GRCG fill and MRS blitter. Only the sound
 service and resident sprite device are supplied at their hardware boundaries.
@@ -38,15 +38,26 @@ from unicorn.x86_const import (
 )
 
 
-def compare(program, pid, native, atlas, mrs):
+def compare(program, character, pid, native, atlas, mrs):
     u = Uc(UC_ARCH_X86, UC_MODE_16)
     u.mem_map(0, 0x100000)
     u.mem_write(0x10000, bytes(program))
     ds = 0x2D560
-    for at, size in ((0x6580, 2), (0x307E, 514), (0x659C, 4), (0x65A6, 256)):
+    for at, size in (
+        (0x6580, 2),
+        (0x307E, 514),
+        (0x689A, 64),
+        (0x25DC, 130),
+        (0x2674, 1),
+        (0x28F2, 6),
+        (0x4B8C, 2),
+        (0x3946, 121),
+        (0x659C, 4),
+        (0x65A6, 256),
+    ):
         u.mem_write(ds + at, bytes(size))
     u.mem_write(ds + 0x6580 + pid, b"\x01")
-    u.mem_write(ds + 0x65A6 + pid * 128 + 8, bytes([pid + 1]))
+    u.mem_write(ds + 0x65A6 + pid * 128 + 8, bytes([character * 2 + pid + 1]))
     u.mem_write(ds + 0x2928, bytes([pid]))
     u.mem_write(ds + 0x6590, bytes([pid * 40]))
     u.mem_write(ds + 0x1E52, bytes((i * 13 + 7) & 255 for i in range(256)))
@@ -54,6 +65,8 @@ def compare(program, pid, native, atlas, mrs):
     u.mem_write(ds + 0x2D4, struct.pack("<H", 100))
     u.mem_write(0x60000, mrs)
     u.mem_write(ds + 0x1D64 + (pid + 2) * 4, struct.pack("<HH", 0, 0x6000))
+    u.mem_write(ds + 0x2C8, b"\0")
+    u.mem_write(ds + 0x5E8, b"\xff\xff")
     bases = (0xA8000, 0xB0000, 0xB8000, 0xE0000)
     planes = []
     mode = 0
@@ -74,6 +87,7 @@ def compare(program, pid, native, atlas, mrs):
             struct.pack("<HH", 0xF000, 0x239D)
             + b"".join(struct.pack("<H", a & 65535) for a in reversed(args)),
         )
+        u.mem_write(0x8FEFC, b"\x5a")
         u.emu_start((seg + 0x1000) * 16 + off, 0x329D0, count=2000000)
         assert u.reg_read(UC_X86_REG_IP) == 0xF000, (
             pid,
@@ -166,8 +180,28 @@ def compare(program, pid, native, atlas, mrs):
     for frame in range(180):
         for base, value in zip(bases, (0xAA, 0x33, 0x55, 0xFF)):
             u.mem_write(base, bytes([value]) * 16000)
-        call(0x139D, 0x16BC)
-        call(0x139D, 0x1811)
+        update = (
+            (0x139D, (0x16BC, 0x3673)[character])
+            if character < 2
+            else (0x183C, 0x1EB)
+            if character == 3
+            else (0x139D, 0x164E)
+        )
+        render = (
+            (0x139D, 0x1811),
+            (0x139D, 0x37EA),
+            (0x139D, 0xEE5),
+            (0x183C, 0x3A6),
+            (0x183C, 0x7F8),
+            (0x183C, 0x5EA),
+            (0x183C, 0xA08),
+            (0x183C, 1),
+            (0x139D, 0x202F),
+        )[character]
+        call(*update)
+        call(0x96E, 0x37D2)
+        call(*render)
+        call(0x96E, 0x3800)
         # Cover spawn/fill, portrait overlap, shaking, fading and deactivation.
         if frame + 1 not in (
             1,
@@ -204,11 +238,13 @@ def compare(program, pid, native, atlas, mrs):
                 if a != b
             ]
             raise ValueError(
-                f"Reimu Bomb pid={pid} frame={frame + 1}: {len(mismatches)} differing dots, first={mismatches[:12]}"
+                f"Bomb character={character} pid={pid} frame={frame + 1}: {len(mismatches)} differing dots, first={mismatches[:12]}"
             )
         checked += 1
     print(
-        "Original Reimu bomb draw pixels agree for player",
+        "Original Bomb/effect pixels agree for character",
+        character,
+        "player",
         pid,
         "across",
         checked,
@@ -222,6 +258,7 @@ def main():
     parser.add_argument("--native", type=Path, required=True)
     parser.add_argument("--native-checks", type=Path, required=True)
     parser.add_argument("--dos-root", type=Path, required=True)
+    parser.add_argument("--character", type=int, choices=range(9))
     args = parser.parse_args()
     root = args.dos_root.resolve()
     cfg = tomllib.loads((root / "config/targets.toml").read_text())
@@ -254,60 +291,75 @@ def main():
             else str(p)
         )
 
-    with tempfile.TemporaryDirectory(prefix="th03-reimu-bomb-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="th03-bomb-draw-") as temporary:
         work = Path(temporary)
-        atlas = bytearray(128000)
-        for pid in (0, 1):
-            pi = work / f"{pid}.pi"
-            output = work / f"{pid}.pixels"
-            mrs = work / f"{pid}.mrs"
-            subprocess.run(
-                [
-                    str(native),
-                    "--hdi",
-                    path(disk, native),
-                    "--pi",
-                    f"{pid:02d}16.PI",
-                    "--packed",
-                    path(pi, native),
-                ],
-                check=True,
-                stdout=subprocess.DEVNULL,
-            )
-            packed = pi.read_bytes()
-            if len(packed) != 320 * 16 // 2:
-                raise ValueError("Unexpected Reimu sprite PI geometry")
-            for y in range(8):
-                for x in range(320):
-                    value = packed[(y * 2 * 320 + x) // 2]
-                    atlas[y * 640 + pid * 320 + x] = value & 15 if x & 1 else value >> 4
-            subprocess.run(
-                [
-                    str(native),
-                    "--hdi",
-                    path(disk, native),
-                    "--main-assets",
-                    "--extract",
-                    f"{pid:02d}BM.MRS",
-                    "--output",
-                    path(mrs, native),
-                ],
-                check=True,
-            )
-            subprocess.run(
-                [
-                    str(checks),
-                    "--reimu-bomb-raster",
-                    path(disk, checks),
-                    str(pid),
-                    path(output, checks),
-                ],
-                check=True,
-            )
-            data = output.read_bytes()
-            if len(data) != 180 * 128000:
-                raise ValueError("Incomplete native Bomb raster sequence")
-            compare(bytes(program), pid, data, atlas, mrs.read_bytes())
+        failures = []
+        for character in range(9) if args.character is None else (args.character,):
+            atlas = bytearray(128000)
+            for pid in (0, 1):
+                image_id = character * 2 + pid
+                for suffix, top in (("16", 0), ("EX", 8)):
+                    pi = work / f"{pid}.pi"
+                    dimensions = subprocess.check_output(
+                        [
+                            str(native),
+                            "--hdi",
+                            path(disk, native),
+                            "--pi",
+                            f"{image_id:02d}{suffix}.PI",
+                            "--packed",
+                            path(pi, native),
+                        ],
+                        text=True,
+                    ).split()[0]
+                    width, height = map(int, dimensions.split("x"))
+                    packed = pi.read_bytes()
+                    if len(packed) != width * height // 2:
+                        raise ValueError("Incomplete sprite PI")
+                    for y in range(0, height, 2):
+                        for x in range(width):
+                            value = packed[(y * width + x) // 2]
+                            atlas[(top + y // 2) * 640 + pid * 320 + x] = (
+                                value & 15 if x & 1 else value >> 4
+                            )
+                output = work / f"{pid}.pixels"
+                mrs = work / f"{pid}.mrs"
+                subprocess.run(
+                    [
+                        str(native),
+                        "--hdi",
+                        path(disk, native),
+                        "--main-assets",
+                        "--extract",
+                        f"{image_id:02d}BM.MRS",
+                        "--output",
+                        path(mrs, native),
+                    ],
+                    check=True,
+                )
+                subprocess.run(
+                    [
+                        str(checks),
+                        "--bomb-raster",
+                        path(disk, checks),
+                        str(character),
+                        str(pid),
+                        path(output, checks),
+                    ],
+                    check=True,
+                )
+                data = output.read_bytes()
+                if len(data) != 180 * 128000:
+                    raise ValueError("Incomplete native Bomb raster sequence")
+                try:
+                    compare(
+                        bytes(program), character, pid, data, atlas, mrs.read_bytes()
+                    )
+                except ValueError as error:
+                    failures.append(str(error))
+                    print(error, flush=True)
+        if failures:
+            raise SystemExit(f"{len(failures)} Bomb raster comparisons failed")
 
 
 if __name__ == "__main__":

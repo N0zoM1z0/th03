@@ -980,22 +980,22 @@ int main(int argc,char** argv) {
             th03::Mrs image(read_file(argv[2]),std::stoi(argv[7]));image.put(canvas,std::stoi(argv[3]),std::stoi(argv[4]),std::stoi(argv[5]),std::stoi(argv[6]));
             std::cout.write(reinterpret_cast<const char*>(canvas.pixels.data()),640*200);return 0;
         }
-        if(argc==5&&std::string(argv[1])=="--reimu-bomb-raster") {
+        if(argc==6&&std::string(argv[1])=="--bomb-raster") {
             const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
-            const unsigned pid=unsigned(std::stoul(argv[3]));check(pid<2,"unknown Bomb player");
-            th03::Resident resident;resident.paletted={{1,2}};th03::Round r;r.begin(resident,main.read("ENEDAT.DAT"));r.intro.flag=0;
+            const unsigned character=unsigned(std::stoul(argv[3])),pid=unsigned(std::stoul(argv[4]));check(character<9&&pid<2,"unknown Bomb character/player");
+            th03::Resident resident;resident.paletted={{std::uint8_t(character*2+1),std::uint8_t(character*2+2)}};th03::Round r;r.begin(resident,main.read("ENEDAT.DAT"));r.intro.flag=0;
             // Isolate the Bomb layer while retaining its real draw-owned updates.
             for(auto& player:r.players)player.lose_time=255;
             r.bomb_flags[pid]=1;r.random.cursor=254;
             for(unsigned i=0;i<256;++i)r.random.bytes[i]=std::uint8_t(i*13+7);
-            th03::BattleGraphics graphics(op,main,resident);std::ofstream out(argv[4],std::ios::binary);
+            th03::BattleGraphics graphics(op,main,resident);std::ofstream out(argv[5],std::ios::binary);
             for(unsigned frame=0;frame<180;++frame) {
-                r.bombs.update(r,pid);th03::Canvas pixels;
+                r.bombs.update(r,pid);r.update_effects();th03::Canvas pixels;
                 for(unsigned at=0;at<128000;++at) {
                     const unsigned shift=7-(at%8);
                     pixels.pixels[at]=std::uint8_t(8|((0xaa>>shift)&1)|(((0x33>>shift)&1)<<1)|(((0x55>>shift)&1)<<2));
                 }
-                graphics.draw_battle(pixels,r,&r);
+                graphics.draw_battle(pixels,r,&r,90);
                 out.write(reinterpret_cast<const char*>(pixels.pixels.data()),128000);
             }
             return 0;

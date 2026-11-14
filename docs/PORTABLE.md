@@ -102,7 +102,7 @@ remain part of the original game.
 
 ```sh
 dos_root=/path/to/DOS/checkout
-"$dos_root/.venv/bin/python" port64/check_reimu_bomb.py --native build/linux-x64/th03-port64 \
+"$dos_root/.venv/bin/python" port64/check_bomb_graphics.py --native build/linux-x64/th03-port64 \
   --native-checks build/linux-x64/th03-port64-checks --dos-root "$dos_root"
 ```
 
@@ -110,6 +110,22 @@ The native fixture advances the complete Bomb lifecycle; the original update,
 renderer, GRCG fill and MRS blitter run directly under Unicorn. The sound service
 and resident sprite device are supplied at their boundaries. Private Win32
 paint probes and launch checks are in `build/render-fix/`.
+
+The expanded review now compares all nine Bomb callbacks together with their
+circle/quad effects, for both player slots with their paired palette banks. Original MAIN
+agrees in every pixel at the same 17 lifecycle boundaries; complete 180-frame
+rasters also agree between Linux and Windows. `--character 0` retains the small
+Reimu regression.
+
+Private charge-render probes compare the eight sprite-based families' ordered
+device calls, clipped positions, atlas offsets/sizes, monochrome colors,
+overlap mode and masks in ordinary and applicable Hyper states. Marisa's GRCG
+beam is checked separately against actual box/tile instructions in every pixel.
+The round-loop pause/warning/double-refresh checks and both background state
+chains also pass. No additional product defect was established by this review;
+preview-4's game executable and runtime-patch hash remain unchanged. The probes
+and results are in `build/render-review/`. Boss/Extra artwork outside these
+layers still has no complete original-frame pixel comparison.
 
 ## Build and inspect
 

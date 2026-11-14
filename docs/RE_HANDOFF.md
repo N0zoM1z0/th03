@@ -70,6 +70,10 @@ Preview-4 removes the Win32 clear beneath each frame and restores Reimu Bomb's
 portrait-before-particles order. Original raster comparisons pass on both host
 platforms; narrow/wide/normal inactive-desktop paints leave the game area intact.
 The user's preview-3 folder remains separate; its saves are copied into preview-4.
+The follow-up rendering review expands `check_bomb_graphics.py` to all nine
+Bomb/effect layers. Additional charge-device/beam, background and scheduler
+checks found no further product defect; see PORTABLE.md and `build/render-review/`.
+The preview-4 executable and user's play folders are unchanged by that review.
 It has its own attested original HDI, font and ROM, and its real Windows window
 passed create/resize/close/save on an inactive desktop. Release source builds,
 package checks and private-desktop Win32 window checks pass.
