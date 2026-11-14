@@ -6,6 +6,8 @@
 #include "battle_graphics.hpp"
 #include "round_loop.hpp"
 #include "application.hpp"
+#include "view.hpp"
+#include "frame_schedule.hpp"
 #include "raster.hpp"
 #include "pmd/pmd_timer_player.hpp"
 #include "pmd/pmd_pcm.hpp"
@@ -123,6 +125,53 @@ void attack_pools(const th03::Round& r,const th03::CollisionMap& collision,bool 
 }
 int main(int argc,char** argv) {
     try {
+        if(argc==2&&std::string(argv[1])=="--frame-policy") {
+            using th03::FrameSchedule;
+            FrameSchedule clock(100);check(clock.due(100),"first host refresh was delayed");
+            clock.completed();check(!clock.due(100+FrameSchedule::period-1),"early message admitted a refresh");
+            auto now=100+300000000;clock.wake();unsigned admitted=0;
+            while(clock.due(now)) {++admitted;clock.completed();}
+            check(admitted==4,"300 ms host stall must admit at most four catchup ticks");
+            clock.resync(now);check(clock.next()==now+FrameSchedule::period,"stall did not discard expired host deadlines");
+            clock.wake();check(!clock.due(clock.next()-1),"resync retained an immediate backlog");
+            check(clock.due(clock.next()),"resync lost the next ordinary refresh");clock.completed();
+            clock.wake();now=clock.next();admitted=0;
+            while(clock.due(now)) {++admitted;clock.completed();now+=2*FrameSchedule::period;}
+            check(admitted==4,"slow refresh work bypassed catchup bound");clock.resync(now);
+            check(clock.next()>now,"slow work did not resync");
+            std::cout<<"Host message deadlines, 300 ms stall and slow-work catchup bounds pass\n";return 0;
+        }
+        if(argc==4&&std::string(argv[1])=="--menu-cache") {
+            const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
+            th03::Application app(op,{}, {},"TL02.PI",read_file(argv[3]),&main);
+            ViewFrames cache;unsigned calls=0;
+            const auto draw=[&] {++calls;return app.render();};
+            const auto verify=[&](bool changed) {
+                const auto before=calls;check(cache.update(app,draw)==changed,"unexpected menu cache invalidation");
+                check(calls==before+unsigned(changed)&&cache.pixels()==app.render(),"cached visible menu pixels differ");
+            };
+            verify(true);for(unsigned i=0;i<120;++i){app.tick({});verify(false);}
+            const auto key=[&](unsigned mask,bool changed) {app.tick({std::uint16_t(mask),{}});verify(changed);};
+            key(th03::left,true);key(0,false);
+            for(unsigned i=0;i<4;++i){key(th03::down,true);key(0,false);}
+            key(th03::shot,true);key(0,false);key(th03::right,true);key(0,false);
+            key(th03::down,true);key(0,false);key(th03::right,true);key(0,false);
+            key(th03::down,true);key(0,false);key(th03::right,true);key(0,false);key(th03::right,true);key(0,false);
+            key(th03::cancel,true);key(0,false);
+            app.start_music();verify(true);app.tick({});verify(true);
+            app.return_to_title();verify(true);verify(false);
+            key(th03::left,true);key(0,false);key(th03::down,true);key(0,false);key(th03::shot,true);
+            for(unsigned i=0;i<13;++i)key(0,false);
+            key(th03::down,true);key(0,false);key(th03::down,true);key(0,false);key(th03::shot,true);
+            app.return_to_title();verify(true);
+            app.start_selection(th03::SelectKind::story);verify(true);app.tick({});verify(true);
+            app.return_to_title();app.menu.screen=th03::Screen::handoff;app.menu.request=th03::Request::attract;verify(true);
+            app.menu.request=th03::Request::story;verify(true);
+            app.return_to_title();verify(true);
+            for(unsigned i=0;i<520;++i)key(0,false);
+            key(0,true);check(app.phase==th03::Phase::stage_intro,"cached title did not enter attract mode");
+            std::cout<<"Static title/menu cache, every option, request/scene transitions and dynamic redraw pixels pass\n";return 0;
+        }
         if(argc==8&&std::string(argv[1])=="--player-sprite") {
             const auto disk=read_file(argv[2]);const PfArchive op(hdi_file(disk,op_archive_name)),main(hdi_file(disk,main_archive_name));
             th03::Resident resident;resident.paletted={{std::uint8_t(std::stoul(argv[3])),std::uint8_t(std::stoul(argv[4]))}};

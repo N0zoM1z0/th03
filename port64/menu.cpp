@@ -21,6 +21,20 @@ std::uint32_t color(const PiImage& image, unsigned index) {
     };
     return 0xff000000u | (component(0) << 16) | (component(1) << 8) | component(2);
 }
+using Colors=std::array<std::uint32_t,16>;
+Colors colors(const PiImage& image) {
+    Colors out{};for(unsigned i=0;i<out.size();++i)out[i]=color(image,i);return out;
+}
+Frame expand_picture(const PiImage& image,const Colors& palette) {
+    Frame frame(std::size_t(image.width)*image.height);
+    std::size_t i=0;
+    for(;i+1<frame.size();i+=2) {
+        const auto packed=image.pixels.at(i/2);
+        frame[i]=palette[packed>>4];frame[i+1]=palette[packed&15];
+    }
+    if(i<frame.size())frame[i]=palette[image.pixels.at(i/2)>>4];
+    return frame;
+}
 unsigned word(const Bytes& data, unsigned at) {
     return data.at(at) | (unsigned(data.at(at + 1)) << 8);
 }
@@ -34,7 +48,7 @@ void text(Frame& frame, const Bytes& font, unsigned first, unsigned count,
                 if (font.at(base + (first+i)*32 + y*2 + x/8) & (0x80u >> (x&7)))
                     frame.at((272 + line*16 + y)*640 + left+i*16+x) = selected ? 0xffffffffu : 0xff000000u;
 }
-void box(Frame& frame, const PiImage& palette, const Bytes& window, int width) {
+void box(Frame& frame, const Colors& palette, const Bytes& window, int width) {
     // OPWIN.BFT: three packed 16x128 patterns, palette, transparent color 0.
     const unsigned base = 32 + word(window, 28) + 48;
     const Frame background=frame;
@@ -43,7 +57,7 @@ void box(Frame& frame, const PiImage& palette, const Bytes& window, int width) {
             for (unsigned x=0; x<16; ++x) {
                 const auto packed = window.at(base + pattern*1024 + y*8 + x/2);
                 const unsigned index = (x&1) ? packed&15 : packed>>4;
-                if (index) frame.at((256+y)*640+left+x) = color(palette,index);
+                if (index) frame.at((256+y)*640+left+x) = palette[index];
             }
     };
     sprite(160,0);
@@ -109,23 +123,19 @@ void Menu::tick(std::uint16_t input) {
 }
 
 Frame pi_frame(const PiImage& image) {
-    Frame frame(std::size_t(image.width)*image.height);
-    for (std::size_t i=0; i<frame.size(); ++i) {
-        const auto packed=image.pixels.at(i/2);
-        frame[i]=color(image,(i&1) ? packed&15 : packed>>4);
-    }
-    return frame;
+    return expand_picture(image,colors(image));
 }
 
 Frame menu_frame(const PiImage& background, const Bytes& gaiji, const Bytes& window, const Menu& menu) {
     if (background.width!=640 || background.height!=400 || gaiji.size()!=8224 || window.size()!=3152)
         throw std::runtime_error("unexpected TH03 title/menu geometry");
-    auto frame=pi_frame(background);
+    const auto palette=colors(background);
+    auto frame=expand_picture(background,palette);
     if (menu.screen==Screen::title ||
         (menu.screen==Screen::handoff && menu.request==Request::attract)) return frame;
     const bool option=menu.screen==Screen::options;
     const bool versus=menu.screen==Screen::versus;
-    box(frame,background,window,(option||versus) ? 240 : 136);
+    box(frame,palette,window,(option||versus) ? 240 : 136);
     if(versus) {
         for(int i=0;i<3;++i) {
             text(frame,gaiji,i==2 ? 0x92 : 0x88,4,248,i+1,0,menu.selected==i);

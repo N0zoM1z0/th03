@@ -49,16 +49,16 @@ To prepare a data-free ZIP from a clean committed checkout:
 
 ```sh
 python3 port64/package_release.py --exe build/windows-x64/th03-port64.exe \
-  --version preview-2 --output build/th03-preview-2-windows-x64.zip
+  --version preview-3 --output build/th03-preview-3-windows-x64.zip
 ```
 
 The ZIP contains the executable, launchers, setup instructions, MIT and ymfm
 BSD-3-Clause licenses, and SHA-256 checksums. Supply the game disk, font and
 rhythm ROM separately. Packaging locally does not publish a GitHub release.
 
-The current local `build/th03-preview-2-windows-x64.zip` contains the Windows
-Release executable with input-file replay support. Its SHA-256 is
-`1227d8bb11976114c4ea8ee52f1e12f9a34a4b3c33f960ead6c32a199939e0e5`.
+The current local `build/th03-preview-3-windows-x64.zip` contains the Windows
+Release executable with high-resolution waits, bounded catchup and menu caching. Its SHA-256 is
+`8e93786c991462b4c1362424413395023a42d65d70b1054148cf3be4e83824bf`.
 The game also builds from a clean, data-free source export. Packaged runtime
 checks cover title/demo progression, full frames and private Win32 window
 creation/resize/close/save. Only Windows system DLLs are imported. ZIP membership
@@ -66,7 +66,7 @@ and every included checksum pass. Non-PE input, unsafe version names, dirty
 source and an existing output path are rejected.
 
 See the [TH04 performance/audio comparison](PORTABLE_PERFORMANCE.md) for
-shared fixes already present and the remaining host timer/rendering work.
+implemented host/menu improvements, measurements and remaining raster questions.
 
 ## Build and inspect
 

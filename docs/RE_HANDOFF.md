@@ -61,8 +61,8 @@ and input exit pass. A real Windows window creates/resizes/closes and saves
 configuration on a separate inactive desktop. See PORTABLE.md for commands.
 
 The Windows build/launch/package helpers follow the TH04 delivery pattern.
-The current local package is `build/th03-preview-2-windows-x64.zip`. The private
-ready-to-play folder is `D:\Entertainment\Game\Touhou\th03-port64-preview-2`:
+The current local package is `build/th03-preview-3-windows-x64.zip`. The private
+ready-to-play folder is `D:\Entertainment\Game\Touhou\th03-port64-preview-3`:
 use `Play.bat` for PMD86 audio or `Play-silent.bat`; saves go to `save-normal`.
 It has its own attested original HDI, font and ROM, and its real Windows window
 passed create/resize/close/save on an inactive desktop. Release source builds,
@@ -75,10 +75,12 @@ diagnostics and saved files agree across platforms. The audio run uses one
 continue, retains two lives and synthesizes 63,438,399 stereo frames. The input
 files and commands are in PORTABLE.md. No damage or outcome state is injected.
 
-The [performance/audio comparison](PORTABLE_PERFORMANCE.md) confirms the
-TH04 synthesis/WinMM fixes are already present. Prioritize host wait/catchup
-policy and unchanged-menu rendering next; a Windows timer probe reproduces
-coarse wakeups. This audit changed documentation only.
+The [performance/audio notes](PORTABLE_PERFORMANCE.md) now include implemented
+high-resolution Windows waits, four-tick catchup bounds, static-menu caching
+and packed palette conversion. Private Windows stall/fake-audio tests, seven
+complete SDL before/after pictures, original DOS menu pixels and a full PMD86
+story replay pass. The declared 60 Hz cadence remains unchanged; original TH03
+raster timing and further raster profiling are separate next questions.
 
 Broader character/difficulty campaigns and physical listening remain useful
 manual acceptance work. Preserve the user's Windows DOSBox disk and do not
