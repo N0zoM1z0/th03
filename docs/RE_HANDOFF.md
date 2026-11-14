@@ -1,4 +1,4 @@
-# TH03 — active agent handoff (2026-11-13)
+# TH03 — active agent handoff (2026-11-14)
 
 Read [AGENTS.md](../AGENTS.md), this page and the relevant
 [workflow](RE_WORKFLOW.md) section. [Generated progress](PROGRESS.md) is the
@@ -74,6 +74,11 @@ no audio adapter, and 79,298 with the real PMD86 clock. Complete final pictures,
 diagnostics and saved files agree across platforms. The audio run uses one
 continue, retains two lives and synthesizes 63,438,399 stereo frames. The input
 files and commands are in PORTABLE.md. No damage or outcome state is injected.
+
+The [performance/audio comparison](PORTABLE_PERFORMANCE.md) confirms the
+TH04 synthesis/WinMM fixes are already present. Prioritize host wait/catchup
+policy and unchanged-menu rendering next; a Windows timer probe reproduces
+coarse wakeups. This audit changed documentation only.
 
 Broader character/difficulty campaigns and physical listening remain useful
 manual acceptance work. Preserve the user's Windows DOSBox disk and do not

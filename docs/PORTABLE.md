@@ -65,6 +65,9 @@ creation/resize/close/save. Only Windows system DLLs are imported. ZIP membershi
 and every included checksum pass. Non-PE input, unsafe version names, dirty
 source and an existing output path are rejected.
 
+See the [TH04 performance/audio comparison](PORTABLE_PERFORMANCE.md) for
+shared fixes already present and the remaining host timer/rendering work.
+
 ## Build and inspect
 
 The local port checkout is `.analysis/native/port64/` inside the DOS checkout.
