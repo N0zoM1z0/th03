@@ -64,6 +64,8 @@ The Windows build/launch/package helpers follow the TH04 delivery pattern.
 The current local package is `build/th03-preview-3-windows-x64.zip`. The private
 ready-to-play folder is `D:\Entertainment\Game\Touhou\th03-port64-preview-3`:
 use `Play.bat` for PMD86 audio or `Play-silent.bat`; saves go to `save-normal`.
+The optional `Play-invincible.bat` adds a hash-guarded, human-only runtime
+patch for that executable and uses `save-invincible`; see PORTABLE.md.
 It has its own attested original HDI, font and ROM, and its real Windows window
 passed create/resize/close/save on an inactive desktop. Release source builds,
 package checks and private-desktop Win32 window checks pass.

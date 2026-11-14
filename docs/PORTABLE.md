@@ -45,6 +45,26 @@ For a playable folder, place the executable, `port64/Play.bat` and
 `save-normal` beside the executable; keep that directory when updating.
 The title initially hides its menu until a direction is pressed.
 
+For human-player invulnerability on the current preview-3 executable, put
+[`Play-invincible.bat`](../port64/Play-invincible.bat) in the same playable
+folder and double-click it. This standalone launcher uses Windows PowerShell
+and patches only its newly created suspended process; it keeps PMD86 audio
+and writes separate `save-invincible` saves. CPU players still take damage.
+Both human slots are protected in two-player mode. The EXE hash and original
+instructions are checked before the game resumes, so another build needs a
+reviewed update to this launcher.
+
+The patch intercepts `CollisionMap::hit` at RVA `0x43130`, returning an empty
+`optional<Point>` for human players and preserving the original CPU path.
+Patching `Round::player_hit` alone does not work: Release GCC inlines it into
+`player_update`. Native Windows collision calls cover both player slots,
+CPU/human flags and existing hit flags; hash/prologue mismatch checks reject
+unsupported code. A 10,000-frame two-human battle retains full hearts with the
+patch while the unpatched control takes damage. The BAT also passes an inactive
+desktop launch, remote-instruction readback, resize, close and separate-save
+check, with physical audio muted for that test. Local probes are in
+`build/no-hit/`; no product rebuild is involved.
+
 To prepare a data-free ZIP from a clean committed checkout:
 
 ```sh
