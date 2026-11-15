@@ -31,6 +31,23 @@ Do not replace that disk, send input to its window or restart its emulator.
 The native program reads external original data and executes no DOS code.
 It writes YUME.NEM only to its independent native save directory.
 
+## Original game data
+
+The native program reads an installed Japanese full-version HDI. The current
+reader expects the supported FAT12 volume at byte offset 38,912, with 1,024-byte
+sectors, eight sectors per cluster, two FATs, 1,536 root entries, 20,706 volume
+sectors and four sectors per FAT. The root contains `YUMEZIKU`; that directory
+must contain `夢時空1.DAT`, `夢時空2.DAT`, `YUME.CFG` and `YUME.NEM`.
+These requirements come from the [HDI reader](../port64/assets.cpp).
+Other disk layouts and loose installed files need a compatibility/preparation
+path; this checkout does not include TH04's `prepare_assets.py`.
+
+Name the image `th03.hdi` for the Windows launchers. Supply the external
+2048×2048 Anex86-format `FREECG98.BMP` and, for PMD86 audio, the 8,192-byte
+`ym2608_adpcm_rom.bin`. The game reads the HDI and writes native scores/options
+to the launcher's separate save directory. Packaging adds neither original
+game data nor support assets.
+
 ## Windows preview package
 
 The portable branch is `port/modern-64`. From a Windows MinGW-w64 environment
