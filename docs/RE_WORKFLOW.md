@@ -27,7 +27,7 @@
    that chain, not at every turn.
 6. Record useful findings and exactness limits, run affected checks plus
    `git diff --check`, and commit substantial progress locally with
-   `gpt-6.1-sol: xxx`. Do not push without authorization.
+   `gpt-6.2-sol: xxx`. Do not push without authorization.
 
 ## Scoped current-source native check (MAIN)
 

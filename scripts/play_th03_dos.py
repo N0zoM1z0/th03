@@ -123,7 +123,25 @@ def prepare(args, output):
     return original, image, products
 
 
-def run(args):
+def prepare_pi(args, output):
+    from capture_th03_pi_demos import install
+
+    need(re.fullmatch(r"af[0-9]+[a-z]", args.pi_stage), "retained PI stage")
+    build = ROOT / ".analysis/toolchain/wineprefix/drive_c/TH03PI" / args.pi_stage
+    need((build / "pi-core.json").is_file(), "stage must contain the separate PI player core")
+    folder = build / args.pi_layout
+    links = json.loads((build / "layout.json").read_bytes())
+    original, disk, hashes = install(folder, output, links, args.pi_layout)
+    products = {}
+    for product, digest in hashes.items():
+        source = folder / f"{product}.exe"
+        products[source.name.upper()] = dict(path=str(source), bytes=source.stat().st_size, sha256=digest)
+    zun = media(disk, "mtype", "::/YUMEZIKU/ZUN.COM")
+    products["ZUN.COM"] = dict(bytes=len(zun), sha256=sha(zun))
+    return original, disk, products
+
+
+def run(args, prepare_disk=prepare):
     output = args.output.resolve()
     need(output.is_relative_to(ROOT / '.analysis/runtime') and not output.exists(), 'use a fresh private runtime directory')
     need(bool(os.environ.get('DISPLAY')), 'run through xvfb-run with a private display')
@@ -137,7 +155,7 @@ def run(args):
     need(all(0 <= second < args.seconds for second, _, _ in timeline), 'events/checkpoints must precede stop')
     need(len({name for _, kind, name in timeline if kind == 'frame'}) == len(args.frame), 'unique frame names')
     output.mkdir(parents=True)
-    original, image, products = prepare(args, output)
+    original, image, products = prepare_disk(args, output)
     (output / 'FREECG98.BMP').write_bytes(font)
     (output / 'captures').mkdir()
     config = output / 'dosbox-x.conf'
@@ -149,7 +167,8 @@ def run(args):
                XDG_CACHE_HOME=str(output / 'cache'), XDG_CONFIG_HOME=str(output / 'config'), XDG_DATA_HOME=str(output / 'data'))
     record = dict(emulator=str(emulator), emulator_sha256=digest, emulator_profile=EMULATORS[digest],
                   config_sha256=sha(config.read_bytes()), font_sha256=sha(font), products=products,
-                  role='original' if args.original else 'rebuilt', cpu_affinity=sorted(os.sched_getaffinity(0)),
+                  role='pi' if getattr(args, "pi_stage", None) else 'original' if args.original else 'rebuilt',
+                  cpu_affinity=sorted(os.sched_getaffinity(0)),
                   nice=os.nice(0), argv=argv, events=[], frames={}, starting_hdi_sha256=sha(image.read_bytes()))
     for name in ('YUME.CFG', 'YUME.NEM'):
         (output / ('before-' + name)).write_bytes(media(image, 'mtype', '::/YUMEZIKU/' + name))
@@ -215,7 +234,10 @@ def main():
     p.add_argument('--event', action='append', default=[], help='KEY@SECOND, down:KEY@SECOND or up:KEY@SECOND')
     p.add_argument('--frame', action='append', default=[], help='NAME@SECOND; save an actual window PNG')
     p.add_argument('--package-stage', default='af1410p')
-    p.add_argument('--original', action='store_true')
+    variants = p.add_mutually_exclusive_group()
+    variants.add_argument('--original', action='store_true')
+    variants.add_argument('--pi-stage', help='boot the separate PI build from this audit stage')
+    p.add_argument('--pi-layout', choices=('control', 'even', 'alt', 'odd'), default='control')
     p.add_argument('--emulator', type=Path, default=Path('/usr/bin/dosbox-x'))
     p.add_argument('--font-bmp', type=Path, default=ROOT / '.analysis/runtime/fonts/FREECG98.BMP')
     args = p.parse_args()
@@ -223,7 +245,7 @@ def main():
     cpu = max(os.sched_getaffinity(0))
     os.sched_setaffinity(0, {cpu})
     if os.nice(0) < 10: os.nice(10 - os.nice(0))
-    run(args)
+    run(args, prepare_pi if args.pi_stage else prepare)
 
 
 if __name__ == '__main__':

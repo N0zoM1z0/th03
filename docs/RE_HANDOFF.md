@@ -10,7 +10,7 @@ retain compiler findings. Git history holds earlier chronology.
 
 Work in the existing `main` worktree. Inspect `git status -sb` and
 `git log -8 --oneline`; preserve dirty and untracked work. Commit substantial
-progress with `gpt-6.1-sol: xxx`. Local commits are not pushes.
+progress with `gpt-6.2-sol: xxx`. Local commits are not pushes.
 
 MAIN's tracked extent and function ledgers are fully exact within their
 inventories. Its current source-native coverage consists of independently
@@ -32,6 +32,11 @@ have different denominators, so there is no whole-game completion percentage.
 Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
 
 ## Remaining work and next useful actions
+
+The [DOS PI build](DOS_POSITION_INDEPENDENCE.md) has a separate player-core
+fix for the original left-edge collision lookup. The default build still
+uses the original routine. Stage `af1416p` passed three shifted links and
+address checks. The corrected build is undergoing paired DOS demo replay.
 
 The user is playing the Windows DOS build while semantic and 64-bit work
 proceeds on the independent `port/modern-64` branch. Its local worktree is
