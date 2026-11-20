@@ -40,7 +40,9 @@ TH04 test layouts. The inserted CODE/DATA/BSS contributions are 16/32/48,
 hashes are preserved across the control and the three relinks. The table
 lists the minimum number of contributions whose offsets changed within
 their frames, with the number of relocations and matching far transfers per
-layout.
+layout. An independent rebuild at `af1417p` reproduced all 12 EXE files
+byte for byte. The 12 complete MAP files matched after normalizing the
+stage path in module names.
 
 | Program | CODE / DATA / BSS moved | Ordered MZ relocations | Far CALL/JMP targets |
 | --- | ---: | ---: | ---: |
@@ -78,6 +80,17 @@ the same DOSBox-X normal core, fixed guest cycle configuration and host
 fast-forward setting on private copies of the original HDI. The odd layout
 also booted through the public DOS runner and entered attract combat.
 
+The retained raw traces also passed on the byte-identical `af1417p`
+executables after tightening the parser's launch order, frame continuity,
+field widths and RNG hook checks. Deliberately changing a frame, DGROUP,
+RNG hook address, initialized far pointer or CS-relative store target
+now fails the corresponding check.
+
+A separate CPU probe compared both players' horizontal scan addresses and
+masks with the clipped bitmap geometry at the six gameplay hitbox sizes.
+All 384 cases matched across the four layouts. The 42 cases with a
+nonnegative starting column also matched the default routine.
+
 The original-collision control and 32/16/64 diagnostic completed the same
 four demos with differing gameplay records. Their traces reproduce the
 position dependence removed in the separate PI build.
@@ -107,8 +120,8 @@ DISPLAY= WAYLAND_DISPLAY= .venv/bin/python scripts/capture_th03_pi_demos.py \
   --output .analysis/runtime/candidates/th03-pi-demos
 ```
 
-Pass `--original-collision` to the link audit to reproduce the old address
-dependency with the exact collision routine. Use
+Pass `--original-collision` to the link and address commands to reproduce
+the old address dependency with the exact collision routine. Use
 [`play_th03_dos.py`](../scripts/play_th03_dos.py) with `--pi-stage afNNNNp`
 and optional `--pi-layout odd` to boot a fresh private play disk. The
 [MAINL fixture](../scripts/play_th03_pi_mainl.py) uses the same layout

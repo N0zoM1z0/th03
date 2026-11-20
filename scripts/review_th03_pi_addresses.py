@@ -271,10 +271,10 @@ def far_data(images, mapping):
             for image, ordinal in zip(images, mapping[owner], strict=True)
         ]
         expected = [(ordinal, displacement) for ordinal in mapping[index]]
-        if observed == expected:
-            checked += 1
-        else:
-            other.append([source.module, relative, baseline.rows[index].module, observed, expected])
+        if observed != expected:
+            raise ValueError(f"far pointer at {source.module}+{relative:#x} lost its target in "
+                             f"{baseline.rows[index].module}: {observed} != {expected}")
+        checked += 1
     return checked, other
 
 
@@ -561,6 +561,8 @@ def scan(product, images, pi_collision=False):
                 stores_checked += 1
             else:
                 store_review.append([row.module, f"{row.frame:04X}:{row.offset + address:04X}", values])
+    if store_review:
+        raise ValueError(f"{product}: unresolved CS-relative store at {store_review[0]}")
     return dict(named_reference=named, collision_edge=collision, vectors=len(vectors[0]), cdg_runs=cdg_runs, bullet_switches=len(switches[0]) if switches else 0,
                 code_bytes=code_size, far_data_pointers=pointers, other_data=other_data,
                 cs_stores=stores_checked, cs_store_review=store_review, register_candidates=candidates)
@@ -570,6 +572,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--stage", required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--original-collision", action="store_true",
+                        help="record the original collision scan as a negative control")
     args = parser.parse_args()
     if not re.fullmatch(r"af[0-9]+[a-z]", args.stage):
         parser.error("expected a retained PI stage")
@@ -580,13 +584,23 @@ def main():
     if os.nice(0) < 10:
         os.nice(10 - os.nice(0))
     stage = DRIVE / "TH03PI" / args.stage
+    layouts = json.loads((stage / "layout.json").read_bytes())
+    pi_main = "main" in layouts and not args.original_collision
+    if pi_main:
+        core = stage / "pi-core.json"
+        if not core.is_file():
+            raise ValueError("missing separate PI core receipt; use --original-collision for the negative control")
+        rounds = json.loads(core.read_bytes())["rounds"]
+        if (len(rounds) != 2 or rounds[0] != rounds[1]
+                or rounds[0]["sha256"] != layouts["main"]["baseline_sha256"]):
+            raise ValueError("separate PI core receipt does not match the control link")
     result = {}
-    for product, row in json.loads((stage / "layout.json").read_bytes()).items():
+    for product, row in layouts.items():
         images = [Image(stage / "control", product, row["baseline_sha256"], row["baseline_map_sha256"])]
         for layout in LAYOUTS:
             pin = row["layouts"][layout]
             images.append(Image(stage / layout, product, pin["exe_sha256"], pin["map_sha256"]))
-        result[product] = scan(product, images, (stage / "pi-core.json").is_file())
+        result[product] = scan(product, images, pi_main)
         print(product, {key: len(value) if isinstance(value, list) else value
                         for key, value in result[product].items()}, flush=True)
     output.write_text(json.dumps(result, indent=2) + "\n")

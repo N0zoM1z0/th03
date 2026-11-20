@@ -69,7 +69,8 @@ def install(folder, output, links, layout):
 def read_demo_rows(trace, rows, image, hooks, process=None, deadline=None):
     counts = {}
     loads = {}
-    last_frame = {}
+    rng_calls = [0, 0]
+    dgroup = int.from_bytes(image.program_image[1:3], "little")
     wrapped = False
     with trace.open() as observed, rows.open("w") as comparable:
         while not wrapped:
@@ -85,30 +86,44 @@ def read_demo_rows(trace, rows, image, hooks, process=None, deadline=None):
             number = int(number)
             if kind == "L":
                 load = int(data[0], 16)
-                need(number not in loads and bytes.fromhex(data[-1]) == image.relocated_program_image(load),
-                     "complete guest MAIN image")
+                need(number == len(loads) + 1 <= 5 and
+                     bytes.fromhex(data[-1]) == image.relocated_program_image(load), "complete guest MAIN image")
                 loads[number] = load
-            elif kind == "R" and number <= 4:
-                need(2 <= int(data[0]) < len(hooks), "RNG hook identity")
-                comparable.write(f"R {number} {data[0]}\n")
-            elif kind == "I":
-                cs, ip, _, lcg, ring, *fields = data
+                rng_calls = [0, 0]
+                continue
+            need(number in loads and number == len(loads), "record outside its active MAIN launch")
+            if kind == "R":
+                index, cs, ip, *_ = data
+                index = int(index)
                 hook = int(cs, 16) - loads[number], int(ip, 16)
+                need(2 <= index < len(hooks) and hook == hooks[index][1:], "RNG hook identity")
+                rng_calls[int(hooks[index][0] == 4)] += 1
+                if number <= 4:
+                    comparable.write(f"R {number} {index}\n")
+            elif kind == "I":
+                cs, ip, ds, lcg, ring, *fields = data
+                hook = int(cs, 16) - loads[number], int(ip, 16)
+                need(int(ds, 16) == loads[number] + dgroup and [int(lcg), int(ring)] == rng_calls,
+                     "gameplay DGROUP or RNG hook count mismatch")
+                need(len(fields) == len(FIELDS) + 1 and
+                     all(len(bytes.fromhex(raw)) == width for raw, (_, _, width) in zip(fields[:-1], FIELDS, strict=True)),
+                     "gameplay field width")
                 resident = bytes.fromhex(fields[-1])
                 need(resident[:11] == b"YUMEConfig\0" and resident[57] == (number - 1) % 4 + 1,
                      f"demo resident identity on MAIN launch {number}")
                 if hook != hooks[0][1:]:
                     need(hook == hooks[1][1:], "unexpected gameplay hook")
                     continue
+                frame = int.from_bytes(bytes.fromhex(fields[0]), "little")
+                need(frame == min(counts.get(number, 0), 7000), f"unexpected frame in demo launch {number}: {frame}")
                 if number == 5:
                     wrapped = True
                     continue
-                need(1 <= number <= 4, f"unexpected MAIN launch {number}")
-                last_frame[number] = int.from_bytes(bytes.fromhex(fields[0]), "little")
                 counts[number] = counts.get(number, 0) + 1
                 comparable.write(" ".join(("I", str(number), lcg, ring, *fields[:-2], resident[:58].hex())) + "\n")
-    need(wrapped and counts == dict.fromkeys(range(1, 5), 7017) and
-         last_frame == dict.fromkeys(range(1, 5), 7000), f"four complete attract demos: {counts}")
+            else:
+                raise ValueError(f"unknown DOS observer record: {kind}")
+    need(wrapped and counts == dict.fromkeys(range(1, 5), 7017), f"four complete attract demos: {counts}")
     return counts, loads
 
 
@@ -121,8 +136,13 @@ def capture(build, layout, output, emulator, timeout, retained=None, unthrottled
     profile_path = output / "observer.txt"
     profile_path.write_text(profile)
     rows = output / "rows.txt"
+    settings = PROFILE.replace("videodriver=x11", "videodriver=dummy").replace("nosound=false", "nosound=true")
+    if unthrottled:
+        settings = settings.replace("turbo=false", "turbo=true")
     if retained is not None:
         need((retained / "observer.txt").read_text() == profile, "unchanged observer profile")
+        need((retained / "dosbox-x.conf").read_text() == settings, "unchanged DOS emulator configuration")
+        need(sha((retained / "FREECG98.BMP").read_bytes()) == FONT_SHA256, "retained font identity")
         trace = retained / "trace.txt"
         disk = retained / "execution.hdi"
         products = {product: links[product]["baseline_sha256"] for product in links}
@@ -133,9 +153,6 @@ def capture(build, layout, output, emulator, timeout, retained=None, unthrottled
         need(sha(font) == FONT_SHA256, "font identity")
         (output / "FREECG98.BMP").write_bytes(font)
         config = output / "dosbox-x.conf"
-        settings = PROFILE.replace("videodriver=x11", "videodriver=dummy").replace("nosound=false", "nosound=true")
-        if unthrottled:
-            settings = settings.replace("turbo=false", "turbo=true")
         config.write_text(settings)
         log = output / "boot.log"
         trace = output / "trace.txt"
@@ -184,6 +201,8 @@ def main():
     parser.add_argument("--unthrottled", action="store_true", help="remove host throttling in both runs")
     parser.add_argument("--reuse-control", type=Path, help="complete raw capture with unchanged profile and disk")
     args = parser.parse_args()
+    if "control" not in args.layout or len(args.layout) < 2 or len(set(args.layout)) != len(args.layout):
+        parser.error("compare the control against at least one distinct shifted layout")
     output = args.output.resolve()
     need(output.is_relative_to(ROOT / ".analysis/runtime") and not output.exists(), "fresh private output directory")
     need(re.fullmatch(r"af[0-9]+[a-z]", args.stage), "retained PI stage")
@@ -196,7 +215,6 @@ def main():
     retained = args.reuse_control.resolve() if args.reuse_control else None
     if retained is not None:
         need(retained.is_relative_to(ROOT / ".analysis/runtime"), "private retained capture")
-        need(not args.unthrottled, "the retained control was captured at ordinary speed")
     results = [capture(build, layout, output / layout, emulator, args.timeout,
                        retained if layout == "control" else None, args.unthrottled) for layout in args.layout]
     need(len({row["rows_sha256"] for row in results}) == 1, "DOS attract traces differ")
