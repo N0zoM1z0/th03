@@ -69,10 +69,18 @@ two-row fixture produced the expected bytes on all four planes.
 
 ## DOS replay
 
-The original-collision control and 32/16/64 variant both completed four
-demos and returned to the first pairing, with 7,017 gameplay rows per demo.
-Their differing rows remain useful evidence for the collision fix. The
-paired replay of the corrected PI build is in progress.
+The corrected PI control and 32/16/64 layout each completed all four
+attract demos. All 28,068 gameplay records and the RNG hook sequence match
+byte for byte, including player state, scores, input and relevant resident
+fields. The observer verified each complete relocated MAIN image on entry
+and observed the fifth launch return to the first pairing. Both runs used
+the same DOSBox-X normal core, fixed guest cycle configuration and host
+fast-forward setting on private copies of the original HDI. The odd layout
+also booted through the public DOS runner and entered attract combat.
+
+The original-collision control and 32/16/64 diagnostic completed the same
+four demos with differing gameplay records. Their traces reproduce the
+position dependence removed in the separate PI build.
 
 The original and odd MAINL layouts displayed identical ending dialogue at
 two stable checkpoints. Both also reached the staff roll with animated
@@ -106,3 +114,9 @@ and optional `--pi-layout odd` to boot a fresh private play disk. The
 [MAINL fixture](../scripts/play_th03_pi_mainl.py) uses the same layout
 inputs and seeds the installed DOS resident before launching the ending or
 score menu. See the [DOS runner](RUNTIME.md) for the private Xvfb command.
+
+The current private evidence is under `TH03PI/af1416p/` in the TH03 Wine
+drive, `.analysis/work/th03-pi-addresses-af1416p.json`, and
+`.analysis/runtime/candidates/pi-fixed-demos/`. The latter contains the
+paired `rows.txt` and `comparison.json` files. The original-collision
+negative control is `af1412p`.

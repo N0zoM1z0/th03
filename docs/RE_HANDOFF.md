@@ -1,4 +1,4 @@
-# TH03 — active agent handoff (2026-11-11)
+# TH03 — active agent handoff (2026-11-20)
 
 Read [AGENTS.md](../AGENTS.md), this page and the relevant
 [workflow](RE_WORKFLOW.md) section. [Generated progress](PROGRESS.md) is the
@@ -36,7 +36,9 @@ Use [PROGRESS.md](PROGRESS.md) instead of copying counts into another handoff.
 The [DOS PI build](DOS_POSITION_INDEPENDENCE.md) has a separate player-core
 fix for the original left-edge collision lookup. The default build still
 uses the original routine. Stage `af1416p` passed three shifted links and
-address checks. The corrected build is undergoing paired DOS demo replay.
+address checks. The control and 32/16/64 builds matched all 28,068 gameplay
+records in the four DOS demos. The odd MAINL layout matched the default
+registration save.
 
 The user is playing the Windows DOS build while semantic and 64-bit work
 proceeds on the independent `port/modern-64` branch. Its local worktree is
