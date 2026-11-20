@@ -32,6 +32,16 @@ same original relocation count. In every PI layout the CPU fixture reads the
 same offsets in the 2P bitmap, misses the empty case and hits the inserted
 contact at the same coordinates.
 
+Both PI objects grow the collision routine by four bytes. Outside that
+routine, two near CALL displacements follow their original callees. Every
+one of the core's 260 OMF fixups keeps its target, frame, width and addend
+when matched by site. TC4 moves a CODE LEDATA boundary, and TLINK changes
+18 relocation ordinals within the player core between the default and PI
+MAIN. All 1,553 MZ patch positions and their target frames still correspond.
+The patch words are disjoint, and applying them in either order produces
+the same loaded PI image at `0000h`, `2000h` and `6000h`. The shifted PI
+relinks preserve the PI control's literal relocation order.
+
 ## Linked address checks
 
 Stage `af1416p` uses a complete unchanged-input control relink and the three
@@ -77,8 +87,9 @@ byte for byte, including player state, scores, input and relevant resident
 fields. The observer verified each complete relocated MAIN image on entry
 and observed the fifth launch return to the first pairing. Both runs used
 the same DOSBox-X normal core, fixed guest cycle configuration and host
-fast-forward setting on private copies of the original HDI. The odd layout
-also booted through the public DOS runner and entered attract combat.
+fast-forward setting on private copies of the original HDI. A fresh run of
+the 3/7/11 layout from `af1417p` also completed four demos, wrapped to the
+first pairing and matched all 28,068 gameplay records and the RNG sequence.
 
 The retained raw traces also passed on the byte-identical `af1417p`
 executables after tightening the parser's launch order, frame continuity,
@@ -89,7 +100,9 @@ now fails the corresponding check.
 A separate CPU probe compared both players' horizontal scan addresses and
 masks with the clipped bitmap geometry at the six gameplay hitbox sizes.
 All 384 cases matched across the four layouts. The 42 cases with a
-nonnegative starting column also matched the default routine.
+nonnegative starting column also matched the default routine. Another 96
+cases at the legal top and bottom limits confirmed that the PI scan keeps
+the original vertical clipping.
 
 The original-collision control and 32/16/64 diagnostic completed the same
 four demos with differing gameplay records. Their traces reproduce the
@@ -131,5 +144,6 @@ score menu. See the [DOS runner](RUNTIME.md) for the private Xvfb command.
 The current private evidence is under `TH03PI/af1416p/` in the TH03 Wine
 drive, `.analysis/work/th03-pi-addresses-af1416p.json`, and
 `.analysis/runtime/candidates/pi-fixed-demos/`. The latter contains the
-paired `rows.txt` and `comparison.json` files. The original-collision
-negative control is `af1412p`.
+paired `rows.txt` and `comparison.json` files. The fresh odd-layout
+capture is in `.analysis/runtime/candidates/pi-recheck-odd/`. The
+original-collision negative control is `af1412p`.
